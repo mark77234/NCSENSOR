@@ -1,25 +1,175 @@
 import 'package:flutter/material.dart';
 import 'Measure.dart'; // 다음 화면 import
 
-class Loginscreen extends StatelessWidget {
+class Loginscreen extends StatefulWidget {
   const Loginscreen({super.key});
+
+  @override
+  _LoginscreenState createState() => _LoginscreenState();
+}
+
+class _LoginscreenState extends State<Loginscreen> {
+  bool _obscureText = true; // 비밀번호 숨김 여부
+  bool _isChecked = false; // 자동 로그인 체크 여부
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText; // 비밀번호 표시/숨기기 토글
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('로그인 화면'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // 버튼 클릭 시 다음 화면으로 전환
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Measure()),
-            );
-          },
-          child: const Text('다음 화면으로 이동'),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'N.C.SENSOR',
+              style: TextStyle(
+                fontSize: 40,
+                color: Color(0xFF000080),
+                fontFamily: 'DoHyeon',
+              ),
+            ),
+            const SizedBox(height: 60),
+            // 아이디 텍스트 필드 중앙 정렬
+            Center(
+              child: Container(
+                width: 300, // 아이디 필드의 가로 크기 조정
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: '    Email address',
+                    labelStyle: TextStyle(color: Color(0xFF808080)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            // 비밀번호 텍스트 필드 중앙 정렬
+            Center(
+              child: Container(
+                width: 300, // 비밀번호 필드의 가로 크기 조정
+                child: TextField(
+                  obscureText: _obscureText, // _obscureText 상태로 비밀번호 표시/숨기기
+                  decoration: InputDecoration(
+                    labelText: '    Password',
+                    labelStyle: TextStyle(color: Color(0xFF808080)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Color(0xFF808080),
+                      ),
+                      onPressed: _togglePasswordVisibility, // 아이콘 클릭 시 비밀번호 표시/숨기기
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // 자동 로그인 체크박스
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 100.0),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _isChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isChecked = value ?? false;
+                          });
+                        },
+                        activeColor: Color(0xFF000080),
+                      ),
+                      Text('자동 로그인', style: TextStyle(fontSize: 13)),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // Forgot password? 클릭 시 동작
+                    print('Forgot password?');
+                  },
+                  child: Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      color: Color(0xFF000080), // 텍스트 색상
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {
+                  // 버튼 클릭 시 다음 화면으로 전환
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Measure()),
+                  );
+                },
+                child: const Text('로그인'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF000080),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Don't have an account? Sign up
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Don't have an account? ",
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF808080), // 연한 회색
+                  ),
+                ),
+                const SizedBox(width: 20),
+                GestureDetector(
+                  onTap: () {
+                    // Sign up 클릭 시 동작
+                    print('Sign up');
+                  },
+                  child: Text(
+                    'Sign up',
+                    style: TextStyle(
+                      color: Color(0xFF000080), // 텍스트 색상
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
