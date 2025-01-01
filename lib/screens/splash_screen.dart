@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Loginscreen.dart'; // Loginscreen 파일 import
+import 'login_screen.dart'; // Loginscreen 파일 import
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
