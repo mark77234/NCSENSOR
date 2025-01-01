@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'Alcohol_result.dart'; // 음주 측정 결과 페이지
-import 'Body_result.dart'; // 체취 측정 결과 페이지
+
+import 'alcohol_result_screen.dart';
+import 'body_result_screen.dart';
+
 
 class Breath extends StatelessWidget {
   final String measurement;
