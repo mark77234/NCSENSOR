@@ -18,7 +18,7 @@ class _MeasureState extends State<Measure> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("측정"),
+        title: const Text("측정하기"),
       ),
       body: Center(
         child: Column(
