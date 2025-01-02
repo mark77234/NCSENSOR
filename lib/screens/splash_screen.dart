@@ -67,7 +67,7 @@ class _SplashscreenState extends State<Splashscreen> {
                     'N.C.SENSOR',
                     style: TextStyle(
                       fontSize: 50,
-                      color: Color(0xFF000080),
+                      color: Color(0xFF3B82F6),
                       fontFamily: 'DoHyeon',
                     ),
                   ),

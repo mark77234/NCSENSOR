@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               'N.C.SENSOR',
               style: TextStyle(
                 fontSize: 40,
-                color: Color(0xFF000080),
+                color: Color(0xFF3B82F6),
                 fontFamily: 'DoHyeon',
               ),
             ),
@@ -38,18 +38,19 @@ class _LoginScreenState extends State<LoginScreen> {
             // 아이디 텍스트 필드 중앙 정렬
             Center(
               child: Container(
-                width: 300, // 아이디 필드의 가로 크기 조정
+                width: 320,
+                height: 50,
                 child: TextField(
                   decoration: InputDecoration(
                     labelText: '    Email address',
-                    labelStyle: TextStyle(color: Color(0xFF808080)),
+                    labelStyle: TextStyle(color: Color(0xFFB0B0B0)),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                      borderSide: BorderSide(color: Color(0xFFB0B0B0), width: 2),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                      borderSide: BorderSide(color: Color(0xFFB0B0B0), width: 2),
                     ),
                   ),
                 ),
@@ -59,24 +60,25 @@ class _LoginScreenState extends State<LoginScreen> {
             // 비밀번호 텍스트 필드 중앙 정렬
             Center(
               child: Container(
-                width: 300, // 비밀번호 필드의 가로 크기 조정
+                width: 320, // 비밀번호 필드의 가로 크기 조정
+                height: 50,
                 child: TextField(
                   obscureText: _obscureText, // _obscureText 상태로 비밀번호 표시/숨기기
                   decoration: InputDecoration(
                     labelText: '    Password',
-                    labelStyle: TextStyle(color: Color(0xFF808080)),
+                    labelStyle: TextStyle(color: Color(0xFFB0B0B0)),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                      borderSide: BorderSide(color: Color(0xFFB0B0B0), width: 2),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Color(0xFF808080), width: 2),
+                      borderSide: BorderSide(color: Color(0xFFB0B0B0), width: 2),
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Color(0xFF808080),
+                        color: Color(0xFFB0B0B0),
                       ),
                       onPressed: _togglePasswordVisibility, // 아이콘 클릭 시 비밀번호 표시/숨기기
                     ),
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 100.0),
+                  padding: const EdgeInsets.only(right: 120.0),
                   child: Row(
                     children: [
                       Checkbox(
@@ -99,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _isChecked = value ?? false;
                           });
                         },
-                        activeColor: Color(0xFF000080),
+                        activeColor: Color(0xFF3B82F6),
                       ),
                       Text('자동 로그인', style: TextStyle(fontSize: 13)),
                     ],
@@ -113,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     'Forgot password?',
                     style: TextStyle(
-                      color: Color(0xFF000080), // 텍스트 색상
+                      color: Color(0xFF3B82F6), // 텍스트 색상
                       fontSize: 13,
                     ),
                   ),
@@ -121,18 +123,20 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
             SizedBox(
-              width: 300,
+              width: 320,
+              height: 50,
               child: ElevatedButton(
                 onPressed: () {
                   //mainscreen으로 navigate
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    MaterialPageRoute(builder: (context) => const Measurescreen()),
+
                   );
                 },
                 child: const Text('로그인'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF000080),
+                  backgroundColor: Color(0xFF3B82F6),
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   shape: RoundedRectangleBorder(
@@ -150,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   "Don't have an account? ",
                   style: TextStyle(
                     fontSize: 13,
-                    color: Color(0xFF808080), // 연한 회색
+                    color: Color(0xFFB0B0B0), // 연한 회색
                   ),
                 ),
                 const SizedBox(width: 20),
@@ -162,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     'Sign up',
                     style: TextStyle(
-                      color: Color(0xFF000080), // 텍스트 색상
+                      color: Color(0xFF3B82F6), // 텍스트 색상
                       fontSize: 13,
                     ),
                   ),
