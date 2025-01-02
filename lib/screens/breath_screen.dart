@@ -5,8 +5,8 @@ import 'body_result_screen.dart';
 
 import 'bottom_navigation_bar.dart'; // Import the new navigation bar
 
-
-class BreathScreen extends StatelessWidget {
+// BreathScreen을 StatefulWidget으로 변경
+class BreathScreen extends StatefulWidget {
   final String measurement;
   final String bodymeasurement;
 
@@ -30,7 +30,7 @@ class _BreathScreenState extends State<BreathScreen> {
     if (_selectedIndex == 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Measurescreen()), // MeasureScreen으로 이동
+        MaterialPageRoute(builder: (context) => const MeasureScreen()), // MeasureScreen으로 이동
       );
     }
   }

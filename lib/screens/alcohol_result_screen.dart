@@ -47,7 +47,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     if (_selectedIndex == 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Measurescreen()), // MeasureScreen으로 이동
+        MaterialPageRoute(builder: (context) => const MeasureScreen()), // MeasureScreen으로 이동
       );
     }
   }
