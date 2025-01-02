@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure_screen.dart';
-import 'bottom_navigation_bar.dart';
+import '../constants/styles.dart';
 
 class BodyResultScreen extends StatefulWidget {
   final String measurement; // 체취 부위
@@ -13,20 +12,6 @@ class BodyResultScreen extends StatefulWidget {
 }
 
 class _BodyResultScreenState extends State<BodyResultScreen> {
-  int _selectedIndex = 0; // 선택된 항목을 관리하는 변수
-
-  // 네비게이션 바 아이템 탭 시 동작
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MeasureScreen()), // MeasureScreen으로 이동
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +43,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
       appBar: AppBar(
         title: const Text(
           "체취 측정 결과",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF3B82F6),
-          ),
+          style: TextStyles.title,
         ),
       ),
       body: Center(
@@ -95,7 +76,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         shape: BoxShape.circle,
                         color: index < stage
                             ? Colors.blue
-                            : Colors.grey.withOpacity(0.5),
+                            : Colors.grey.withValues(alpha: 0.3),
                       ),
                       child: Center(
                         child: Text(
@@ -114,10 +95,6 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex, // 선택된 인덱스 전달
-        onItemTapped: _onItemTapped, // 탭 이벤트 처리
       ),
     );
   }

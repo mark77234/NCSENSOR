@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure_screen.dart';
+import '../constants/styles.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
-
-import 'bottom_navigation_bar.dart'; // Import the new navigation bar
 
 // BreathScreen을 StatefulWidget으로 변경
 class BreathScreen extends StatefulWidget {
@@ -21,19 +19,6 @@ class BreathScreen extends StatefulWidget {
 }
 
 class _BreathScreenState extends State<BreathScreen> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MeasureScreen()), // MeasureScreen으로 이동
-      );
-    }
-  }
 
   Future<void> _navigateWithLoading(BuildContext context) async {
     showDialog(
@@ -101,14 +86,9 @@ class _BreathScreenState extends State<BreathScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: const Text(
           "측정",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF3B82F6),
-          ),
+          style: TextStyles.title,
         ),
       ),
       body: Center(
@@ -134,7 +114,7 @@ class _BreathScreenState extends State<BreathScreen> {
               onPressed: () => _navigateWithLoading(context),
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Color(0xFF3B82F6),
+                backgroundColor: ColorStyles.primary,
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
@@ -142,10 +122,6 @@ class _BreathScreenState extends State<BreathScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }

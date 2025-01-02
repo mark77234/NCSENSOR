@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure_screen.dart';
-import 'bottom_navigation_bar.dart';
+import '../constants/styles.dart';
 
 class AlcoholResultScreen extends StatefulWidget {
   const AlcoholResultScreen({super.key});
@@ -11,8 +10,6 @@ class AlcoholResultScreen extends StatefulWidget {
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
-  // BottomNavigationBar의 선택된 인덱스를 저장할 변수
-  int _selectedIndex = 0;
 
   // 혈중 알코올 농도 (랜덤 값)
   double _alcoholLevel = Random().nextDouble() * 0.10;
@@ -39,31 +36,13 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     }
   }
 
-  // 아이템 탭 시 동작을 처리하는 메서드
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MeasureScreen()), // MeasureScreen으로 이동
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: const Text(
           "음주 측정 결과",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF3B82F6),
-          ),
+          style: TextStyles.title,
         ),
       ),
       body: Center(
@@ -99,10 +78,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }
