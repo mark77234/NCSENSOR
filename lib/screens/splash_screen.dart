@@ -24,7 +24,7 @@ class _SplashscreenState extends State<Splashscreen> {
   PageRouteBuilder _createRoute() {
     return PageRouteBuilder(
       transitionDuration: const Duration(milliseconds: 500),
-      pageBuilder: (context, animation, secondaryAnimation) => const Loginscreen(),
+      pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
 
         // 페이드 효과 추가 (서서히 나타나는 효과)

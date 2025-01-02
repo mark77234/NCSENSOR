@@ -5,7 +5,8 @@ import 'body_result_screen.dart';
 
 import 'bottom_navigation_bar.dart'; // Import the new navigation bar
 
-class BreathScreen extends StatefulWidget {
+
+class BreathScreen extends StatelessWidget {
   final String measurement;
   final String bodymeasurement;
 

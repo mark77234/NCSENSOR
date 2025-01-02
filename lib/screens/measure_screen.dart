@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'breath_screen.dart';
 import 'bottom_navigation_bar.dart'; // 새로 만든 파일 임포트
 
-class Measurescreen extends StatefulWidget {
-  const Measurescreen({super.key});
+class MeasureScreen extends StatefulWidget {
+  const MeasureScreen({super.key});
 
   @override
-  State<Measurescreen> createState() => _MeasurescreenState();
+  State<MeasureScreen> createState() => _MeasureScreenState();
 }
 
-class _MeasurescreenState extends State<Measurescreen> {
+class _MeasureScreenState extends State<MeasureScreen> {
   bool showBodyOdorOptions = false; // 체취 버튼 클릭 여부
   String selectedMeasurement = ''; // 선택된 측정 항목
   String selectedBodyOdor = ''; // 선택된 체취 부위
