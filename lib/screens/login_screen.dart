@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/main_screen.dart';
+import 'package:taesung1/screens/measure_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   //mainscreen으로 navigate
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Measurescreen()),
+                    MaterialPageRoute(builder: (context) => const MainScreen()),
 
                   );
                 },
