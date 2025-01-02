@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'breath_screen.dart';
 
-class Measure extends StatefulWidget {
-  const Measure({super.key});
+class MeasureScreen extends StatefulWidget {
+  const MeasureScreen({super.key});
 
   @override
-  State<Measure> createState() => _MeasureState();
+  State<MeasureScreen> createState() => _MeasureScreenState();
 }
 
-class _MeasureState extends State<Measure> {
+class _MeasureScreenState extends State<MeasureScreen> {
   bool showBodyOdorOptions = false; // 체취 버튼 클릭 여부
   String selectedMeasurement = ''; // 선택된 측정 항목
   String selectedBodyOdor = ''; // 선택된 체취 부위
@@ -122,7 +122,7 @@ class _MeasureState extends State<Measure> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Breath(
+                      builder: (context) => BreathScreen(
                           measurement: selectedMeasurement,
                           bodymeasurement: selectedBodyOdor),
                     ),

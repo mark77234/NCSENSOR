@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:taesung1/screens/main_screen.dart';
 import 'measure_screen.dart'; // 다음 화면 import
 
-class Loginscreen extends StatefulWidget {
-  const Loginscreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  _LoginscreenState createState() => _LoginscreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginscreenState extends State<Loginscreen> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true; // 비밀번호 숨김 여부
   bool _isChecked = false; // 자동 로그인 체크 여부
 
@@ -124,10 +125,10 @@ class _LoginscreenState extends State<Loginscreen> {
               width: 300,
               child: ElevatedButton(
                 onPressed: () {
-                  // 버튼 클릭 시 다음 화면으로 전환
-                  Navigator.push(
+                  //mainscreen으로 navigate
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Measure()),
+                    MaterialPageRoute(builder: (context) => MainScreen()),
                   );
                 },
                 child: const Text('로그인'),

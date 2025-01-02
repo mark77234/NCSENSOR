@@ -4,11 +4,11 @@ import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
 
-class Breath extends StatelessWidget {
+class BreathScreen extends StatelessWidget {
   final String measurement;
   final String bodymeasurement;
 
-  const Breath({
+  const BreathScreen({
     super.key,
     required this.measurement,
     required this.bodymeasurement,
