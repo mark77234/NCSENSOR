@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorStyles {
-  static const Color primary = Color(0xFF2C46BD);
+  static const Color primary = Color(0xFF3B82F6);
   static const Color secondary = Color(0xFF4B5563);
   static const Color grey = Color(0xFFD1D5DB);
   static const Color background = Color(0xFFFFFFFF);
@@ -35,6 +35,56 @@ class ButtonStyles {
     textStyle:  TextStyles.subtitle,
     shape: RoundedRectangleBorder(
       borderRadius: RadiusStyles.border,
+    ),
+  );
+
+  static ButtonStyle defaultElevated = ElevatedButton.styleFrom(
+    backgroundColor: ColorStyles.primary,
+    foregroundColor: Colors.white,
+    minimumSize: const Size(300, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
+
+  static ButtonStyle selectedElevated = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    minimumSize: const Size(300, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 2,
+      ),
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
+
+  static ButtonStyle bodyOdorSelected = ElevatedButton.styleFrom(
+    backgroundColor: ColorStyles.primary,
+    foregroundColor: Colors.white,
+    minimumSize: const Size(280, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 2,
+      ),
+    ),
+  );
+
+  static ButtonStyle bodyOdorUnselected = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    minimumSize: const Size(280, 50),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 2,
+      ),
     ),
   );
 }
