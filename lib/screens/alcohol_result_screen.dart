@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:taesung1/screens/main_screen.dart';
 import '../constants/styles.dart';
 
 class AlcoholResultScreen extends StatefulWidget {
@@ -43,6 +44,21 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
         title: const Text(
           "음주 측정 결과",
           style: TextStyles.title,
+        ),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(
+            Icons.home,
+            color: ColorStyles.primary,
+            size:30.0,
+          ), // 홈 아이콘
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MainScreen()), // MainScreen으로 이동
+                  (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
+            );
+          },
         ),
       ),
       body: Center(

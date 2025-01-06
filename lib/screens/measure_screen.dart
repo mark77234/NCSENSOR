@@ -25,22 +25,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
             children: [
               const SizedBox(height: 50),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: selectedMeasurement == '음주'
-                      ? ColorStyles.primary
-                      : Colors.white,
-                  foregroundColor: selectedMeasurement == '음주'
-                      ? Colors.white
-                      : Colors.black,
-                  minimumSize: const Size(300, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      color: ColorStyles.primary,
-                      width: 2,
-                    ),
-                  ),
-                ),
+                style: selectedMeasurement == '음주'
+                    ? ButtonStyles.defaultElevated
+                    : ButtonStyles.selectedElevated,
                 onPressed: () {
                   setState(() {
                     showBodyOdorOptions = false;
@@ -48,29 +35,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     selectedBodyOdor = '';
                   });
                 },
-                child: const Text(
-                  '음주',
-                  style: TextStyle(fontSize: 15),
-                ),
+                child: const Text('음주'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: selectedMeasurement == '체취'
-                      ? ColorStyles.primary
-                      : Colors.white,
-                  foregroundColor: selectedMeasurement == '체취'
-                      ? Colors.white
-                      : Colors.black,
-                  minimumSize: const Size(300, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      color: ColorStyles.primary,
-                      width: 2,
-                    ),
-                  ),
-                ),
+                style: selectedMeasurement == '체취'
+                    ? ButtonStyles.defaultElevated
+                    : ButtonStyles.selectedElevated,
                 onPressed: () {
                   setState(() {
                     showBodyOdorOptions = !showBodyOdorOptions;
@@ -78,10 +49,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     selectedBodyOdor = '';
                   });
                 },
-                child: const Text(
-                  '체취',
-                  style: TextStyle(fontSize: 15),
-                ),
+                child: const Text('체취'),
               ),
               const SizedBox(height: 20),
               if (showBodyOdorOptions) ...[
@@ -159,25 +127,11 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   // 체취 부위 선택 버튼 빌드
   Widget _buildBodyOdorButton(String title, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20),
+    return Center(
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: selectedBodyOdor == '$title 체취'
-              ? ColorStyles.primary
-              : Colors.white,
-          foregroundColor: selectedBodyOdor == '$title 체취'
-              ? Colors.white
-              : Colors.black,
-          minimumSize: const Size(280, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(
-              color: ColorStyles.primary,
-              width: 2,
-            ),
-          ),
-        ),
+        style: selectedBodyOdor == '$title 체취'
+            ? ButtonStyles.bodyOdorSelected
+            : ButtonStyles.bodyOdorUnselected,
         onPressed: () {
           setState(() {
             selectedBodyOdor = '$title 체취';

@@ -90,6 +90,7 @@ class _BreathScreenState extends State<BreathScreen> {
           "측정",
           style: TextStyles.title,
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Column(

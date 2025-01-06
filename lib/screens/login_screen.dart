@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/main_screen.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
