@@ -53,7 +53,20 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: Text(_pages[_selectedIndex].label,style: TextStyles.title,),
       ),
-      body: _pages[_selectedIndex].widget,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Container(
+              height: 1.0,
+              color: Color(0xFFE5E7EB),
+            ),
+          ),
+          Expanded(
+            child: _pages[_selectedIndex].widget,
+          ),
+        ],
+      ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
