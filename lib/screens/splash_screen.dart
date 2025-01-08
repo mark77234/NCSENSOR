@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Loginscreen 파일 import
 
-class Splashscreen extends StatefulWidget {
-  const Splashscreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  _SplashscreenState createState() => _SplashscreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashscreenState extends State<Splashscreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();

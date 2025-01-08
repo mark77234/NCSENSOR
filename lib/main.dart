@@ -45,7 +45,7 @@ class AuthFlow extends StatelessWidget {
       future: _checkLoginStatus(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Splashscreen();
+          return SplashScreen();
         } else if (snapshot.hasData && snapshot.data == true) {
           return MainScreen(); // 로그인된 상태 -> 메인 화면
         } else {
