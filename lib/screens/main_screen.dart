@@ -7,13 +7,22 @@ import '../constants/styles.dart';
 import 'history_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key,this.selectedIndex=0});
+
+  final int selectedIndex;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.selectedIndex;
+  }
+
   int _selectedIndex = 0;
 
 
