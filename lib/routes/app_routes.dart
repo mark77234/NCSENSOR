@@ -1,10 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:alcohol_management/screens/alcohol_result_screen.dart';
-import 'package:alcohol_management/screens/body_result_screen.dart';
-
-import '../screens/alcohol_result_screen.dart';
-import '../screens/body_result_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_screen.dart';
 import '../screens/splash_screen.dart';
