@@ -1,117 +1,119 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Loginscreen 파일 import
+import 'package:taesung1/constants/styles.dart';
 
-class Splashscreen extends StatefulWidget {
-  const Splashscreen({super.key});
-
+class SplashScreen extends StatefulWidget {
   @override
-  _SplashscreenState createState() => _SplashscreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashscreenState extends State<Splashscreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacement(
-        context,
-        _createRoute(),
-      );
-    });
+    _controller = AnimationController(
+      duration: const Duration(seconds: 6),
+      vsync: this,
+    )..repeat();
   }
 
-  // 화면 전환 애니메이션을 정의하는 함수
-  PageRouteBuilder _createRoute() {
-    return PageRouteBuilder(
-      transitionDuration: const Duration(milliseconds: 500),
-      pageBuilder: (context, animation, secondaryAnimation) => const LoginScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-
-        // 페이드 효과 추가 (서서히 나타나는 효과)
-        var opacityTween = Tween(begin: 0.0, end: 1.0);
-        var opacityAnimation = animation.drive(opacityTween);
-
-        // FadeTransition을 사용하여 애니메이션 적용
-        return FadeTransition(
-          opacity: opacityAnimation,
-          child: child,
-        );
-      },
-    );
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Stack(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center, // Row의 자식들을 가운데 정렬
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 160.0), // 오른쪽으로 160px 떨어지도록 설정
-                        child: Icon(
-                          Icons.sensors,
-                          size: 50,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'N.C.SENSOR',
-                    style: TextStyle(
-                      fontSize: 50,
-                      color: Color(0xFF3B82F6),
-                      fontFamily: 'DoHyeon',
-                    ),
-                  ),
-                  Icon(
-                    Icons.air,
-                    size: 80,
-                    color: Colors.blue,
-                  ),
-                  Text(
-                    'Breath Analysis System',
-                    style: TextStyle(
-                      fontSize:15,
-                      color: Color(0xFF2563EB),
-                    )
-                  ),
-                  SizedBox(height: 50),
-                  Text(
-                    'Advanced breath analysis for\nalcohol and oral health detection',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Color(0xFF808080),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                _buildRotatingCircle(150, 0xFF3C82F6, 0.5),
+                _buildRotatingCircle(110, 0xFF60A5FA, -1),
+                _buildRotatingCircle(75, 0xFFAFD4FD, 1.5),
+              ],
             ),
-            // "N.C.SENSOR" 텍스트를 오른쪽 밑에 배치
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'N.C.SENSOR',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                  ),
-                ),
+            SizedBox(height: 60),
+            Text(
+              'N.C.SENSOR',
+              style: TextStyle(
+                fontSize: 60,
+                fontWeight: FontWeight.w500,
+                color: ColorStyles.primary,
+                fontFamily: 'DoHyeon',
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildRotatingCircle(double size, int colorHex, double rotationFactor) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.rotate(
+          angle: _controller.value * 2 * 3.14159 * rotationFactor,
+          child: child,
+        );
+      },
+      child: CustomPaint(
+        size: Size(size, size),
+        painter: CirclePainter(
+          borderColor: Color(colorHex),
+          gapColor: Colors.white,
+          strokeWidth: 6,
+        ),
+      ),
+    );
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color borderColor;
+  final Color gapColor;
+  final double strokeWidth;
+
+  CirclePainter({
+    required this.borderColor,
+    required this.gapColor,
+    required this.strokeWidth,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth;
+
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+
+    canvas.drawCircle(center, radius, paint);
+
+    paint.color = gapColor;
+
+    final gapAngle = 3.14159 / 2;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      gapAngle * 2,
+      gapAngle,
+      false,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 
 class AuthFlow extends StatelessWidget {
   Future<bool> _checkLoginStatus() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 5));
     return false;
   }
 
@@ -45,7 +45,7 @@ class AuthFlow extends StatelessWidget {
       future: _checkLoginStatus(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Splashscreen();
+          return SplashScreen();
         } else if (snapshot.hasData && snapshot.data == true) {
           return MainScreen(); // 로그인된 상태 -> 메인 화면
         } else {
