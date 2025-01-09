@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
+import '../constants/mockData.dart';
 import '../constants/styles.dart';
+import '../models/history_model.dart';
+import '../models/measure_model.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -11,88 +16,219 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   // 날짜별 센서 데이터
-  Map<String, Map<String, dynamic>> data = {
-    "2025-01-01": {
-      "음주": 0.08,
-      "체취": {"입": 2.1, "발": 1.8, "겨드랑이": 2.5}
-    },
-    "2025-01-02": {
-      "음주": 0.05,
-      "체취": {"입": 1.5, "발": 1.2, "겨드랑이": 2.0}
-    },
-    // 추가 데이터
-  };
+  final List<String> ranges = ["이번 달", "6개월", "1년"];
+  String? selectedRange = "이번 달";
 
-  String? selectedDate;
+  List<HistoryData> records = [];
+
+  @override
+  void initState() {
+    for (var data in historyData) {
+      records.add(HistoryData.fromJson(data));
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: OutlinedButton(
-            onPressed: () async {
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2020),
-                lastDate: DateTime(2030),
-              );
-              if (pickedDate != null) {
-                setState(() {
-                  selectedDate = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
-                });
-              }
-            },
-            style: ButtonStyles.outlined,
-            child: Text(selectedDate??"날짜를 선택하세요"),
-          ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 8),
+            Center(child: Text("측정 기록", style: TextStyles.subtitle)),
+            SizedBox(height: 16),
+            Container(
+                decoration: ContainerStyles.card,
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.chevron_left,
+                              color: Colors.grey.shade600),
+                          onPressed: () {},
+                        ),
+                        Text(
+                          "2024년 1월",
+                          style: TextStyles.subtitle,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.chevron_right,
+                              color: Colors.grey.shade600),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: ranges.map((range) {
+                        final isSelected = selectedRange == range;
+                        return Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedRange = isSelected ? null : range;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: isSelected
+                                    ? ColorStyles.primary
+                                    : ColorStyles.secondary,
+                                backgroundColor: isSelected
+                                    ? ColorStyles.primary.withAlpha(50)
+                                    : ColorStyles.grey,
+                                elevation: 0,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(range,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  )),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                )),
+            SizedBox(height: 16),
+            ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: records.length,
+                itemBuilder: (context, index) {
+                  final record = records[index];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        record.date.toString(),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      ...record.measurements.map((measurement) {
+                        return Container(
+                            decoration: ContainerStyles.card,
+                            padding: EdgeInsets.all(4),
+                            margin: EdgeInsets.only(bottom: 12),
+                            child: ListTile(
+                              leading: Padding(
+                                padding: const EdgeInsets.only(right: 2.0),
+                                child: SvgPicture.asset(
+                                  "assets/${measurement is OdorData ? measurement.subType.name : measurement.type.name}.svg",
+                                  width: 40,
+                                  height: 40,
+                                ),
+                              ),
+                              title: Text(
+                                measurement.typeToKor(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                DateFormat("HH:mm")
+                                    .format(measurement.dateTime),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              trailing: Column(
+                                children: [
+                                  Text(
+                                    "${measurement.value} ${measurement.unit}",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: measurement.color,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    measurement.message,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: measurement.color,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       padding: const EdgeInsets.all(8),
+                            //       decoration: BoxDecoration(
+                            //         color: measurement.color.withOpacity(0.2),
+                            //         borderRadius: BorderRadius.circular(8),
+                            //       ),
+                            //       child: SvgPicture.asset(
+                            //         "assets/${measurement is OdorData ? measurement.subType.name : measurement.type.name}.svg",
+                            //         width: 40,
+                            //         height: 40,
+                            //       ),
+                            //     ),
+                            //     SizedBox(width: 16),
+                            //     Expanded(
+                            //       child: Column(
+                            //         crossAxisAlignment: CrossAxisAlignment.start,
+                            //         children: [
+                            //           Text(
+                            //             measurement.typeToKor(),
+                            //             style: TextStyle(
+                            //               fontSize: 16,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //           Text(
+                            //             "${measurement.value} ${measurement.unit}",
+                            //             style: TextStyle(
+                            //               fontSize: 14,
+                            //               color: Colors.grey.shade600,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //     Text(
+                            //       measurement.message,
+                            //       style: TextStyle(
+                            //         fontSize: 14,
+                            //         color: measurement.color,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            );
+                      }),
+                    ],
+                  );
+                }),
+          ],
         ),
-        // 센서 데이터 표시
-        if (data[selectedDate] != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                Text(
-                  "음주",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "${data[selectedDate]?["음주"]}",
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  "체취",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "입: ${data[selectedDate]?["체취"]?["입"]}",
-                  style: TextStyle(fontSize: 16),
-                ),
-                Text(
-                  "발: ${data[selectedDate]?["체취"]?["발"]}",
-                  style: TextStyle(fontSize: 16),
-                ),
-                Text(
-                  "겨드랑이: ${data[selectedDate]?["체취"]?["겨드랑이"]}",
-                  style: TextStyle(fontSize: 16),
-                ),
-
-
-              ],
-            ),
-          )
-      ],
+      ),
     );
   }
-
-
 }
