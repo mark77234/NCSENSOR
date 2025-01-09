@@ -37,26 +37,37 @@ class SimpleCalendar extends StatelessWidget {
     int startWeekday = firstDayOfMonth.weekday % 7;
     int daysInMonth = lastDayOfMonth.day;
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          // 요일 헤더
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: ["일", "월", "화", "수", "목", "금", "토"]
-                .map((day) =>
-                    Text(day, style: TextStyle(fontWeight: FontWeight.bold)))
-                .toList(),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "${today.year}년 ${today.month}월 음주 기록",
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
-          // 날짜 표
-          Table(
-            children:
-                _buildCalendar(startWeekday, daysInMonth, highlightedDates),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // 요일 헤더
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: ["일", "월", "화", "수", "목", "금", "토"]
+                    .map((day) => Text(day,
+                        style: TextStyle(fontWeight: FontWeight.bold)))
+                    .toList(),
+              ),
+              SizedBox(height: 8),
+              // 날짜 표
+              Table(
+                children:
+                    _buildCalendar(startWeekday, daysInMonth, highlightedDates),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
