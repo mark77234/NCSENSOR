@@ -140,8 +140,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             SizedBox(height: 8),
             Text(
               data["title"],
-              style: TextStyles.label
-                  .copyWith(fontWeight: FontWeight.bold, fontSize: 16),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
             Stack(children: [
@@ -164,6 +163,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               data["value"] + "%",
               style: TextStyles.title,
             ),
+            SizedBox(height: 8),
           ],
         ),
       );
