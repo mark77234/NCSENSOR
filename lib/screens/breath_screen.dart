@@ -3,7 +3,6 @@ import '../constants/styles.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
-// BreathScreen을 StatefulWidget으로 변경
 class BreathScreen extends StatefulWidget {
   final String measurement;
   final String bodymeasurement;
@@ -19,54 +18,27 @@ class BreathScreen extends StatefulWidget {
 }
 
 class _BreathScreenState extends State<BreathScreen> {
+  bool _isLoading = false;
+  double _progress = 0.0;
 
-  Future<void> _navigateWithLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 8,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF2C46BD)),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "측정중입니다...",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+  Future<void> _startMeasurement(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
 
-    await Future.delayed(const Duration(seconds: 3));
+    for (int i = 1; i <= 100; i++) {
+      await Future.delayed(const Duration(milliseconds: 30));
+      setState(() {
+        _progress = i / 100;
+      });
+    }
 
-    Navigator.pop(context);
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
+  void _navigateToResult(BuildContext context) {
     if (widget.measurement == "음주") {
       Navigator.push(
         context,
@@ -76,7 +48,8 @@ class _BreathScreenState extends State<BreathScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => BodyResultScreen(measurement: widget.bodymeasurement),
+          builder: (context) =>
+              BodyResultScreen(measurement: widget.bodymeasurement),
         ),
       );
     }
@@ -84,42 +57,147 @@ class _BreathScreenState extends State<BreathScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String measurementStatus = _progress == 0
+        ? '측정전'
+        : _progress < 1.0
+            ? '측정중'
+            : '측정완료';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "측정",
-          style: TextStyles.title,
+          "농도 측정",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         automaticallyImplyLeading: false,
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '${widget.bodymeasurement} 측정을 시작합니다',
-              style: const TextStyle(fontSize: 24),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: CircularProgressIndicator(
+                    value: _progress,
+                    strokeWidth: 18,
+                    backgroundColor: Color(0xFFF3F4F6),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
+                          ColorStyles.primary, // null 처리
+                    ),
+                  ),
+                ),
+                Text(
+                  '${(_progress * 100).toInt()}%',
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Color.lerp(ColorStyles.grey, ColorStyles.primary, _progress) ??
+                        ColorStyles.primary, // null 처리
+                  ),
+                ),
+              ],
             ),
-            Icon(
-              Icons.air,
-              size: 100,
-              color: Colors.grey,
+
+            const SizedBox(height: 40),
+
+            // 센서 상태 카드 (가로로 배치)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: 380,
+                    height: 80,
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15), // 모서리 둥글게 설정
+                        side: BorderSide(
+                          color: ColorStyles.grey, // 가장자리를 회색으로 설정
+                          width: 1, // 가장자리 두께 설정
+                        ),
+                      ),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      elevation: 0,
+                      // 그림자 효과 제거
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "센서 상태",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 130),
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              // 더 큰 원형 모양으로 만들기 위해 패딩을 늘림
+                              decoration: BoxDecoration(
+                                color: _progress == 0
+                                    ? Colors.grey
+                                    : _progress < 1.0
+                                        ? Colors.yellow
+                                        : Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Text(
+                              measurementStatus,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))
+              ],
             ),
-            const SizedBox(height: 20),
-            const Text(
-              '3초간 센서에 바람을 불어주세요',
-              style: TextStyle(fontSize: 24),
-            ),
-            const SizedBox(height: 40), // 버튼 위에 간격 추가
+            const SizedBox(height: 70),
+
+            // 버튼: 측정하기 / 결과 보러가기
             ElevatedButton(
-              onPressed: () => _navigateWithLoading(context),
+              onPressed: _progress < 1.0
+                  ? () => _startMeasurement(context)
+                  : () => _navigateToResult(context),
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: ColorStyles.primary,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                foregroundColor: _progress < 1.0
+                    ? (_isLoading ? Colors.grey : Colors.white)
+                    : Colors.white,
+                backgroundColor: _progress < 1.0
+                    ? (_isLoading ? ColorStyles.grey : ColorStyles.primary)
+                    : ColorStyles.primary,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 15,
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+                fixedSize: Size(320, 70),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15), // 모서리 둥글게 설정
+                ),
               ),
-              child: const Text("시작하기"),
+              child: Text(
+                _progress < 1.0 ? (_isLoading ? "측정중..." : "측정하기") : "결과 보러가기",
+              ),
+            ),
+            const SizedBox(
+              height: 100,
             ),
           ],
         ),
