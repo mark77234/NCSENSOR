@@ -114,7 +114,7 @@ class _BreathScreenState extends State<BreathScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: 380,
+                    width: 320,
                     height: 80,
                     child: Card(
                       color: Colors.white,
@@ -139,7 +139,7 @@ class _BreathScreenState extends State<BreathScreen> {
                                 fontSize: 20,
                               ),
                             ),
-                            const SizedBox(width: 130),
+                            const SizedBox(width: 100),
                             Container(
                               padding: const EdgeInsets.all(5),
                               // 더 큰 원형 모양으로 만들기 위해 패딩을 늘림
@@ -162,7 +162,8 @@ class _BreathScreenState extends State<BreathScreen> {
                           ],
                         ),
                       ),
-                    ))
+                    ),
+                ),
               ],
             ),
             const SizedBox(height: 70),

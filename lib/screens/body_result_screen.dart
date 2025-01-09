@@ -100,7 +100,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
-                            width: 160,
+                            width: 100,
                           ),
                           CircleAvatar(
                             radius: 5,
