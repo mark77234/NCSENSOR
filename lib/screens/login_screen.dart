@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Text(
               'N.C.SENSOR',
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 50,
                 color: Color(0xFF3B82F6),
                 fontFamily: 'DoHyeon',
                 fontWeight: FontWeight.w500,
