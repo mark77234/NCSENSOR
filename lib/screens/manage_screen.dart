@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:taesung1/widgets/my_field.dart';
 
 import '../constants/styles.dart';
-import '../widgets/common_tile.dart';
+import '../widgets/my_tile.dart';
 
 class ManageScreen extends StatefulWidget {
   const ManageScreen({super.key});
@@ -55,80 +56,28 @@ class _ManageScreenState extends State<ManageScreen> {
         decoration: ContainerStyles.card,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Header with Back Button and Title
             SizedBox(height: 16),
             // Admin Section
-            CommonTile(
-              label: "관리자",
-              title: "홍길동",
-            ),
-            // Text(
-            //   "관리자",
-            //   style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-            // ),
-            // Container(
-            //   margin: EdgeInsets.symmetric(vertical: 8),
-            //   padding: EdgeInsets.all(12),
-            //   decoration: BoxDecoration(
-            //     color: Colors.grey[100],
-            //     borderRadius: BorderRadius.circular(8),
-            //   ),
-            //   child: Text("홍길동"),
-            // ),
+            MyField(label: "관리자", widget: MyTile(title: "홍길동")),
             SizedBox(height: 16),
-            // Users List
-            Text(
-              "사용자 목록",
-              style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-            ),
-            SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final user = users[index];
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user["name"],
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              user["permission"],
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[500],
-                              ),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          onPressed: () => handleDelete(user["id"]),
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red[500],
-                          ),
-                          splashRadius: 20,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+            MyField(
+                label: "사용자목록",
+                widget: ListView.separated(
+                  itemCount: users.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final user = users[index];
+                    return MyTile(
+                        title: user["name"],
+                        subtitle: user["permission"],
+                        actionIcon: Icons.delete_outline,
+                        onAction: () => handleDelete(user["id"]));
+                  },
+                  separatorBuilder: (context, index) => SizedBox(height: 12),
+                ))
           ],
         ),
       ),
