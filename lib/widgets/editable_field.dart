@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/constants/styles.dart';
 import 'package:taesung1/widgets/my_field.dart';
-import 'package:taesung1/widgets/my_tile.dart';
+import 'package:taesung1/widgets/sm_tile.dart';
 
 class EditableField extends StatelessWidget {
   final String label;
@@ -31,7 +31,7 @@ class EditableField extends StatelessWidget {
               keyboardType: keyboardType,
               controller: TextEditingController(text: value),
             )
-          : MyTile(title: value),
+          : SmTile(title: value),
       // Container(
       //         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       //         decoration: ContainerStyles.tile,

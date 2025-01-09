@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taesung1/widgets/my_field.dart';
 
 import '../constants/styles.dart';
-import '../widgets/my_tile.dart';
+import '../widgets/sm_tile.dart';
 
 class ManageScreen extends StatefulWidget {
   const ManageScreen({super.key});
@@ -61,7 +61,7 @@ class _ManageScreenState extends State<ManageScreen> {
             // Header with Back Button and Title
             SizedBox(height: 16),
             // Admin Section
-            MyField(label: "관리자", widget: MyTile(title: "홍길동")),
+            MyField(label: "관리자", widget: SmTile(title: "홍길동")),
             SizedBox(height: 16),
             MyField(
                 label: "사용자목록",
@@ -70,7 +70,7 @@ class _ManageScreenState extends State<ManageScreen> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     final user = users[index];
-                    return MyTile(
+                    return SmTile(
                         title: user["name"],
                         subtitle: user["permission"],
                         actionIcon: Icons.delete_outline,

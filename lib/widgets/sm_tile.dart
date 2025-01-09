@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/constants/styles.dart';
 
-class MyTile extends StatelessWidget {
+class SmTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData? actionIcon;
   final void Function()? onAction;
 
-  const MyTile({
+  const SmTile({
     super.key,
     required this.title,
     this.subtitle,
