@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taesung1/routes/app_routes.dart';
 
 import '../constants/styles.dart';
-import '../widgets/editable_tile.dart';
+import '../widgets/editable_field.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {
@@ -71,20 +71,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 _buildProfilePicture(isEditing),
                 SizedBox(height: 16),
-                EditableTile(
+                EditableField(
                   label: "이름",
                   value: userData["name"]!,
                   isEditing: isEditing,
                   onChanged: (value) => visibleData["name"] = value,
                 ),
-                EditableTile(
+                EditableField(
                   label: "전화번호",
                   value: userData["phone"]!,
                   isEditing: isEditing,
                   keyboardType: TextInputType.phone,
                   onChanged: (value) => visibleData["phone"] = value,
                 ),
-                EditableTile(
+                EditableField(
                   label: "이메일",
                   value: userData["email"]!,
                   isEditing: isEditing,
