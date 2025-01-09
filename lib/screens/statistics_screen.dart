@@ -77,7 +77,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withAlpha(20),
                     blurRadius: 6,
                   ),
                 ]
