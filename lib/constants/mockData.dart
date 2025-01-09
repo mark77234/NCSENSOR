@@ -18,7 +18,7 @@ const staticData = {
       "type": "tile",
       "title": "평균 알콜 농도",
       "value": "0.08",
-      "icon": "assets/beer.svg",
+      "icon": "assets/drinking.svg",
       "unit": "%",
     },
     {
@@ -73,15 +73,51 @@ const historyData = [
   {
     "date": "2024-01-15",
     "measurements": [
-      {"type": "drinking", "value": "0.08", "level": "1"},
-      {"type": "odor", "subType": "foot", "value": "5.0", "level": "2"}
+      {
+        "type": "drinking",
+        "value": "0.08",
+        "level": "1",
+        "dateTime": "2024-01-15 12:00:00"
+      },
+      {
+        "type": "odor",
+        "subType": "mouth",
+        "value": "3.0",
+        "level": "4",
+        "dateTime": "2024-01-15 13:10:00"
+      },
+      {
+        "type": "odor",
+        "subType": "foot",
+        "value": "5.0",
+        "level": "2",
+        "dateTime": "2024-01-15 16:24:00"
+      }
     ]
   },
   {
     "date": "2024-01-14",
     "measurements": [
-      {"type": "odor", "subType": "mouth", "value": "3.0", "level": "4"},
-      {"type": "drinking", "value": "0.2", "level": "2"}
+      {
+        "type": "drinking",
+        "value": "0.08",
+        "level": "1",
+        "dateTime": "2024-01-14 12:00:00"
+      },
+      {
+        "type": "odor",
+        "subType": "mouth",
+        "value": "3.0",
+        "level": "4",
+        "dateTime": "2024-01-14 11:10:00"
+      },
+      {
+        "type": "odor",
+        "subType": "foot",
+        "value": "5.0",
+        "level": "2",
+        "dateTime": "2024-01-14 16:24:00"
+      }
     ]
   }
 ];

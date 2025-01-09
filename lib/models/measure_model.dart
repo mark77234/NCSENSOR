@@ -18,6 +18,7 @@ abstract class MeasureData {
   final int level;
   final String message;
   final Color color;
+  final DateTime dateTime;
 
   MeasureData({
     required this.type,
@@ -26,6 +27,7 @@ abstract class MeasureData {
     required this.level,
     required this.message,
     required this.color,
+    required this.dateTime,
   });
 
   factory MeasureData.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class DrinkingData extends MeasureData {
     required super.level,
     required super.message,
     required super.color,
+    required super.dateTime,
   }) : super(
           type: MeasureType.drinking,
         );
@@ -60,6 +63,7 @@ class DrinkingData extends MeasureData {
       level: int.parse(json['level']),
       message: _levelToMessage(int.parse(json['level'])),
       color: _levelToColor(int.parse(json['level'])),
+      dateTime: DateTime.parse(json['dateTime']),
     );
   }
 
@@ -101,19 +105,20 @@ class OdorData extends MeasureData {
     required super.level,
     required super.message,
     required super.color,
+    required super.dateTime,
   }) : super(
           type: MeasureType.odor,
         );
 
   factory OdorData.fromJson(Map<String, dynamic> json) {
     return OdorData(
-      subType: _stringToOdorType(json['subType']),
-      value: double.parse(json['value']),
-      unit: "ppm",
-      level: int.parse(json['level']),
-      message: _levelToMessage(int.parse(json['level'])),
-      color: _levelToColor(int.parse(json['level'])),
-    );
+        subType: _stringToOdorType(json['subType']),
+        value: double.parse(json['value']),
+        unit: "ppm",
+        level: int.parse(json['level']),
+        message: _levelToMessage(int.parse(json['level'])),
+        color: _levelToColor(int.parse(json['level'])),
+        dateTime: DateTime.parse(json['dateTime']));
   }
 
   static _stringToOdorType(String odorType) {
@@ -173,6 +178,6 @@ class OdorData extends MeasureData {
         subTypeKor = "겨";
         break;
     }
-    return "체취 : $subTypeKor";
+    return "체취 - $subTypeKor";
   }
 }
