@@ -39,7 +39,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 8),
-            Center(child: Text("측정 기록", style: TextStyles.subtitle)),
+            Center(child: Text("측정 기록", style: TextStyles.title)),
             SizedBox(height: 16),
             Container(
                 decoration: ContainerStyles.card,
@@ -55,7 +55,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           onPressed: () {},
                         ),
                         Text(
-                          "2024년 1월",
+                          "2025년 1월",
                           style: TextStyles.subtitle,
                         ),
                         IconButton(
@@ -117,7 +117,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        record.date.toString(),
+                        DateFormat("yyyy년 MM월 dd일").format(record.date),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
