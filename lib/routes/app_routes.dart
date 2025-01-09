@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
+import '../screens/entry_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_screen.dart';
-import '../screens/splash_screen.dart';
 
 class AppRoutes {
-  static const String splash = '/';
+  static const String entry = '/';
   static const String login = '/login';
   static const String main = '/main';
   static const String measure = '/measure';
@@ -13,30 +13,16 @@ class AppRoutes {
   static const String statistics = '/statistics';
   static const String profile = '/profile';
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case splash:
-        return MaterialPageRoute(builder: (_) => SplashScreen());
-      case login:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
-      case main:
-        return MaterialPageRoute(builder: (_) => MainScreen());
-      case measure:
-        return MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 0));
-      case history:
-        return MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 1));
-      case statistics:
-        return MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 2));
-      case profile:
-        return MaterialPageRoute(builder: (_) => MainScreen(selectedIndex: 3));
-      default:
-        return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            body: Center(
-              child: Text('No route defined for ${settings.name}'),
-            ),
-          ),
-        );
-        }
+  static Map<String, WidgetBuilder> getRoutes() {
+    return {
+      entry: (_) => EntryScreen(),
+      login: (_) => LoginScreen(),
+      main: (_) => MainScreen(),
+      measure: (_) => MainScreen(selectedIndex: 0),
+      history: (_) => MainScreen(selectedIndex: 1),
+      statistics: (_) => MainScreen(selectedIndex: 2),
+      profile: (_) => MainScreen(selectedIndex: 3),
+    };
   }
+  //에니메이션 같은 거 넣을려면 generateroute를 사용해야 함
 }
