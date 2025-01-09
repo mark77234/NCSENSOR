@@ -31,9 +31,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 16),
+              SizedBox(height: 8),
               Center(child: Text("통계", style: TextStyles.title)),
-              SizedBox(height: 20),
+              SizedBox(height: 16),
               Container(
                 width: 200,
                 padding: EdgeInsets.all(4),

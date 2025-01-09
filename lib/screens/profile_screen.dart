@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 16),
+          SizedBox(height: 8),
           Center(child: Text("프로필", style: TextStyles.title)),
           SizedBox(height: 16),
           Container(
