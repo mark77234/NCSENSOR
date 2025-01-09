@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
-    )..repeat();
+    )..forward();  // forward()를 사용하여 애니메이션이 한 번만 실행되도록 변경
   }
 
   @override
