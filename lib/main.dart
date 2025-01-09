@@ -15,7 +15,6 @@ void main() {
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -32,13 +31,12 @@ class MyApp extends StatelessWidget {
           backgroundColor: ColorStyles.background, // 앱 바의 색상 설정
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: ColorStyles.background, // 바텀 네비게이션 바의 색상 설정
-          selectedItemColor: Color(0xFF2C46BD),
-          unselectedItemColor: Colors.grey,
+          backgroundColor: Colors.white, // 바텀 네비게이션 바의 색상 설정
+          selectedItemColor: ColorStyles.primary, // 선택된 아이템의 색상 설정
+          unselectedItemColor: Colors.black,
           type: BottomNavigationBarType.fixed,
         ),
       ),
     );
   }
 }
-

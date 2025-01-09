@@ -32,7 +32,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 8),
-              Center(child: Text("통계", style: TextStyles.title)),
+              Text("통계", style: TextStyles.title),
               SizedBox(height: 16),
               Container(
                 width: 200,
