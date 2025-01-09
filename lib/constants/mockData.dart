@@ -68,3 +68,20 @@ const staticData = {
     }
   ]
 };
+
+const historyData = [
+  {
+    "date": "2024-01-15",
+    "measurements": [
+      {"type": "drinking", "value": "0.08", "level": "1"},
+      {"type": "odor", "subType": "foot", "value": "5.0", "level": "2"}
+    ]
+  },
+  {
+    "date": "2024-01-14",
+    "measurements": [
+      {"type": "odor", "subType": "mouth", "value": "3.0", "level": "4"},
+      {"type": "drinking", "value": "0.2", "level": "2"}
+    ]
+  }
+];
