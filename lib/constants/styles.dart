@@ -52,55 +52,61 @@ class ButtonStyles {
     textStyle: TextStyles.subtitle,
   );
 
-  static ButtonStyle defaultElevated = ElevatedButton.styleFrom(
-    backgroundColor: ColorStyles.primary,
-    foregroundColor: Colors.white,
-    minimumSize: const Size(300, 50),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    textStyle: const TextStyle(fontSize: 15),
-  );
-
   static ButtonStyle selectedElevated = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
-    minimumSize: const Size(300, 50),
+    minimumSize: const Size(150, 120),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(15),
       side: BorderSide(
-        color: ColorStyles.primary,
-        width: 2,
+        color: ColorStyles.grey,
+        width: 1.5,
       ),
     ),
     textStyle: const TextStyle(fontSize: 15),
   );
 
-  static ButtonStyle bodyOdorSelected = ElevatedButton.styleFrom(
-    backgroundColor: ColorStyles.primary,
-    foregroundColor: Colors.white,
-    minimumSize: const Size(280, 50),
+  static ButtonStyle defaultElevated = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    minimumSize: const Size(150, 120),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(15),
       side: BorderSide(
         color: ColorStyles.primary,
-        width: 2,
+        width: 1.5,
       ),
     ),
+    textStyle: const TextStyle(fontSize: 15),
   );
 
   static ButtonStyle bodyOdorUnselected = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
-    minimumSize: const Size(280, 50),
+    minimumSize: const Size(320, 80),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(15),
       side: BorderSide(
-        color: ColorStyles.primary,
-        width: 2,
+        color: ColorStyles.grey,
+        width: 1.5,
       ),
     ),
   );
+
+  static ButtonStyle bodyOdorSelected = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    minimumSize: const Size(320, 80),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 1.5,
+      ),
+    ),
+  );
+
+
 }
 
 class InputStyles {
