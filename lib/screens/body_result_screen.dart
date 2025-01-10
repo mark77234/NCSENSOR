@@ -56,11 +56,13 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.measurement} 냄새분석",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            )),
+        title: Text(
+          "${widget.measurement} 냄새분석",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),

@@ -68,20 +68,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
           style: TextStyles.title,
         ),
         automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(
-            Icons.home,
-            color: ColorStyles.primary,
-            size: 30.0,
-          ),
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
