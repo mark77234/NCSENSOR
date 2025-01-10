@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
 
   int _selectedIndex = 0;
 
+
   final List<PageData> _pages = [
     PageData(MeasureScreen(), '측정', Icons.home),
     PageData(HistoryScreen(), '기록', Icons.history),
@@ -70,8 +71,8 @@ class PageData {
   final IconData icon;
 
   PageData(
-      this.widget,
-      this.label,
-      this.icon,
-      );
+    this.widget,
+    this.label,
+    this.icon,
+  );
 }

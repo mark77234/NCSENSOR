@@ -71,7 +71,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         return Expanded(
                           child: Padding(
                             padding:
-                            const EdgeInsets.symmetric(horizontal: 4.0),
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                             child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
@@ -175,53 +175,53 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 ],
                               ),
                             )
-                          // Row(
-                          //   children: [
-                          //     Container(
-                          //       padding: const EdgeInsets.all(8),
-                          //       decoration: BoxDecoration(
-                          //         color: measurement.color.withOpacity(0.2),
-                          //         borderRadius: BorderRadius.circular(8),
-                          //       ),
-                          //       child: SvgPicture.asset(
-                          //         "assets/${measurement is OdorData ? measurement.subType.name : measurement.type.name}.svg",
-                          //         width: 40,
-                          //         height: 40,
-                          //       ),
-                          //     ),
-                          //     SizedBox(width: 16),
-                          //     Expanded(
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.start,
-                          //         children: [
-                          //           Text(
-                          //             measurement.typeToKor(),
-                          //             style: TextStyle(
-                          //               fontSize: 16,
-                          //               fontWeight: FontWeight.bold,
-                          //             ),
-                          //           ),
-                          //           Text(
-                          //             "${measurement.value} ${measurement.unit}",
-                          //             style: TextStyle(
-                          //               fontSize: 14,
-                          //               color: Colors.grey.shade600,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     Text(
-                          //       measurement.message,
-                          //       style: TextStyle(
-                          //         fontSize: 14,
-                          //         color: measurement.color,
-                          //         fontWeight: FontWeight.bold,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                        );
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       padding: const EdgeInsets.all(8),
+                            //       decoration: BoxDecoration(
+                            //         color: measurement.color.withOpacity(0.2),
+                            //         borderRadius: BorderRadius.circular(8),
+                            //       ),
+                            //       child: SvgPicture.asset(
+                            //         "assets/${measurement is OdorData ? measurement.subType.name : measurement.type.name}.svg",
+                            //         width: 40,
+                            //         height: 40,
+                            //       ),
+                            //     ),
+                            //     SizedBox(width: 16),
+                            //     Expanded(
+                            //       child: Column(
+                            //         crossAxisAlignment: CrossAxisAlignment.start,
+                            //         children: [
+                            //           Text(
+                            //             measurement.typeToKor(),
+                            //             style: TextStyle(
+                            //               fontSize: 16,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //           Text(
+                            //             "${measurement.value} ${measurement.unit}",
+                            //             style: TextStyle(
+                            //               fontSize: 14,
+                            //               color: Colors.grey.shade600,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //     Text(
+                            //       measurement.message,
+                            //       style: TextStyle(
+                            //         fontSize: 14,
+                            //         color: measurement.color,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            );
                       }),
                     ],
                   );
