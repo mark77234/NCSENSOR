@@ -127,7 +127,6 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                             style: TextStyle(
                               fontSize: 48,
                               fontWeight: FontWeight.bold,
-                              color: _getStageColor(stage), // stage에 맞는 색상 적용
                             ),
                           ),
                           const SizedBox(width: 8), // $stage와 "단계" 사이의 간격
@@ -237,7 +236,11 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // 다시측정 로직
+                      // breath_screen.dart로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -258,7 +261,11 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // 확인 로직
+                      // main_screen.dart로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainScreen()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorStyles.primary,
@@ -292,7 +299,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
       case 2:
         return Colors.green;
       case 3:
-        return Colors.yellowAccent;
+        return Colors.amber;
       case 4:
         return Colors.orange;
       case 5:
