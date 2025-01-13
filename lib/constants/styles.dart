@@ -52,61 +52,79 @@ class ButtonStyles {
     textStyle: TextStyles.subtitle,
   );
 
-  static ButtonStyle selectedElevated = ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    foregroundColor: Colors.black,
-    minimumSize: const Size(150, 120),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-      side: BorderSide(
-        color: ColorStyles.grey,
-        width: 1.5,
+  static ButtonStyle selectedElevated(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      minimumSize: Size(width * 0.3, height * 0.2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide(
+          color: ColorStyles.grey,
+          width: 1.5,
+        ),
       ),
-    ),
-    textStyle: const TextStyle(fontSize: 15),
-  );
+      textStyle: const TextStyle(fontSize: 15),
+    );
+  }
 
-  static ButtonStyle defaultElevated = ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    foregroundColor: Colors.black,
-    minimumSize: const Size(150, 120),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-      side: BorderSide(
-        color: ColorStyles.primary,
-        width: 1.5,
+  static ButtonStyle defaultElevated(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      minimumSize: Size(width * 0.3, height * 0.2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide(
+          color: ColorStyles.primary,
+          width: 1.5,
+        ),
       ),
-    ),
-    textStyle: const TextStyle(fontSize: 15),
-  );
+      textStyle: const TextStyle(fontSize: 15),
+    );
+  }
 
-  static ButtonStyle bodyOdorUnselected = ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    foregroundColor: Colors.black,
-    minimumSize: const Size(320, 80),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-      side: BorderSide(
-        color: ColorStyles.grey,
-        width: 1.5,
+  static ButtonStyle bodyOdorUnselected(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      minimumSize: Size(width * 0.65, height * 0.12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide(
+          color: ColorStyles.grey,
+          width: 1.5,
+        ),
       ),
-    ),
-  );
+    );
+  }
 
-  static ButtonStyle bodyOdorSelected = ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    foregroundColor: Colors.black,
-    minimumSize: const Size(320, 80),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-      side: BorderSide(
-        color: ColorStyles.primary,
-        width: 1.5,
+  static ButtonStyle bodyOdorSelected(BuildContext context){
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      minimumSize: Size(width * 0.65, height * 0.12),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: BorderSide(
+          color: ColorStyles.primary,
+          width: 1.5,
+        ),
       ),
-    ),
-  );
-
-
+    );
+  }
 }
 
 class InputStyles {

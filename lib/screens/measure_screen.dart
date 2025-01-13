@@ -17,6 +17,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -30,8 +33,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 children: [
                   ElevatedButton(
                     style: selectedMeasurement == '음주'
-                        ? ButtonStyles.defaultElevated
-                        : ButtonStyles.selectedElevated,
+                        ? ButtonStyles.defaultElevated(context)
+                        : ButtonStyles.selectedElevated(context),
                     onPressed: () {
                       setState(() {
                         showBodyOdorOptions = false;
@@ -43,15 +46,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              'assets/drinking.svg', // drinking.svg의 경로
-                              height: 40, // 원하는 크기로 조정
+                              'assets/drinking.svg',
+                              height: 40,
                               width: 40,
                             ),
-                            const SizedBox(width: 12), // 아이콘과 텍스트 사이 간격
+                            const SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -82,8 +83,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
                   const SizedBox(width: 20),
                   ElevatedButton(
                     style: selectedMeasurement == '체취'
-                        ? ButtonStyles.defaultElevated
-                        : ButtonStyles.selectedElevated,
+                        ? ButtonStyles.defaultElevated(context)
+                        : ButtonStyles.selectedElevated(context),
                     onPressed: () {
                       setState(() {
                         showBodyOdorOptions = !showBodyOdorOptions;
@@ -91,27 +92,42 @@ class _MeasureScreenState extends State<MeasureScreen> {
                         selectedBodyOdor = '';
                       });
                     },
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '체취\n',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/body.svg',
+                              height: 40,
+                              width: 40,
                             ),
-                          ),
-                          TextSpan(
-                            text: '부위별 악취 측정',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '체취',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '부위별 악취\n농도 측정',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -140,7 +156,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorStyles.primary,
                   foregroundColor: Colors.white,
-                  minimumSize: const Size(320, 60),
+                  minimumSize: Size(width * 0.65, height * 0.1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -195,30 +211,54 @@ class _MeasureScreenState extends State<MeasureScreen> {
   }
 
   Widget _buildBodyOdorButton(String title, BuildContext context) {
+    String iconPath = '';
+    switch (title) {
+      case '입':
+        iconPath = 'assets/mouth.svg';
+        break;
+      case '발':
+        iconPath = 'assets/foot.svg';
+        break;
+      case '겨드랑이':
+        iconPath = 'assets/armpit.svg';
+        break;
+    }
+
     return ElevatedButton(
       style: selectedBodyOdor == '$title 체취'
-          ? ButtonStyles.bodyOdorSelected
-          : ButtonStyles.bodyOdorUnselected,
+          ? ButtonStyles.bodyOdorSelected(context)
+          : ButtonStyles.bodyOdorUnselected(context),
       onPressed: () {
         setState(() {
           selectedBodyOdor = '$title 체취';
         });
       },
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          SvgPicture.asset(
+            iconPath,
+            height: 40,
+            width: 40,
           ),
-          const SizedBox(height: 5),
-          Text(
-            _getBodyOdorDescription(title),
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
-            textAlign: TextAlign.center,
+          const SizedBox(width: 12,),
+          Column(
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                _getBodyOdorDescription(title),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ],
       ),
@@ -228,9 +268,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
   String _getBodyOdorDescription(String bodyPart) {
     switch (bodyPart) {
       case '입':
-        return '구강 냄새 측정';
+        return '입에서 나는 구취 측정';
       case '발':
-        return '발에서 나는 악취를 측정';
+        return '발에서 나는 악취 측정';
       case '겨드랑이':
         return '겨드랑이에서 나는 악취를 측정';
       default:
@@ -261,7 +301,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(ColorStyles.primary),
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(ColorStyles.primary),
                 ),
                 const SizedBox(height: 20),
                 Text(
