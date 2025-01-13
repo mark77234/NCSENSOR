@@ -11,10 +11,10 @@ class AlcoholResultScreen extends StatefulWidget {
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
-  // 혈중 알코올 농도 (랜덤 값)
+
   double _alcoholLevel = Random().nextDouble() * 0.10;
 
-  // 단계 메시지 및 색상
+
   String _resultMessage = '';
   String _advice = '';
   Color _progressBarColor = Colors.green;
@@ -25,26 +25,26 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     _setAlcoholStage();
   }
 
-  // 알코올 농도에 따른 상태 및 색상 설정
+
   void _setAlcoholStage() {
     if (_alcoholLevel <= 0.03) {
-      _resultMessage = '매우 좋음';
+      _resultMessage = '정상';
       _advice = '운전가능한 수준입니다.';
       _progressBarColor = ColorStyles.primary;
     } else if (_alcoholLevel <= 0.05) {
-      _resultMessage = '좋음';
+      _resultMessage = '면허정지';
       _advice = '면허 정지 수준입니다. \n운전을 하실 수 없습니다.';
       _progressBarColor = Colors.green;
     } else if (_alcoholLevel <= 0.08) {
-      _resultMessage = '보통';
+      _resultMessage = '면허취소';
       _advice = '면허 취소 수준입니다. \n 운전을 하실 수 없습니다. ';
       _progressBarColor = Colors.amber;
     } else if (_alcoholLevel <= 0.10) {
-      _resultMessage = '나쁨';
+      _resultMessage = '면허취소';
       _advice = '면허 취소 수준입니다. \n 운전을 하실 수 없습니다.';
       _progressBarColor = Colors.orange;
     } else {
-      _resultMessage = '위험';
+      _resultMessage = '면허취소';
       _advice = '즉시 조치가 필요합니다.';
       _progressBarColor = Colors.red;
     }
@@ -52,9 +52,9 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
 
   String getCurrentDateTime() {
     final DateTime now = DateTime.now();
-    final String period = now.hour >= 12 ? '오후' : '오전'; // 오전/오후 판별
-    final int hour = now.hour % 12; // 12시간제로 변환
-    final int displayHour = hour == 0 ? 12 : hour; // 0시를 12시로 변경
+    final String period = now.hour >= 12 ? '오후' : '오전';
+    final int hour = now.hour % 12;
+    final int displayHour = hour == 0 ? 12 : hour;
 
     return '${now.year}.${now.month}.${now.day} $period ${displayHour}:${now.minute}';
   }
@@ -88,7 +88,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
               ),
               const SizedBox(height: 20),
 
-              // 음주 측정 결과 카드
+
               Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -129,20 +129,20 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                           Text(
                             '${_alcoholLevel.toStringAsFixed(2)}',
                             style: TextStyle(
-                              fontSize: 40, // Larger size for the number
+                              fontSize: 40,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(width: 5),
-                          // Space between number and percent symbol
+
                           Text(
                             '%',
                             style: TextStyle(
                               fontSize: 24,
-                              // Smaller size for the percent symbol
+
                               fontWeight: FontWeight.w400,
                               color:
-                                  Color(0xFF6B7280), // Gray color for percent
+                                  Color(0xFF6B7280),
                             ),
                           ),
                         ],
@@ -170,7 +170,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
               ),
               const SizedBox(height: 20),
 
-              // 음주 운전 기준 카드 추가
+
               Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -243,7 +243,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // 음주 측정 화면으로 돌아가기
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MainScreen()),
@@ -268,7 +268,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // 메인 화면으로 돌아가기
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MainScreen()),
