@@ -31,6 +31,9 @@ class _BreathScreenState extends State<BreathScreen> {
       setState(() {
         _progress = i / 100;
       });
+      if ( i == 100 ){
+        _navigateToResult(context);
+      }
     }
 
     setState(() {
@@ -57,11 +60,8 @@ class _BreathScreenState extends State<BreathScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String measurementStatus = _progress == 0
-        ? '측정전'
-        : _progress < 1.0
-            ? '측정중'
-            : '측정완료';
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -83,8 +83,8 @@ class _BreathScreenState extends State<BreathScreen> {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  width: 200,
-                  height: 200,
+                  width: 180,
+                  height: 180,
                   child: CircularProgressIndicator(
                     value: _progress,
                     strokeWidth: 18,
@@ -109,20 +109,19 @@ class _BreathScreenState extends State<BreathScreen> {
 
             const SizedBox(height: 40),
 
-            // 센서 상태 카드 (가로로 배치)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: 320,
-                    height: 80,
+                    width: width * 0.7,
+                    height: height * 0.1,
                     child: Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15), // 모서리 둥글게 설정
+                        borderRadius: BorderRadius.circular(15),
                         side: BorderSide(
-                          color: ColorStyles.grey, // 가장자리를 회색으로 설정
-                          width: 1, // 가장자리 두께 설정
+                          color: ColorStyles.grey,
+                          width: 1,
                         ),
                       ),
                       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -137,26 +136,23 @@ class _BreathScreenState extends State<BreathScreen> {
                               "센서 상태",
                               style: TextStyle(
                                 fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(width: 100),
                             Container(
                               padding: const EdgeInsets.all(5),
-                              // 더 큰 원형 모양으로 만들기 위해 패딩을 늘림
                               decoration: BoxDecoration(
-                                color: _progress == 0
-                                    ? Colors.grey
-                                    : _progress < 1.0
-                                        ? Colors.yellow
-                                        : Colors.blue,
+                                color: ColorStyles.primary,
                                 shape: BoxShape.circle,
                               ),
                             ),
                             Text(
-                              measurementStatus,
+                              "인식완료",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                color: ColorStyles.primary,
                               ),
                             ),
                           ],
@@ -168,7 +164,6 @@ class _BreathScreenState extends State<BreathScreen> {
             ),
             const SizedBox(height: 70),
 
-            // 버튼: 측정하기 / 결과 보러가기
             ElevatedButton(
               onPressed: _progress < 1.0
                   ? () => _startMeasurement(context)
@@ -188,17 +183,17 @@ class _BreathScreenState extends State<BreathScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                fixedSize: Size(320, 70),
+                minimumSize: Size(width * 0.65, height * 0.12),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15), // 모서리 둥글게 설정
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
               child: Text(
-                _progress < 1.0 ? (_isLoading ? "측정중..." : "측정하기") : "결과 보러가기",
+                _isLoading ? "측정중..." : "측정하기",
               ),
             ),
             const SizedBox(
-              height: 100,
+              height: 50,
             ),
           ],
         ),
