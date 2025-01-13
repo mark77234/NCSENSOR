@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/styles.dart';
 import 'breath_screen.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MeasureScreen extends StatefulWidget {
   const MeasureScreen({super.key});
@@ -10,9 +11,9 @@ class MeasureScreen extends StatefulWidget {
 }
 
 class _MeasureScreenState extends State<MeasureScreen> {
-  bool showBodyOdorOptions = false; // 체취 버튼 클릭 여부
-  String selectedMeasurement = ''; // 선택된 측정 항목
-  String selectedBodyOdor = ''; // 선택된 체취 부위
+  bool showBodyOdorOptions = false;
+  String selectedMeasurement = '';
+  String selectedBodyOdor = '';
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +22,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            // Row에서 Column으로 변경하여 세로로 정렬
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
               Row(
-                // 음주와 체취 버튼을 Row로 나란히 배치
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
@@ -40,27 +39,44 @@ class _MeasureScreenState extends State<MeasureScreen> {
                         selectedBodyOdor = '';
                       });
                     },
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '음주\n', // 첫 번째 줄 텍스트 (음주)
-                            style: TextStyle(
-                              fontSize: 16, // 첫 번째 줄 텍스트 스타일
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/drinking.svg', // drinking.svg의 경로
+                              height: 40, // 원하는 크기로 조정
+                              width: 40,
                             ),
-                          ),
-                          TextSpan(
-                            text: '알코올 농도 측정', // 두 번째 줄 텍스트 (알코올농도 측정)
-                            style: TextStyle(
-                              fontSize: 14, // 두 번째 줄 텍스트 스타일
-                              color: Colors.grey, // 색상 설정 (옵션)
+                            const SizedBox(width: 12), // 아이콘과 텍스트 사이 간격
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '음주',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '혈중 알코올\n농도 측정',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center, // 텍스트 정렬을 중앙으로 설정
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -79,23 +95,23 @@ class _MeasureScreenState extends State<MeasureScreen> {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: '체취\n', // 첫 번째 줄 텍스트 (음주)
+                            text: '체취\n',
                             style: TextStyle(
-                              fontSize: 16, // 첫 번째 줄 텍스트 스타일
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               height: 1.5,
                             ),
                           ),
                           TextSpan(
-                            text: '부위별 악취 측정', // 두 번째 줄 텍스트 (알코올농도 측정)
+                            text: '부위별 악취 측정',
                             style: TextStyle(
-                              fontSize: 14, // 두 번째 줄 텍스트 스타일
-                              color: Colors.grey, // 색상 설정 (옵션)
+                              fontSize: 14,
+                              color: Colors.grey,
                             ),
                           ),
                         ],
                       ),
-                      textAlign: TextAlign.center, // 텍스트 정렬을 중앙으로 설정
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
@@ -130,7 +146,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
                   ),
                 ),
                 onPressed: () async {
-                  // 측정 시작 버튼 클릭 시 동작
                   if (selectedMeasurement.isEmpty) {
                     showDialog(
                       context: context,
@@ -179,7 +194,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
     );
   }
 
-  // 체취 부위 선택 버튼 빌드
   Widget _buildBodyOdorButton(String title, BuildContext context) {
     return ElevatedButton(
       style: selectedBodyOdor == '$title 체취'
@@ -199,10 +213,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
           ),
           const SizedBox(height: 5),
           Text(
-            _getBodyOdorDescription(title), // Show the description text
+            _getBodyOdorDescription(title),
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey, // You can change this color as needed
+              color: Colors.grey,
             ),
             textAlign: TextAlign.center,
           ),
@@ -211,7 +225,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
     );
   }
 
-// Add a method to provide descriptions for each body part
   String _getBodyOdorDescription(String bodyPart) {
     switch (bodyPart) {
       case '입':
@@ -225,9 +238,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     }
   }
 
-  // 로딩 화면 다이얼로그 표시 및 화면 이동
   Future<void> _navigateWithLoading(BuildContext context) async {
-    // 로딩 다이얼로그 표시
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -250,8 +261,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      ColorStyles.primary), // 로딩 인디케이터 색상
+                  valueColor: AlwaysStoppedAnimation<Color>(ColorStyles.primary),
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -259,12 +269,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey,
-                    // 어두운 색상으로 가독성 높임
                     fontWeight: FontWeight.w600,
-                    // 글씨 두껍게 강조
                     letterSpacing: 1.2,
-                    // 글자 간격 추가
-                    decoration: TextDecoration.none, // 밑줄 제거
+                    decoration: TextDecoration.none,
                   ),
                 ),
               ],
@@ -274,13 +281,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
       },
     );
 
-    // 3초 대기 후, Breathscreen 페이지로 이동
     await Future.delayed(const Duration(seconds: 3));
 
-    // 다이얼로그 닫기
     Navigator.pop(context);
 
-    // Breathscreen 페이지로 이동
     Navigator.push(
       context,
       MaterialPageRoute(
