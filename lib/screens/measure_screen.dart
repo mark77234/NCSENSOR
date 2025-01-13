@@ -59,7 +59,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                                 Text(
                                   '음주',
                                   style: TextStyle(
-                                    fontSize: width * 0.04,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     height: 1.5,
                                   ),
@@ -68,7 +68,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                                 Text(
                                   '혈중 알코올\n농도 측정',
                                   style: TextStyle(
-                                    fontSize: width * 0.03,
+                                    fontSize: 14,
                                     color: Colors.grey,
                                   ),
                                   textAlign: TextAlign.center,
@@ -109,7 +109,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                                 Text(
                                   '체취',
                                   style: TextStyle(
-                                    fontSize: width * 0.04,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     height: 1.5,
                                   ),
@@ -118,7 +118,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                                 Text(
                                   '부위별 악취\n농도 측정',
                                   style: TextStyle(
-                                    fontSize: width * 0.03,
+                                    fontSize: 14,
                                     color: Colors.grey,
                                   ),
                                   textAlign: TextAlign.center,
@@ -140,7 +140,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
-                      fontSize: width * 0.04,
+                      fontSize: 16,
                     ),
                   ),
                 ),
