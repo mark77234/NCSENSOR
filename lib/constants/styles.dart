@@ -59,7 +59,7 @@ class ButtonStyles {
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      minimumSize: Size(width * 0.3, height * 0.14),
+      padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(
@@ -78,7 +78,7 @@ class ButtonStyles {
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      minimumSize: Size(width * 0.3, height * 0.14),
+      padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(
@@ -97,7 +97,7 @@ class ButtonStyles {
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      minimumSize: Size(width * 0.65, height * 0.1),
+      padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(
@@ -115,7 +115,7 @@ class ButtonStyles {
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
-      minimumSize: Size(width * 0.65, height * 0.1),
+      padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(

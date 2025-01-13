@@ -113,8 +113,6 @@ class _BreathScreenState extends State<BreathScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: width * 0.8,
-                    height: height * 0.1,
                     child: Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -133,7 +131,7 @@ class _BreathScreenState extends State<BreathScreen> {
                             Text(
                               "센서 상태",
                               style: TextStyle(
-                                fontSize: width * 0.04,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -148,7 +146,7 @@ class _BreathScreenState extends State<BreathScreen> {
                             Text(
                               "인식완료",
                               style: TextStyle(
-                                fontSize: width * 0.04,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: ColorStyles.primary,
                               ),
@@ -181,7 +179,7 @@ class _BreathScreenState extends State<BreathScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                minimumSize: Size(width * 0.7, height * 0.1),
+                minimumSize: Size(300,60),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),

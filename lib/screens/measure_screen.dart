@@ -156,7 +156,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorStyles.primary,
                   foregroundColor: Colors.white,
-                  minimumSize: Size(width * 0.65, height * 0.08),
+                  minimumSize: const Size(300, 60),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
