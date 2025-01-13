@@ -279,52 +279,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
   }
 
   Future<void> _navigateWithLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 8,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(ColorStyles.primary),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "센서인식중...",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-
-    await Future.delayed(const Duration(seconds: 3));
-
-    Navigator.pop(context);
 
     Navigator.push(
       context,
