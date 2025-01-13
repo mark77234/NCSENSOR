@@ -113,7 +113,7 @@ class _BreathScreenState extends State<BreathScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: width * 0.7,
+                    width: width * 0.8,
                     height: height * 0.1,
                     child: Card(
                       color: Colors.white,
@@ -125,8 +125,6 @@ class _BreathScreenState extends State<BreathScreen> {
                         ),
                       ),
                       margin: const EdgeInsets.symmetric(horizontal: 8),
-                      elevation: 0,
-                      // 그림자 효과 제거
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
@@ -135,7 +133,7 @@ class _BreathScreenState extends State<BreathScreen> {
                             Text(
                               "센서 상태",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: width * 0.04,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -150,7 +148,7 @@ class _BreathScreenState extends State<BreathScreen> {
                             Text(
                               "인식완료",
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: width * 0.04,
                                 fontWeight: FontWeight.bold,
                                 color: ColorStyles.primary,
                               ),
@@ -183,7 +181,7 @@ class _BreathScreenState extends State<BreathScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                minimumSize: Size(width * 0.65, height * 0.12),
+                minimumSize: Size(width * 0.7, height * 0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
