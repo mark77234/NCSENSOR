@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/routes/app_routes.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 import '../constants/styles.dart';
 import '../widgets/editable_field.dart';
@@ -14,6 +17,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isEditing = false;
+  XFile? _selectedImage;
 
   Map<String, String> userData = {
     "name": "홍길동",
@@ -48,6 +52,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isEditing = false;
       visibleData = Map<String, String>.from(userData);
     });
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _selectedImage = pickedImage;
+      });
+    }
   }
 
   @override
@@ -138,6 +153,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ));
   }
 
+
+
   Widget _buildProfilePicture(bool isEditing) {
     return Center(
       child: Stack(
@@ -145,18 +162,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           CircleAvatar(
             radius: 48,
             backgroundColor: Colors.grey[200],
-            backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop'),
-            // child: Icon(Icons.person, size: 48, color: Colors.grey),
+            // 선택한 이미지가 없으면 기본 이미지를 사용하고, 있으면 선택한 이미지를 사용
+            backgroundImage: _selectedImage == null
+                ? NetworkImage(
+              'https://cdn-icons-png.flaticon.com/512/219/219983.png',
+            )
+                : FileImage(File(_selectedImage!.path)) as ImageProvider,
           ),
           if (isEditing)
             Positioned(
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: () {
-                  //   pick image
-                },
+                onTap: _pickImage,
                 child: CircleAvatar(
                   backgroundColor: ColorStyles.primary,
                   radius: 16,

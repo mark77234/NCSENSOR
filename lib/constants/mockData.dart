@@ -1,9 +1,31 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+const String baseUrl = 'https://44579175-e66a-493c-a58d-47adc2d3e0b3.mock.pstmn.io/';
+
+
+List<Map<String, dynamic>> historyData = [];
+
+Future<void> fetchHistoryData() async {
+  final url =
+      '${baseUrl}/history?start=2025-01-01&end=2025-01-31';
+
+  final response = await http.get(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    final List<dynamic> data = json.decode(response.body);
+
+    historyData = List<Map<String, dynamic>>.from(data);
+  }
+}
+
+
 const staticData = {
   "drinking": [
     {
       "type": "tile",
       "title": "이번 달 음주 일수",
-      "value": "12",
+      "value": "13",
       "icon": "assets/calender.svg",
       "unit": "일",
     },
@@ -69,55 +91,55 @@ const staticData = {
   ]
 };
 
-const historyData = [
-  {
-    "date": "2025-01-15",
-    "measurements": [
-      {
-        "type": "drinking",
-        "value": "0.08",
-        "level": "1",
-        "dateTime": "2025-01-15 12:00:00"
-      },
-      {
-        "type": "odor",
-        "subType": "mouth",
-        "value": "3.0",
-        "level": "4",
-        "dateTime": "2025-01-15 13:10:00"
-      },
-      {
-        "type": "odor",
-        "subType": "foot",
-        "value": "5.0",
-        "level": "2",
-        "dateTime": "2025-01-15 16:24:00"
-      }
-    ]
-  },
-  {
-    "date": "2025-01-14",
-    "measurements": [
-      {
-        "type": "drinking",
-        "value": "0.08",
-        "level": "1",
-        "dateTime": "2025-01-14 12:00:00"
-      },
-      {
-        "type": "odor",
-        "subType": "mouth",
-        "value": "3.0",
-        "level": "4",
-        "dateTime": "2025-01-14 11:10:00"
-      },
-      {
-        "type": "odor",
-        "subType": "foot",
-        "value": "5.0",
-        "level": "2",
-        "dateTime": "2025-01-14 16:24:00"
-      }
-    ]
-  }
-];
+// const historyData = [
+//   {
+//     "date": "2025-01-15",
+//     "measurements": [
+//       {
+//         "type": "drinking",
+//         "value": "0.08",
+//         "level": "1",
+//         "dateTime": "2025-01-15 12:00:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "mouth",
+//         "value": "3.0",
+//         "level": "4",
+//         "dateTime": "2025-01-15 13:10:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "foot",
+//         "value": "5.0",
+//         "level": "2",
+//         "dateTime": "2025-01-15 16:24:00"
+//       }
+//     ]
+//   },
+//   {
+//     "date": "2025-01-14",
+//     "measurements": [
+//       {
+//         "type": "drinking",
+//         "value": "0.08",
+//         "level": "1",
+//         "dateTime": "2025-01-14 12:00:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "mouth",
+//         "value": "3.0",
+//         "level": "4",
+//         "dateTime": "2025-01-14 11:10:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "foot",
+//         "value": "5.0",
+//         "level": "2",
+//         "dateTime": "2025-01-14 16:24:00"
+//       }
+//     ]
+//   }
+// ];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 enum OdorType {
   foot,
   mouth,

@@ -41,6 +41,8 @@ dependencies:
   flutter_launcher_icons: ^0.14.2
   flutter_svg: ^2.0.17
   intl: ^0.20.1
+  image_picker: ^1.1.2
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:

@@ -23,10 +23,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   void initState() {
+
     for (var data in historyData) {
       records.add(HistoryData.fromJson(data));
     }
     super.initState();
+    fetchHistoryData().then((_) {
+      setState(() {
+        // 데이터 로드 후 UI 업데이트
+        records = historyData.map((data) => HistoryData.fromJson(data)).toList();
+      });
+    });
   }
 
   @override
