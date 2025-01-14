@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taesung1/routes/app_routes.dart';
 
 import '../constants/styles.dart';
@@ -14,6 +17,31 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isEditing = false;
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          _image = File(image.path);
+        });
+      }
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("이미지를 불러오는데 실패했습니다."),
+                content: Text("다시 시도해주세요."),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("확인")),
+                ],
+              ));
+    }
+  }
 
   Map<String, String> userData = {
     "name": "홍길동",
@@ -145,18 +173,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           CircleAvatar(
             radius: 48,
             backgroundColor: Colors.grey[200],
-            backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop'),
-            // child: Icon(Icons.person, size: 48, color: Colors.grey),
+            backgroundImage: _image != null ? FileImage(_image!) : null,
+            child: _image != null
+                ? null
+                : Icon(Icons.person, size: 48, color: Colors.grey),
           ),
           if (isEditing)
             Positioned(
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: () {
-                  //   pick image
-                },
+                onTap: _pickImage,
                 child: CircleAvatar(
                   backgroundColor: ColorStyles.primary,
                   radius: 16,
