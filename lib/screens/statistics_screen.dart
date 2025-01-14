@@ -41,12 +41,34 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 padding: EdgeInsets.all(4),
                 decoration:
                     ContainerStyles.tile.copyWith(color: ColorStyles.grey),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildTab("음주", myType: StatisticsType.drinking),
-                    _buildTab("체취", myType: StatisticsType.odor),
-                  ],
+                child: DropdownButton<StatisticsType>(
+                  value: selectedType,
+                  onChanged: (StatisticsType? newValue) {
+                    setState(() {
+                      selectedType = newValue!;
+                    });
+                  },
+                  isExpanded: true,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(5),
+                  underline: SizedBox(),
+                  isDense: true,
+                  borderRadius: RadiusStyles.common,
+                  items: StatisticsType.values.map((StatisticsType type) {
+                    return DropdownMenuItem<StatisticsType>(
+                      value: type,
+                      child: Center(
+                        child: Text(
+                          type == StatisticsType.drinking ? "음주" : "체취",
+                          style: TextStyles.subtitle.copyWith(
+                            color: selectedType == type
+                                ? Colors.black
+                                : ColorStyles.secondary,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
               SizedBox(height: 16),
