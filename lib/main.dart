@@ -25,10 +25,18 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.getRoutes(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: ColorStyles.primary, // 앱의 기본 색상 설정
-        scaffoldBackgroundColor: ColorStyles.background, // 앱의 배경 색상 설정
+        primaryColor: ColorStyles.primary,
+        highlightColor: ColorStyles.primary,
+        focusColor: ColorStyles.primary,
+        scaffoldBackgroundColor: ColorStyles.background,
+        // 앱의 배경 색상 설정
         appBarTheme: const AppBarTheme(
           backgroundColor: ColorStyles.background, // 앱 바의 색상 설정
+        ),
+        canvasColor: Colors.white,
+        dialogTheme: const DialogTheme(
+          backgroundColor: Colors.white, // 다이얼로그의 색상 설정
+          surfaceTintColor: Colors.white, // 다이얼로그의 표면 색상 설정
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white, // 바텀 네비게이션 바의 색상 설정
