@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // TextField 위젯을 생성하는 메서드
   Widget _buildTextField({required String label, bool isPassword = false}) {
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 320,
         height: 50,
         child: TextField(
@@ -39,12 +39,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             suffixIcon: isPassword
                 ? IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: Color(0xFFB0B0B0),
-              ),
-              onPressed: _togglePasswordVisibility,
-            )
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: Color(0xFFB0B0B0),
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  )
                 : null,
           ),
         ),
@@ -122,9 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(width: 60),
                 _buildLinkText(text: "비밀번호 찾기", onTap: () {}),
                 const SizedBox(width: 60),
-                _buildLinkText(text: 'Sign up', onTap: () {
-                  print('회원가입');
-                }),
+                _buildLinkText(
+                    text: '회원가입',
+                    onTap: () {
+                      print('회원가입');
+                    }),
               ],
             ),
           ],
