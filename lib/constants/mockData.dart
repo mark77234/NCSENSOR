@@ -1,24 +1,50 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:taesung1/services/api_service.dart';
 
-const String baseUrl = 'https://44579175-e66a-493c-a58d-47adc2d3e0b3.mock.pstmn.io/';
-
+// const String baseUrl = 'https://44579175-e66a-493c-a58d-47adc2d3e0b3.mock.pstmn.io/';
 
 List<Map<String, dynamic>> historyData = [];
 
-Future<void> fetchHistoryData() async {
-  final url =
-      '${baseUrl}/history?start=2025-01-01&end=2025-01-31';
+class MockDataService {
 
-  final response = await http.get(Uri.parse(url));
+  static Future<void> fetchHistoryData() async {
+    final Dio client = ApiService2.apiData;
 
-  if (response.statusCode == 200) {
-    final List<dynamic> data = json.decode(response.body);
+    final response = await client.get(
+      '/history',
+    );
 
-    historyData = List<Map<String, dynamic>>.from(data);
+    if(response.statusCode == 200) {
+      final List<dynamic> data = response.data;
+      historyData = List<Map<String, dynamic>>.from(data);
+    }
   }
 }
 
+// Future<void> fetchHistoryData() async {
+//   final Dio dio = Dio();
+//
+//   final String url = '${baseUrl}/history';
+//
+//   try {
+//     final response = await dio.get(
+//       url,
+//       queryParameters: {
+//         'start': '2025-01-01',
+//         'end': '2025-01-31',
+//       },
+//     );
+//
+//     if (response.statusCode == 200) {
+//       final List<dynamic> data = response.data;
+//
+//       // JSON 데이터를 List<Map<String, dynamic>>로 변환
+//       historyData = List<Map<String, dynamic>>.from(data);
+//     }
+//   } catch (e) {
+//     print('Error fetching history data: $e');
+//   }
+// }
 
 const staticData = {
   "drinking": [

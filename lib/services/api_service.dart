@@ -15,3 +15,7 @@ class ApiService{
 
 }
 
+class ApiService2{
+  static final Dio apiData = createClient();
+
+}

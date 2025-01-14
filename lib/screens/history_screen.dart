@@ -28,9 +28,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
       records.add(HistoryData.fromJson(data));
     }
     super.initState();
-    fetchHistoryData().then((_) {
+    MockDataService.fetchHistoryData().then((_) {
       setState(() {
-        // 데이터 로드 후 UI 업데이트
         records = historyData.map((data) => HistoryData.fromJson(data)).toList();
       });
     });
