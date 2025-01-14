@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:taesung1/screens/breath_screen.dart';
 import '../constants/styles.dart';
 import 'main_screen.dart'; // MainScreen 임포트
 
 class BodyResultScreen extends StatefulWidget {
+  final String bodymeasurement;
   final String measurement;
 
-  const BodyResultScreen({super.key, required this.measurement});
+  const BodyResultScreen({super.key, required this.bodymeasurement, required this.measurement});
 
   @override
   _BodyResultScreenState createState() => _BodyResultScreenState();
@@ -57,7 +59,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${widget.measurement} 냄새분석",
+          "${widget.bodymeasurement} 냄새분석",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -241,7 +243,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                       // breath_screen.dart로 이동
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
+                        MaterialPageRoute(builder: (context) => BreathScreen(measurement: widget.measurement, bodymeasurement: widget.bodymeasurement)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

@@ -1,19 +1,22 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:taesung1/screens/breath_screen.dart';
 import 'package:taesung1/screens/main_screen.dart';
 import '../constants/styles.dart';
 
 class AlcoholResultScreen extends StatefulWidget {
-  const AlcoholResultScreen({super.key});
+  final String measurement;
+  final String bodymeasurement;
+
+  const AlcoholResultScreen(
+      {super.key, required this.measurement, required this.bodymeasurement});
 
   @override
   _AlcoholResultScreenState createState() => _AlcoholResultScreenState();
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
-
   double _alcoholLevel = Random().nextDouble() * 0.10;
-
 
   String _resultMessage = '';
   String _advice = '';
@@ -24,7 +27,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     super.initState();
     _setAlcoholStage();
   }
-
 
   void _setAlcoholStage() {
     if (_alcoholLevel <= 0.03) {
@@ -88,7 +90,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
               ),
               const SizedBox(height: 20),
 
-
               Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -134,15 +135,12 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                             ),
                           ),
                           SizedBox(width: 5),
-
                           Text(
                             '%',
                             style: TextStyle(
                               fontSize: 24,
-
                               fontWeight: FontWeight.w400,
-                              color:
-                                  Color(0xFF6B7280),
+                              color: Color(0xFF6B7280),
                             ),
                           ),
                         ],
@@ -169,7 +167,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
 
               Card(
                 color: Colors.white,
@@ -243,10 +240,12 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => BreathScreen(
+                                measurement: widget.measurement,
+                                bodymeasurement: widget.bodymeasurement)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -268,7 +267,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MainScreen()),

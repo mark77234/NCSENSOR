@@ -31,7 +31,7 @@ class _BreathScreenState extends State<BreathScreen> {
       setState(() {
         _progress = i / 100;
       });
-      if ( i == 100 ){
+      if (i == 100) {
         _navigateToResult(context);
       }
     }
@@ -45,14 +45,18 @@ class _BreathScreenState extends State<BreathScreen> {
     if (widget.measurement == "음주") {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const AlcoholResultScreen()),
+        MaterialPageRoute(builder: (context) => AlcoholResultScreen(
+          measurement: widget.measurement,
+          bodymeasurement: widget.bodymeasurement
+        )),
       );
     } else if (widget.measurement == "체취") {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              BodyResultScreen(measurement: widget.bodymeasurement),
+          builder: (context) => BodyResultScreen(
+              measurement: widget.measurement,
+              bodymeasurement: widget.bodymeasurement),
         ),
       );
     }
@@ -60,9 +64,6 @@ class _BreathScreenState extends State<BreathScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -90,7 +91,8 @@ class _BreathScreenState extends State<BreathScreen> {
                     strokeWidth: 18,
                     backgroundColor: Color(0xFFF3F4F6),
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
+                      Color.lerp(
+                              Colors.green, ColorStyles.primary, _progress) ??
                           ColorStyles.primary, // null 처리
                     ),
                   ),
@@ -100,66 +102,64 @@ class _BreathScreenState extends State<BreathScreen> {
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Color.lerp(ColorStyles.grey, ColorStyles.primary, _progress) ??
+                    color: Color.lerp(
+                            ColorStyles.grey, ColorStyles.primary, _progress) ??
                         ColorStyles.primary, // null 처리
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 40),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    child: Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        side: BorderSide(
-                          color: ColorStyles.grey,
-                          width: 1,
-                        ),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "센서 상태",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 100),
-                            Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                color: ColorStyles.primary,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            Text(
-                              "인식완료",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: ColorStyles.primary,
-                              ),
-                            ),
-                          ],
-                        ),
+                  child: Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: BorderSide(
+                        color: ColorStyles.grey,
+                        width: 1,
                       ),
                     ),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "센서 상태",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 100),
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: ColorStyles.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          Text(
+                            "인식완료",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: ColorStyles.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 70),
-
             ElevatedButton(
               onPressed: _progress < 1.0
                   ? () => _startMeasurement(context)
@@ -179,7 +179,7 @@ class _BreathScreenState extends State<BreathScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                minimumSize: Size(300,60),
+                minimumSize: Size(300, 60),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
