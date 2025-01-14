@@ -5,6 +5,7 @@ import '../constants/mockData.dart';
 import '../constants/styles.dart';
 import '../models/measure_model.dart';
 import '../widgets/carousel.dart';
+import '../widgets/compare_graph_card.dart';
 import '../widgets/my_card.dart';
 import '../widgets/simple_calendar.dart';
 
@@ -183,80 +184,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       height: carousalHeight,
       builder: (BuildContext context, int index) {
         CompareGraphData item = CompareGraphData.fromJson(data["list"][index]);
-        return MyCard(
-            child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(height: 8),
-            Text(
-              item.title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(item.lastMonth.toString(),
-                              style: TextStyles.title),
-                          Container(
-                            color: ColorStyles.primary.withAlpha(100),
-                            width: 40,
-                            height: carousalHeight *
-                                0.6 *
-                                item.lastMonth /
-                                maxValue,
-                          ),
-                          Text("지난달", style: TextStyles.label),
-                        ],
-                      ),
-                      SizedBox(width: 16),
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(item.thisMonth.toString(),
-                              style: TextStyles.title),
-                          Container(
-                            color: ColorStyles.primary,
-                            width: 40,
-                            height: carousalHeight *
-                                0.7 *
-                                item.thisMonth /
-                                maxValue,
-                          ),
-                          Text("이번달", style: TextStyles.label),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${item.variationRate}%",
-                        style: TextStyles.title
-                            .copyWith(color: ColorStyles.primary),
-                      ),
-                      Text("지난달 대비")
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-          ],
-        ));
+        return CompareGraphCard(
+          item: item,
+          maxValue: maxValue,
+          height: carousalHeight,
+        );
       },
     );
   }
