@@ -71,21 +71,21 @@ const staticData = {
       "list": [
         {
           "title": "입 냄새",
-          "lastMonth": "3.2",
-          "thisMonth": "1.7",
-          "variationRate": "80",
+          "last_month": "3.2",
+          "this_month": "1.7",
+          "variation_rate": "80",
         },
         {
           "title": "발 냄새",
-          "lastMonth": "2.2",
-          "thisMonth": "1.2",
-          "variationRate": "45",
+          "last_month": "2.2",
+          "this_month": "1.2",
+          "variation_rate": "45",
         },
         {
           "title": "겨드랑이 냄새",
-          "lastMonth": "2.8",
-          "thisMonth": "4.0",
-          "variationRate": "80",
+          "last_month": "2.8",
+          "this_month": "4.0",
+          "variation_rate": "80",
         },
       ]
     }
