@@ -11,6 +11,15 @@ enum MeasureType {
   odor,
 }
 
+/*
+ */
+
+// level(1) > color(red) > message(면허정지)
+// abstract class Level {
+// //   value, maxvalue, color, message
+
+// }
+
 abstract class MeasureData {
   final MeasureType type;
   final double value;

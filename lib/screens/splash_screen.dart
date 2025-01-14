@@ -5,9 +5,8 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
-
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
@@ -19,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
-    )..forward();  // forward()를 사용하여 애니메이션이 한 번만 실행되도록 변경
+    )..forward(); // forward()를 사용하여 애니메이션이 한 번만 실행되도록 변경
   }
 
   @override
@@ -59,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  Widget _buildRotatingCircle(double size, int colorHex, double rotationFactor) {
+  Widget _buildRotatingCircle(
+      double size, int colorHex, double rotationFactor) {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -105,7 +105,7 @@ class CirclePainter extends CustomPainter {
 
     paint.color = gapColor;
 
-    final gapAngle = 3.14159 / 2;
+    const gapAngle = 3.14159 / 2;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       gapAngle * 2,

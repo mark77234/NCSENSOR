@@ -6,7 +6,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -64,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => const MainScreen()),
           );
         },
-        child: const Text('로그인'),
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF3B82F6),
           foregroundColor: Colors.white,
@@ -73,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
+        child: const Text('로그인'),
       ),
     );
   }

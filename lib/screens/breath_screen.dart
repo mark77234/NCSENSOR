@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../constants/styles.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
@@ -14,7 +15,7 @@ class BreathScreen extends StatefulWidget {
   });
 
   @override
-  _BreathScreenState createState() => _BreathScreenState();
+  State<BreathScreen> createState() => _BreathScreenState();
 }
 
 class _BreathScreenState extends State<BreathScreen> {
@@ -90,7 +91,8 @@ class _BreathScreenState extends State<BreathScreen> {
                     strokeWidth: 18,
                     backgroundColor: Color(0xFFF3F4F6),
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
+                      Color.lerp(
+                              Colors.green, ColorStyles.primary, _progress) ??
                           ColorStyles.primary, // null 처리
                     ),
                   ),
@@ -100,7 +102,8 @@ class _BreathScreenState extends State<BreathScreen> {
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Color.lerp(ColorStyles.grey, ColorStyles.primary, _progress) ??
+                    color: Color.lerp(
+                            ColorStyles.grey, ColorStyles.primary, _progress) ??
                         ColorStyles.primary, // null 처리
                   ),
                 ),
@@ -113,56 +116,56 @@ class _BreathScreenState extends State<BreathScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                    width: 320,
-                    height: 80,
-                    child: Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15), // 모서리 둥글게 설정
-                        side: BorderSide(
-                          color: ColorStyles.grey, // 가장자리를 회색으로 설정
-                          width: 1, // 가장자리 두께 설정
-                        ),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      elevation: 0,
-                      // 그림자 효과 제거
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "센서 상태",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 100),
-                            Container(
-                              padding: const EdgeInsets.all(5),
-                              // 더 큰 원형 모양으로 만들기 위해 패딩을 늘림
-                              decoration: BoxDecoration(
-                                color: _progress == 0
-                                    ? Colors.grey
-                                    : _progress < 1.0
-                                        ? Colors.yellow
-                                        : Colors.blue,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            Text(
-                              measurementStatus,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                SizedBox(
+                  width: 320,
+                  height: 80,
+                  child: Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15), // 모서리 둥글게 설정
+                      side: BorderSide(
+                        color: ColorStyles.grey, // 가장자리를 회색으로 설정
+                        width: 1, // 가장자리 두께 설정
                       ),
                     ),
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    elevation: 0,
+                    // 그림자 효과 제거
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "센서 상태",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 100),
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            // 더 큰 원형 모양으로 만들기 위해 패딩을 늘림
+                            decoration: BoxDecoration(
+                              color: _progress == 0
+                                  ? Colors.grey
+                                  : _progress < 1.0
+                                      ? Colors.yellow
+                                      : Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          Text(
+                            measurementStatus,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

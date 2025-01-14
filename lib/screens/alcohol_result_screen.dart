@@ -1,19 +1,20 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/main_screen.dart';
+
 import '../constants/styles.dart';
 
 class AlcoholResultScreen extends StatefulWidget {
   const AlcoholResultScreen({super.key});
 
   @override
-  _AlcoholResultScreenState createState() => _AlcoholResultScreenState();
+  State<AlcoholResultScreen> createState() => _AlcoholResultScreenState();
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
-
   // 혈중 알코올 농도 (랜덤 값)
-  double _alcoholLevel = Random().nextDouble() * 0.10;
+  final double _alcoholLevel = Random().nextDouble() * 0.10;
 
   // 면허 상태에 대한 텍스트
   String _licenseStatus = '';
@@ -50,13 +51,14 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
           icon: Icon(
             Icons.home,
             color: ColorStyles.primary,
-            size:30.0,
+            size: 30.0,
           ), // 홈 아이콘
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const MainScreen()), // MainScreen으로 이동
-                  (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+              // MainScreen으로 이동
+              (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
             );
           },
         ),
