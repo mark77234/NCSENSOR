@@ -182,14 +182,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       length: data["list"].length,
       height: carousalHeight,
       builder: (BuildContext context, int index) {
-        var item = data["list"][index];
+        CompareGraphData item = CompareGraphData.fromJson(data["list"][index]);
         return MyCard(
             child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(height: 8),
             Text(
-              item["title"],
+              item.title,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
@@ -206,13 +206,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(item["lastMonth"], style: TextStyles.title),
+                          Text(item.lastMonth.toString(),
+                              style: TextStyles.title),
                           Container(
                             color: ColorStyles.primary.withAlpha(100),
                             width: 40,
                             height: carousalHeight *
                                 0.6 *
-                                double.parse(item["lastMonth"]) /
+                                item.lastMonth /
                                 maxValue,
                           ),
                           Text("지난달", style: TextStyles.label),
@@ -223,13 +224,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(item["thisMonth"], style: TextStyles.title),
+                          Text(item.thisMonth.toString(),
+                              style: TextStyles.title),
                           Container(
                             color: ColorStyles.primary,
                             width: 40,
                             height: carousalHeight *
                                 0.7 *
-                                double.parse(item["thisMonth"]) /
+                                item.thisMonth /
                                 maxValue,
                           ),
                           Text("이번달", style: TextStyles.label),
@@ -242,7 +244,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        item["variationRate"] + "%",
+                        "${item.variationRate}%",
                         style: TextStyles.title
                             .copyWith(color: ColorStyles.primary),
                       ),
