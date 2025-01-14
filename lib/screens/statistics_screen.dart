@@ -78,43 +78,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
 
-  Widget _buildTab(String text, {required StatisticsType myType}) {
-    bool isSelected = selectedType == myType;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedType = myType;
-        });
-      },
-      child: Container(
-        width: 96,
-        padding: EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(20),
-                    blurRadius: 6,
-                  ),
-                ]
-              : [],
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.black : Colors.grey,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _typeContent(var data) {
     if (data["type"] == "tile") {
       return MyCard(
