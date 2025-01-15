@@ -230,9 +230,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       child: DropdownButton<MeasureLabel>(
         value: selectedLabel,
         onChanged: (MeasureLabel? newValue) {
-          if (newValue != null) _loadStatisticData();
           setState(() {
             selectedLabel = newValue;
+            if (newValue != null) _loadStatisticData();
           });
         },
         isExpanded: true,
