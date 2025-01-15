@@ -21,6 +21,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   MeasureLabel? selectedLabel;
   List<MeasureLabel> measureLabels = [];
   List<StatisticData>? statisticData;
+  bool _isLabelLoading = false;
+  bool _isDataLoading = false;
 
   @override
   void initState() {
@@ -29,6 +31,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Future<void> _loadMeasureLabels() async {
+    setState(() {
+      _isLabelLoading = true;
+    });
     try {
       final labels = await ApiService.getMeasureLabel();
       setState(() {
@@ -41,18 +46,28 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     } catch (e) {
       print('Error loading measure labels: $e');
     }
+    setState(() {
+      _isLabelLoading = false;
+    });
   }
 
   Future<void> _loadStatisticData() async {
+    setState(() {
+      _isDataLoading = true;
+    });
     try {
-      final data =
-          await ApiService.getStatisticData(labelId: selectedLabel!.id);
+      String labelId = selectedLabel!.id;
+      final data = await ApiService.getStatisticData(labelId: labelId);
       setState(() {
         statisticData = data;
       });
-    } catch (e) {
+    } catch (e, s) {
       print('Error loading statistic data: $e');
+      print(s);
     }
+    setState(() {
+      _isDataLoading = false;
+    });
   }
 
   @override
@@ -65,14 +80,18 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             MyHeader(title: "통계"),
-            if (measureLabels.isEmpty)
+            if (_isLabelLoading)
+              CircularProgressIndicator()
+            else if (measureLabels.isEmpty)
               _buildEmptyState()
             else
               Column(
                 children: [
                   _buildDropdown(),
                   SizedBox(height: 16),
-                  if (statisticData != null)
+                  if (_isDataLoading)
+                    CircularProgressIndicator()
+                  else if (statisticData != null)
                     ...statisticData!.map((view) => _buildViewContent(view)),
                 ],
               ),
@@ -211,11 +230,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       child: DropdownButton<MeasureLabel>(
         value: selectedLabel,
         onChanged: (MeasureLabel? newValue) {
+          if (newValue != null) _loadStatisticData();
           setState(() {
             selectedLabel = newValue;
-            if (newValue != null) {
-              _loadStatisticData();
-            }
           });
         },
         isExpanded: true,
