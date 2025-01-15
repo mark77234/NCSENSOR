@@ -109,8 +109,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         return _buildPercentContent(view as PercentData);
       case StaticViewType.comparison:
         return _buildComparisonContent(view as ComparisonData);
-      default:
-        return SizedBox();
     }
   }
 
