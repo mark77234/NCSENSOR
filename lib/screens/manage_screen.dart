@@ -54,8 +54,7 @@ class _ManageScreenState extends State<ManageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("사용자 관리", style: TextStyles.title),
-        centerTitle: true,
+        title: Text("사용자 관리"),
       ),
       body: Container(
         padding: EdgeInsets.all(16),

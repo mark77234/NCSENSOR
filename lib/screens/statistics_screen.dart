@@ -7,6 +7,7 @@ import '../models/measure_model.dart';
 import '../widgets/carousel.dart';
 import '../widgets/compare_graph_card.dart';
 import '../widgets/my_card.dart';
+import '../widgets/my_header.dart';
 import '../widgets/simple_calendar.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -30,9 +31,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 8),
-              Text("통계", style: TextStyles.title),
-              SizedBox(height: 16),
+              MyHeader(title: "통계"),
               _buildDropdown(),
               SizedBox(height: 16),
               for (var item in data[selectedType.name]!)

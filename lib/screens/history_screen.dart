@@ -6,6 +6,7 @@ import '../constants/mockData.dart';
 import '../constants/styles.dart';
 import '../models/history_model.dart';
 import '../models/measure_model.dart';
+import '../widgets/my_header.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -54,23 +55,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildHeader(),
+            MyHeader(title: "기록"),
             _buildDateSelector(),
             SizedBox(height: 16),
             _buildHistoryList(),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Column(
-      children: [
-        SizedBox(height: 8),
-        Center(child: Text("측정 기록", style: TextStyles.title)),
-        SizedBox(height: 16),
-      ],
     );
   }
 

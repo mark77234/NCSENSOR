@@ -7,6 +7,7 @@ import 'package:taesung1/routes/app_routes.dart';
 import '../constants/styles.dart';
 import '../models/user_model.dart';
 import '../widgets/editable_field.dart';
+import '../widgets/my_header.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {
@@ -94,21 +95,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildHeader(),
+            MyHeader(title: "프로필"),
             _buildProfileCard(),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Column(
-      children: [
-        SizedBox(height: 8),
-        Center(child: Text("프로필", style: TextStyles.title)),
-        SizedBox(height: 16),
-      ],
     );
   }
 
