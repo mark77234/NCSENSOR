@@ -25,3 +25,15 @@ class UserProfile {
     );
   }
 }
+
+class UserPermission {
+  final int id;
+  final String name;
+  final String permission;
+
+  const UserPermission({
+    required this.id,
+    required this.name,
+    required this.permission,
+  });
+}
