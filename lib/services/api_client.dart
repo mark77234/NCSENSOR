@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:taesung1/constants/infra.dart';
 import 'package:taesung1/services/interceptor.dart';
 
-Dio createClient() {
+Dio createClient(baseUrl) {
   return Dio(BaseOptions(
     baseUrl: baseUrl,
     connectTimeout: Duration(seconds: 5),
@@ -10,5 +9,6 @@ Dio createClient() {
     headers: {
       'Content-Type': 'application/json',
     },
-  ))..interceptors.add(CustomInterceptors());
+  ))
+    ..interceptors.add(CustomInterceptors());
 }

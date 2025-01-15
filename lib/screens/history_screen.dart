@@ -23,16 +23,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   void initState() {
-
     for (var data in historyData) {
       records.add(HistoryData.fromJson(data));
     }
     super.initState();
-    MockDataService.fetchHistoryData().then((_) {
-      setState(() {
-        records = historyData.map((data) => HistoryData.fromJson(data)).toList();
-      });
-    });
   }
 
   bool _checkAvailableDate(int delta) {
