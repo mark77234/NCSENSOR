@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 enum OdorType {
   foot,
   mouth,
@@ -12,14 +11,31 @@ enum MeasureType {
   odor,
 }
 
-/*
- */
+class MeasureLabel {
+  final String id;
+  final String name;
+  final List<MeasureLabel>? subtypes;
 
-// level(1) > color(red) > message(면허정지)
-// abstract class Level {
-// //   value, maxvalue, color, message
+  MeasureLabel({
+    required this.id,
+    required this.name,
+    this.subtypes,
+  });
 
-// }
+  factory MeasureLabel.fromJson(Map<String, dynamic> json) {
+    List<MeasureLabel>? subtypes = [];
+    if (json.containsKey('subtypes')) {
+      subtypes = (json['subtypes'] as List)
+          .map((e) => MeasureLabel.fromJson(e))
+          .toList();
+    }
+    return MeasureLabel(
+      id: json['id'],
+      name: json['name'],
+      subtypes: subtypes,
+    );
+  }
+}
 
 abstract class MeasureData {
   final MeasureType type;
