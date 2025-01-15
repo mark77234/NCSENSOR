@@ -1,9 +1,57 @@
+import 'package:dio/dio.dart';
+import 'package:taesung1/services/api_service.dart';
+
+// const String baseUrl = 'https://44579175-e66a-493c-a58d-47adc2d3e0b3.mock.pstmn.io/';
+
+List<Map<String, dynamic>> historyData = [];
+
+class MockDataService {
+
+  static Future<void> fetchHistoryData() async {
+    final Dio client = ApiService2.apiData;
+
+    final response = await client.get(
+      '/history',
+    );
+
+    if(response.statusCode == 200) {
+      final List<dynamic> data = response.data;
+      historyData = List<Map<String, dynamic>>.from(data);
+    }
+  }
+}
+
+// Future<void> fetchHistoryData() async {
+//   final Dio dio = Dio();
+//
+//   final String url = '${baseUrl}/history';
+//
+//   try {
+//     final response = await dio.get(
+//       url,
+//       queryParameters: {
+//         'start': '2025-01-01',
+//         'end': '2025-01-31',
+//       },
+//     );
+//
+//     if (response.statusCode == 200) {
+//       final List<dynamic> data = response.data;
+//
+//       // JSON 데이터를 List<Map<String, dynamic>>로 변환
+//       historyData = List<Map<String, dynamic>>.from(data);
+//     }
+//   } catch (e) {
+//     print('Error fetching history data: $e');
+//   }
+// }
+
 const staticData = {
   "drinking": [
     {
       "type": "tile",
       "title": "이번 달 음주 일수",
-      "value": "12",
+      "value": "13",
       "icon": "assets/calender.svg",
       "unit": "일",
     },
@@ -92,55 +140,55 @@ const staticData = {
   ]
 };
 
-const historyData = [
-  {
-    "date": "2025-01-15",
-    "measurements": [
-      {
-        "type": "drinking",
-        "value": "0.08",
-        "level": "1",
-        "dateTime": "2025-01-15 12:00:00"
-      },
-      {
-        "type": "odor",
-        "subType": "mouth",
-        "value": "3.0",
-        "level": "4",
-        "dateTime": "2025-01-15 13:10:00"
-      },
-      {
-        "type": "odor",
-        "subType": "foot",
-        "value": "5.0",
-        "level": "2",
-        "dateTime": "2025-01-15 16:24:00"
-      }
-    ]
-  },
-  {
-    "date": "2025-01-14",
-    "measurements": [
-      {
-        "type": "drinking",
-        "value": "0.08",
-        "level": "1",
-        "dateTime": "2025-01-14 12:00:00"
-      },
-      {
-        "type": "odor",
-        "subType": "mouth",
-        "value": "3.0",
-        "level": "4",
-        "dateTime": "2025-01-14 11:10:00"
-      },
-      {
-        "type": "odor",
-        "subType": "foot",
-        "value": "5.0",
-        "level": "2",
-        "dateTime": "2025-01-14 16:24:00"
-      }
-    ]
-  }
-];
+// const historyData = [
+//   {
+//     "date": "2025-01-15",
+//     "measurements": [
+//       {
+//         "type": "drinking",
+//         "value": "0.08",
+//         "level": "1",
+//         "dateTime": "2025-01-15 12:00:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "mouth",
+//         "value": "3.0",
+//         "level": "4",
+//         "dateTime": "2025-01-15 13:10:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "foot",
+//         "value": "5.0",
+//         "level": "2",
+//         "dateTime": "2025-01-15 16:24:00"
+//       }
+//     ]
+//   },
+//   {
+//     "date": "2025-01-14",
+//     "measurements": [
+//       {
+//         "type": "drinking",
+//         "value": "0.08",
+//         "level": "1",
+//         "dateTime": "2025-01-14 12:00:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "mouth",
+//         "value": "3.0",
+//         "level": "4",
+//         "dateTime": "2025-01-14 11:10:00"
+//       },
+//       {
+//         "type": "odor",
+//         "subType": "foot",
+//         "value": "5.0",
+//         "level": "2",
+//         "dateTime": "2025-01-14 16:24:00"
+//       }
+//     ]
+//   }
+// ];

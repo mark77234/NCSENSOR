@@ -17,15 +17,15 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isEditing = false;
-  File? _image;
-  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
 
   Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
         setState(() {
-          _image = File(image.path);
+          _image = image;
         });
       }
     } catch (e) {
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           CircleAvatar(
             radius: 48,
             backgroundColor: Colors.grey[200],
-            backgroundImage: _image != null ? FileImage(_image!) : null,
+            backgroundImage: _image != null ? FileImage(File(_image!.path)) as ImageProvider : null,
             child: _image != null
                 ? null
                 : Icon(Icons.person, size: 48, color: Colors.grey),

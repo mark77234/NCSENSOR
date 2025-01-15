@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/styles.dart';
 import 'breath_screen.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MeasureScreen extends StatefulWidget {
   const MeasureScreen({super.key});
@@ -10,29 +11,30 @@ class MeasureScreen extends StatefulWidget {
 }
 
 class _MeasureScreenState extends State<MeasureScreen> {
-  bool showBodyOdorOptions = false; // 체취 버튼 클릭 여부
-  String selectedMeasurement = ''; // 선택된 측정 항목
-  String selectedBodyOdor = ''; // 선택된 체취 부위
+  bool showBodyOdorOptions = false;
+  String selectedMeasurement = '';
+  String selectedBodyOdor = '';
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            // Row에서 Column으로 변경하여 세로로 정렬
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
               Row(
-                // 음주와 체취 버튼을 Row로 나란히 배치
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     style: selectedMeasurement == '음주'
-                        ? ButtonStyles.defaultElevated
-                        : ButtonStyles.selectedElevated,
+                        ? ButtonStyles.defaultElevated(context)
+                        : ButtonStyles.selectedElevated(context),
                     onPressed: () {
                       setState(() {
                         showBodyOdorOptions = false;
@@ -40,34 +42,49 @@ class _MeasureScreenState extends State<MeasureScreen> {
                         selectedBodyOdor = '';
                       });
                     },
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '음주\n', // 첫 번째 줄 텍스트 (음주)
-                            style: TextStyle(
-                              fontSize: 16, // 첫 번째 줄 텍스트 스타일
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/drinking.svg',
+                              height: 40,
+                              width: 40,
                             ),
-                          ),
-                          TextSpan(
-                            text: '알코올 농도 측정', // 두 번째 줄 텍스트 (알코올농도 측정)
-                            style: TextStyle(
-                              fontSize: 14, // 두 번째 줄 텍스트 스타일
-                              color: Colors.grey, // 색상 설정 (옵션)
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '음주',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '혈중 알코올\n농도 측정',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center, // 텍스트 정렬을 중앙으로 설정
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
                     style: selectedMeasurement == '체취'
-                        ? ButtonStyles.defaultElevated
-                        : ButtonStyles.selectedElevated,
+                        ? ButtonStyles.defaultElevated(context)
+                        : ButtonStyles.selectedElevated(context),
                     onPressed: () {
                       setState(() {
                         showBodyOdorOptions = !showBodyOdorOptions;
@@ -75,27 +92,42 @@ class _MeasureScreenState extends State<MeasureScreen> {
                         selectedBodyOdor = '';
                       });
                     },
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '체취\n', // 첫 번째 줄 텍스트 (음주)
-                            style: TextStyle(
-                              fontSize: 16, // 첫 번째 줄 텍스트 스타일
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/body.svg',
+                              height: 40,
+                              width: 40,
                             ),
-                          ),
-                          TextSpan(
-                            text: '부위별 악취 측정', // 두 번째 줄 텍스트 (알코올농도 측정)
-                            style: TextStyle(
-                              fontSize: 14, // 두 번째 줄 텍스트 스타일
-                              color: Colors.grey, // 색상 설정 (옵션)
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '체취',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    height: 1.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '부위별 악취\n농도 측정',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center, // 텍스트 정렬을 중앙으로 설정
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -108,7 +140,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -124,13 +156,12 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorStyles.primary,
                   foregroundColor: Colors.white,
-                  minimumSize: const Size(320, 60),
+                  minimumSize: const Size(300, 60),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
                 onPressed: () async {
-                  // 측정 시작 버튼 클릭 시 동작
                   if (selectedMeasurement.isEmpty) {
                     showDialog(
                       context: context,
@@ -179,45 +210,67 @@ class _MeasureScreenState extends State<MeasureScreen> {
     );
   }
 
-  // 체취 부위 선택 버튼 빌드
   Widget _buildBodyOdorButton(String title, BuildContext context) {
+    String iconPath = '';
+    switch (title) {
+      case '입':
+        iconPath = 'assets/mouth.svg';
+        break;
+      case '발':
+        iconPath = 'assets/foot.svg';
+        break;
+      case '겨드랑이':
+        iconPath = 'assets/armpit.svg';
+        break;
+    }
+
     return ElevatedButton(
       style: selectedBodyOdor == '$title 체취'
-          ? ButtonStyles.bodyOdorSelected
-          : ButtonStyles.bodyOdorUnselected,
+          ? ButtonStyles.bodyOdorSelected(context)
+          : ButtonStyles.bodyOdorUnselected(context),
       onPressed: () {
         setState(() {
           selectedBodyOdor = '$title 체취';
         });
       },
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          SvgPicture.asset(
+            iconPath,
+            height: 40,
+            width: 40,
           ),
-          const SizedBox(height: 5),
-          Text(
-            _getBodyOdorDescription(title), // Show the description text
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey, // You can change this color as needed
-            ),
-            textAlign: TextAlign.center,
+          const SizedBox(width: 12,),
+          Column(
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                _getBodyOdorDescription(title),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-// Add a method to provide descriptions for each body part
   String _getBodyOdorDescription(String bodyPart) {
     switch (bodyPart) {
       case '입':
-        return '구강 냄새 측정';
+        return '입에서 나는 구취 측정';
       case '발':
-        return '발에서 나는 악취를 측정';
+        return '발에서 나는 악취 측정';
       case '겨드랑이':
         return '겨드랑이에서 나는 악취를 측정';
       default:
@@ -225,62 +278,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
     }
   }
 
-  // 로딩 화면 다이얼로그 표시 및 화면 이동
   Future<void> _navigateWithLoading(BuildContext context) async {
-    // 로딩 다이얼로그 표시
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 8,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      ColorStyles.primary), // 로딩 인디케이터 색상
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "센서인식중...",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey,
-                    // 어두운 색상으로 가독성 높임
-                    fontWeight: FontWeight.w600,
-                    // 글씨 두껍게 강조
-                    letterSpacing: 1.2,
-                    // 글자 간격 추가
-                    decoration: TextDecoration.none, // 밑줄 제거
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
 
-    // 3초 대기 후, Breathscreen 페이지로 이동
-    await Future.delayed(const Duration(seconds: 3));
-
-    // 다이얼로그 닫기
-    Navigator.pop(context);
-
-    // Breathscreen 페이지로 이동
     Navigator.push(
       context,
       MaterialPageRoute(

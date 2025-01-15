@@ -45,10 +45,10 @@
         <key>UIApplicationSupportsIndirectInputEvents</key>
         <true />
         <key>NSPhotoLibraryUsageDescription</key>
-        <string>$(PRODUCT_NAME) requires access to the photo library</string>
+        <string>$(PRODUCT_NAME)에서 카메라를 사용하려고 합니다.</string>
         <key>NSCameraUsageDescription</key>
-        <string>$(PRODUCT_NAME) requires access to the camera</string>
+        <string>사진을 업로드하려고 합니다.</string>
         <key>NSMicrophoneUsageDescription</key>
-        <string>$(PRODUCT_NAME) requires access to the microphone</string>
+        <string>$(PRODUCT_NAME)에서 사진 라이브러리에 저장하려고 합니다</string>
     </dict>
 </plist>
