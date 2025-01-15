@@ -13,4 +13,9 @@ class ApiService {
   static Future<void> getUser() async {
     await _apiClient.get('/user');
   }
+
+  static Future<Response> getBodyResult() async {
+    Response response = await _apiClient.get('/measure');
+    return response;
+  }
 }
