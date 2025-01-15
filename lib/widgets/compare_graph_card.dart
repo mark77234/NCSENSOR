@@ -12,6 +12,7 @@ class CompareGraphCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double diff = data.max - data.min;
     return MyCard(
         child: Column(
       mainAxisSize: MainAxisSize.max,
@@ -39,7 +40,7 @@ class CompareGraphCard extends StatelessWidget {
                       Container(
                         color: item.color.withAlpha(100),
                         width: 40,
-                        height: height * 0.6 * item.value / 5, //추후 Maxvalue로나눌꺼
+                        height: height * 0.6 * item.value / diff,
                       ),
                       Text(item.name, style: TextStyles.label),
                     ],
