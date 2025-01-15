@@ -11,7 +11,7 @@ class BodyResultScreen extends StatefulWidget {
   const BodyResultScreen({super.key, required this.bodymeasurement, required this.measurement});
 
   @override
-  _BodyResultScreenState createState() => _BodyResultScreenState();
+  State<BodyResultScreen> createState() => _BodyResultScreenState();
 }
 
 class _BodyResultScreenState extends State<BodyResultScreen> {
@@ -21,7 +21,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
     final int hour = now.hour % 12; // 12시간제로 변환
     final int displayHour = hour == 0 ? 12 : hour; // 0시를 12시로 변경
 
-    return '${now.year}.${now.month}.${now.day} $period ${displayHour}:${now.minute}';
+    return '${now.year}.${now.month}.${now.day} $period $displayHour:${now.minute}';
   }
 
   @override

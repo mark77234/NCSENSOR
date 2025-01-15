@@ -18,8 +18,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   // 날짜별 센서 데이터
   final List<String> ranges = ["이번 달", "6개월", "1년"];
   String? selectedRange = "이번 달";
-
   List<HistoryData> records = [];
+  DateTime currentMonth = DateTime.now();
 
   @override
   void initState() {
@@ -32,6 +32,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
       setState(() {
         records = historyData.map((data) => HistoryData.fromJson(data)).toList();
       });
+    });
+  }
+
+  bool _checkAvailableDate(int delta) {
+    DateTime newMonth = DateTime(currentMonth.year, currentMonth.month + delta);
+    if (newMonth.isAfter(DateTime.now())) return false;
+    return true;
+  }
+
+  void _changeMonth(int delta) {
+    setState(() {
+      currentMonth = DateTime(currentMonth.year, currentMonth.month + delta);
+      selectedRange = null;
     });
   }
 
@@ -56,18 +69,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.chevron_left,
-                              color: Colors.grey.shade600),
-                          onPressed: () {},
+                          icon: Icon(Icons.chevron_left),
+                          onPressed: () => _changeMonth(-1),
+                          color: Colors.grey.shade600,
                         ),
                         Text(
-                          "2025년 1월",
+                          DateFormat("yyyy년 MM월").format(currentMonth),
                           style: TextStyles.subtitle,
                         ),
                         IconButton(
-                          icon: Icon(Icons.chevron_right,
-                              color: Colors.grey.shade600),
-                          onPressed: () {},
+                          icon: Icon(Icons.chevron_right),
+                          onPressed: _checkAvailableDate(1)
+                              ? () => _changeMonth(1)
+                              : null,
+                          disabledColor: Colors.grey.shade300,
+                          color: Colors.grey.shade600,
                         ),
                       ],
                     ),

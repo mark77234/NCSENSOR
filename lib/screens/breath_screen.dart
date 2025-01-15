@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../constants/styles.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
@@ -14,7 +15,7 @@ class BreathScreen extends StatefulWidget {
   });
 
   @override
-  _BreathScreenState createState() => _BreathScreenState();
+  State<BreathScreen> createState() => _BreathScreenState();
 }
 
 class _BreathScreenState extends State<BreathScreen> {
@@ -113,7 +114,7 @@ class _BreathScreenState extends State<BreathScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   child: Card(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(

@@ -12,10 +12,12 @@ class AlcoholResultScreen extends StatefulWidget {
       {super.key, required this.measurement, required this.bodymeasurement});
 
   @override
-  _AlcoholResultScreenState createState() => _AlcoholResultScreenState();
+  State<AlcoholResultScreen> createState() => _AlcoholResultScreenState();
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
+
+  // 혈중 알코올 농도 (랜덤 값)
   double _alcoholLevel = Random().nextDouble() * 0.10;
 
   String _resultMessage = '';
@@ -70,7 +72,20 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
           style: TextStyles.title,
         ),
         automaticallyImplyLeading: false,
-        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.home,
+            color: ColorStyles.primary,
+            size:30.0,
+          ), // 홈 아이콘
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MainScreen()), // MainScreen으로 이동
+                  (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

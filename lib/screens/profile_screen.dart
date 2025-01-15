@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:taesung1/routes/app_routes.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:taesung1/routes/app_routes.dart';
 
 import '../constants/styles.dart';
 import '../widgets/editable_field.dart';
@@ -17,7 +17,31 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isEditing = false;
-  XFile? _selectedImage;
+  XFile? _image;
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          _image = image;
+        });
+      }
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("이미지를 불러오는데 실패했습니다."),
+                content: Text("다시 시도해주세요."),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("확인")),
+                ],
+              ));
+    }
+  }
 
   Map<String, String> userData = {
     "name": "홍길동",
@@ -52,17 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isEditing = false;
       visibleData = Map<String, String>.from(userData);
     });
-  }
-
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      setState(() {
-        _selectedImage = pickedImage;
-      });
-    }
   }
 
   @override
@@ -153,8 +166,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ));
   }
 
-
-
   Widget _buildProfilePicture(bool isEditing) {
     return Center(
       child: Stack(
@@ -162,12 +173,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           CircleAvatar(
             radius: 48,
             backgroundColor: Colors.grey[200],
-            // 선택한 이미지가 없으면 기본 이미지를 사용하고, 있으면 선택한 이미지를 사용
-            backgroundImage: _selectedImage == null
-                ? NetworkImage(
-              'https://cdn-icons-png.flaticon.com/512/219/219983.png',
-            )
-                : FileImage(File(_selectedImage!.path)) as ImageProvider,
+            backgroundImage: _image != null ? FileImage(File(_image!.path)) as ImageProvider : null,
+            child: _image != null
+                ? null
+                : Icon(Icons.person, size: 48, color: Colors.grey),
           ),
           if (isEditing)
             Positioned(

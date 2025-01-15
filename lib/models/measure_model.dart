@@ -12,6 +12,15 @@ enum MeasureType {
   odor,
 }
 
+/*
+ */
+
+// level(1) > color(red) > message(면허정지)
+// abstract class Level {
+// //   value, maxvalue, color, message
+
+// }
+
 abstract class MeasureData {
   final MeasureType type;
   final double value;
@@ -180,5 +189,28 @@ class OdorData extends MeasureData {
         break;
     }
     return "체취 - $subTypeKor";
+  }
+}
+
+class CompareGraphData {
+  final String title;
+  final double lastMonth;
+  final double thisMonth;
+  final double variationRate;
+
+  CompareGraphData({
+    required this.title,
+    required this.lastMonth,
+    required this.thisMonth,
+    required this.variationRate,
+  });
+
+  factory CompareGraphData.fromJson(Map<String, dynamic> json) {
+    return CompareGraphData(
+      title: json['title'],
+      lastMonth: double.parse(json['last_month']),
+      thisMonth: double.parse(json['this_month']),
+      variationRate: double.parse(json['variation_rate']),
+    );
   }
 }

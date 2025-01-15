@@ -3,12 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constants/mockData.dart';
 import '../constants/styles.dart';
+import '../models/measure_model.dart';
+import '../widgets/carousel.dart';
+import '../widgets/compare_graph_card.dart';
+import '../widgets/my_card.dart';
 import '../widgets/simple_calendar.dart';
-
-enum StatisticsType {
-  drinking,
-  odor,
-}
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -18,7 +17,7 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  StatisticsType selectedType = StatisticsType.drinking;
+  MeasureType selectedType = MeasureType.drinking;
 
   final data = staticData;
 
@@ -34,72 +33,73 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               SizedBox(height: 8),
               Text("통계", style: TextStyles.title),
               SizedBox(height: 16),
-              Container(
-                width: 200,
-                padding: EdgeInsets.all(4),
-                decoration:
-                    ContainerStyles.tile.copyWith(color: ColorStyles.grey),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildTab("음주", myType: StatisticsType.drinking),
-                    _buildTab("체취", myType: StatisticsType.odor),
-                  ],
-                ),
-              ),
+              _buildDropdown(),
               SizedBox(height: 16),
               for (var item in data[selectedType.name]!)
-                Container(
-                  decoration: ContainerStyles.card,
-                  padding: EdgeInsets.all(4),
-                  margin: EdgeInsets.only(bottom: 12),
-                  child: _typeContent(item),
-                ),
+                _buildTypeContent(item),
             ]),
       ),
     );
   }
 
-  Widget _buildTab(String text, {required StatisticsType myType}) {
-    bool isSelected = selectedType == myType;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedType = myType;
-        });
-      },
-      child: Container(
-        width: 96,
-        padding: EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(20),
-                    blurRadius: 6,
-                  ),
-                ]
-              : [],
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? Colors.black : Colors.grey,
-            ),
-          ),
-        ),
+  Widget _buildDropdown() {
+    return Container(
+      width: 200,
+      padding: EdgeInsets.all(4),
+      decoration: ContainerStyles.tile.copyWith(color: ColorStyles.grey),
+      child: DropdownButton<MeasureType>(
+        value: selectedType,
+        onChanged: (MeasureType? newValue) {
+          setState(() {
+            selectedType = newValue!;
+          });
+        },
+        isExpanded: true,
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(5),
+        underline: SizedBox(),
+        isDense: true,
+        borderRadius: RadiusStyles.common,
+        items: _buildDropdownItems(),
       ),
     );
   }
 
-  Widget _typeContent(var data) {
-    if (data["type"] == "tile") {
-      return ListTile(
+  List<DropdownMenuItem<MeasureType>> _buildDropdownItems() {
+    return MeasureType.values.map((MeasureType type) {
+      return DropdownMenuItem<MeasureType>(
+        value: type,
+        child: Center(
+          child: Text(
+            type == MeasureType.drinking ? "음주" : "체취",
+            style: TextStyles.subtitle.copyWith(
+              color:
+                  selectedType == type ? Colors.black : ColorStyles.secondary,
+            ),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  Widget _buildTypeContent(var data) {
+    switch (data["type"]) {
+      case "tile":
+        return _buildTileContent(data);
+      case "calendar":
+        return _buildCalendarContent(data);
+      case "customGraph":
+        return _buildCustomGraphContent(data);
+      case "compareGraph":
+        return _buildCompareGraphContent(data);
+      default:
+        return Text("Error");
+    }
+  }
+
+  Widget _buildTileContent(var data) {
+    return MyCard(
+      child: ListTile(
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
           child: SvgPicture.asset(
@@ -121,18 +121,24 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 style: TextStyles.label.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
-      );
-    }
-    if (data["type"] == "calendar") {
-      List<HighlightedDate> highlightedDates = (data["value"]! as List)
-          .map((e) => HighlightedDate.fromJson(e))
-          .toList();
-      return SimpleCalendar(
+      ),
+    );
+  }
+
+  Widget _buildCalendarContent(var data) {
+    List<HighlightedDate> highlightedDates = (data["value"]! as List)
+        .map((e) => HighlightedDate.fromJson(e))
+        .toList();
+    return MyCard(
+      child: SimpleCalendar(
         highlightedDates: highlightedDates,
-      );
-    }
-    if (data["type"] == "customGraph") {
-      return SizedBox(
+      ),
+    );
+  }
+
+  Widget _buildCustomGraphContent(var data) {
+    return MyCard(
+      child: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -166,9 +172,24 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             SizedBox(height: 8),
           ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
-    return Text("Error");
+  Widget _buildCompareGraphContent(var data) {
+    double carousalHeight = 300;
+    double maxValue = 5;
+    return Carousel(
+      length: data["list"].length,
+      height: carousalHeight,
+      builder: (BuildContext context, int index) {
+        CompareGraphData item = CompareGraphData.fromJson(data["list"][index]);
+        return CompareGraphCard(
+          item: item,
+          maxValue: maxValue,
+          height: carousalHeight,
+        );
+      },
+    );
   }
 }

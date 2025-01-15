@@ -113,6 +113,29 @@ const staticData = {
       "value": "0.08",
       "icon": "assets/armpit.svg",
       "unit": "ppm",
+    },
+    {
+      "type": "compareGraph",
+      "list": [
+        {
+          "title": "입 냄새",
+          "last_month": "3.2",
+          "this_month": "1.7",
+          "variation_rate": "80",
+        },
+        {
+          "title": "발 냄새",
+          "last_month": "2.2",
+          "this_month": "1.2",
+          "variation_rate": "45",
+        },
+        {
+          "title": "겨드랑이 냄새",
+          "last_month": "2.8",
+          "this_month": "4.0",
+          "variation_rate": "80",
+        },
+      ]
     }
   ]
 };
