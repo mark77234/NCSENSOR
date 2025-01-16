@@ -18,7 +18,7 @@ class BodyResultScreen extends StatefulWidget {
 }
 
 class _BodyResultScreenState extends State<BodyResultScreen> {
-  List<BodyResultData>? bodyResultData;
+  BodyResultData? bodyResultData;
   bool _isDataLoading = false;
 
   @override
@@ -167,7 +167,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                   children: [
                     CircleAvatar(
                       radius: 5,
-                      backgroundColor: bodyResultData![stage - 1].color,
+                      backgroundColor: bodyResultData?.level.sections[stage-1].color,
                     ),
                     const SizedBox(width: 10),
                     Text(
@@ -175,7 +175,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: bodyResultData![stage - 1].color,
+                        color: bodyResultData?.level.sections[stage-1].color,
                       ),
                     ),
                   ],
@@ -209,7 +209,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
               value: stage / 5,
               backgroundColor: const Color(0xFFF3F4F6),
               valueColor: AlwaysStoppedAnimation<Color>(
-                  bodyResultData![stage - 1].color),
+                bodyResultData!.level.sections[stage-1].color),
             ),
             const SizedBox(height: 10),
             Text(
@@ -261,7 +261,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         children: [
                           CircleAvatar(
                             radius: 5,
-                            backgroundColor: bodyResultData![index].color,
+                            backgroundColor: bodyResultData?.level.sections[index].color,
                           ),
                           const SizedBox(width: 10),
                           Text(
@@ -275,7 +275,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         ],
                       ),
                       Text(
-                        bodyResultData![index].content,
+                        bodyResultData!.level.sections[index].content,
                         style: const TextStyle(
                           fontSize: 16,
                           color: Color(0xFF4B5563),

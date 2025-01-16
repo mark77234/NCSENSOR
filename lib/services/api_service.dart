@@ -37,11 +37,9 @@ class ApiService {
         .toList();
   }
 
-  static Future<List<BodyResultData>> getBodyData() async {
+  static Future<BodyResultData> getBodyData() async {
     final response = await _apiClient.get('/measure');
-    return (response.data["level"]["sections"] as List)
-        .map((e) => BodyResultData.fromJson(e))
-        .toList();
+    return BodyResultData.fromJson(response.data);
   }
 
 //
