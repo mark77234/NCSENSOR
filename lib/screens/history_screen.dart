@@ -57,7 +57,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
 
     try {
-      final dateRange = _getDateRange();
+      DateTimeRange dateRange;
+      
+      if (selectedRange != null) {
+        dateRange = _getDateRange();
+      } else {
+        // 월 선택 시 해당 월의 시작일과 마지막일
+        dateRange = DateTimeRange(
+          start: DateTime(currentMonth.year, currentMonth.month, 1),
+          end: DateTime(currentMonth.year, currentMonth.month + 1, 0),
+        );
+      }
+
       final data = await ApiService.getHistoryData(
         start: dateRange.start,
         end: dateRange.end,
@@ -81,11 +92,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   void _changeMonth(int delta) {
+    if (!_isDateAvailable(delta)) return;
+    
     setState(() {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + delta);
-      selectedRange = null;
-      _loadHistoryData(); // 월 변경 시 새로운 데이터 로드
+      selectedRange = null; 
+      _loadHistoryData();   // 월 변경 시 선택된 범위 초기화
     });
+    
+    // 새로운 월의 데이터 로드
   }
 
   @override
