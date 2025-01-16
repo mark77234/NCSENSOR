@@ -6,8 +6,8 @@ import 'package:taesung1/routes/app_routes.dart';
 
 import '../constants/styles.dart';
 import '../models/user_model.dart';
-import '../widgets/editable_field.dart';
-import '../widgets/my_header.dart';
+import '../widgets/common/editable_field.dart';
+import '../widgets/common/my_header.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {

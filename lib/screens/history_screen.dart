@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../constants/styles.dart';
 import '../models/history_model.dart';
 import '../services/api_service.dart';
-import '../widgets/my_header.dart';
+import '../widgets/common/my_header.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -58,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     try {
       DateTimeRange dateRange;
-      
+
       if (selectedRange != null) {
         dateRange = _getDateRange();
       } else {
@@ -93,13 +93,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   void _changeMonth(int delta) {
     if (!_isDateAvailable(delta)) return;
-    
+
     setState(() {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + delta);
-      selectedRange = null; 
-      _loadHistoryData();   // 월 변경 시 선택된 범위 초기화
+      selectedRange = null;
+      _loadHistoryData(); // 월 변경 시 선택된 범위 초기화
     });
-    
+
     // 새로운 월의 데이터 로드
   }
 
