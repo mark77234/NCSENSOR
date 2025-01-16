@@ -1,8 +1,12 @@
+import 'dart:ui';
+
+import '../utils/util.dart';
+
 class BodyResultData {
   final int level;
   final String name;
   final String content;
-  final String color;
+  final Color color;
 
   BodyResultData({
     required this.level,
@@ -13,10 +17,10 @@ class BodyResultData {
 
   factory BodyResultData.fromJson(Map<String, dynamic> json) {
     return BodyResultData(
-      level: json['section']['level'].toInt(),
-      name: json['section']['name'],
-      content: json['section']['content'],
-      color: json['section']['color'],
+      level: json['level'],
+      name: json['name'],
+      content: json['content'],
+      color: colorFromHex(json['color']),
     );
   }
 }

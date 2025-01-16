@@ -137,7 +137,8 @@ class ComparisonBar {
     return ComparisonBar(
         name: json['name'],
         value: json['value'].toDouble(),
-        color: colorFromHex(json['color']));
+        color: colorFromHex(json['color'])
+    );
   }
 }
 
