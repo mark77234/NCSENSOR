@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
+import 'package:taesung1/models/history_model.dart';
 
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
@@ -34,12 +36,16 @@ class ApiService {
         .map((e) => StatisticData.fromJson(e))
         .toList();
   }
-//
-// static Future<void> getHistoryData(
-//     {required DateTime start, required DateTime end}) async {
-//   await _apiClient.get('/history', queryParameters: {
-//     'start': DateFormat('yyyy-MM-dd').format(start),
-//     'end': DateFormat('yyyy-MM-dd').format(end),
-//   });
-// }
+
+  static Future<List<HistoryData>> getHistoryData(
+      {required DateTime start, required DateTime end}) async {
+    final response = await _apiClient.get('/history', queryParameters: {
+      'start': DateFormat('yyyy-MM-dd').format(start),
+      'end': DateFormat('yyyy-MM-dd').format(end),
+    });
+
+    return (response.data["history"] as List)
+        .map((e) => HistoryData.fromJson(e))
+        .toList();
+  }
 }
