@@ -1,8 +1,8 @@
 // 재사용 가능한 텍스트 입력 위젯
 import 'package:flutter/material.dart';
 import 'package:taesung1/constants/styles.dart';
-import 'package:taesung1/widgets/my_field.dart';
-import 'package:taesung1/widgets/sm_tile.dart';
+import 'package:taesung1/widgets/common/my_field.dart';
+import 'package:taesung1/widgets/common/sm_tile.dart';
 
 class EditableField extends StatelessWidget {
   final String label;

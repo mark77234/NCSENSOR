@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/styles.dart';
+import '../../constants/styles.dart';
 
 class MyHeader extends StatelessWidget {
   const MyHeader({super.key, required this.title});
