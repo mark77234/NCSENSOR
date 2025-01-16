@@ -122,28 +122,34 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween, // 부모 Row에서 공간 분배
                               children: [
                                 Text(
-                                  "현재 상태",
+                                  '현재 상태',
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(width: 100),
-                                CircleAvatar(
-                                  radius: 5,
-                                  backgroundColor: _getStageColor(stage),
-                                ),
-                                Text(
-                                  resultMessage,
-                                  style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 20,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    color: _getStageColor(stage),
                                   ),
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(width: 10),
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 5,
+                                      backgroundColor: _getStageColor(stage),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      resultMessage,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: _getStageColor(stage),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -332,8 +338,8 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
       try {
         String stageColor = _stageMessages['level']['sections'][stage - 1]
                 ['color'] ??
-            '0xFF808080'; // 기본 색상은 회색
-        return Color(int.parse(stageColor)); // 색상 값 그대로 반환
+            '0xFF808080';
+        return Color(int.parse(stageColor));
       } catch (e) {
         return Colors.grey;
       }
