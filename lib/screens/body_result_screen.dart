@@ -96,7 +96,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${widget.bodymeasurement} 냄새분석",
+          "${widget.bodymeasurement.split(' ')[0]} 냄새분석",
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
