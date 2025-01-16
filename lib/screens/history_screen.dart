@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../constants/mockData.dart';
 import '../constants/styles.dart';
 import '../models/history_model.dart';
-import '../models/measure_model.dart';
+import '../services/api_service.dart';
 import '../widgets/my_header.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -21,6 +20,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   String? selectedRange = "이번 달";
   List<HistoryData> records = [];
   DateTime currentMonth = DateTime.now();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -28,10 +28,51 @@ class _HistoryScreenState extends State<HistoryScreen> {
     _loadHistoryData();
   }
 
-  void _loadHistoryData() {
+  DateTimeRange _getDateRange() {
+    final now = DateTime.now();
+    DateTime startDate;
+    DateTime endDate = DateTime(now.year, now.month + 1, 0); // 현재 달의 마지막 날
+
+    switch (selectedRange) {
+      case "이번 달":
+        startDate = DateTime(now.year, now.month, 1);
+        break;
+      case "6개월":
+        startDate = DateTime(now.year, now.month - 5, 1);
+        break;
+      case "1년":
+        startDate = DateTime(now.year - 1, now.month + 1, 1);
+        break;
+      default:
+        // 기본값: 이번 달
+        startDate = DateTime(now.year, now.month, 1);
+    }
+
+    return DateTimeRange(start: startDate, end: endDate);
+  }
+
+  Future<void> _loadHistoryData() async {
     setState(() {
-      records = historyData.map((data) => HistoryData.fromJson(data)).toList();
+      _isLoading = true;
     });
+
+    try {
+      final dateRange = _getDateRange();
+      final data = await ApiService.getHistoryData(
+        start: dateRange.start,
+        end: dateRange.end,
+      );
+
+      setState(() {
+        records = data;
+      });
+    } catch (e) {
+      print('Error loading history data: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   bool _isDateAvailable(int delta) {
@@ -43,6 +84,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     setState(() {
       currentMonth = DateTime(currentMonth.year, currentMonth.month + delta);
       selectedRange = null;
+      _loadHistoryData(); // 월 변경 시 새로운 데이터 로드
     });
   }
 
@@ -58,9 +100,39 @@ class _HistoryScreenState extends State<HistoryScreen> {
             MyHeader(title: "기록"),
             _buildDateSelector(),
             SizedBox(height: 16),
-            _buildHistoryList(),
+            if (_isLoading)
+              Center(child: CircularProgressIndicator())
+            else if (records.isEmpty)
+              _buildEmptyState()
+            else
+              _buildHistoryList(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.history,
+            size: 48,
+            color: Colors.grey,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "기록이 없습니다.",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -113,9 +185,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: ElevatedButton(
-          onPressed: () => setState(() {
-            selectedRange = isSelected ? null : range;
-          }),
+          onPressed: () {
+            setState(() {
+              selectedRange = isSelected ? null : range;
+              _loadHistoryData(); // 범위 변경 시 데이터 다시 로드
+            });
+          },
           style: _getRangeButtonStyle(isSelected),
           child: Text(
             range,
@@ -143,93 +218,120 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget _buildHistoryList() {
+    // 날짜별로 기록 그룹화
+    Map<String, List<HistoryData>> groupedRecords = {};
+    for (var record in records) {
+      String dateKey = DateFormat('yyyy년 MM월 dd일').format(record.datetime);
+      groupedRecords.putIfAbsent(dateKey, () => []).add(record);
+    }
+
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: records.length,
-      itemBuilder: (context, index) => _buildHistoryItem(records[index]),
+      itemCount: groupedRecords.length,
+      itemBuilder: (context, index) {
+        String date = groupedRecords.keys.elementAt(index);
+        List<HistoryData> dayRecords = groupedRecords[date]!;
+        return _buildDayGroup(date, dayRecords);
+      },
     );
   }
 
-  Widget _buildHistoryItem(HistoryData record) {
+  Widget _buildDayGroup(String date, List<HistoryData> dayRecords) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          DateFormat("yyyy년 MM월 dd일").format(record.date),
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey.shade600,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            date,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: ColorStyles.secondary,
+            ),
           ),
         ),
+        ...dayRecords.map((record) => _buildHistoryItem(record)).toList(),
         SizedBox(height: 8),
-        ...record.measurements.map(_buildMeasurementItem),
       ],
     );
   }
 
-  Widget _buildMeasurementItem(MeasureData measurement) {
+  Widget _buildHistoryItem(HistoryData record) {
     return Container(
       decoration: ContainerStyles.card,
       padding: EdgeInsets.all(4),
       margin: EdgeInsets.only(bottom: 12),
       child: ListTile(
-        leading: _buildMeasurementIcon(measurement),
+        leading: _buildHistoryIcon(record.title),
         title: Text(
-          measurement.typeToKor(),
+          record.title,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
-          DateFormat("HH:mm").format(measurement.dateTime),
+          DateFormat('HH:mm').format(record.datetime),
           style: TextStyle(
-            fontSize: 14,
             color: Colors.grey.shade600,
+            fontSize: 14,
           ),
         ),
-        trailing: _buildMeasurementValue(measurement),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              "${record.result.value} ${record.result.unit}",
+              style: TextStyle(
+                fontSize: 14,
+                color: ColorStyles.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              record.result.content,
+              style: TextStyle(
+                fontSize: 14,
+                color: ColorStyles.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildMeasurementIcon(MeasureData measurement) {
-    final iconName = measurement is OdorData
-        ? measurement.subType.name
-        : measurement.type.name;
+  Widget _buildHistoryIcon(String title) {
+    String assetName;
+
+    switch (title) {
+      case "음주":
+        assetName = "drinking";
+        break;
+      case "입냄새":
+        assetName = "mouth";
+        break;
+      case "겨드랑이냄새":
+        assetName = "armpit";
+        break;
+      case "발냄새":
+        assetName = "foot";
+        break;
+      default:
+        assetName = "measure";
+    }
 
     return Padding(
       padding: const EdgeInsets.only(right: 2.0),
       child: SvgPicture.asset(
-        "assets/$iconName.svg",
+        "assets/$assetName.svg",
         width: 40,
         height: 40,
       ),
-    );
-  }
-
-  Widget _buildMeasurementValue(MeasureData measurement) {
-    return Column(
-      children: [
-        Text(
-          "${measurement.value} ${measurement.unit}",
-          style: TextStyle(
-            fontSize: 14,
-            color: measurement.color,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          measurement.message,
-          style: TextStyle(
-            fontSize: 14,
-            color: measurement.color,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
     );
   }
 }
