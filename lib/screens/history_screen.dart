@@ -6,6 +6,7 @@ import '../constants/mockData.dart';
 import '../constants/styles.dart';
 import '../models/history_model.dart';
 import '../models/measure_model.dart';
+import '../widgets/my_header.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -15,24 +16,27 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  // 날짜별 센서 데이터
-  final List<String> ranges = ["이번 달", "6개월", "1년"];
+  static const List<String> _dateRanges = ["이번 달", "6개월", "1년"];
+
   String? selectedRange = "이번 달";
   List<HistoryData> records = [];
   DateTime currentMonth = DateTime.now();
 
   @override
   void initState() {
-    for (var data in historyData) {
-      records.add(HistoryData.fromJson(data));
-    }
     super.initState();
+    _loadHistoryData();
   }
 
-  bool _checkAvailableDate(int delta) {
-    DateTime newMonth = DateTime(currentMonth.year, currentMonth.month + delta);
-    if (newMonth.isAfter(DateTime.now())) return false;
-    return true;
+  void _loadHistoryData() {
+    setState(() {
+      records = historyData.map((data) => HistoryData.fromJson(data)).toList();
+    });
+  }
+
+  bool _isDateAvailable(int delta) {
+    final newMonth = DateTime(currentMonth.year, currentMonth.month + delta);
+    return !newMonth.isAfter(DateTime.now());
   }
 
   void _changeMonth(int delta) {
@@ -51,200 +55,181 @@ class _HistoryScreenState extends State<HistoryScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 8),
-            Center(child: Text("측정 기록", style: TextStyles.title)),
+            MyHeader(title: "기록"),
+            _buildDateSelector(),
             SizedBox(height: 16),
-            Container(
-                decoration: ContainerStyles.card,
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.chevron_left),
-                          onPressed: () => _changeMonth(-1),
-                          color: Colors.grey.shade600,
-                        ),
-                        Text(
-                          DateFormat("yyyy년 MM월").format(currentMonth),
-                          style: TextStyles.subtitle,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.chevron_right),
-                          onPressed: _checkAvailableDate(1)
-                              ? () => _changeMonth(1)
-                              : null,
-                          disabledColor: Colors.grey.shade300,
-                          color: Colors.grey.shade600,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: ranges.map((range) {
-                        final isSelected = selectedRange == range;
-                        return Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedRange = isSelected ? null : range;
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: isSelected
-                                    ? ColorStyles.primary
-                                    : ColorStyles.secondary,
-                                backgroundColor: isSelected
-                                    ? ColorStyles.primary.withAlpha(50)
-                                    : ColorStyles.grey,
-                                elevation: 0,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(range,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: isSelected
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  )),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                )),
-            SizedBox(height: 16),
-            ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: records.length,
-                itemBuilder: (context, index) {
-                  final record = records[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        DateFormat("yyyy년 MM월 dd일").format(record.date),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      ...record.measurements.map((measurement) {
-                        return Container(
-                            decoration: ContainerStyles.card,
-                            padding: EdgeInsets.all(4),
-                            margin: EdgeInsets.only(bottom: 12),
-                            child: ListTile(
-                              leading: Padding(
-                                padding: const EdgeInsets.only(right: 2.0),
-                                child: SvgPicture.asset(
-                                  "assets/${measurement is OdorData ? measurement.subType.name : measurement.type.name}.svg",
-                                  width: 40,
-                                  height: 40,
-                                ),
-                              ),
-                              title: Text(
-                                measurement.typeToKor(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                DateFormat("HH:mm")
-                                    .format(measurement.dateTime),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                              trailing: Column(
-                                children: [
-                                  Text(
-                                    "${measurement.value} ${measurement.unit}",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: measurement.color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    measurement.message,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: measurement.color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                            // Row(
-                            //   children: [
-                            //     Container(
-                            //       padding: const EdgeInsets.all(8),
-                            //       decoration: BoxDecoration(
-                            //         color: measurement.color.withOpacity(0.2),
-                            //         borderRadius: BorderRadius.circular(8),
-                            //       ),
-                            //       child: SvgPicture.asset(
-                            //         "assets/${measurement is OdorData ? measurement.subType.name : measurement.type.name}.svg",
-                            //         width: 40,
-                            //         height: 40,
-                            //       ),
-                            //     ),
-                            //     SizedBox(width: 16),
-                            //     Expanded(
-                            //       child: Column(
-                            //         crossAxisAlignment: CrossAxisAlignment.start,
-                            //         children: [
-                            //           Text(
-                            //             measurement.typeToKor(),
-                            //             style: TextStyle(
-                            //               fontSize: 16,
-                            //               fontWeight: FontWeight.bold,
-                            //             ),
-                            //           ),
-                            //           Text(
-                            //             "${measurement.value} ${measurement.unit}",
-                            //             style: TextStyle(
-                            //               fontSize: 14,
-                            //               color: Colors.grey.shade600,
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //     Text(
-                            //       measurement.message,
-                            //       style: TextStyle(
-                            //         fontSize: 14,
-                            //         color: measurement.color,
-                            //         fontWeight: FontWeight.bold,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            );
-                      }),
-                    ],
-                  );
-                }),
+            _buildHistoryList(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDateSelector() {
+    return Container(
+      decoration: ContainerStyles.card,
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _buildMonthSelector(),
+          _buildRangeSelector(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMonthSelector() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildMonthButton(-1),
+        Text(
+          DateFormat("yyyy년 MM월").format(currentMonth),
+          style: TextStyles.subtitle,
+        ),
+        _buildMonthButton(1),
+      ],
+    );
+  }
+
+  Widget _buildMonthButton(int delta) {
+    return IconButton(
+      icon: Icon(delta < 0 ? Icons.chevron_left : Icons.chevron_right),
+      onPressed: _isDateAvailable(delta) ? () => _changeMonth(delta) : null,
+      color: Colors.grey.shade600,
+      disabledColor: Colors.grey.shade300,
+    );
+  }
+
+  Widget _buildRangeSelector() {
+    return Row(
+      children: _dateRanges.map((range) => _buildRangeButton(range)).toList(),
+    );
+  }
+
+  Widget _buildRangeButton(String range) {
+    final isSelected = selectedRange == range;
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: ElevatedButton(
+          onPressed: () => setState(() {
+            selectedRange = isSelected ? null : range;
+          }),
+          style: _getRangeButtonStyle(isSelected),
+          child: Text(
+            range,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ButtonStyle _getRangeButtonStyle(bool isSelected) {
+    return ElevatedButton.styleFrom(
+      foregroundColor: isSelected ? ColorStyles.primary : ColorStyles.secondary,
+      backgroundColor:
+          isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.grey,
+      elevation: 0,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+
+  Widget _buildHistoryList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: records.length,
+      itemBuilder: (context, index) => _buildHistoryItem(records[index]),
+    );
+  }
+
+  Widget _buildHistoryItem(HistoryData record) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          DateFormat("yyyy년 MM월 dd일").format(record.date),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade600,
+          ),
+        ),
+        SizedBox(height: 8),
+        ...record.measurements.map(_buildMeasurementItem),
+      ],
+    );
+  }
+
+  Widget _buildMeasurementItem(MeasureData measurement) {
+    return Container(
+      decoration: ContainerStyles.card,
+      padding: EdgeInsets.all(4),
+      margin: EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        leading: _buildMeasurementIcon(measurement),
+        title: Text(
+          measurement.typeToKor(),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          DateFormat("HH:mm").format(measurement.dateTime),
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey.shade600,
+          ),
+        ),
+        trailing: _buildMeasurementValue(measurement),
+      ),
+    );
+  }
+
+  Widget _buildMeasurementIcon(MeasureData measurement) {
+    final iconName = measurement is OdorData
+        ? measurement.subType.name
+        : measurement.type.name;
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 2.0),
+      child: SvgPicture.asset(
+        "assets/$iconName.svg",
+        width: 40,
+        height: 40,
+      ),
+    );
+  }
+
+  Widget _buildMeasurementValue(MeasureData measurement) {
+    return Column(
+      children: [
+        Text(
+          "${measurement.value} ${measurement.unit}",
+          style: TextStyle(
+            fontSize: 14,
+            color: measurement.color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          measurement.message,
+          style: TextStyle(
+            fontSize: 14,
+            color: measurement.color,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

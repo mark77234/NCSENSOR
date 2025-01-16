@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taesung1/widgets/my_field.dart';
 
 import '../constants/styles.dart';
+import '../models/user_model.dart';
 import '../widgets/sm_tile.dart';
 
 class ManageScreen extends StatefulWidget {
@@ -12,13 +13,17 @@ class ManageScreen extends StatefulWidget {
 }
 
 class _ManageScreenState extends State<ManageScreen> {
-  List<Map<String, dynamic>> users = [
-    {"id": 1, "name": "김영희", "permission": "일반 사용자"},
-    {"id": 2, "name": "이철수", "permission": "관리자"},
-    {"id": 3, "name": "박지민", "permission": "일반 사용자"},
+  List<UserPermission> users = [
+    UserPermission(id: 1, name: "김영희", permission: "일반 사용자"),
+    UserPermission(id: 2, name: "이철수", permission: "관리자"),
+    UserPermission(id: 3, name: "박지민", permission: "일반 사용자"),
   ];
 
   void handleDelete(int userId) {
+    _showDeleteConfirmDialog(userId);
+  }
+
+  void _showDeleteConfirmDialog(int userId) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -30,12 +35,7 @@ class _ManageScreenState extends State<ManageScreen> {
             child: Text("취소"),
           ),
           TextButton(
-            onPressed: () {
-              setState(() {
-                users.removeWhere((user) => user["id"] == userId);
-              });
-              Navigator.of(context).pop();
-            },
+            onPressed: () => _deleteUser(userId),
             child: Text("삭제"),
           ),
         ],
@@ -43,12 +43,18 @@ class _ManageScreenState extends State<ManageScreen> {
     );
   }
 
+  void _deleteUser(int userId) {
+    setState(() {
+      users.removeWhere((user) => user.id == userId);
+    });
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("사용자 관리", style: TextStyles.title),
-        centerTitle: true,
+        title: Text("사용자 관리"),
       ),
       body: Container(
         padding: EdgeInsets.all(16),
@@ -58,29 +64,42 @@ class _ManageScreenState extends State<ManageScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Header with Back Button and Title
             SizedBox(height: 16),
-            // Admin Section
-            MyField(label: "관리자", widget: SmTile(title: "홍길동")),
+            _buildAdminSection(),
             SizedBox(height: 16),
-            MyField(
-                label: "사용자목록",
-                widget: ListView.separated(
-                  itemCount: users.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final user = users[index];
-                    return SmTile(
-                        title: user["name"],
-                        subtitle: user["permission"],
-                        actionIcon: Icons.delete_outline,
-                        onAction: () => handleDelete(user["id"]));
-                  },
-                  separatorBuilder: (context, index) => SizedBox(height: 12),
-                ))
+            _buildUserList(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAdminSection() {
+    return MyField(
+      label: "관리자",
+      widget: SmTile(title: "홍길동"),
+    );
+  }
+
+  Widget _buildUserList() {
+    return MyField(
+      label: "사용자목록",
+      widget: ListView.separated(
+        itemCount: users.length,
+        shrinkWrap: true,
+        itemBuilder: _buildUserListItem,
+        separatorBuilder: (_, __) => SizedBox(height: 12),
+      ),
+    );
+  }
+
+  Widget _buildUserListItem(BuildContext context, int index) {
+    final user = users[index];
+    return SmTile(
+      title: user.name,
+      subtitle: user.permission,
+      actionIcon: Icons.delete_outline,
+      onAction: () => handleDelete(user.id),
     );
   }
 }

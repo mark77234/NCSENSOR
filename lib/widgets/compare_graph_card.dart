@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/models/measure_model.dart';
 
 import '../constants/styles.dart';
+import '../models/statistic_data_model.dart';
 import 'my_card.dart';
 
 class CompareGraphCard extends StatelessWidget {
-  const CompareGraphCard(
-      {super.key,
-      required this.item,
-      required this.maxValue,
-      required this.height});
+  const CompareGraphCard({super.key, required this.data, required this.height});
 
-  final CompareGraphData item;
-  final double maxValue;
+  final ComparisonChart data;
   final double height;
 
   @override
   Widget build(BuildContext context) {
+    double diff = data.max - data.min;
     return MyCard(
         child: Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         SizedBox(height: 8),
         Text(
-          item.title,
+          data.title,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 8),
@@ -35,46 +31,31 @@ class CompareGraphCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
+                children: data.bars.map((ComparisonBar item) {
+                  return Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(item.lastMonth.toString(), style: TextStyles.title),
+                      Text(item.value.toString(), style: TextStyles.title),
                       Container(
-                        color: ColorStyles.primary.withAlpha(100),
+                        color: item.color.withAlpha(100),
                         width: 40,
-                        height: height * 0.6 * item.lastMonth / maxValue,
+                        height: height * 0.6 * item.value / diff,
                       ),
-                      Text("지난달", style: TextStyles.label),
+                      Text(item.name, style: TextStyles.label),
                     ],
-                  ),
-                  SizedBox(width: 16),
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(item.thisMonth.toString(), style: TextStyles.title),
-                      Container(
-                        color: ColorStyles.primary,
-                        width: 40,
-                        height: height * 0.7 * item.thisMonth / maxValue,
-                      ),
-                      Text("이번달", style: TextStyles.label),
-                    ],
-                  ),
-                ],
+                  );
+                }).toList(),
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "${item.variationRate}%",
-                    style:
-                        TextStyles.title.copyWith(color: ColorStyles.primary),
+                    "${data.comment.value}${data.comment.unit}",
+                    style: TextStyles.title.copyWith(color: data.comment.color),
                   ),
-                  Text("지난달 대비")
+                  Text(data.comment.content)
                 ],
               ),
             ],
