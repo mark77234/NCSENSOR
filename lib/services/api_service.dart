@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
+import 'package:taesung1/models/bodyresult_model.dart';
+
 import 'api_client.dart';
 
 class ApiService {
@@ -38,6 +40,14 @@ class ApiService {
     Response response = await _apiClient.get('/measure');
     return response;
   }
+
+  static Future<List<BodyResultData>> getBodyData() async{
+    final response = await _apiClient.get('/measure');
+    return (response.data["level"] as List)
+        .map((e) => BodyResultData.fromJson(e))
+        .toList();
+  }
+
 //
 // static Future<void> getHistoryData(
 //     {required DateTime start, required DateTime end}) async {

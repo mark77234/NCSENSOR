@@ -7,6 +7,8 @@ import 'main_screen.dart';
 import 'package:taesung1/services/api_service.dart';
 import 'package:dio/dio.dart';
 
+import 'package:taesung1/models/bodyresult_model.dart';
+
 class BodyResultScreen extends StatefulWidget {
   final String bodymeasurement;
   final String measurement;
@@ -21,6 +23,9 @@ class BodyResultScreen extends StatefulWidget {
 class _BodyResultScreenState extends State<BodyResultScreen> {
   late Future<Map<String, dynamic>> _stageMessagesFuture;
   late Map<String, dynamic> _stageMessages;
+
+  List<BodyResultData>? bodyResultData; // 객체들의 리스트를 담을 수 있는 변수
+  bool _isDataLoading = false;
 
   String getCurrentDateTime() {
     final DateTime now = DateTime.now();
@@ -37,9 +42,32 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
     _stageMessagesFuture = _fetchStageMessages();
   }
 
+  void initState2() {
+    super.initState();
+    _loadBodyResult();
+  }
+
   Future<Map<String, dynamic>> _fetchStageMessages() async {
     Response response = await ApiService.getBodyResult();
     return response.data;
+  }
+
+  Future<void> _loadBodyResult() async {
+    setState(() {
+        _isDataLoading = true;
+    });
+    try{
+      final data = await ApiService.getBodyData();
+      setState(() {
+        bodyResultData = data;
+      });
+    } catch(e,s){
+      print('Error loading statistic data: $e');
+      print(s);
+    }
+    setState(() {
+      _isDataLoading = false;
+    });
   }
 
   @override
