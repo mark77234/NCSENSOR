@@ -69,7 +69,8 @@ class _BreathScreenState extends State<BreathScreen> {
                     strokeWidth: 18,
                     backgroundColor: const Color(0xFFF3F4F6),
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
+                      Color.lerp(
+                              Colors.green, ColorStyles.primary, _progress) ??
                           ColorStyles.primary,
                     ),
                   ),
@@ -80,7 +81,7 @@ class _BreathScreenState extends State<BreathScreen> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Color.lerp(
-                        ColorStyles.grey, ColorStyles.primary, _progress) ??
+                            ColorStyles.grey, ColorStyles.primary, _progress) ??
                         ColorStyles.primary,
                   ),
                 ),
@@ -91,6 +92,8 @@ class _BreathScreenState extends State<BreathScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
+                  width: 300,
+                  height: 60,
                   child: Card(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -113,21 +116,26 @@ class _BreathScreenState extends State<BreathScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(width: 100),
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: ColorStyles.primary,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          const Text(
-                            "인식완료",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: ColorStyles.primary,
-                            ),
+                          const SizedBox(width: 10),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: ColorStyles.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 10,),
+                              Text(
+                                "인식완료",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorStyles.primary,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
