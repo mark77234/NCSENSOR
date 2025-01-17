@@ -1,4 +1,4 @@
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
 import '../constants/styles.dart';
@@ -7,11 +7,6 @@ import 'package:taesung1/services/api_service.dart';
 import 'package:taesung1/models/bodyresult_model.dart';
 
 class BodyResultScreen extends StatefulWidget {
-  final String bodymeasurement;
-  final String measurement;
-
-  const BodyResultScreen(
-      {super.key, required this.bodymeasurement, required this.measurement});
 
   @override
   _BodyResultScreenState createState() => _BodyResultScreenState();
@@ -53,67 +48,34 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
     return '${now.year}.${now.month}.${now.day} $period $displayHour:${now.minute}';
   }
 
-  String _getResultMessage(int stage) {
-    switch (stage) {
-      case 1:
-        return '매우 좋음';
-      case 2:
-        return '좋음';
-      case 3:
-        return '보통';
-      case 4:
-        return '나쁨';
-      case 5:
-        return '위험';
-      default:
-        return '체취 측정 결과를 확인할 수 없습니다.';
-    }
-  }
-
-  String _getAdvice(int stage) {
-    switch (stage) {
-      case 1:
-        return '현재 상태가 좋습니다.';
-      case 2:
-        return '조금 더 신경을 써주세요.';
-      case 3:
-        return '조금 개선이 필요합니다.';
-      case 4:
-        return '주의가 필요합니다.';
-      case 5:
-        return '즉시 조치가 필요합니다.';
-      default:
-        return '';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    int stage = Random().nextInt(5) + 1;
-    String resultMessage = _getResultMessage(stage);
-    String advice = _getAdvice(stage);
+    if (_isDataLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (bodyResultData == null) {
+      // Handle the case where data is still not available or failed to load
+      return const Center(child: Text("Failed to load data"));
+    } else {
+      int stage = bodyResultData!.level.value;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "${widget.bodymeasurement.split(' ')[0]} 냄새분석",
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            bodyResultData!.title,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
         ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_isDataLoading)
-                const Center(child: CircularProgressIndicator())
-              else
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Column(
                   children: [
                     Center(
@@ -127,21 +89,22 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    _buildResultCard(stage, resultMessage, advice),
+                    _buildResultCard(stage),
                     const SizedBox(height: 20),
                     _buildStatusCard(),
                     const SizedBox(height: 20),
                     _buildActionButtons(context),
                   ],
                 ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
-  Card _buildResultCard(int stage, String resultMessage, String advice) {
+  Card _buildResultCard(int stage) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -167,15 +130,16 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                   children: [
                     CircleAvatar(
                       radius: 5,
-                      backgroundColor: bodyResultData?.level.sections[stage-1].color,
+                      backgroundColor:
+                          bodyResultData!.level.sections[stage - 1].color,
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      resultMessage,
+                      bodyResultData!.level.sections[stage - 1].name,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: bodyResultData?.level.sections[stage-1].color,
+                        color: bodyResultData!.level.sections[stage - 1].color,
                       ),
                     ),
                   ],
@@ -187,15 +151,15 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$stage',
+                  bodyResultData!.chart.result.value.toString(),
                   style: const TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Text(
-                  '단계',
+                Text(
+                  bodyResultData!.chart.result.unit,
                   style: TextStyle(
                     fontSize: 24,
                     color: Color(0xFF6B7280),
@@ -206,14 +170,15 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
             ),
             const SizedBox(height: 10),
             LinearProgressIndicator(
-              value: stage / 5,
+              value: bodyResultData!.chart.result.value /
+                  bodyResultData!.chart.max,
               backgroundColor: const Color(0xFFF3F4F6),
               valueColor: AlwaysStoppedAnimation<Color>(
-                bodyResultData!.level.sections[stage-1].color),
+                  bodyResultData!.level.sections[stage - 1].color),
             ),
             const SizedBox(height: 10),
             Text(
-              advice,
+              bodyResultData!.comment,
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0xFF6B7280),
@@ -239,11 +204,11 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "단계별 상태",
-                style: TextStyle(
+                bodyResultData!.level.title,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
@@ -261,11 +226,12 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         children: [
                           CircleAvatar(
                             radius: 5,
-                            backgroundColor: bodyResultData?.level.sections[index].color,
+                            backgroundColor:
+                                bodyResultData!.level.sections[index].color,
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            '${index + 1}단계 ',
+                            bodyResultData!.level.sections[index].name,
                             style: const TextStyle(
                               fontSize: 16,
                               color: Color(0xFF4B5563),
@@ -302,10 +268,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BreathScreen(
-                  measurement: widget.measurement,
-                  bodymeasurement: widget.bodymeasurement,
-                ),
+                builder: (context) => BreathScreen(),
               ),
             );
           },

@@ -1,19 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../constants/styles.dart';
-import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
 class BreathScreen extends StatefulWidget {
-  final String measurement;
-  final String bodymeasurement;
-
-  const BreathScreen({
-    super.key,
-    required this.measurement,
-    required this.bodymeasurement,
-  });
-
   @override
   State<BreathScreen> createState() => _BreathScreenState();
 }
@@ -43,24 +32,12 @@ class _BreathScreenState extends State<BreathScreen> {
   }
 
   void _navigateToResult(BuildContext context) {
-    if (widget.measurement == "음주") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AlcoholResultScreen(
-          measurement: widget.measurement,
-          bodymeasurement: widget.bodymeasurement
-        )),
-      );
-    } else if (widget.measurement == "체취") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BodyResultScreen(
-              measurement: widget.measurement,
-              bodymeasurement: widget.bodymeasurement),
-        ),
-      );
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BodyResultScreen(),
+      ),
+    );
   }
 
   @override
@@ -90,11 +67,10 @@ class _BreathScreenState extends State<BreathScreen> {
                   child: CircularProgressIndicator(
                     value: _progress,
                     strokeWidth: 18,
-                    backgroundColor: Color(0xFFF3F4F6),
+                    backgroundColor: const Color(0xFFF3F4F6),
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      Color.lerp(
-                              Colors.green, ColorStyles.primary, _progress) ??
-                          ColorStyles.primary, // null 처리
+                      Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
+                          ColorStyles.primary,
                     ),
                   ),
                 ),
@@ -104,8 +80,8 @@ class _BreathScreenState extends State<BreathScreen> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Color.lerp(
-                            ColorStyles.grey, ColorStyles.primary, _progress) ??
-                        ColorStyles.primary, // null 처리
+                        ColorStyles.grey, ColorStyles.primary, _progress) ??
+                        ColorStyles.primary,
                   ),
                 ),
               ],
@@ -130,7 +106,7 @@ class _BreathScreenState extends State<BreathScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "센서 상태",
                             style: TextStyle(
                               fontSize: 16,
@@ -145,7 +121,7 @@ class _BreathScreenState extends State<BreathScreen> {
                               shape: BoxShape.circle,
                             ),
                           ),
-                          Text(
+                          const Text(
                             "인식완료",
                             style: TextStyle(
                               fontSize: 16,
@@ -180,7 +156,7 @@ class _BreathScreenState extends State<BreathScreen> {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                minimumSize: Size(300, 60),
+                minimumSize: const Size(300, 60),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
