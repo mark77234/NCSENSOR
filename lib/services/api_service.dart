@@ -10,8 +10,12 @@ import 'api_client.dart';
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
 
-  static Future<void> login() async {
-    await _apiClient.post('/login');
+  static Future<void> login(
+      {required String username, required String password}) async {
+    await _apiClient.post('/login', data: {
+      'username': username,
+      'password': password,
+    });
   }
 
   static Future<void> getUser() async {
