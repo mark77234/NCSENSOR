@@ -52,8 +52,7 @@ class _ResultScreenState extends State<ResultScreen> {
     if (_isDataLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (bodyResultData == null) {
-      // Handle the case where data is still not available or failed to load
-      return const Center(child: Text("Failed to load data"));
+      return _buildEmptyState();
     } else {
       int stage = bodyResultData!.level.value;
 
@@ -314,6 +313,31 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.analytics_outlined,
+            size: 48,
+            color: Colors.grey,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "조회할 통계가 없습니다.",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

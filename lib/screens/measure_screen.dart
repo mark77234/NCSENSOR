@@ -55,6 +55,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
             children: [
               if (_isLabelLoading)
                 CircularProgressIndicator()
+              else if (articledata == null || articledata!.articles.isEmpty)
+                _buildEmptyState()
               else
                 Column(
                   children: [
@@ -76,9 +78,11 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildMeasurementButton(articledata!.articles[0].name, '혈중 알코올\n농도 측정', 'assets/drinking.svg'),
+        _buildMeasurementButton(articledata!.articles[0].name, '혈중 알코올\n농도 측정',
+            'assets/drinking.svg'),
         const SizedBox(width: 20),
-        _buildMeasurementButton(articledata!.articles[1].name, '부위별 악취\n농도 측정', 'assets/body.svg'),
+        _buildMeasurementButton(
+            articledata!.articles[1].name, '부위별 악취\n농도 측정', 'assets/body.svg'),
       ],
     );
   }
@@ -148,6 +152,31 @@ class _MeasureScreenState extends State<MeasureScreen> {
         const SizedBox(height: 10),
         _buildBodyOdorButton(articledata!.articles[1].subtypes![2].name),
       ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error,
+            size: 48,
+            color: Colors.grey,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "데이터를 가져오는데 오류가 발생했습니다",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
