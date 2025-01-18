@@ -52,36 +52,6 @@ class ApiService {
     final response = await _apiClient.get('/measure/articles');
     return ArticleData.fromJson(response.data);
   }
-
-//
-// static Future<void> getHistoryData(
-//     {required DateTime start, required DateTime end}) async {
-//   await _apiClient.get('/history', queryParameters: {
-//     'start': DateFormat('yyyy-MM-dd').format(start),
-//     'end': DateFormat('yyyy-MM-dd').format(end),
-//   });
-// }
-
-
-  static Future<List<MeasureLabel>> getMeasureLabel() async {
-    final response = await _apiClient.get('/measure/articles');
-    return (response.data["articles"] as List)
-        .map((e) => MeasureLabel.fromJson(e))
-        .toList();
-  }
-
-  static Future<List<StatisticData>> getStatisticData(
-      {required String labelId, String unit = "MONTH"}) async {
-    final response = await _apiClient.get('/report', queryParameters: {
-      'article_id': labelId,
-      'unit': unit,
-    });
-
-    return (response.data["views"] as List)
-        .map((e) => StatisticData.fromJson(e))
-        .toList();
-  }
-
   static Future<List<HistoryData>> getHistoryData(
       {required DateTime start, required DateTime end}) async {
     final response = await _apiClient.get('/history', queryParameters: {
