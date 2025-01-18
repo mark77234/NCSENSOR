@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/styles.dart';
-import 'body_result_screen.dart';
+import 'result_screen.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class BreathScreen extends StatefulWidget {
   @override
@@ -10,6 +11,46 @@ class BreathScreen extends StatefulWidget {
 class _BreathScreenState extends State<BreathScreen> {
   bool _isLoading = false;
   double _progress = 0.0;
+  String sensorStatus = "인식불가";
+  Color sensorColor = Colors.orange;
+  late FlutterBluePlus flutterBlue;
+
+  @override
+  void initState(){
+    super.initState();
+    flutterBlue = FlutterBluePlus();
+    _checkBlutoothConnection();
+  }
+  Future<void> _checkBlutoothConnection() async {
+    try {
+      bool isConnected = false;
+      await FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
+      var scanResults = await FlutterBluePlus.scanResults.first;
+
+      for (var result in scanResults) {
+        if (result.device.advName == "하드웨어") {
+          isConnected = true;
+          break;
+        }
+      }
+      await FlutterBluePlus.stopScan();
+
+      setState(() {
+        if (isConnected) {
+          sensorStatus = "인식완료";
+          sensorColor = ColorStyles.primary;  // 센서 상태를 연결 완료 색상으로 변경
+        } else {
+          sensorStatus = "인식불가";
+          sensorColor = Colors.orange;  // 연결되지 않으면 orange 색상
+        }
+      });
+    } catch (e) {
+      setState(() {
+        sensorStatus = "오류발생";
+        sensorColor = Colors.red;  // 오류 발생 시 red 색상
+      });
+    }
+  }
 
   Future<void> _startMeasurement(BuildContext context) async {
     setState(() {
@@ -35,7 +76,7 @@ class _BreathScreenState extends State<BreathScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BodyResultScreen(),
+        builder: (context) => ResultScreen(),
       ),
     );
   }
@@ -122,17 +163,17 @@ class _BreathScreenState extends State<BreathScreen> {
                               Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  color: ColorStyles.primary,
+                                  color: sensorColor,
                                   shape: BoxShape.circle,
                                 ),
                               ),
                               const SizedBox(width: 10,),
                               Text(
-                                "인식완료",
+                                sensorStatus,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: ColorStyles.primary,
+                                  color: sensorColor,
                                 ),
                               ),
                             ],

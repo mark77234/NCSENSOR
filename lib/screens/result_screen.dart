@@ -1,18 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
 import '../constants/styles.dart';
 import 'main_screen.dart';
 import 'package:taesung1/services/api_service.dart';
-import 'package:taesung1/models/bodyresult_model.dart';
+import 'package:taesung1/models/result_model.dart';
 
-class BodyResultScreen extends StatefulWidget {
+class ResultScreen extends StatefulWidget {
 
   @override
-  _BodyResultScreenState createState() => _BodyResultScreenState();
+  _ResultScreenState createState() => _ResultScreenState();
 }
 
-class _BodyResultScreenState extends State<BodyResultScreen> {
+class _ResultScreenState extends State<ResultScreen> {
   BodyResultData? bodyResultData;
   bool _isDataLoading = false;
 

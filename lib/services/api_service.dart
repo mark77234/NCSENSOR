@@ -3,7 +3,8 @@ import 'package:dio/dio.dart';
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
-import 'package:taesung1/models/bodyresult_model.dart';
+import 'package:taesung1/models/result_model.dart';
+import 'package:taesung1/models/aritcle_model.dart';
 
 import 'api_client.dart';
 
@@ -40,6 +41,11 @@ class ApiService {
   static Future<BodyResultData> getBodyData() async {
     final response = await _apiClient.get('/measure');
     return BodyResultData.fromJson(response.data);
+  }
+
+  static Future<ArticleData> getArticleData() async {
+    final response = await _apiClient.get('/measure/articles');
+    return ArticleData.fromJson(response.data);
   }
 
 //

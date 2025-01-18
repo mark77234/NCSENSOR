@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../constants/styles.dart';
 import 'breath_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:taesung1/services/api_service.dart';
+import 'package:taesung1/models/aritcle_model.dart';
 
 class MeasureScreen extends StatefulWidget {
   const MeasureScreen({super.key});
@@ -15,6 +17,33 @@ class _MeasureScreenState extends State<MeasureScreen> {
   String selectedMeasurement = '';
   String selectedBodyOdor = '';
 
+  ArticleData? articledata;
+
+  bool _isLabelLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadArticleData();
+  }
+
+  Future<void> _loadArticleData() async {
+    setState(() {
+      _isLabelLoading = true;
+    });
+    try {
+      final data = await ApiService.getArticleData();
+      setState(() {
+        articledata = data;
+      });
+    } catch (e) {
+      print('Error loading measure labels: $e');
+    }
+    setState(() {
+      _isLabelLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -24,11 +53,18 @@ class _MeasureScreenState extends State<MeasureScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
-              _buildMeasurementButtons(),
-              if (showBodyOdorOptions) _buildBodyOdorSelection(),
-              const SizedBox(height: 50),
-              _buildStartMeasurementButton(context),
+              if (_isLabelLoading)
+                CircularProgressIndicator()
+              else
+                Column(
+                  children: [
+                    const SizedBox(height: 50),
+                    _buildMeasurementButtons(),
+                    if (showBodyOdorOptions) _buildBodyOdorSelection(),
+                    const SizedBox(height: 50),
+                    _buildStartMeasurementButton(context),
+                  ],
+                )
             ],
           ),
         ),
@@ -40,9 +76,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildMeasurementButton('음주', '혈중 알코올\n농도 측정', 'assets/drinking.svg'),
+        _buildMeasurementButton(articledata!.articles[0].name, '혈중 알코올\n농도 측정', 'assets/drinking.svg'),
         const SizedBox(width: 20),
-        _buildMeasurementButton('체취', '부위별 악취\n농도 측정', 'assets/body.svg'),
+        _buildMeasurementButton(articledata!.articles[1].name, '부위별 악취\n농도 측정', 'assets/body.svg'),
       ],
     );
   }
@@ -106,11 +142,11 @@ class _MeasureScreenState extends State<MeasureScreen> {
           ),
         ),
         const SizedBox(height: 30),
-        _buildBodyOdorButton('입'),
+        _buildBodyOdorButton(articledata!.articles[1].subtypes![0].name),
         const SizedBox(height: 10),
-        _buildBodyOdorButton('발'),
+        _buildBodyOdorButton(articledata!.articles[1].subtypes![1].name),
         const SizedBox(height: 10),
-        _buildBodyOdorButton('겨드랑이'),
+        _buildBodyOdorButton(articledata!.articles[1].subtypes![2].name),
       ],
     );
   }
