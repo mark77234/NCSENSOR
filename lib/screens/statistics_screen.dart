@@ -5,10 +5,10 @@ import '../constants/styles.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
 import '../services/api_service.dart';
-import '../widgets/carousel.dart';
-import '../widgets/compare_graph_card.dart';
-import '../widgets/my_card.dart';
-import '../widgets/my_header.dart';
+import '../widgets/common/carousel.dart';
+import '../widgets/common/compare_graph_card.dart';
+import '../widgets/common/my_card.dart';
+import '../widgets/common/my_header.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});

@@ -6,8 +6,8 @@ import 'package:taesung1/routes/app_routes.dart';
 
 import '../constants/styles.dart';
 import '../models/user_model.dart';
-import '../widgets/editable_field.dart';
-import '../widgets/my_header.dart';
+import '../widgets/common/editable_field.dart';
+import '../widgets/common/my_header.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {
@@ -133,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : null,
             child: visibleData.imagePath == null
                 ? Icon(Icons.person,
-                    size: _profilePictureRadius, color: Colors.grey)
+                size: _profilePictureRadius, color: Colors.grey)
                 : null,
           ),
           if (isEditing)
@@ -170,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isEditing: isEditing,
           keyboardType: TextInputType.phone,
           onChanged: (value) =>
-              visibleData = visibleData.copyWith(phone: value),
+          visibleData = visibleData.copyWith(phone: value),
         ),
         EditableField(
           label: "이메일",
@@ -178,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isEditing: isEditing,
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) =>
-              visibleData = visibleData.copyWith(email: value),
+          visibleData = visibleData.copyWith(email: value),
         ),
       ],
     );
@@ -187,41 +187,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildActionButtons() {
     return isEditing
         ? Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: handleCancel,
-                  style: ButtonStyles.outlined,
-                  child: Text("취소하기"),
-                ),
-              ),
-              SizedBox(width: 8),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: handleSave,
-                  style: ButtonStyles.elevated,
-                  child: Text("저장하기"),
-                ),
-              ),
-            ],
-          )
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: handleCancel,
+            style: ButtonStyles.outlined,
+            child: Text("취소하기"),
+          ),
+        ),
+        SizedBox(width: 8),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: handleSave,
+            style: ButtonStyles.elevated,
+            child: Text("저장하기"),
+          ),
+        ),
+      ],
+    )
         : Column(
-            children: [
-              ElevatedButton(
-                onPressed: handleEdit,
-                style: ButtonStyles.outlined,
-                child: Text("수정하기"),
-              ),
-              SizedBox(height: 8),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.manage);
-                },
-                style: ButtonStyles.elevated,
-                icon: Icon(Icons.group),
-                label: Text("사용자 관리"),
-              ),
-            ],
-          );
+      children: [
+        ElevatedButton(
+          onPressed: handleEdit,
+          style: ButtonStyles.outlined,
+          child: Text("수정하기"),
+        ),
+        SizedBox(height: 8),
+        ElevatedButton.icon(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.manage);
+          },
+          style: ButtonStyles.elevated,
+          icon: Icon(Icons.group),
+          label: Text("사용자 관리"),
+        ),
+      ],
+    );
   }
 }

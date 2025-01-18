@@ -113,7 +113,7 @@ class ComparisonChart {
     return ComparisonChart(
       title: json['title'],
       bars:
-          (json['bar'] as List).map((e) => ComparisonBar.fromJson(e)).toList(),
+      (json['bar'] as List).map((e) => ComparisonBar.fromJson(e)).toList(),
       min: json['min'].toDouble(),
       max: json['max'].toDouble(),
       comment: ComparisonComment.fromJson(json['comment']),
@@ -137,8 +137,7 @@ class ComparisonBar {
     return ComparisonBar(
         name: json['name'],
         value: json['value'].toDouble(),
-        color: colorFromHex(json['color'])
-    );
+        color: colorFromHex(json['color']));
   }
 }
 

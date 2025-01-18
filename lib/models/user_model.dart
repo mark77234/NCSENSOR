@@ -1,3 +1,10 @@
+// {
+// "role": "NOMAL",
+// "name": "이태성",
+// "email": "tsei@ts-ei.com",
+// "phone_number": "010-1234-5678"
+// }
+
 class UserProfile {
   String name;
   String phone;

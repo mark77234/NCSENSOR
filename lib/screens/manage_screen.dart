@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/widgets/my_field.dart';
 
 import '../constants/styles.dart';
 import '../models/user_model.dart';
-import '../widgets/sm_tile.dart';
+import '../widgets/common/my_field.dart';
+import '../widgets/common/sm_tile.dart';
 
 class ManageScreen extends StatefulWidget {
   const ManageScreen({super.key});
