@@ -65,7 +65,7 @@ class _BreathScreenState extends State<BreathScreen> {
   void _navigateToResult(BuildContext context) {
     if (!mounted) return;
     if (widget.measurement == "음주") {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => AlcoholResultScreen(
@@ -73,7 +73,7 @@ class _BreathScreenState extends State<BreathScreen> {
                 bodyMeasurement: widget.bodyMeasurement)),
       );
     } else if (widget.measurement == "체취") {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => BodyResultScreen(
