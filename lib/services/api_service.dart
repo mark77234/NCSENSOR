@@ -52,4 +52,9 @@ class ApiService {
         .map((e) => HistoryData.fromJson(e))
         .toList();
   }
+
+  static Future<Response> getBodyResult() async {
+    Response response = await _apiClient.get('/measure');
+    return response;
+  }
 }
