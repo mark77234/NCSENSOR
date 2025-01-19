@@ -1,55 +1,68 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
 import 'package:taesung1/screens/main_screen.dart';
+
 import '../constants/styles.dart';
 
 class AlcoholResultScreen extends StatefulWidget {
   final String measurement;
-  final String bodymeasurement;
+  final String bodyMeasurement;
+  final List<String> receivedData;
 
   const AlcoholResultScreen(
-      {super.key, required this.measurement, required this.bodymeasurement});
+      {super.key,
+      required this.measurement,
+      required this.bodyMeasurement,
+      required this.receivedData});
 
   @override
   State<AlcoholResultScreen> createState() => _AlcoholResultScreenState();
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
-
   // 혈중 알코올 농도 (랜덤 값)
-  double _alcoholLevel = Random().nextDouble() * 0.10;
+  late double alcoholData;
 
-  String _resultMessage = '';
-  String _advice = '';
-  Color _progressBarColor = Colors.green;
+  late String _resultMessage;
+  late String _advice;
+  late Color _progressBarColor;
+  List<double> threshold = [0.03, 0.05, 0.1];
 
   @override
   void initState() {
     super.initState();
+    alcoholData = alcoholResult();
     _setAlcoholStage();
   }
 
+  double _calculateAverageOfMiddleFive(List<double> data) {
+    data.sort();
+    if (data.length < 5) {
+      return data.reduce((a, b) => a + b) / data.length;
+    }
+    int start = (data.length - 5) ~/ 2;
+    List<double> middleFive = data.sublist(start, start + 5);
+    return middleFive.reduce((a, b) => a + b) / middleFive.length;
+  }
+
+  double alcoholResult() {
+    List<double> numericData =
+        widget.receivedData.map((e) => double.tryParse(e) ?? 0.0).toList();
+    return _calculateAverageOfMiddleFive(numericData);
+  }
+
   void _setAlcoholStage() {
-    if (_alcoholLevel <= 0.03) {
+    if (alcoholData <= threshold[0]) {
       _resultMessage = '정상';
       _advice = '운전가능한 수준입니다.';
       _progressBarColor = ColorStyles.primary;
-    } else if (_alcoholLevel <= 0.05) {
+    } else if (alcoholData <= threshold[1]) {
       _resultMessage = '면허정지';
       _advice = '면허 정지 수준입니다. \n운전을 하실 수 없습니다.';
       _progressBarColor = Colors.green;
-    } else if (_alcoholLevel <= 0.08) {
-      _resultMessage = '면허취소';
-      _advice = '면허 취소 수준입니다. \n 운전을 하실 수 없습니다. ';
-      _progressBarColor = Colors.amber;
-    } else if (_alcoholLevel <= 0.10) {
-      _resultMessage = '면허취소';
-      _advice = '면허 취소 수준입니다. \n 운전을 하실 수 없습니다.';
-      _progressBarColor = Colors.orange;
     } else {
       _resultMessage = '면허취소';
-      _advice = '즉시 조치가 필요합니다.';
+      _advice = '면허 취소 수준입니다. \n 운전을 하실 수 없습니다.';
       _progressBarColor = Colors.red;
     }
   }
@@ -60,7 +73,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     final int hour = now.hour % 12;
     final int displayHour = hour == 0 ? 12 : hour;
 
-    return '${now.year}.${now.month}.${now.day} $period ${displayHour}:${now.minute}';
+    return '${now.year}.${now.month}.${now.day} $period $displayHour:${now.minute}';
   }
 
   @override
@@ -76,13 +89,14 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
           icon: Icon(
             Icons.home,
             color: ColorStyles.primary,
-            size:30.0,
+            size: 30.0,
           ), // 홈 아이콘
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const MainScreen()), // MainScreen으로 이동
-                  (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+              // MainScreen으로 이동
+              (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
             );
           },
         ),
@@ -143,7 +157,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '${_alcoholLevel.toStringAsFixed(2)}',
+                            alcoholData.toStringAsFixed(2),
                             style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
@@ -162,7 +176,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                       ),
                       const SizedBox(height: 10),
                       LinearProgressIndicator(
-                        value: _alcoholLevel / 0.10,
+                        value: alcoholData / threshold[2],
                         backgroundColor: Color(0xFFF3F4F6),
                         valueColor:
                             AlwaysStoppedAnimation<Color>(_progressBarColor),
@@ -182,7 +196,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
               Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -248,7 +261,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
               // 버튼들
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -260,7 +272,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                         MaterialPageRoute(
                             builder: (context) => BreathScreen(
                                 measurement: widget.measurement,
-                                bodymeasurement: widget.bodymeasurement)),
+                                bodyMeasurement: widget.bodyMeasurement)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
