@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../constants/styles.dart';
-import '../widgets/common/my_card.dart';
+import '../widgets/common/simple_alert_dialog.dart';
+import '../widgets/screens/breath/breath_progress_indicator.dart';
+import '../widgets/screens/breath/sensor_status_box.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
@@ -19,47 +22,66 @@ class BreathScreen extends StatefulWidget {
   State<BreathScreen> createState() => _BreathScreenState();
 }
 
-class _BreathScreenState extends State<BreathScreen> {
-  bool _isLoading = false;
-  double _progress = 0.0;
-  double _blowLimitSec = 10.0;
+enum BreathState {
+  initial, // 센서 연결 중
+  ready, // 측정 준비 완료
+  measuring, // 측정 중
+  done, // 측정 완료
+}
 
-  Future<void> _showBlowDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      // Prevents dismissing the dialog by tapping outside
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('측정 준비'),
-          content: const Text('10초 동안 불어주세요.'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('확인'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+class _BreathScreenState extends State<BreathScreen> {
+  BluetoothCharacteristic? _characteristic;
+  BreathState _breathState = BreathState.initial;
+  double _progress = 0.0;
+  final double _blowLimitSec = 10.0;
+  List<String> receivedData = [];
+
+  void _onSensorAssigned(BluetoothCharacteristic characteristic) {
+    setState(() {
+      _characteristic = characteristic;
+      _breathState = BreathState.ready;
+    });
+  }
+
+  void _onLostConnection() {
+    setState(() {
+      _characteristic = null;
+      _breathState = BreathState.initial;
+    });
+    showSimpleAlert(
+      context,
+      title: "연결 끊김",
+      content: "센서와 연결이 끊겼습니다. 다시 연결해주세요.",
     );
   }
 
   Future<void> _startMeasurement(BuildContext context) async {
+    if (_characteristic == null) return;
     setState(() {
-      _isLoading = true;
+      _breathState = BreathState.measuring;
     });
-
-    await _showBlowDialog(context);
-    for (int i = 1; i <= 100; i++) {
-      await Future.delayed(Duration(milliseconds: _blowLimitSec * 1000 ~/ 100));
-      setState(() {
-        _progress = i / 100;
-      });
+    await showSimpleAlert(
+      context,
+      title: "측정 시작",
+      content: "10초 동안 불어주세요.",
+    );
+    for (int i = 1; i <= _blowLimitSec; i++) {
+      await Future.delayed(Duration(seconds: 1));
+      if (_characteristic != null) {
+        List<int> data = await _characteristic!.read();
+        String dataString = String.fromCharCodes(data);
+        if (mounted) {
+          setState(() {
+            receivedData.add(dataString);
+            _progress = i / 10;
+          });
+        }
+      }
     }
+    setState(() {
+      _breathState = BreathState.done;
+    });
     await Future.delayed(const Duration(milliseconds: 50));
-    _navigateToResult(context);
   }
 
   void _navigateToResult(BuildContext context) {
@@ -100,99 +122,44 @@ class _BreathScreenState extends State<BreathScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 180,
-                height: 180,
-                child: CircularProgressIndicator(
-                  value: _progress,
-                  strokeWidth: 18,
-                  backgroundColor: Color(0xFFF3F4F6),
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
-                        ColorStyles.primary, // null 처리
-                  ),
-                ),
-              ),
-              Text(
-                '${(_progress * 100).toInt()}%',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Color.lerp(
-                          ColorStyles.grey, ColorStyles.primary, _progress) ??
-                      ColorStyles.primary, // null 처리
-                ),
-              ),
-            ],
-          ),
+          BreathProgressIndicator(progress: _progress),
           const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                child: MyCard(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "센서 상태",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 100),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: ColorStyles.primary,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        Text(
-                          "인식완료",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: ColorStyles.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          SensorStatusBox(
+            onSensorAssigned: _onSensorAssigned,
+            onLostConnection: _onLostConnection,
+            characteristic: _characteristic,
           ),
           const SizedBox(height: 70),
-          ElevatedButton(
-            onPressed: () => _startMeasurement(context),
-            style: ElevatedButton.styleFrom(
-              foregroundColor: _isLoading ? Colors.grey : Colors.white,
-              backgroundColor:
-                  _isLoading ? ColorStyles.grey : ColorStyles.primary,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 40,
-                vertical: 15,
+          if (_breathState != BreathState.initial)
+            ElevatedButton(
+              onPressed: () => {
+                _startMeasurement(context)
+                    .then((_) => _navigateToResult(context))
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: _breathState == BreathState.measuring
+                    ? Colors.grey
+                    : Colors.white,
+                backgroundColor: _breathState == BreathState.measuring
+                    ? ColorStyles.grey
+                    : ColorStyles.primary,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 15,
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+                minimumSize: Size(300, 60),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
               ),
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-              minimumSize: Size(300, 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+              child: Text(
+                _breathState == BreathState.measuring ? "측정중..." : "측정하기",
               ),
             ),
-            child: Text(
-              _isLoading ? "측정중..." : "측정하기",
-            ),
-          ),
           const SizedBox(
             height: 50,
           ),
