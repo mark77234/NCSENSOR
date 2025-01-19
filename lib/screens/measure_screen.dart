@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../constants/styles.dart';
@@ -189,7 +190,39 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     ),
                   );
                 } else {
-                  _navigateWithLoading(context);
+                  // 블루투스 가 연결되었는지 확인한다.
+                  // 블루투스가 연결되어 있지 않다면 연결을 요청한다.
+                  bool isAvailable = await FlutterBluePlus.isSupported;
+                  bool isOn = await FlutterBluePlus.adapterState.first ==
+                      BluetoothAdapterState.on;
+                  try {
+                    if (!isAvailable) throw Exception('블루투스가 지원되지 않습니다.');
+                    if (!isOn) {
+                      if (Theme.of(context).platform ==
+                          TargetPlatform.android) {
+                        await FlutterBluePlus.turnOn();
+                        isOn = await FlutterBluePlus.adapterState.first ==
+                            BluetoothAdapterState.on;
+                        if (!isOn) throw Exception('블루투스가 꺼져있습니다. 블루투스를 켜주세요.');
+                      } else {
+                        throw Exception('블루투스가 꺼져있습니다. 블루투스를 켜주세요.');
+                      }
+                    }
+                    _navigateWithLoading(context);
+                  } catch (e) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const Text('오류'),
+                              content: const Text('블루투스가 꺼져있습니다. 블루투스를 켜주세요.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('확인'),
+                                ),
+                              ],
+                            ));
+                  }
                 }
               },
               child: const Text(
