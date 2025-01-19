@@ -18,194 +18,189 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    style: selectedMeasurement == '음주'
-                        ? ButtonStyles.defaultElevated
-                        : ButtonStyles.selectedElevated,
-                    onPressed: () {
-                      setState(() {
-                        showBodyOdorOptions = false;
-                        selectedMeasurement = '음주';
-                        selectedBodyOdor = '';
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/drinking.svg',
-                              height: 40,
-                              width: 40,
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '음주',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.5,
-                                  ),
-                                  textAlign: TextAlign.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: selectedMeasurement == '음주'
+                      ? ButtonStyles.defaultElevated
+                      : ButtonStyles.selectedElevated,
+                  onPressed: () {
+                    setState(() {
+                      showBodyOdorOptions = false;
+                      selectedMeasurement = '음주';
+                      selectedBodyOdor = '';
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/drinking.svg',
+                            height: 40,
+                            width: 40,
+                          ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '음주',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.5,
                                 ),
-                                Text(
-                                  '혈중 알코올\n농도 측정',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                '혈중 알코올\n농도 측정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  ElevatedButton(
-                    style: selectedMeasurement == '체취'
-                        ? ButtonStyles.defaultElevated
-                        : ButtonStyles.selectedElevated,
-                    onPressed: () {
-                      setState(() {
-                        showBodyOdorOptions = !showBodyOdorOptions;
-                        selectedMeasurement = '체취';
-                        selectedBodyOdor = '';
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/body.svg',
-                              height: 40,
-                              width: 40,
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '체취',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.5,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  '부위별 악취\n농도 측정',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              if (showBodyOdorOptions) ...[
-                const SizedBox(height: 40),
-                Center(
-                  child: Text(
-                    "측정 부위를 선택해주세요",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 30),
-                _buildBodyOdorButton('입', context),
-                const SizedBox(height: 10),
-                _buildBodyOdorButton('발', context),
-                const SizedBox(height: 10),
-                _buildBodyOdorButton('겨드랑이', context),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  style: selectedMeasurement == '체취'
+                      ? ButtonStyles.defaultElevated
+                      : ButtonStyles.selectedElevated,
+                  onPressed: () {
+                    setState(() {
+                      showBodyOdorOptions = !showBodyOdorOptions;
+                      selectedMeasurement = '체취';
+                      selectedBodyOdor = '';
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/body.svg',
+                            height: 40,
+                            width: 40,
+                          ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                '체취',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.5,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                '부위별 악취\n농도 측정',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
-              const SizedBox(height: 50),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorStyles.primary,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(300, 60),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                onPressed: () async {
-                  if (selectedMeasurement.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('오류'),
-                        content: const Text('먼저 음주 또는 체취 항목을 선택하세요.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('확인'),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else if (selectedMeasurement == '체취' &&
-                      selectedBodyOdor.isEmpty) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('오류'),
-                        content: const Text('체취 부위를 선택해 주세요.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('확인'),
-                          ),
-                        ],
-                      ),
-                    );
-                  } else {
-                    _navigateWithLoading(context);
-                  }
-                },
-                child: const Text(
-                  '측정 시작',
+            ),
+            if (showBodyOdorOptions) ...[
+              const SizedBox(height: 40),
+              Center(
+                child: Text(
+                  "측정 부위를 선택해주세요",
                   style: TextStyle(
-                    fontSize: 18,
+                    color: Colors.grey,
                     fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ),
+              const SizedBox(height: 30),
+              _buildBodyOdorButton('입', context),
+              const SizedBox(height: 10),
+              _buildBodyOdorButton('발', context),
+              const SizedBox(height: 10),
+              _buildBodyOdorButton('겨드랑이', context),
             ],
-          ),
+            const SizedBox(height: 50),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorStyles.primary,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(300, 60),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: () async {
+                if (selectedMeasurement.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('오류'),
+                      content: const Text('먼저 음주 또는 체취 항목을 선택하세요.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('확인'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (selectedMeasurement == '체취' &&
+                    selectedBodyOdor.isEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('오류'),
+                      content: const Text('체취 부위를 선택해 주세요.'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('확인'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  _navigateWithLoading(context);
+                }
+              },
+              child: const Text(
+                '측정 시작',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

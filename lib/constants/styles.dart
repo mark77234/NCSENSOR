@@ -57,7 +57,7 @@ class ButtonStyles {
     foregroundColor: Colors.black,
     padding: EdgeInsets.all(16),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: RadiusStyles.rounded,
       side: BorderSide(
         color: ColorStyles.grey,
         width: 1.5,
@@ -71,7 +71,7 @@ class ButtonStyles {
     foregroundColor: Colors.black,
     padding: EdgeInsets.all(16),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: RadiusStyles.rounded,
       side: BorderSide(
         color: ColorStyles.primary,
         width: 1.5,
@@ -89,7 +89,7 @@ class ButtonStyles {
       foregroundColor: Colors.black,
       padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: RadiusStyles.rounded,
         side: BorderSide(
           color: ColorStyles.grey,
           width: 1.5,
@@ -107,7 +107,7 @@ class ButtonStyles {
       foregroundColor: Colors.black,
       padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: RadiusStyles.rounded,
         side: BorderSide(
           color: ColorStyles.primary,
           width: 1.5,
