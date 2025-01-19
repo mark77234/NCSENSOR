@@ -52,43 +52,33 @@ class ButtonStyles {
     textStyle: TextStyles.subtitle,
   );
 
-  static ButtonStyle selectedElevated(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.grey,
-          width: 1.5,
-        ),
+  static ButtonStyle selectedElevated = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: EdgeInsets.all(16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+      side: BorderSide(
+        color: ColorStyles.grey,
+        width: 1.5,
       ),
-      textStyle: const TextStyle(fontSize: 15),
-    );
-  }
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
 
-  static ButtonStyle defaultElevated(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.primary,
-          width: 1.5,
-        ),
+  static ButtonStyle defaultElevated = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: EdgeInsets.all(16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 1.5,
       ),
-      textStyle: const TextStyle(fontSize: 15),
-    );
-  }
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
 
   static ButtonStyle bodyOdorUnselected(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -108,7 +98,7 @@ class ButtonStyles {
     );
   }
 
-  static ButtonStyle bodyOdorSelected(BuildContext context){
+  static ButtonStyle bodyOdorSelected(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 

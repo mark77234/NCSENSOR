@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../constants/styles.dart';
+import '../widgets/common/my_card.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
 class BreathScreen extends StatefulWidget {
   final String measurement;
-  final String bodymeasurement;
+  final String bodyMeasurement;
 
   const BreathScreen({
     super.key,
     required this.measurement,
-    required this.bodymeasurement,
+    required this.bodyMeasurement,
   });
 
   @override
@@ -46,10 +47,10 @@ class _BreathScreenState extends State<BreathScreen> {
     if (widget.measurement == "음주") {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AlcoholResultScreen(
-          measurement: widget.measurement,
-          bodymeasurement: widget.bodymeasurement
-        )),
+        MaterialPageRoute(
+            builder: (context) => AlcoholResultScreen(
+                measurement: widget.measurement,
+                bodymeasurement: widget.bodyMeasurement)),
       );
     } else if (widget.measurement == "체취") {
       Navigator.push(
@@ -57,7 +58,7 @@ class _BreathScreenState extends State<BreathScreen> {
         MaterialPageRoute(
           builder: (context) => BodyResultScreen(
               measurement: widget.measurement,
-              bodymeasurement: widget.bodymeasurement),
+              bodyMeasurement: widget.bodyMeasurement),
         ),
       );
     }
@@ -74,7 +75,6 @@ class _BreathScreenState extends State<BreathScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        automaticallyImplyLeading: false,
         centerTitle: true,
       ),
       body: Center(
@@ -115,16 +115,7 @@ class _BreathScreenState extends State<BreathScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  child: Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      side: BorderSide(
-                        color: ColorStyles.grey,
-                        width: 1,
-                      ),
-                    ),
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                  child: MyCard(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(

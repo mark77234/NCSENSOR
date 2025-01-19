@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
 import '../constants/styles.dart';
 import 'breath_screen.dart';
-import 'package:flutter_svg/svg.dart';
 
 class MeasureScreen extends StatefulWidget {
   const MeasureScreen({super.key});
@@ -33,8 +34,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 children: [
                   ElevatedButton(
                     style: selectedMeasurement == '음주'
-                        ? ButtonStyles.defaultElevated(context)
-                        : ButtonStyles.selectedElevated(context),
+                        ? ButtonStyles.defaultElevated
+                        : ButtonStyles.selectedElevated,
                     onPressed: () {
                       setState(() {
                         showBodyOdorOptions = false;
@@ -83,8 +84,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
                   const SizedBox(width: 20),
                   ElevatedButton(
                     style: selectedMeasurement == '체취'
-                        ? ButtonStyles.defaultElevated(context)
-                        : ButtonStyles.selectedElevated(context),
+                        ? ButtonStyles.defaultElevated
+                        : ButtonStyles.selectedElevated,
                     onPressed: () {
                       setState(() {
                         showBodyOdorOptions = !showBodyOdorOptions;
@@ -242,7 +243,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
             height: 40,
             width: 40,
           ),
-          const SizedBox(width: 12,),
+          const SizedBox(
+            width: 12,
+          ),
           Column(
             children: [
               Text(
@@ -279,13 +282,12 @@ class _MeasureScreenState extends State<MeasureScreen> {
   }
 
   Future<void> _navigateWithLoading(BuildContext context) async {
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BreathScreen(
           measurement: selectedMeasurement,
-          bodymeasurement: selectedBodyOdor,
+          bodyMeasurement: selectedBodyOdor,
         ),
       ),
     );
