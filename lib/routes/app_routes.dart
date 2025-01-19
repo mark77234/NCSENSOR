@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/manage_screen.dart';
 
-import '../screens/blt_test_screen.dart';
+import '../screens/ble_sceen.dart';
 import '../screens/entry_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_screen.dart';
@@ -27,7 +27,7 @@ class AppRoutes {
       statistics: (_) => MainScreen(selectedIndex: 2),
       profile: (_) => MainScreen(selectedIndex: 3),
       manage: (_) => ManageScreen(),
-      bleTest: (_) => BltTestScreen(),
+      bleTest: (_) => BLECommunicationPage(),
     };
   }
 //에니메이션 같은 거 넣을려면 generateroute를 사용해야 함
