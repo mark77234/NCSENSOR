@@ -6,7 +6,6 @@ import 'package:taesung1/screens/breath_screen.dart';
 import 'package:taesung1/services/api_service.dart';
 
 import '../constants/styles.dart';
-import 'main_screen.dart';
 
 class BodyResultScreen extends StatefulWidget {
   final String bodyMeasurement;
@@ -272,7 +271,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BreathScreen(
@@ -299,11 +298,8 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainScreen()),
-                            );
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorStyles.primary,

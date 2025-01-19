@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
-import 'package:taesung1/screens/main_screen.dart';
 
 import '../constants/styles.dart';
 
@@ -51,6 +50,12 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     return _calculateAverageOfMiddleFive(numericData);
   }
 
+  // <기준>
+  // 안전 : 3500 미만, LED 작동 X
+  // 경고 : 3500 이상, LED 작동 O (300ms)
+  // 위험 : 3800 이상, LED 작동 O (100ms)
+  // "
+
   void _setAlcoholStage() {
     if (alcoholData <= threshold[0]) {
       _resultMessage = '정상';
@@ -92,12 +97,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
             size: 30.0,
           ), // 홈 아이콘
           onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
-              // MainScreen으로 이동
-              (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
-            );
+            Navigator.popUntil(context, (route) => route.isFirst);
           },
         ),
       ),
@@ -267,7 +267,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => BreathScreen(
@@ -294,10 +294,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
-                      );
+                      Navigator.popUntil(context, (route) => route.isFirst);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorStyles.primary,
