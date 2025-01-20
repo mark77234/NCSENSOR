@@ -30,8 +30,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
               children: [
                 ElevatedButton(
                   style: selectedMeasurement == '음주'
-                      ? ButtonStyles.defaultElevated
-                      : ButtonStyles.selectedElevated,
+                      ? ButtonStyles.primaryOutLined
+                      : ButtonStyles.greyOutLined,
                   onPressed: () {
                     setState(() {
                       showBodyOdorOptions = false;
@@ -80,8 +80,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 const SizedBox(width: 20),
                 ElevatedButton(
                   style: selectedMeasurement == '체취'
-                      ? ButtonStyles.defaultElevated
-                      : ButtonStyles.selectedElevated,
+                      ? ButtonStyles.primaryOutLined
+                      : ButtonStyles.greyOutLined,
                   onPressed: () {
                     setState(() {
                       showBodyOdorOptions = !showBodyOdorOptions;
@@ -130,7 +130,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
               ],
             ),
             if (showBodyOdorOptions) ...[
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               Center(
                 child: Text(
                   "측정 부위를 선택해주세요",
@@ -141,7 +141,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               _buildBodyOdorButton('입', context),
               const SizedBox(height: 10),
               _buildBodyOdorButton('발', context),
@@ -222,8 +222,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
     return ElevatedButton(
       style: selectedBodyOdor == '$title 체취'
-          ? ButtonStyles.bodyOdorSelected(context)
-          : ButtonStyles.bodyOdorUnselected(context),
+          ? ButtonStyles.primaryOutLined
+          : ButtonStyles.greyOutLined,
       onPressed: () {
         setState(() {
           selectedBodyOdor = '$title 체취';
@@ -245,7 +245,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
               Text(
