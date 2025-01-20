@@ -146,11 +146,14 @@ class _MeasureScreenState extends State<MeasureScreen> {
           ),
         ),
         const SizedBox(height: 30),
-        _buildBodyOdorButton(articledata!.articles[1].subtypes![0].name),
+        _buildBodyOdorButton(articledata!.articles[1].subtypes![0].name,
+            '입에서 나는 악취 측정', 'assets/mouth.svg'),
         const SizedBox(height: 10),
-        _buildBodyOdorButton(articledata!.articles[1].subtypes![1].name),
+        _buildBodyOdorButton(articledata!.articles[1].subtypes![1].name,
+            '발에서 나는 악취 측정', 'assets/foot.svg'),
         const SizedBox(height: 10),
-        _buildBodyOdorButton(articledata!.articles[1].subtypes![2].name),
+        _buildBodyOdorButton(articledata!.articles[1].subtypes![2].name,
+            '겨드랑이에서 나는 악취 측정', 'assets/armpit.svg'),
       ],
     );
   }
@@ -180,9 +183,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
     );
   }
 
-  ElevatedButton _buildBodyOdorButton(String title) {
-    String iconPath = _getBodyOdorIconPath(title);
-
+  ElevatedButton _buildBodyOdorButton(
+      String title, String description, String assetPath) {
     return ElevatedButton(
       style: selectedBodyOdor == '$title 체취'
           ? ButtonStyles.bodyOdorSelected(context)
@@ -197,7 +199,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset(
-            iconPath,
+            assetPath,
             height: 40,
             width: 40,
           ),
@@ -210,7 +212,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
               ),
               const SizedBox(height: 5),
               Text(
-                _getBodyOdorDescription(title),
+                description,
                 style: TextStyle(fontSize: 12, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
@@ -219,32 +221,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
         ],
       ),
     );
-  }
-
-  String _getBodyOdorIconPath(String bodyPart) {
-    switch (bodyPart) {
-      case '입':
-        return 'assets/mouth.svg';
-      case '발':
-        return 'assets/foot.svg';
-      case '겨드랑이':
-        return 'assets/armpit.svg';
-      default:
-        return '';
-    }
-  }
-
-  String _getBodyOdorDescription(String bodyPart) {
-    switch (bodyPart) {
-      case '입':
-        return '입에서 나는 구취 측정';
-      case '발':
-        return '발에서 나는 악취 측정';
-      case '겨드랑이':
-        return '겨드랑이에서 나는 악취를 측정';
-      default:
-        return '';
-    }
   }
 
   ElevatedButton _buildStartMeasurementButton(BuildContext context) {

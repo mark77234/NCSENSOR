@@ -77,7 +77,7 @@
 //             Icons.home,
 //             color: ColorStyles.primary,
 //             size:30.0,
-//           ), // 홈 아이콘
+//           ), // 홈 icons
 //           onPressed: () {
 //             Navigator.pushAndRemoveUntil(
 //               context,
