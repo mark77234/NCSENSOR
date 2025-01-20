@@ -2,23 +2,74 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:taesung1/models/history_model.dart';
 import 'package:taesung1/models/user_model.dart';
-
+import 'package:taesung1/secrue_storage/secure_storage.dart';
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
 import 'package:taesung1/models/result_model.dart';
 import 'package:taesung1/models/aritcle_model.dart';
 import 'api_client.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
+  final FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  static Future<void> login(
+  static Future<String> login(
       {required String username, required String password}) async {
-    await _apiClient.post('/login', data: {
-      'username': username,
-      'password': password,
-    });
+    try {
+      print('로그인 요청: username = $username, password = $password');
+
+      final response = await _apiClient.post('/login', data: {
+        'username': username,
+        'password': password,
+      });
+
+
+      // 로그인 실패 시 'msg' 필드 확인
+      if (response.data.containsKey('msg')) {
+        throw Exception(response.data['msg']);  // 실패 메시지 처리
+      }
+
+      // 로그인 성공 시 access_token 반환
+      final accessToken = response.data['access_token'];
+      final refreshToken = response.data['refresh_token'];
+
+      print('로그인 성공: access_token = $accessToken, refresh_token = $refreshToken');
+
+      return accessToken;
+    } catch (e) {
+      print('로그인 실패: $e');
+      throw Exception('로그인 실패: $e');  // 예외 처리
+    }
+  }
+
+  // JWT 저장
+  Future<void> saveToken(String token) async {
+    await SecureStorageService.saveToken(token);
+  }
+
+  // JWT 읽기
+  Future<String?> getToken() async {
+    return await SecureStorageService.getToken();
+  }
+
+  static Future<UserProfile> getUserProfile() async {
+    final token = await ApiService().getToken();
+
+    if (token == null) {
+      throw Exception('JWT 토큰이 없습니다. 다시 로그인 해주세요.');
+    }
+
+    final response = await _apiClient.get('/my', options: Options(
+      headers: {
+        'Authorization': 'Bearer $token',  // Authorization 헤더에 JWT 포함
+      },
+    ));
+
+    print(response.data);  // 사용자 프로필 출력
+
+    return UserProfile.fromJson(response.data);
   }
 
   static Future<void> getUser() async {
@@ -64,10 +115,5 @@ class ApiService {
     return (response.data["history"] as List)
         .map((e) => HistoryData.fromJson(e))
         .toList();
-  }
-
-  static Future<UserProfile> getUserProfile() async {
-    final response = await _apiClient.get('/my');
-    return UserProfile.fromJson(response.data);
   }
 }
