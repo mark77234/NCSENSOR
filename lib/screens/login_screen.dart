@@ -4,6 +4,8 @@ import 'package:taesung1/screens/main_screen.dart';
 import 'package:taesung1/services/api_service.dart'; // 메인 화면 경로
 import '../providers/auth_provider.dart'; // AuthProvider 경로
 
+import 'package:taesung1/screens/register_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -104,6 +106,22 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _register_field() {
+    return
+      TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const RegisterScreen()),
+          );
+        },
+        child: Text(
+          '회원가입',
+          style: TextStyle(color: Color(0xFF3B82F6)),
+        ),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             _buildLoginButton(),
             const SizedBox(height: 20),
+            _register_field(),
             if (_errorMessage.isNotEmpty) // 오류 메시지 표시
               Text(
                 _errorMessage,

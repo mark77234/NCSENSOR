@@ -2,18 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:taesung1/models/history_model.dart';
 import 'package:taesung1/models/user_model.dart';
-import 'package:taesung1/secrue_storage/secure_storage.dart';
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
 import 'package:taesung1/models/result_model.dart';
 import 'package:taesung1/models/aritcle_model.dart';
+import '../storage/secure_storage.dart';
 import 'api_client.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
 
   static Future<String> login(
       {required String username, required String password}) async {
@@ -25,22 +23,21 @@ class ApiService {
         'password': password,
       });
 
+      if (response.statusCode == 200) {
+        final accessToken = response.data['access_token'];
+        final refreshToken = response.data['refresh_token'];
 
-      // 로그인 실패 시 'msg' 필드 확인
-      if (response.data.containsKey('msg')) {
-        throw Exception(response.data['msg']);  // 실패 메시지 처리
+        print(
+            '로그인 성공: access_token = $accessToken, refresh_token = $refreshToken');
+
+        return accessToken;
+      } else if (response.statusCode == 401) {
+        throw Exception(response.data['msg']);
+      } else {
+        throw Exception('오류: 상태코드 ${response.statusCode}');
       }
-
-      // 로그인 성공 시 access_token 반환
-      final accessToken = response.data['access_token'];
-      final refreshToken = response.data['refresh_token'];
-
-      print('로그인 성공: access_token = $accessToken, refresh_token = $refreshToken');
-
-      return accessToken;
     } catch (e) {
-      print('로그인 실패: $e');
-      throw Exception('로그인 실패: $e');  // 예외 처리
+      throw Exception('로그인 실패: $e'); // 예외 처리
     }
   }
 
@@ -54,6 +51,39 @@ class ApiService {
     return await SecureStorageService.getToken();
   }
 
+  static Future<void> signup({
+    required String username,
+    required String password,
+    required String name,
+    required String email,
+    required String phoneNumber,
+  }) async {
+    try {
+      print('회원가입 요청: username = $username, name = $name, email = $email, phoneNumber = $phoneNumber');
+
+      final response = await _apiClient.post('/signup', data: {
+        'username': username,
+        'password': password,
+        'name': name,
+        'email': email,
+        'phone_number': phoneNumber,
+      });
+
+      if (response.statusCode == 201) {
+        // 회원가입 성공
+        print('회원가입 성공: 상태 코드 201');
+      } else if (response.statusCode == 409) {
+        // 중복 아이디 오류
+        throw Exception(response.data['msg']); // 중복 아이디 메시지 처리
+      } else {
+        throw Exception('오류: 상태 코드 ${response.statusCode}');
+      }
+    } catch (e) {
+      print('회원가입 실패: $e');
+      throw Exception('회원가입 실패: $e'); // 예외 처리
+    }
+  }
+
   static Future<UserProfile> getUserProfile() async {
     final token = await ApiService().getToken();
 
@@ -61,13 +91,14 @@ class ApiService {
       throw Exception('JWT 토큰이 없습니다. 다시 로그인 해주세요.');
     }
 
-    final response = await _apiClient.get('/my', options: Options(
-      headers: {
-        'Authorization': 'Bearer $token',  // Authorization 헤더에 JWT 포함
-      },
-    ));
+    final response = await _apiClient.get('/my',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token', // Authorization 헤더에 JWT 포함
+          },
+        ));
 
-    print(response.data);  // 사용자 프로필 출력
+    print(response.data); // 사용자 프로필 출력
 
     return UserProfile.fromJson(response.data);
   }
