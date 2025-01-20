@@ -63,6 +63,7 @@ class ButtonStyles {
         width: 1.5,
       ),
     ),
+    disabledBackgroundColor: Colors.white,
     textStyle: const TextStyle(fontSize: 15),
   );
 
