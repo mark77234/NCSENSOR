@@ -79,10 +79,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildMeasurementButton(articledata!.articles[0].name, '혈중 알코올\n농도 측정',
-            'assets/drinking.svg'),
+            'assets/icons/drinking.svg'),
         const SizedBox(width: 20),
         _buildMeasurementButton(
-            articledata!.articles[1].name, '부위별 악취\n농도 측정', 'assets/body.svg'),
+            articledata!.articles[1].name, '부위별 악취\n농도 측정', 'assets/icons/body.svg'),
       ],
     );
   }
@@ -147,13 +147,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
         ),
         const SizedBox(height: 30),
         _buildBodyOdorButton(articledata!.articles[1].subtypes![0].name,
-            '입에서 나는 악취 측정', 'assets/mouth.svg'),
+            '입에서 나는 악취 측정', 'assets/icons/mouth.svg'),
         const SizedBox(height: 10),
         _buildBodyOdorButton(articledata!.articles[1].subtypes![1].name,
-            '발에서 나는 악취 측정', 'assets/foot.svg'),
+            '발에서 나는 악취 측정', 'assets/icons/foot.svg'),
         const SizedBox(height: 10),
         _buildBodyOdorButton(articledata!.articles[1].subtypes![2].name,
-            '겨드랑이에서 나는 악취 측정', 'assets/armpit.svg'),
+            '겨드랑이에서 나는 악취 측정', 'assets/icons/armpit.svg'),
       ],
     );
   }
