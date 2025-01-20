@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  // TextField 위젯을 생성하는 메서드
   Widget _buildTextField({required String label, bool isPassword = false}) {
     return Center(
       child: SizedBox(
@@ -77,7 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // 링크 텍스트
   Widget _buildLinkText({required String text, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,

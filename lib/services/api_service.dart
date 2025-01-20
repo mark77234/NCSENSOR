@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:taesung1/models/history_model.dart';
+import 'package:taesung1/models/user_model.dart';
 
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
@@ -52,6 +53,7 @@ class ApiService {
     final response = await _apiClient.get('/measure/articles');
     return ArticleData.fromJson(response.data);
   }
+
   static Future<List<HistoryData>> getHistoryData(
       {required DateTime start, required DateTime end}) async {
     final response = await _apiClient.get('/history', queryParameters: {
@@ -62,5 +64,10 @@ class ApiService {
     return (response.data["history"] as List)
         .map((e) => HistoryData.fromJson(e))
         .toList();
+  }
+
+  static Future<UserProfile> getUserProfile() async {
+    final response = await _apiClient.get('/my');
+    return UserProfile.fromJson(response.data);
   }
 }

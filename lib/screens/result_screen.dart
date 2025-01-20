@@ -323,13 +323,13 @@ class _ResultScreenState extends State<ResultScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.analytics_outlined,
+            Icons.error,
             size: 48,
             color: Colors.grey,
           ),
           SizedBox(height: 16),
           Text(
-            "조회할 통계가 없습니다.",
+            "데이터를 가져오는데 문제가 발생했습니다.",
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey,
