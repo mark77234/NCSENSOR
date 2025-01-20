@@ -1,22 +1,23 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
 import 'package:taesung1/screens/main_screen.dart';
+
 import '../constants/styles.dart';
 
 class AlcoholResultScreen extends StatefulWidget {
   final String measurement;
-  final String bodymeasurement;
+  final String bodyMeasurement;
 
   const AlcoholResultScreen(
-      {super.key, required this.measurement, required this.bodymeasurement});
+      {super.key, required this.measurement, required this.bodyMeasurement});
 
   @override
   State<AlcoholResultScreen> createState() => _AlcoholResultScreenState();
 }
 
 class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
-
   // 혈중 알코올 농도 (랜덤 값)
   double _alcoholLevel = Random().nextDouble() * 0.10;
 
@@ -76,13 +77,14 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
           icon: Icon(
             Icons.home,
             color: ColorStyles.primary,
-            size:30.0,
+            size: 30.0,
           ), // 홈 아이콘
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const MainScreen()), // MainScreen으로 이동
-                  (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
+              MaterialPageRoute(builder: (context) => const MainScreen()),
+              // MainScreen으로 이동
+              (Route<dynamic> route) => false, // 모든 이전 페이지를 스택에서 제거
             );
           },
         ),
@@ -260,7 +262,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                         MaterialPageRoute(
                             builder: (context) => BreathScreen(
                                 measurement: widget.measurement,
-                                bodymeasurement: widget.bodymeasurement)),
+                                bodyMeasurement: widget.bodyMeasurement)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
