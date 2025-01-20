@@ -120,51 +120,54 @@ class _BreathScreenState extends State<BreathScreen> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BreathProgressIndicator(progress: _progress),
-          const SizedBox(height: 40),
-          SensorStatusBox(
-            onSensorAssigned: _onSensorAssigned,
-            onLostConnection: _onLostConnection,
-            characteristic: _characteristic,
-          ),
-          const SizedBox(height: 70),
-          if (_breathState != BreathState.initial)
-            ElevatedButton(
-              onPressed: () => {
-                _startMeasurement(context)
-                    .then((_) => _navigateToResult(context))
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: _breathState == BreathState.measuring
-                    ? Colors.grey
-                    : Colors.white,
-                backgroundColor: _breathState == BreathState.measuring
-                    ? ColorStyles.grey
-                    : ColorStyles.primary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40,
-                  vertical: 15,
-                ),
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                minimumSize: Size(300, 60),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              child: Text(
-                _breathState == BreathState.measuring ? "측정중..." : "측정하기",
-              ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BreathProgressIndicator(progress: _progress),
+            const SizedBox(height: 40),
+            SensorStatusBox(
+              onSensorAssigned: _onSensorAssigned,
+              onLostConnection: _onLostConnection,
+              characteristic: _characteristic,
             ),
-          const SizedBox(
-            height: 50,
-          ),
-        ],
+            const SizedBox(height: 70),
+            if (_breathState != BreathState.initial)
+              ElevatedButton(
+                onPressed: () => {
+                  _startMeasurement(context)
+                      .then((_) => _navigateToResult(context))
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: _breathState == BreathState.measuring
+                      ? Colors.grey
+                      : Colors.white,
+                  backgroundColor: _breathState == BreathState.measuring
+                      ? ColorStyles.grey
+                      : ColorStyles.primary,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 15,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  minimumSize: Size(300, 60),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: Text(
+                  _breathState == BreathState.measuring ? "측정중..." : "측정하기",
+                ),
+              ),
+            const SizedBox(
+              height: 50,
+            ),
+          ],
+        ),
       ),
     );
   }
