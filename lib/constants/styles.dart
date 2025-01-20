@@ -24,7 +24,7 @@ class TextStyles {
 }
 
 class ButtonStyles {
-  static ButtonStyle elevated = ElevatedButton.styleFrom(
+  static ButtonStyle primaryExpandElevated = ElevatedButton.styleFrom(
     backgroundColor: ColorStyles.primary,
     foregroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -36,7 +36,7 @@ class ButtonStyles {
     iconColor: Colors.white,
   );
 
-  static ButtonStyle outlined = ElevatedButton.styleFrom(
+  static ButtonStyle primaryExpandOutlined = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 16),
     foregroundColor: ColorStyles.primary,
@@ -52,7 +52,7 @@ class ButtonStyles {
     textStyle: TextStyles.subtitle,
   );
 
-  static ButtonStyle selectedElevated = ElevatedButton.styleFrom(
+  static ButtonStyle greyOutLined = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
     padding: EdgeInsets.all(16),
@@ -67,7 +67,7 @@ class ButtonStyles {
     textStyle: const TextStyle(fontSize: 15),
   );
 
-  static ButtonStyle defaultElevated = ElevatedButton.styleFrom(
+  static ButtonStyle primaryOutLined = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     foregroundColor: Colors.black,
     padding: EdgeInsets.all(16),
@@ -80,42 +80,6 @@ class ButtonStyles {
     ),
     textStyle: const TextStyle(fontSize: 15),
   );
-
-  static ButtonStyle bodyOdorUnselected(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: RadiusStyles.rounded,
-        side: BorderSide(
-          color: ColorStyles.grey,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
-
-  static ButtonStyle bodyOdorSelected(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: RadiusStyles.rounded,
-        side: BorderSide(
-          color: ColorStyles.primary,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
 }
 
 class InputStyles {
