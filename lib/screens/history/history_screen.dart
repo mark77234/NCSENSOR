@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../constants/styles.dart';
-import '../models/history_model.dart';
-import '../services/api_service.dart';
-import '../widgets/common/my_header.dart';
+import '../../constants/styles.dart';
+import '../../models/history_model.dart';
+import '../../services/api_service.dart';
+import '../../widgets/common/my_header.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});

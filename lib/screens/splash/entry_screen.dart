@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/splash_screen.dart';
+import 'package:taesung1/screens/splash/splash_screen.dart';
 
-import 'login_screen.dart';
-import 'main_screen.dart';
+import '../login/login_screen.dart';
+import '../main_screen.dart';
 
 class EntryScreen extends StatelessWidget {
   const EntryScreen({super.key});

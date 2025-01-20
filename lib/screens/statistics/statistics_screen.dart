@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../constants/styles.dart';
-import '../models/measure_model.dart';
-import '../models/statistic_data_model.dart';
-import '../services/api_service.dart';
-import '../widgets/common/carousel.dart';
-import '../widgets/common/compare_graph_card.dart';
-import '../widgets/common/my_card.dart';
-import '../widgets/common/my_header.dart';
+import '../../constants/styles.dart';
+import '../../models/measure_model.dart';
+import '../../models/statistic_data_model.dart';
+import '../../services/api_service.dart';
+import '../../widgets/common/carousel.dart';
+import '../../widgets/common/compare_graph_card.dart';
+import '../../widgets/common/my_card.dart';
+import '../../widgets/common/my_header.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});

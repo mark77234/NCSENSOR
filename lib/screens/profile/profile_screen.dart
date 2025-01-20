@@ -5,10 +5,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:taesung1/routes/app_routes.dart';
 import 'package:taesung1/services/api_service.dart';
 
-import '../constants/styles.dart';
-import '../models/user_model.dart';
-import '../widgets/common/editable_field.dart';
-import '../widgets/common/my_header.dart';
+import '../../constants/styles.dart';
+import '../../models/user_model.dart';
+import '../../widgets/common/editable_field.dart';
+import '../../widgets/common/my_header.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {

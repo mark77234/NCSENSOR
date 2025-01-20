@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/styles.dart';
+import '../../constants/styles.dart';
 import 'result_screen.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 

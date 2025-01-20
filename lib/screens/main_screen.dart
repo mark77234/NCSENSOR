@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure_screen.dart';
-import 'package:taesung1/screens/profile_screen.dart';
-import 'package:taesung1/screens/statistics_screen.dart';
+import 'package:taesung1/screens/measure/measure_screen.dart';
+import 'package:taesung1/screens/profile/profile_screen.dart';
+import 'package:taesung1/screens/statistics/statistics_screen.dart';
 
 import '../constants/styles.dart';
-import 'history_screen.dart';
+import 'history/history_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key, this.selectedIndex = 0});

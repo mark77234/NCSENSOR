@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants/styles.dart';
+import '../../constants/styles.dart';
 import 'breath_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taesung1/services/api_service.dart';

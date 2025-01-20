@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taesung1/screens/main_screen.dart';
 import 'package:taesung1/services/api_service.dart'; // 메인 화면 경로
-import '../providers/auth_provider.dart'; // AuthProvider 경로
+import '../../providers/auth_provider.dart'; // AuthProvider 경로
 
-import 'package:taesung1/screens/register_screen.dart';
+import 'package:taesung1/screens/login/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
