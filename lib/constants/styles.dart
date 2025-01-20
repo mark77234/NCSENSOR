@@ -53,8 +53,6 @@ class ButtonStyles {
   );
 
   static ButtonStyle selectedElevated(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
@@ -72,8 +70,6 @@ class ButtonStyles {
   }
 
   static ButtonStyle defaultElevated(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
@@ -91,8 +87,6 @@ class ButtonStyles {
   }
 
   static ButtonStyle bodyOdorUnselected(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
@@ -109,8 +103,6 @@ class ButtonStyles {
   }
 
   static ButtonStyle bodyOdorSelected(BuildContext context){
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
