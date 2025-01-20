@@ -25,8 +25,11 @@ class SensorStatusBox extends StatefulWidget {
 
 class _SensorStatusBoxState extends State<SensorStatusBox> {
   BluetoothDevice? connectedDevice;
-  StreamSubscription? deviceStream;
-  bool isLoading = true;
+  StreamSubscription? deviceConnectStream;
+  StreamSubscription? deviceScanStream;
+  StreamSubscription? isScanningStream;
+
+  bool isScanning = true;
 
   final String targetDeviceName = "ESP32_BLE_Device"; // 디바이스 이름
   final Guid serviceUuid =
@@ -44,127 +47,171 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
 
   @override
   void dispose() {
-    connectedDevice?.disconnect();
-    deviceStream?.cancel();
+    _cancelAll();
+    log("dispose SensorStatusBox");
     super.dispose();
   }
 
+  _cancelAll() {
+    connectedDevice?.disconnect();
+    deviceConnectStream?.cancel();
+    deviceScanStream?.cancel();
+    isScanningStream?.cancel();
+  }
+
   /// BLE 디바이스 스캔 시작
-  void startScan() {
+  Future<void> startScan() async {
     if (!mounted) return;
     try {
       setState(() {
-        isLoading = true;
+        isScanning = true;
       });
       if (connectedDevice == null) {
-        FlutterBluePlus.startScan(
+        log("startScan");
+        bool isConnecting = false;
+        await FlutterBluePlus.startScan(
             timeout: Duration(seconds: 10), withServices: [serviceUuid]);
 
-        FlutterBluePlus.scanResults.listen((results) {
+        deviceScanStream = FlutterBluePlus.scanResults.listen((results) {
           for (ScanResult result in results) {
+            log("BLE센서결과${result.device.platformName}");
             if (result.device.platformName == targetDeviceName) {
               FlutterBluePlus.stopScan(); // 스캔 중지
+              isConnecting = true;
               connectToDevice(result.device);
               break;
             }
+          }
+        }, onError: ((e, s) {
+          _errorHandler(e, s);
+        }), onDone: () {
+          log("스캔완료");
+          if (!isConnecting) {
+            setState(() {
+              isScanning = false;
+            });
+            showSimpleAlert(context,
+                title: "센서없음", content: "연결할 수 있는 센서가 없습니다. 다시 시도해주세요.");
           }
         });
       } else {
         discoverServices(connectedDevice!);
       }
-    } catch (e) {
-      log("ble센서연결에러" + e.toString());
-      showSimpleAlert(context,
-          title: "BLE센서 연결에러",
-          content: "BLE센서 연결에러가 발생했습니다. 다시 시도해주세요.",
-          errorText: e.toString());
+    } catch (e, s) {
+      _errorHandler(e, s, fnName: "startScan");
     }
   }
 
   /// 디바이스 연결
   void connectToDevice(BluetoothDevice device) async {
-    await device.connect();
-    if (!mounted) return;
-    setState(() {
+    try {
+      await device.connect();
+      if (!mounted) return;
       connectedDevice = device;
-    });
-    // 연결 상태 변화 감지
-    deviceStream = device.connectionState.listen((connectionState) {
-      if (connectionState == BluetoothConnectionState.disconnected) {
-        setState(() {
+      // 연결 상태 변화 감지
+      deviceConnectStream = device.connectionState.listen((connectionState) {
+        if (connectionState == BluetoothConnectionState.disconnected) {
           connectedDevice = null;
-        });
+          widget.onLostConnection();
+        }
+      }, onError: (e, s) {
+        _errorHandler(e, s, fnName: "deviceConnectStream");
+      }, onDone: () {
+        connectedDevice = null;
         widget.onLostConnection();
-      }
-    });
+        _cancelAll();
+      });
+    } catch (e, s) {
+      _errorHandler(e, s, fnName: "connectToDevice");
+    }
     discoverServices(device);
   }
 
   /// 서비스 및 특성 탐색
   void discoverServices(BluetoothDevice device) async {
-    List<BluetoothService> services = await device.discoverServices();
-    for (BluetoothService service in services) {
-      if (service.uuid == serviceUuid) {
-        for (BluetoothCharacteristic characteristic
-            in service.characteristics) {
-          if (characteristic.uuid == characteristicUuid &&
-              characteristic.properties.notify) {
-            widget.onSensorAssigned(characteristic);
-            setState(() {
-              isLoading = false;
-            });
+    try {
+      List<BluetoothService> services = await device.discoverServices();
+      for (BluetoothService service in services) {
+        if (service.uuid == serviceUuid) {
+          for (BluetoothCharacteristic characteristic
+              in service.characteristics) {
+            if (characteristic.uuid == characteristicUuid) {
+              //set read
+              log(characteristic.properties.toString());
+              widget.onSensorAssigned(characteristic);
+              setState(() {
+                isScanning = false;
+              });
+            }
           }
         }
       }
+    } catch (e, s) {
+      _errorHandler(e, s, fnName: "discoverServices");
     }
+  }
+
+  void _errorHandler(e, s, {String? fnName}) {
+    print('Stack trace: $s');
+    if (!mounted) return;
+    setState(() {
+      isScanning = false;
+    });
+    connectedDevice = null;
+    _cancelAll();
+    log("함수 : ${fnName ?? ""}");
+    log("ble센서연결에러 " + e.toString());
+    showSimpleAlert(context,
+        title: "BLE센서 연결에러",
+        content: "BLE센서 연결에러가 발생했습니다. 다시 시도해주세요.",
+        errorText: e.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     bool isRecognized = widget.characteristic != null;
     return ElevatedButton(
-      style: ButtonStyles.defaultElevated,
-      onPressed: () {
-        if (!isRecognized && !isLoading) {
-          startScan();
-        }
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+      style: ButtonStyles.selectedElevated,
+      onPressed: !isRecognized && !isScanning ? startScan : null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (isRecognized) ...[
             Text(
-              isRecognized
-                  ? "센서 상태"
-                  : isLoading
-                      ? "센서 연결 중.."
-                      : "버튼을 눌러 다시 연결을 시도해 주세요",
+              "센서 상태",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(width: 100),
-            if (isRecognized) ...[
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: ColorStyles.primary,
-                  shape: BoxShape.circle,
-                ),
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: ColorStyles.primary,
+                shape: BoxShape.circle,
               ),
-              Text(
-                "인식완료",
+            ),
+            Text(
+              "인식완료",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: ColorStyles.primary,
+              ),
+            ),
+          ] else ...[
+            Flexible(
+              child: Text(
+                isScanning ? "센서 연결 중.." : "버튼을 눌러 다시 연결을 시도해 주세요",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: ColorStyles.primary,
                 ),
               ),
-            ]
-          ],
-        ),
+            ),
+          ]
+        ],
       ),
     );
   }
