@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure/measure_screen.dart';
+import 'package:taesung1/screens/measure/select_screen.dart';
 import 'package:taesung1/screens/profile/profile_screen.dart';
 import 'package:taesung1/screens/statistics/statistics_screen.dart';
 
