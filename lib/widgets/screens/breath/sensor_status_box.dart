@@ -171,7 +171,7 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
   Widget build(BuildContext context) {
     bool isRecognized = widget.characteristic != null;
     return ElevatedButton(
-      style: ButtonStyles.selectedElevated,
+      style: ButtonStyles.greyOutLined,
       onPressed: !isRecognized && !isScanning ? startScan : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
