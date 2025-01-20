@@ -25,7 +25,13 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
   late String _resultMessage;
   late String _advice;
   late Color _progressBarColor;
-  List<double> threshold = [0.03, 0.05, 0.1];
+
+  // <기준>
+  // 안전 : 3500 미만, LED 작동 X
+  // 경고 : 3500 이상, LED 작동 O (300ms)
+  // 위험 : 3800 이상, LED 작동 O (100ms)
+  // "
+  List<double> threshold = [3500, 3800, 4500];
 
   @override
   void initState() {
@@ -50,11 +56,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     return _calculateAverageOfMiddleFive(numericData);
   }
 
-  // <기준>
-  // 안전 : 3500 미만, LED 작동 X
-  // 경고 : 3500 이상, LED 작동 O (300ms)
-  // 위험 : 3800 이상, LED 작동 O (100ms)
-  // "
 
   void _setAlcoholStage() {
     if (alcoholData <= threshold[0]) {
@@ -64,7 +65,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
     } else if (alcoholData <= threshold[1]) {
       _resultMessage = '면허정지';
       _advice = '면허 정지 수준입니다. \n운전을 하실 수 없습니다.';
-      _progressBarColor = Colors.green;
+      _progressBarColor = Color(0xFFF4C837);
     } else {
       _resultMessage = '면허취소';
       _advice = '면허 취소 수준입니다. \n 운전을 하실 수 없습니다.';
@@ -226,7 +227,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                             ),
                           ),
                           Text(
-                            '0.03% ~ 0.049%',
+                            '${threshold[0]} ~ ${threshold[1]}% 미만',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -247,7 +248,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                             ),
                           ),
                           Text(
-                            '0.05% 이상',
+                            '${threshold[1]}% 이상',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
