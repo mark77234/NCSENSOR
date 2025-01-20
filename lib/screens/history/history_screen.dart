@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -343,7 +344,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 2.0),
       child: SvgPicture.asset(
-        "assets/$assetName.svg",
+        "assets/icons/$assetName.svg",
         width: 40,
         height: 40,
       ),

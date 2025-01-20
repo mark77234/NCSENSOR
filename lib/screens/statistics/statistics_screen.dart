@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -118,7 +119,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
           child: SvgPicture.asset(
-            "assets/${card.icon}",
+            "assets/icons/${card.icon}",
             width: 40,
             height: 40,
           ),
@@ -164,7 +165,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 ),
               ),
               SvgPicture.asset(
-                "assets/customGraph.svg",
+                "assets/icons/customGraph.svg",
                 width: 96,
                 height: 200,
               ),
