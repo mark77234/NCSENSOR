@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../constants/styles.dart';
-import 'measure_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taesung1/services/api_service.dart';
 import 'package:taesung1/models/aritcle_model.dart';
@@ -16,6 +15,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
   bool showBodyOdorOptions = false;
   String selectedMeasurement = '';
   String selectedBodyOdor = '';
+  String alcohol = '';
+  String body = '';
 
   ArticleData? articledata;
 
@@ -74,20 +75,32 @@ class _MeasureScreenState extends State<MeasureScreen> {
     );
   }
 
-  Row _buildMeasurementButtons() {
+  Widget _buildMeasurementButtons() {
+    if (articledata == null || articledata!.articles.isEmpty)
+      return SizedBox.shrink();
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildMeasurementButton(articledata!.articles[0].name, '혈중 알코올\n농도 측정',
-            'assets/icons/drinking.svg'),
-        const SizedBox(width: 20),
-        _buildMeasurementButton(
-            articledata!.articles[1].name, '부위별 악취\n농도 측정', 'assets/icons/body.svg'),
+        for (var article in articledata!.articles)
+          if (article.subtypes == null || article.subtypes!.isEmpty)
+            // No subtypes, create button for the article only
+            _buildNoSubtypesButton(
+              article.name,
+              '${article.name} 측정',
+              'assets/icons/drinking.svg',
+            )
+          else
+            _buildYesSubtypesButton(
+              article.name,
+              '${article.name} 측정',
+              'assets/icons/body.svg',
+            ),
       ],
     );
   }
 
-  ElevatedButton _buildMeasurementButton(
+  ElevatedButton _buildNoSubtypesButton(
       String measurement, String description, String assetPath) {
     return ElevatedButton(
       style: selectedMeasurement == measurement
@@ -95,9 +108,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
           : ButtonStyles.selectedElevated(context),
       onPressed: () {
         setState(() {
-          showBodyOdorOptions = measurement == '체취';
           selectedMeasurement = measurement;
           selectedBodyOdor = '';
+          showBodyOdorOptions = false;
         });
       },
       child: Column(
@@ -116,13 +129,60 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 children: [
                   Text(
                     measurement,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold, height: 1.5),
                     textAlign: TextAlign.center,
                   ),
                   Text(
                     description,
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  ElevatedButton _buildYesSubtypesButton(
+      String measurement, String description, String assetPath) {
+    return ElevatedButton(
+      style: selectedMeasurement == measurement
+          ? ButtonStyles.defaultElevated(context)
+          : ButtonStyles.selectedElevated(context),
+      onPressed: () {
+        setState(() {
+          selectedMeasurement = measurement;
+          selectedBodyOdor = '';
+          showBodyOdorOptions = true;
+        });
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              SvgPicture.asset(
+                assetPath,
+                height: 40,
+                width: 40,
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    measurement,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold, height: 1.5),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    description,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -135,10 +195,14 @@ class _MeasureScreenState extends State<MeasureScreen> {
   }
 
   Widget _buildBodyOdorSelection() {
+    if (articledata == null || articledata!.articles.isEmpty) {
+      return SizedBox.shrink();
+    }
+
     return Column(
       children: [
         const SizedBox(height: 40),
-        Center(
+        const Center(
           child: Text(
             "측정 부위를 선택해주세요",
             style: TextStyle(
@@ -146,24 +210,45 @@ class _MeasureScreenState extends State<MeasureScreen> {
           ),
         ),
         const SizedBox(height: 30),
-        _buildBodyOdorButton(articledata!.articles[1].subtypes![0].name,
-            '입에서 나는 악취 측정', 'assets/icons/mouth.svg'),
-        const SizedBox(height: 10),
-        _buildBodyOdorButton(articledata!.articles[1].subtypes![1].name,
-            '발에서 나는 악취 측정', 'assets/icons/foot.svg'),
-        const SizedBox(height: 10),
-        _buildBodyOdorButton(articledata!.articles[1].subtypes![2].name,
-            '겨드랑이에서 나는 악취 측정', 'assets/icons/armpit.svg'),
+        for (var article in articledata!.articles)
+          if (article.subtypes != null && article.subtypes!.isNotEmpty)
+            Column(
+              children: [
+                for (var subtype in article.subtypes!)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: _buildBodyOdorButton(
+                      subtype.name,
+                      '${subtype.name} 악취 측정',
+                      'assets/icons/${_getIconForSubtype(subtype.name)}.svg',
+                    ),
+                  ),
+                const SizedBox(height: 10),
+              ],
+            ),
       ],
     );
   }
 
+  String _getIconForSubtype(String name) {
+    switch (name) {
+      case '입냄새':
+        return "mouth";
+      case '발냄새':
+        return 'foot';
+      case '겨드랑이냄새':
+        return 'armpit';
+      default:
+        return 'default'; // 매칭되는 값이 없을 경우 기본 아이콘
+    }
+  }
+
   Widget _buildEmptyState() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 32),
+      padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Icon(
             Icons.error,
             size: 48,
@@ -208,12 +293,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
               Text(
                 description,
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -233,7 +319,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
           borderRadius: BorderRadius.circular(15),
         ),
       ),
-      onPressed: () async {
+      onPressed: () {
         if (selectedMeasurement.isEmpty) {
           _showErrorDialog(context, '먼저 음주 또는 체취 항목을 선택하세요.');
         } else if (selectedMeasurement == '체취' && selectedBodyOdor.isEmpty) {
@@ -253,7 +339,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BreathScreen(),
+        builder: (context) => const MeasureScreen(),
       ),
     );
   }

@@ -18,7 +18,7 @@ class ApiService {
     try {
       print('로그인 요청: username = $username, password = $password');
 
-      final response = await _apiClient.post('/login', data: {
+      final response = await _apiClient.post('/auth/login', data: {
         'username': username,
         'password': password,
       });

@@ -4,8 +4,8 @@ import 'package:taesung1/services/interceptor.dart';
 Dio createClient(baseUrl) {
   return Dio(BaseOptions(
     baseUrl: baseUrl,
-    connectTimeout: Duration(seconds: 5),
-    receiveTimeout: Duration(seconds: 3),
+    connectTimeout: Duration(seconds: 10),
+    receiveTimeout: Duration(seconds: 10),
     headers: {
       'Content-Type': 'application/json',
     },

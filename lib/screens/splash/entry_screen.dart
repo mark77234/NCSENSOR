@@ -22,7 +22,7 @@ class EntryScreen extends StatelessWidget {
         } else if (snapshot.hasData && snapshot.data == true) {
           return MainScreen(); // 로그인된 상태 -> 메인 화면
         } else {
-          return LoginScreen(); // 로그인 안된 상태 -> 로그인 화면
+          return MainScreen(); // 로그인 안된 상태 -> 로그인 화면
         }
       },
     );
