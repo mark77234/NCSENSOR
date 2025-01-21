@@ -16,8 +16,7 @@ class _SelectScreenState extends State<SelectScreen> {
   bool showBodyOdorOptions = false;
   String selectedMeasurement = '';
   String selectedBodyOdor = '';
-  String alcohol = '';
-  String body = '';
+  String UUID = '';
 
   ArticleData? articledata;
 
@@ -55,179 +54,178 @@ class _SelectScreenState extends State<SelectScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 50),
               if (_isLabelLoading)
-                CircularProgressIndicator()
+                const CircularProgressIndicator()
               else if (articledata == null || articledata!.articles.isEmpty)
                 _buildEmptyState()
               else
                 Column(
                   children: [
-                    const SizedBox(height: 50),
-                    _buildMeasurementButtons(),
-                    if (showBodyOdorOptions) _buildBodyOdorSelection(),
-                    const SizedBox(height: 50),
-                    _buildStartMeasurementButton(context),
-                  ],
-                )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMeasurementButtons() {
-    if (articledata == null || articledata!.articles.isEmpty)
-      return SizedBox.shrink();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        for (var article in articledata!.articles)
-          if (article.subtypes == null || article.subtypes!.isEmpty)
-            // No subtypes, create button for the article only
-            _buildNoSubtypesButton(
-              article.name,
-              '${article.name} 측정',
-              'assets/icons/drinking.svg',
-            )
-          else
-            _buildYesSubtypesButton(
-              article.name,
-              '${article.name} 측정',
-              'assets/icons/body.svg',
-            ),
-      ],
-    );
-  }
-
-  ElevatedButton _buildNoSubtypesButton(
-      String measurement, String description, String assetPath) {
-    return ElevatedButton(
-      style: selectedMeasurement == measurement
-          ? ButtonStyles.defaultElevated(context)
-          : ButtonStyles.selectedElevated(context),
-      onPressed: () {
-        setState(() {
-          selectedMeasurement = measurement;
-          selectedBodyOdor = '';
-          showBodyOdorOptions = false;
-        });
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                assetPath,
-                height: 40,
-                width: 40,
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    measurement,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold, height: 1.5),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    description,
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  ElevatedButton _buildYesSubtypesButton(
-      String measurement, String description, String assetPath) {
-    return ElevatedButton(
-      style: selectedMeasurement == measurement
-          ? ButtonStyles.defaultElevated(context)
-          : ButtonStyles.selectedElevated(context),
-      onPressed: () {
-        setState(() {
-          selectedMeasurement = measurement;
-          selectedBodyOdor = '';
-          showBodyOdorOptions = true;
-        });
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                assetPath,
-                height: 40,
-                width: 40,
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    measurement,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold, height: 1.5),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    description,
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBodyOdorSelection() {
-    if (articledata == null || articledata!.articles.isEmpty) {
-      return SizedBox.shrink();
-    }
-
-    return Column(
-      children: [
-        const SizedBox(height: 40),
-        const Center(
-          child: Text(
-            "측정 부위를 선택해주세요",
-            style: TextStyle(
-                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-        ),
-        const SizedBox(height: 30),
-        for (var article in articledata!.articles)
-          if (article.subtypes != null && article.subtypes!.isNotEmpty)
-            Column(
-              children: [
-                for (var subtype in article.subtypes!)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: _buildBodyOdorButton(
-                      subtype.name,
-                      '${subtype.name} 악취 측정',
-                      'assets/icons/${_getIconForSubtype(subtype.name)}.svg',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        for (var article in articledata!.articles)
+                          ElevatedButton(
+                            style: selectedMeasurement == article.name
+                                ? ButtonStyles.defaultElevated(context)
+                                : ButtonStyles.selectedElevated(context),
+                            onPressed: () {
+                              setState(() {
+                                selectedMeasurement = article.name;
+                                selectedBodyOdor = '';
+                                UUID = article.id;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/${_getIconFortype(article.name)}.svg',
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          article.name,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.5,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Text(
+                                          '${article.name} 측정',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
                     ),
+                    if (selectedMeasurement.isNotEmpty &&
+                        articledata!.articles.any((article) =>
+                            article.name == selectedMeasurement &&
+                            article.subtypes != null &&
+                            article.subtypes!.isNotEmpty))
+                      Column(
+                        children: [
+                          const SizedBox(height: 40),
+                          const Center(
+                            child: Text(
+                              "측정 부위를 선택해주세요",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          Column(
+                            children: [
+                              for (var subtype in articledata!.articles
+                                  .firstWhere((article) =>
+                                      article.name == selectedMeasurement)
+                                  .subtypes!)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: ElevatedButton(
+                                    style: selectedBodyOdor == subtype.name
+                                        ? ButtonStyles.bodyOdorSelected(context)
+                                        : ButtonStyles.bodyOdorUnselected(
+                                            context),
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedBodyOdor = subtype.name;
+                                        UUID = subtype.id;
+                                      });
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/icons/${_getIconForSubtype(subtype.name)}.svg',
+                                          height: 40,
+                                          width: 40,
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              subtype.name,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              '${subtype.name} 악취 측정',
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorStyles.primary,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(300, 60),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                const SizedBox(height: 10),
-              ],
-            ),
-      ],
+                ),
+                onPressed: () {
+                  if (selectedMeasurement.isEmpty) {
+                    _showErrorDialog(context, '먼저 음주 또는 체취 항목을 선택하세요.');
+                  } else if (selectedMeasurement == '체취' &&
+                      selectedBodyOdor.isEmpty) {
+                    _showErrorDialog(context, '체취 부위를 선택해 주세요.');
+                  } else {
+                    _navigate(context);
+                  }
+                },
+                child: const Text(
+                  '측정 시작',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -240,7 +238,18 @@ class _SelectScreenState extends State<SelectScreen> {
       case '겨드랑이냄새':
         return 'armpit';
       default:
-        return 'default'; // 매칭되는 값이 없을 경우 기본 아이콘
+        return 'default';
+    }
+  }
+
+  String _getIconFortype(String name) {
+    switch (name) {
+      case '체취':
+        return "body";
+      case '음주':
+        return 'drinking';
+      default:
+        return 'default';
     }
   }
 
@@ -269,78 +278,11 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
-  ElevatedButton _buildBodyOdorButton(
-      String title, String description, String assetPath) {
-    return ElevatedButton(
-      style: selectedBodyOdor == '$title 체취'
-          ? ButtonStyles.bodyOdorSelected(context)
-          : ButtonStyles.bodyOdorUnselected(context),
-      onPressed: () {
-        setState(() {
-          selectedBodyOdor = '$title 체취';
-        });
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            assetPath,
-            height: 40,
-            width: 40,
-          ),
-          const SizedBox(width: 12),
-          Column(
-            children: [
-              Text(
-                title,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                description,
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  ElevatedButton _buildStartMeasurementButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ColorStyles.primary,
-        foregroundColor: Colors.white,
-        minimumSize: const Size(300, 60),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
-      onPressed: () {
-        if (selectedMeasurement.isEmpty) {
-          _showErrorDialog(context, '먼저 음주 또는 체취 항목을 선택하세요.');
-        } else if (selectedMeasurement == '체취' && selectedBodyOdor.isEmpty) {
-          _showErrorDialog(context, '체취 부위를 선택해 주세요.');
-        } else {
-          _navigate(context);
-        }
-      },
-      child: const Text(
-        '측정 시작',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
   Future<void> _navigate(BuildContext context) async {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MeasureScreen(),
+        builder: (context) => MeasureScreen(UUID),
       ),
     );
   }

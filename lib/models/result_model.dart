@@ -26,8 +26,8 @@ class BodyResultData {
 }
 
 class Chart {
-  final int min;
-  final int max;
+  final double min;
+  final double max;
   final Result result;
 
   Chart({
@@ -47,7 +47,7 @@ class Chart {
 
 class Result {
   final String unit;
-  final int value;
+  final double value;
 
   Result({
     required this.unit,

@@ -6,6 +6,8 @@ import 'package:taesung1/services/api_service.dart';
 import 'package:taesung1/models/result_model.dart';
 
 class ResultScreen extends StatefulWidget {
+  final String UUID;
+  ResultScreen(this.UUID, {super.key});
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
@@ -14,25 +16,32 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   BodyResultData? bodyResultData;
   bool _isDataLoading = false;
+  late String articleId = widget.UUID;
+  Map<String, dynamic> sensors = {
+    "s1": {"sensor_id": "UUID", "value": 0.0},
+    "s2": {"sensor_id": "UUID", "value": 0.0},
+    "s3": {"sensor_id": "UUID", "value": 0.0},
+    "s4": {"sensor_id": "UUID", "value": 0.0},
+  };
 
   @override
   void initState() {
     super.initState();
-    _loadBodyResult();
+    _loadBodyResult(articleId, sensors);
   }
 
-  Future<void> _loadBodyResult() async {
+  Future<void> _loadBodyResult(String articleId, Map<String,dynamic> sensors) async {
     setState(() {
       _isDataLoading = true;
     });
+
     try {
-      final data = await ApiService.getBodyData();
+      final data = await ApiService.getBodyData(articleId, sensors);
       setState(() {
         bodyResultData = data;
       });
-    } catch (e, s) {
-      print('Error loading body result data: $e');
-      print(s);
+    } catch(e) {
+      print("오류: ${e}");
     }
     setState(() {
       _isDataLoading = false;
@@ -129,15 +138,15 @@ class _ResultScreenState extends State<ResultScreen> {
                     CircleAvatar(
                       radius: 5,
                       backgroundColor:
-                          bodyResultData!.level.sections[stage - 1].color,
+                          bodyResultData!.level.sections[stage].color,
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      bodyResultData!.level.sections[stage - 1].name,
+                      bodyResultData!.level.sections[stage].name,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: bodyResultData!.level.sections[stage - 1].color,
+                        color: bodyResultData!.level.sections[stage].color,
                       ),
                     ),
                   ],
@@ -172,7 +181,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   bodyResultData!.chart.max,
               backgroundColor: const Color(0xFFF3F4F6),
               valueColor: AlwaysStoppedAnimation<Color>(
-                  bodyResultData!.level.sections[stage - 1].color),
+                  bodyResultData!.level.sections[stage].color),
             ),
             const SizedBox(height: 10),
             Text(
@@ -214,7 +223,7 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             const SizedBox(height: 10),
             Column(
-              children: List.generate(5, (index) {
+              children: List.generate(bodyResultData!.level.sections.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
@@ -266,7 +275,7 @@ class _ResultScreenState extends State<ResultScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MeasureScreen(),
+                builder: (context) => MeasureScreen(widget.UUID),
               ),
             );
           },

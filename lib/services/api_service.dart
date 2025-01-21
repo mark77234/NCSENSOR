@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:taesung1/models/history_model.dart';
@@ -59,7 +61,8 @@ class ApiService {
     required String phoneNumber,
   }) async {
     try {
-      print('회원가입 요청: username = $username, name = $name, email = $email, phoneNumber = $phoneNumber');
+      print(
+          '회원가입 요청: username = $username, name = $name, email = $email, phoneNumber = $phoneNumber');
 
       final response = await _apiClient.post('/signup', data: {
         'username': username,
@@ -126,9 +129,20 @@ class ApiService {
         .toList();
   }
 
-  static Future<BodyResultData> getBodyData() async {
-    final response = await _apiClient.get('/measure');
-    return BodyResultData.fromJson(response.data);
+  static Future<BodyResultData> getBodyData(
+      String articleId, Map<String, dynamic> sensors) async {
+    String sensorsJson = jsonEncode(sensors);
+
+    try {
+      final response = await _apiClient.get('/measure', queryParameters: {
+        'article_id': articleId,
+        'sensors': sensorsJson,
+      });
+      return BodyResultData.fromJson(response.data);
+    } catch (e) {
+      print("error: $e");
+      rethrow;
+    }
   }
 
   static Future<ArticleData> getArticleData() async {

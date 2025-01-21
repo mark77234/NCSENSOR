@@ -3,6 +3,9 @@ import '../../constants/styles.dart';
 import 'result_screen.dart';
 
 class MeasureScreen extends StatefulWidget {
+  final String UUID;
+  MeasureScreen(this.UUID, {super.key});
+
   @override
   State<MeasureScreen> createState() => _MeasureScreenState();
 }
@@ -42,7 +45,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultScreen(),
+        builder: (context) => ResultScreen(widget.UUID),
       ),
     );
   }
