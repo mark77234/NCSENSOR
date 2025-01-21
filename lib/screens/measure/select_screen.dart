@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:taesung1/screens/measure/measure_screen.dart';
 import '../../constants/styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taesung1/services/api_service.dart';
 import 'package:taesung1/models/aritcle_model.dart';
 
-class MeasureScreen extends StatefulWidget {
-  const MeasureScreen({super.key});
+class SelectScreen extends StatefulWidget {
+  const SelectScreen({super.key});
 
   @override
-  State<MeasureScreen> createState() => _MeasureScreenState();
+  State<SelectScreen> createState() => _SelectScreenState();
 }
 
-class _MeasureScreenState extends State<MeasureScreen> {
+class _SelectScreenState extends State<SelectScreen> {
   bool showBodyOdorOptions = false;
   String selectedMeasurement = '';
   String selectedBodyOdor = '';
@@ -325,7 +326,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
         } else if (selectedMeasurement == '체취' && selectedBodyOdor.isEmpty) {
           _showErrorDialog(context, '체취 부위를 선택해 주세요.');
         } else {
-          _navigateWithLoading(context);
+          _navigate(context);
         }
       },
       child: const Text(
@@ -335,11 +336,11 @@ class _MeasureScreenState extends State<MeasureScreen> {
     );
   }
 
-  Future<void> _navigateWithLoading(BuildContext context) async {
+  Future<void> _navigate(BuildContext context) async {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MeasureScreen(),
+        builder: (context) => MeasureScreen(),
       ),
     );
   }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../../constants/styles.dart';
 import 'result_screen.dart';
 
-class BreathScreen extends StatefulWidget {
+class MeasureScreen extends StatefulWidget {
   @override
-  State<BreathScreen> createState() => _BreathScreenState();
+  State<MeasureScreen> createState() => _MeasureScreenState();
 }
 
-class _BreathScreenState extends State<BreathScreen> {
+class _MeasureScreenState extends State<MeasureScreen> {
   bool _isLoading = false;
   double _progress = 0.0;
   String sensorStatus = "인식불가";

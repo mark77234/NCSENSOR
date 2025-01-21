@@ -26,7 +26,7 @@ class _MainScreenState extends State<MainScreen> { // 상태관리 클래스
 
 
   final List<PageData> _pages = [ // 페이지 데이터 리스트
-    PageData(MeasureScreen(), '측정', Icons.home),
+    PageData(SelectScreen(), '측정', Icons.home),
     PageData(HistoryScreen(), '기록', Icons.history),
     PageData(StatisticsScreen(), '통계', Icons.analytics_outlined),
     PageData(ProfileScreen(), '프로필', Icons.person),

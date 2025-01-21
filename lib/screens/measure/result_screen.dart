@@ -266,7 +266,7 @@ class _ResultScreenState extends State<ResultScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BreathScreen(),
+                builder: (context) => MeasureScreen(),
               ),
             );
           },
