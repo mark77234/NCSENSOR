@@ -70,7 +70,7 @@ class _BreathScreenState extends State<BreathScreen> {
         MaterialPageRoute(
             builder: (context) => AlcoholResultScreen(
                 measurement: widget.measurement,
-                bodymeasurement: widget.bodyMeasurement)),
+                bodyMeasurement: widget.bodyMeasurement)),
       );
     } else if (widget.measurement == "체취") {
       Navigator.push(
