@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/styles.dart';
 import '../widgets/common/my_card.dart';
+import '../widgets/screens/breath_progress_indicator.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
@@ -108,34 +109,7 @@ class _BreathScreenState extends State<BreathScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 180,
-                height: 180,
-                child: CircularProgressIndicator(
-                  value: _progress,
-                  strokeWidth: 18,
-                  backgroundColor: Color(0xFFF3F4F6),
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Color.lerp(Colors.green, ColorStyles.primary, _progress) ??
-                        ColorStyles.primary, // null 처리
-                  ),
-                ),
-              ),
-              Text(
-                '${(_progress * 100).toInt()}%',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Color.lerp(
-                          ColorStyles.grey, ColorStyles.primary, _progress) ??
-                      ColorStyles.primary, // null 처리
-                ),
-              ),
-            ],
-          ),
+          BreathProgressIndicator(progress: _progress),
           const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -178,36 +152,38 @@ class _BreathScreenState extends State<BreathScreen> {
             ],
           ),
           const SizedBox(height: 70),
-          ElevatedButton(
-            onPressed: () => _startMeasurement(context),
-            style: ElevatedButton.styleFrom(
-              foregroundColor: _breathState == BreathState.measuring
-                  ? Colors.grey
-                  : Colors.white,
-              backgroundColor: _breathState == BreathState.measuring
-                  ? ColorStyles.grey
-                  : ColorStyles.primary,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 40,
-                vertical: 15,
-              ),
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-              minimumSize: Size(300, 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            child: Text(
-              _breathState == BreathState.measuring ? "측정중..." : "측정하기",
-            ),
-          ),
+          _buildBreathButton(context),
           const SizedBox(
             height: 50,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBreathButton(BuildContext context) {
+    bool isMeasuring = _breathState == BreathState.measuring;
+    return ElevatedButton(
+      onPressed: () =>
+          {_startMeasurement(context).then((_) => _navigateToResult(context))},
+      style: ElevatedButton.styleFrom(
+        foregroundColor: isMeasuring ? Colors.grey : Colors.white,
+        backgroundColor: isMeasuring ? ColorStyles.grey : ColorStyles.primary,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 40,
+          vertical: 15,
+        ),
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+        minimumSize: Size(300, 60),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      child: Text(
+        isMeasuring ? "측정중..." : "측정하기",
       ),
     );
   }
