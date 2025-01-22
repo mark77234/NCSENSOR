@@ -19,8 +19,15 @@ class BreathScreen extends StatefulWidget {
   State<BreathScreen> createState() => _BreathScreenState();
 }
 
+enum BreathState {
+  initial, // 센서 연결 중
+  ready, // 측정 준비 완료
+  measuring, // 측정 중
+  done, // 측정 완료
+}
+
 class _BreathScreenState extends State<BreathScreen> {
-  bool _isLoading = false;
+  BreathState _breathState = BreathState.ready;
   double _progress = 0.0;
   double _blowLimitSec = 10.0;
 
@@ -48,7 +55,7 @@ class _BreathScreenState extends State<BreathScreen> {
 
   Future<void> _startMeasurement(BuildContext context) async {
     setState(() {
-      _isLoading = true;
+      _breathState = BreathState.measuring;
     });
 
     await _showBlowDialog(context);
@@ -59,6 +66,7 @@ class _BreathScreenState extends State<BreathScreen> {
       });
     }
     await Future.delayed(const Duration(milliseconds: 50));
+
     _navigateToResult(context);
   }
 
@@ -173,9 +181,12 @@ class _BreathScreenState extends State<BreathScreen> {
           ElevatedButton(
             onPressed: () => _startMeasurement(context),
             style: ElevatedButton.styleFrom(
-              foregroundColor: _isLoading ? Colors.grey : Colors.white,
-              backgroundColor:
-                  _isLoading ? ColorStyles.grey : ColorStyles.primary,
+              foregroundColor: _breathState == BreathState.measuring
+                  ? Colors.grey
+                  : Colors.white,
+              backgroundColor: _breathState == BreathState.measuring
+                  ? ColorStyles.grey
+                  : ColorStyles.primary,
               padding: const EdgeInsets.symmetric(
                 horizontal: 40,
                 vertical: 15,
@@ -190,7 +201,7 @@ class _BreathScreenState extends State<BreathScreen> {
               ),
             ),
             child: Text(
-              _isLoading ? "측정중..." : "측정하기",
+              _breathState == BreathState.measuring ? "측정중..." : "측정하기",
             ),
           ),
           const SizedBox(
