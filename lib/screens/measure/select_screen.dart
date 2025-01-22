@@ -279,7 +279,7 @@ class _SelectScreenState extends State<SelectScreen> {
   }
 
   Future<void> _navigate(BuildContext context) async {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => MeasureScreen(UUID),

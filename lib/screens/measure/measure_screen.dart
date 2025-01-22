@@ -42,7 +42,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
   }
 
   void _navigateToResult(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => ResultScreen(widget.UUID),

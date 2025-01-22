@@ -18,14 +18,12 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   String _errorMessage = '';
 
-  // 비밀번호 가리기/보이기 토글
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
 
-  // 텍스트 필드 위젯 빌드
   Widget _buildTextField({
     required String label,
     bool isPassword = false,
@@ -51,12 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             suffixIcon: isPassword
                 ? IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: const Color(0xFFB0B0B0),
-              ),
-              onPressed: _togglePasswordVisibility,
-            )
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: const Color(0xFFB0B0B0),
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  )
                 : null,
           ),
         ),
@@ -79,12 +77,14 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        child: const Text('로그인'),
+        child: const Text(
+          '로그인',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
 
-  // 회원가입 링크
   Widget _registerField() {
     return TextButton(
       onPressed: () {
@@ -120,7 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // 오류 다이얼로그 표시
   void _showErrorDialog(String error) {
     setState(() {
       _errorMessage = error;

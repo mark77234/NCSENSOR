@@ -272,7 +272,7 @@ class _ResultScreenState extends State<ResultScreen> {
       children: [
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => MeasureScreen(widget.UUID),
@@ -298,7 +298,7 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => const MainScreen(),
