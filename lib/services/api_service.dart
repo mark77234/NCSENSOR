@@ -23,7 +23,11 @@ class ApiService {
       final response = await _apiClient.post('/auth/login', data: {
         'username': username,
         'password': password,
-      });
+      },options: Options(
+        headers: {
+          "Content-Type" :"application/x-www-form-urlencoded"
+        }
+      ));
 
       if (response.statusCode == 200) {
         final accessToken = response.data['access_token'];
