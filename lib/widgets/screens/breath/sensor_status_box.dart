@@ -23,8 +23,10 @@ class SensorStatusBox extends StatefulWidget {
   State<SensorStatusBox> createState() => _SensorStatusBoxState();
 }
 
+const deviceRemoteId = "48:CA:43:D4:36:AE";
+
 class _SensorStatusBoxState extends State<SensorStatusBox> {
-  BluetoothDevice? connectedDevice;
+  BluetoothDevice connectedDevice = BluetoothDevice.fromId(deviceRemoteId);
   StreamSubscription? deviceConnectStream;
   StreamSubscription? deviceScanStream;
   StreamSubscription? isScanningStream;
@@ -42,7 +44,7 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
   @override
   void initState() {
     super.initState();
-    startScan();
+    connectToDevice(connectedDevice);
   }
 
   @override
@@ -53,57 +55,62 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
   }
 
   _cancelAll() {
-    connectedDevice?.disconnect();
+    // connectedDevice?.disconnect();
     deviceConnectStream?.cancel();
     deviceScanStream?.cancel();
     isScanningStream?.cancel();
   }
 
   /// BLE 디바이스 스캔 시작
-  Future<void> startScan() async {
-    if (!mounted) return;
-    try {
-      setState(() {
-        isScanning = true;
-      });
-      if (connectedDevice == null) {
-        log("startScan");
-        bool isConnecting = false;
-        await FlutterBluePlus.startScan(
-            timeout: Duration(seconds: 10), withServices: [serviceUuid]);
-
-        deviceScanStream = FlutterBluePlus.scanResults.listen((results) {
-          for (ScanResult result in results) {
-            log("BLE센서결과${result.device.platformName}");
-            if (result.device.platformName == targetDeviceName) {
-              FlutterBluePlus.stopScan(); // 스캔 중지
-              isConnecting = true;
-              connectToDevice(result.device);
-              break;
-            }
-          }
-        }, onError: ((e, s) {
-          _errorHandler(e, s);
-        }), onDone: () {
-          log("스캔완료");
-          if (!isConnecting) {
-            setState(() {
-              isScanning = false;
-            });
-            showSimpleAlert(context,
-                title: "센서없음", content: "연결할 수 있는 센서가 없습니다. 다시 시도해주세요.");
-          }
-        });
-      } else {
-        discoverServices(connectedDevice!);
-      }
-    } catch (e, s) {
-      _errorHandler(e, s, fnName: "startScan");
-    }
-  }
+  // Future<void> startScan() async {
+  //   if (!mounted) return;
+  //   try {
+  //     setState(() {
+  //       isScanning = true;
+  //     });
+  //     if (connectedDevice == null) {
+  //       log("startScan");
+  //       bool isConnecting = false;
+  //       await FlutterBluePlus.startScan(
+  //           timeout: Duration(seconds: 10), withServices: [serviceUuid]);
+  //
+  //       deviceScanStream = FlutterBluePlus.scanResults.listen((results) {
+  //         for (ScanResult result in results) {
+  //           log("BLE센서결과${result.device.platformName}");
+  //           if (result.device.platformName == targetDeviceName) {
+  //             FlutterBluePlus.stopScan(); // 스캔 중지
+  //             isConnecting = true;
+  //             connectToDevice(result.device);
+  //             break;
+  //           }
+  //         }
+  //       }, onError: ((e, s) {
+  //         _errorHandler(e, s);
+  //       }), onDone: () {
+  //         log("스캔완료");
+  //         if (!isConnecting) {
+  //           setState(() {
+  //             isScanning = false;
+  //           });
+  //           showSimpleAlert(context,
+  //               title: "센서없음", content: "연결할 수 있는 센서가 없습니다. 다시 시도해주세요.");
+  //         }
+  //       });
+  //     } else {
+  //       discoverServices(connectedDevice!);
+  //     }
+  //   } catch (e, s) {
+  //     _errorHandler(e, s, fnName: "startScan");
+  //   }
+  // }
 
   /// 디바이스 연결
   void connectToDevice(BluetoothDevice device) async {
+    if (mounted) {
+      setState(() {
+        isScanning = true;
+      });
+    }
     try {
       await device.connect();
       if (!mounted) return;
@@ -111,13 +118,13 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
       // 연결 상태 변화 감지
       deviceConnectStream = device.connectionState.listen((connectionState) {
         if (connectionState == BluetoothConnectionState.disconnected) {
-          connectedDevice = null;
+          // connectedDevice = null;
           widget.onLostConnection();
         }
       }, onError: (e, s) {
         _errorHandler(e, s, fnName: "deviceConnectStream");
       }, onDone: () {
-        connectedDevice = null;
+        // connectedDevice = null;
         widget.onLostConnection();
         _cancelAll();
       });
@@ -157,7 +164,7 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
     setState(() {
       isScanning = false;
     });
-    connectedDevice = null;
+    // connectedDevice = null;
     _cancelAll();
     log("함수 : ${fnName ?? ""}");
     log("ble센서연결에러 " + e.toString());
@@ -172,7 +179,9 @@ class _SensorStatusBoxState extends State<SensorStatusBox> {
     bool isRecognized = widget.characteristic != null;
     return ElevatedButton(
       style: ButtonStyles.greyOutLined,
-      onPressed: !isRecognized && !isScanning ? startScan : null,
+      onPressed: !isRecognized && !isScanning
+          ? () => connectToDevice(connectedDevice)
+          : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
