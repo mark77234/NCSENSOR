@@ -15,16 +15,16 @@ class RadiusStyles {
 
 class TextStyles {
   static const TextStyle title =
-  TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
   static const TextStyle subtitle =
-  TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
   static const TextStyle label =
-  TextStyle(fontSize: 12, color: ColorStyles.secondary);
+      TextStyle(fontSize: 12, color: ColorStyles.secondary);
   static const TextStyle body = TextStyle(fontSize: 14, color: Colors.black);
 }
 
 class ButtonStyles {
-  static ButtonStyle elevated = ElevatedButton.styleFrom(
+  static ButtonStyle primaryExpandElevated = ElevatedButton.styleFrom(
     backgroundColor: ColorStyles.primary,
     foregroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -36,7 +36,7 @@ class ButtonStyles {
     iconColor: Colors.white,
   );
 
-  static ButtonStyle outlined = ElevatedButton.styleFrom(
+  static ButtonStyle primaryExpandOutlined = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 16),
     foregroundColor: ColorStyles.primary,
@@ -52,71 +52,33 @@ class ButtonStyles {
     textStyle: TextStyles.subtitle,
   );
 
-  static ButtonStyle selectedElevated(BuildContext context) {
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.grey,
-          width: 1.5,
-        ),
+  static ButtonStyle greyOutlined = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: EdgeInsets.all(16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+      side: BorderSide(
+        color: ColorStyles.grey,
+        width: 1.5,
       ),
-      textStyle: const TextStyle(fontSize: 15),
-    );
-  }
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
 
-  static ButtonStyle defaultElevated(BuildContext context) {
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.primary,
-          width: 1.5,
-        ),
+  static ButtonStyle primaryOutlined = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: EdgeInsets.all(16),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 1.5,
       ),
-      textStyle: const TextStyle(fontSize: 15),
-    );
-  }
-
-  static ButtonStyle bodyOdorUnselected(BuildContext context) {
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.grey,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
-
-  static ButtonStyle bodyOdorSelected(BuildContext context){
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.primary,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
 }
 
 class InputStyles {

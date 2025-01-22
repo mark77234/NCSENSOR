@@ -210,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Expanded(
           child: ElevatedButton(
             onPressed: handleCancel,
-            style: ButtonStyles.outlined,
+            style: ButtonStyles.primaryExpandOutlined,
             child: Text("취소하기"),
           ),
         ),
@@ -218,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Expanded(
           child: ElevatedButton(
             onPressed: handleSave,
-            style: ButtonStyles.elevated,
+            style: ButtonStyles.primaryExpandElevated,
             child: Text("저장하기"),
           ),
         ),
@@ -228,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         ElevatedButton(
           onPressed: handleEdit,
-          style: ButtonStyles.outlined,
+          style: ButtonStyles.primaryExpandOutlined,
           child: Text("수정하기"),
         ),
         SizedBox(height: 8),
@@ -236,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.manage);
           },
-          style: ButtonStyles.elevated,
+          style: ButtonStyles.primaryExpandElevated,
           icon: Icon(Icons.group),
           label: Text("사용자 관리"),
         ),

@@ -65,8 +65,8 @@ class _SelectScreenState extends State<SelectScreen> {
                         for (var article in articledata!.articles)
                           ElevatedButton(
                             style: selectedItem == article.name
-                                ? ButtonStyles.defaultElevated(context)
-                                : ButtonStyles.selectedElevated(context),
+                                ? ButtonStyles.primaryOutlined
+                                : ButtonStyles.greyOutlined,
                             onPressed: () {
                               setState(() {
                                 selectedItem = article.name;
@@ -145,9 +145,8 @@ class _SelectScreenState extends State<SelectScreen> {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: ElevatedButton(
                                     style: selectedBodyParts == subtype.name
-                                        ? ButtonStyles.bodyOdorSelected(context)
-                                        : ButtonStyles.bodyOdorUnselected(
-                                            context),
+                                        ? ButtonStyles.primaryOutlined
+                                        : ButtonStyles.greyOutlined,
                                     onPressed: () {
                                       setState(() {
                                         selectedBodyParts = subtype.name;
