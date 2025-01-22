@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/styles.dart';
+import '../../../../../constants/styles.dart';
 
 class BreathProgressIndicator extends StatelessWidget {
   const BreathProgressIndicator({super.key, required this.progress});
@@ -26,7 +26,7 @@ class BreathProgressIndicator extends StatelessWidget {
           ),
         ),
         Text(
-          '${(progress).toInt()}',
+          '${(progress * 100).toInt()}',
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,

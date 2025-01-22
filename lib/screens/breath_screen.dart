@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/styles.dart';
 import '../widgets/common/my_card.dart';
-import '../widgets/screens/breath_progress_indicator.dart';
+import '../widgets/screens/breath/breath_progress_indicator.dart';
 import 'alcohol_result_screen.dart';
 import 'body_result_screen.dart';
 
