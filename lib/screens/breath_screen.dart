@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
@@ -69,7 +71,9 @@ class _BreathScreenState extends State<BreathScreen> {
       await Future.delayed(Duration(seconds: 1));
       if (_characteristic != null) {
         List<int> data = await _characteristic!.read();
+        log(data.toString());
         String dataString = String.fromCharCodes(data);
+        log(dataString);
         if (mounted) {
           setState(() {
             receivedData.add(dataString);
@@ -134,40 +138,39 @@ class _BreathScreenState extends State<BreathScreen> {
             ),
             const SizedBox(height: 70),
             if (_breathState != BreathState.initial)
-              ElevatedButton(
-                onPressed: () => {
-                  _startMeasurement(context)
-                      .then((_) => _navigateToResult(context))
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: _breathState == BreathState.measuring
-                      ? Colors.grey
-                      : Colors.white,
-                  backgroundColor: _breathState == BreathState.measuring
-                      ? ColorStyles.grey
-                      : ColorStyles.primary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 15,
-                  ),
-                  textStyle: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  minimumSize: Size(300, 60),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                child: Text(
-                  _breathState == BreathState.measuring ? "측정중..." : "측정하기",
-                ),
-              ),
+              _buildBreathButton(context),
             const SizedBox(
               height: 50,
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildBreathButton(BuildContext context) {
+    bool isMeasuring = _breathState == BreathState.measuring;
+    return ElevatedButton(
+      onPressed: () =>
+          {_startMeasurement(context).then((_) => _navigateToResult(context))},
+      style: ElevatedButton.styleFrom(
+        foregroundColor: isMeasuring ? Colors.grey : Colors.white,
+        backgroundColor: isMeasuring ? ColorStyles.grey : ColorStyles.primary,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 40,
+          vertical: 15,
+        ),
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+        minimumSize: Size(300, 60),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      child: Text(
+        isMeasuring ? "측정중..." : "측정하기",
       ),
     );
   }

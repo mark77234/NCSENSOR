@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
 
@@ -36,6 +38,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
   @override
   void initState() {
     super.initState();
+    log(widget.receivedData.toString());
     alcoholData = alcoholResult();
     _setAlcoholStage();
   }
@@ -55,7 +58,6 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
         widget.receivedData.map((e) => double.tryParse(e) ?? 0.0).toList();
     return _calculateAverageOfMiddleFive(numericData);
   }
-
 
   void _setAlcoholStage() {
     if (alcoholData <= threshold[0]) {

@@ -26,7 +26,7 @@ class BreathProgressIndicator extends StatelessWidget {
           ),
         ),
         Text(
-          '${(progress).toInt()}',
+          '${(progress * 10).toInt()}',
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,
