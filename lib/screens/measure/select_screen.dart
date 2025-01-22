@@ -13,14 +13,11 @@ class SelectScreen extends StatefulWidget {
 }
 
 class _SelectScreenState extends State<SelectScreen> {
-  bool showBodyOdorOptions = false;
-  String selectedMeasurement = '';
-  String selectedBodyOdor = '';
-  String UUID = '';
-
-  ArticleData? articledata;
-
   bool _isLabelLoading = false;
+  String selectedItem = '';
+  String selectedBodyParts = '';
+  String UUID = '';
+  ArticleData? articledata;
 
   @override
   void initState() {
@@ -67,13 +64,13 @@ class _SelectScreenState extends State<SelectScreen> {
                       children: [
                         for (var article in articledata!.articles)
                           ElevatedButton(
-                            style: selectedMeasurement == article.name
+                            style: selectedItem == article.name
                                 ? ButtonStyles.defaultElevated(context)
                                 : ButtonStyles.selectedElevated(context),
                             onPressed: () {
                               setState(() {
-                                selectedMeasurement = article.name;
-                                selectedBodyOdor = '';
+                                selectedItem = article.name;
+                                selectedBodyParts = '';
                                 UUID = article.id;
                               });
                             },
@@ -118,11 +115,12 @@ class _SelectScreenState extends State<SelectScreen> {
                           ),
                       ],
                     ),
-                    if (selectedMeasurement.isNotEmpty &&
-                        articledata!.articles.any((article) =>
-                            article.name == selectedMeasurement &&
-                            article.subtypes != null &&
-                            article.subtypes!.isNotEmpty))
+                    if (selectedItem.isNotEmpty &&
+                        articledata!.articles
+                            .any((article) => // 조건 내 하나라도 만족하면 true
+                                article.name == selectedItem &&
+                                article.subtypes != null && // NULL이 아닌지 확인
+                                article.subtypes!.isNotEmpty)) // 안비어 있는지 확인
                       Column(
                         children: [
                           const SizedBox(height: 40),
@@ -140,19 +138,19 @@ class _SelectScreenState extends State<SelectScreen> {
                           Column(
                             children: [
                               for (var subtype in articledata!.articles
-                                  .firstWhere((article) =>
-                                      article.name == selectedMeasurement)
+                                  .firstWhere(
+                                      (article) => article.name == selectedItem)
                                   .subtypes!)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: ElevatedButton(
-                                    style: selectedBodyOdor == subtype.name
+                                    style: selectedBodyParts == subtype.name
                                         ? ButtonStyles.bodyOdorSelected(context)
                                         : ButtonStyles.bodyOdorUnselected(
                                             context),
                                     onPressed: () {
                                       setState(() {
-                                        selectedBodyOdor = subtype.name;
+                                        selectedBodyParts = subtype.name;
                                         UUID = subtype.id;
                                       });
                                     },
@@ -198,30 +196,7 @@ class _SelectScreenState extends State<SelectScreen> {
                   ],
                 ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorStyles.primary,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(300, 60),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                onPressed: () {
-                  if (selectedMeasurement.isEmpty) {
-                    _showErrorDialog(context, '먼저 음주 또는 체취 항목을 선택하세요.');
-                  } else if (selectedMeasurement == '체취' &&
-                      selectedBodyOdor.isEmpty) {
-                    _showErrorDialog(context, '체취 부위를 선택해 주세요.');
-                  } else {
-                    _navigate(context);
-                  }
-                },
-                child: const Text(
-                  '측정 시작',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
+              _buildStart()
             ],
           ),
         ),
@@ -274,6 +249,32 @@ class _SelectScreenState extends State<SelectScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildStart() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: ColorStyles.primary,
+        foregroundColor: Colors.white,
+        minimumSize: const Size(300, 60),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      onPressed: () {
+        if (selectedItem.isEmpty) {
+          _showErrorDialog(context, '먼저 음주 또는 체취 항목을 선택하세요.');
+        } else if (selectedItem == '체취' && selectedBodyParts.isEmpty) {
+          _showErrorDialog(context, '체취 부위를 선택해 주세요.');
+        } else {
+          _navigate(context);
+        }
+      },
+      child: const Text(
+        '측정 시작',
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -131,7 +131,7 @@ class ApiService {
   }
 
   static Future<BodyResultData> getBodyData(
-      String articleId, Map<String, dynamic> sensors) async {
+      String articleId, List<Map<String, dynamic>> sensors) async {
     String sensorsJson = jsonEncode(sensors);
 
     try {

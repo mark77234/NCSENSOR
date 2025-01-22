@@ -7,6 +7,7 @@ import 'package:taesung1/models/result_model.dart';
 
 class ResultScreen extends StatefulWidget {
   final String UUID;
+
   ResultScreen(this.UUID, {super.key});
 
   @override
@@ -17,12 +18,12 @@ class _ResultScreenState extends State<ResultScreen> {
   BodyResultData? bodyResultData;
   bool _isDataLoading = false;
   late String articleId = widget.UUID;
-  Map<String, dynamic> sensors = {
-    "s1": {"sensor_id": "UUID", "value": 0.0},
-    "s2": {"sensor_id": "UUID", "value": 0.0},
-    "s3": {"sensor_id": "UUID", "value": 0.0},
-    "s4": {"sensor_id": "UUID", "value": 0.0},
-  };
+  List<Map<String, dynamic>> sensors = [
+    {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "2", "value": 2, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "3", "value": 3, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "4", "value": 5, "measured_at": "2025-01-22T00:00:00"},
+  ];
 
   @override
   void initState() {
@@ -30,7 +31,8 @@ class _ResultScreenState extends State<ResultScreen> {
     _loadBodyResult(articleId, sensors);
   }
 
-  Future<void> _loadBodyResult(String articleId, Map<String,dynamic> sensors) async {
+  Future<void> _loadBodyResult(
+      String articleId, List<Map<String, dynamic>> sensors) async {
     setState(() {
       _isDataLoading = true;
     });
@@ -40,7 +42,7 @@ class _ResultScreenState extends State<ResultScreen> {
       setState(() {
         bodyResultData = data;
       });
-    } catch(e) {
+    } catch (e) {
       print("오류: ${e}");
     }
     setState(() {
@@ -223,7 +225,8 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             const SizedBox(height: 10),
             Column(
-              children: List.generate(bodyResultData!.level.sections.length, (index) {
+              children:
+                  List.generate(bodyResultData!.level.sections.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
