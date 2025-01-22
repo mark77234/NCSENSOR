@@ -24,7 +24,7 @@ class TextStyles {
 }
 
 class ButtonStyles {
-  static ButtonStyle elevated = ElevatedButton.styleFrom(
+  static ButtonStyle primaryExpandElevated = ElevatedButton.styleFrom(
     backgroundColor: ColorStyles.primary,
     foregroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -36,7 +36,7 @@ class ButtonStyles {
     iconColor: Colors.white,
   );
 
-  static ButtonStyle outlined = ElevatedButton.styleFrom(
+  static ButtonStyle primaryExpandOutlined = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
     padding: const EdgeInsets.symmetric(vertical: 16),
     foregroundColor: ColorStyles.primary,
@@ -52,79 +52,34 @@ class ButtonStyles {
     textStyle: TextStyles.subtitle,
   );
 
-  static ButtonStyle selectedElevated(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.grey,
-          width: 1.5,
-        ),
+  static ButtonStyle greyOutLined = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: EdgeInsets.all(16),
+    shape: RoundedRectangleBorder(
+      borderRadius: RadiusStyles.rounded,
+      side: BorderSide(
+        color: ColorStyles.grey,
+        width: 1.5,
       ),
-      textStyle: const TextStyle(fontSize: 15),
-    );
-  }
+    ),
+    disabledBackgroundColor: Colors.white,
+    textStyle: const TextStyle(fontSize: 15),
+  );
 
-  static ButtonStyle defaultElevated(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.primary,
-          width: 1.5,
-        ),
+  static ButtonStyle primaryOutLined = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: Colors.black,
+    padding: EdgeInsets.all(16),
+    shape: RoundedRectangleBorder(
+      borderRadius: RadiusStyles.rounded,
+      side: BorderSide(
+        color: ColorStyles.primary,
+        width: 1.5,
       ),
-      textStyle: const TextStyle(fontSize: 15),
-    );
-  }
-
-  static ButtonStyle bodyOdorUnselected(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.grey,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
-
-  static ButtonStyle bodyOdorSelected(BuildContext context){
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
-    return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-          color: ColorStyles.primary,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
+    ),
+    textStyle: const TextStyle(fontSize: 15),
+  );
 }
 
 class InputStyles {

@@ -14,6 +14,7 @@ class AppRoutes {
   static const String statistics = '/statistics';
   static const String profile = '/profile';
   static const String manage = '/profile/manage';
+  static const String bleTest = '/bleTest';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {

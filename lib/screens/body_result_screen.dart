@@ -1,18 +1,18 @@
 import 'dart:math';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
-import '../constants/styles.dart';
-import 'main_screen.dart';
-
 import 'package:taesung1/services/api_service.dart';
-import 'package:dio/dio.dart';
+
+import '../constants/styles.dart';
 
 class BodyResultScreen extends StatefulWidget {
-  final String bodymeasurement;
+  final String bodyMeasurement;
   final String measurement;
 
   const BodyResultScreen(
-      {super.key, required this.bodymeasurement, required this.measurement});
+      {super.key, required this.bodyMeasurement, required this.measurement});
 
   @override
   State<BodyResultScreen> createState() => _BodyResultScreenState();
@@ -77,7 +77,7 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${widget.bodymeasurement} 냄새분석",
+          "${widget.bodyMeasurement} 냄새분석",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -122,7 +122,8 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween, // 부모 Row에서 공간 분배
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // 부모 Row에서 공간 분배
                               children: [
                                 Text(
                                   '현재 상태',
@@ -270,12 +271,12 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BreathScreen(
                                       measurement: widget.measurement,
-                                      bodymeasurement: widget.bodymeasurement)),
+                                      bodyMeasurement: widget.bodyMeasurement)),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -297,11 +298,8 @@ class _BodyResultScreenState extends State<BodyResultScreen> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainScreen()),
-                            );
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorStyles.primary,

@@ -32,6 +32,8 @@ class MyApp extends StatelessWidget {
         // 앱의 배경 색상 설정
         appBarTheme: const AppBarTheme(
           backgroundColor: ColorStyles.background, // 앱 바의 색상 설정
+          centerTitle: true, // 앱 바의 타이틀을 가운데 정렬
+          titleTextStyle: TextStyles.title,
         ),
         canvasColor: Colors.white,
         dialogTheme: const DialogTheme(

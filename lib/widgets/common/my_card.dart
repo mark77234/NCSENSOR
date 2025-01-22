@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/styles.dart';
+import '../../constants/styles.dart';
 
 class MyCard extends StatelessWidget {
   const MyCard({super.key, required this.child});

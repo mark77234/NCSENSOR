@@ -1,20 +1,42 @@
-import 'measure_model.dart';
-
 class HistoryData {
-  final DateTime date;
-  final List<MeasureData> measurements;
+  final String id;
+  final String title;
+  final HistoryResult result;
+  final DateTime datetime;
 
   HistoryData({
-    required this.date,
-    required this.measurements,
+    required this.id,
+    required this.title,
+    required this.result,
+    required this.datetime,
   });
 
   factory HistoryData.fromJson(Map<String, dynamic> json) {
     return HistoryData(
-      date: DateTime.parse(json['date']),
-      measurements: (json['measurements'] as List)
-          .map((e) => MeasureData.fromJson(e))
-          .toList(),
+      id: json['id'],
+      title: json['title'],
+      result: HistoryResult.fromJson(json['result']),
+      datetime: DateTime.parse(json['datetime']),
+    );
+  }
+}
+
+class HistoryResult {
+  final double value;
+  final String unit;
+  final String content;
+
+  HistoryResult({
+    required this.value,
+    required this.unit,
+    required this.content,
+  });
+
+  factory HistoryResult.fromJson(Map<String, dynamic> json) {
+    return HistoryResult(
+      value: json['value'].toDouble(),
+      unit: json['unit'],
+      content: json['content'],
     );
   }
 }
