@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildTextField(
       {required String label,
-        bool isPassword = false,
-        required TextEditingController controller}) {
+      bool isPassword = false,
+      required TextEditingController controller}) {
     return Center(
       child: SizedBox(
         width: 320,
@@ -49,12 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             suffixIcon: isPassword
                 ? IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: Color(0xFFB0B0B0),
-              ),
-              onPressed: _togglePasswordVisibility,
-            )
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: Color(0xFFB0B0B0),
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  )
                 : null,
           ),
         ),
@@ -69,19 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
       child: ElevatedButton(
         onPressed: () async {
           try {
-            // 로그인 요청
             final token = await ApiService.login(
               username: _idController.text,
               password: _passwordController.text,
             );
 
-            // JWT 저장
             await ApiService().saveToken(token);
 
-            // 로그인 성공 시 상태 업데이트
             context.read<AuthProvider>().login();
-
-            // 로그인 성공 시 메인 화면으로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const MainScreen()),
@@ -91,6 +86,26 @@ class _LoginScreenState extends State<LoginScreen> {
             setState(() {
               _errorMessage = e.toString(); // 서버에서 받은 실패 메시지
             });
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('아이디 혹은 비밀번호가 일치하지 않습니다.'),
+                  content: Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('확인'),
+                    ),
+                  ],
+                );
+              },
+            );
           }
         },
         style: ElevatedButton.styleFrom(
@@ -107,19 +122,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _register_field() {
-    return
-      TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const RegisterScreen()),
-          );
-        },
-        child: Text(
-          '회원가입',
-          style: TextStyle(color: Color(0xFF3B82F6)),
-        ),
-      );
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const RegisterScreen()),
+        );
+      },
+      child: Text(
+        '회원가입',
+        style: TextStyle(color: Color(0xFF3B82F6)),
+      ),
+    );
   }
 
   @override
@@ -150,11 +164,6 @@ class _LoginScreenState extends State<LoginScreen> {
             _buildLoginButton(),
             const SizedBox(height: 20),
             _register_field(),
-            if (_errorMessage.isNotEmpty) // 오류 메시지 표시
-              Text(
-                _errorMessage,
-                style: TextStyle(color: Colors.red, fontSize: 14),
-              ),
           ],
         ),
       ),

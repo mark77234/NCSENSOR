@@ -34,7 +34,8 @@ class ApiService {
 
         return accessToken;
       } else if (response.statusCode == 401) {
-        throw Exception(response.data['msg']);
+        final error_msg = response.data['msg'];
+        return Future.error(error_msg);
       } else {
         throw Exception('오류: 상태코드 ${response.statusCode}');
       }
