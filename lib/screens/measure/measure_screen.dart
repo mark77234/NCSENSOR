@@ -13,8 +13,8 @@ class MeasureScreen extends StatefulWidget {
 class _MeasureScreenState extends State<MeasureScreen> {
   bool _isLoading = false;
   double _progress = 0.0;
-  String sensorStatus = "인식불가";
-  Color sensorColor = Colors.orange;
+  String sensorStatus = "인식완료";
+  Color sensorColor = ColorStyles.primary;
 
   @override
   void initState(){

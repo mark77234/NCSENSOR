@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taesung1/screens/main_screen.dart';
-import 'package:taesung1/services/api_service.dart'; // 메인 화면 경로
-import '../../providers/auth_provider.dart'; // AuthProvider 경로
-
+import 'package:taesung1/services/api_service.dart';
+import '../../providers/auth_provider.dart';
 import 'package:taesung1/screens/login/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,18 +16,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
-  String _errorMessage = ''; // 오류 메시지를 저장할 변수
+  String _errorMessage = '';
 
+  // 비밀번호 가리기/보이기 토글
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
 
-  Widget _buildTextField(
-      {required String label,
-      bool isPassword = false,
-      required TextEditingController controller}) {
+  // 텍스트 필드 위젯 빌드
+  Widget _buildTextField({
+    required String label,
+    bool isPassword = false,
+    required TextEditingController controller,
+  }) {
     return Center(
       child: SizedBox(
         width: 320,
@@ -38,23 +40,23 @@ class _LoginScreenState extends State<LoginScreen> {
           obscureText: isPassword ? _obscureText : false,
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: TextStyle(color: Color(0xFFB0B0B0)),
+            labelStyle: TextStyle(color: const Color(0xFFB0B0B0)),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(color: Colors.grey, width: 1),
+              borderSide: const BorderSide(color: Colors.grey, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(color: Colors.grey, width: 2),
+              borderSide: const BorderSide(color: Colors.grey, width: 2),
             ),
             suffixIcon: isPassword
                 ? IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
-                      color: Color(0xFFB0B0B0),
-                    ),
-                    onPressed: _togglePasswordVisibility,
-                  )
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: const Color(0xFFB0B0B0),
+              ),
+              onPressed: _togglePasswordVisibility,
+            )
                 : null,
           ),
         ),
@@ -62,56 +64,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // 로그인 버튼
   Widget _buildLoginButton() {
     return SizedBox(
       width: 320,
       height: 50,
       child: ElevatedButton(
-        onPressed: () async {
-          try {
-            final token = await ApiService.login(
-              username: _idController.text,
-              password: _passwordController.text,
-            );
-
-            await ApiService().saveToken(token);
-
-            context.read<AuthProvider>().login();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
-            );
-          } catch (e) {
-            // 로그인 실패 시 처리
-            setState(() {
-              _errorMessage = e.toString(); // 서버에서 받은 실패 메시지
-            });
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('아이디 혹은 비밀번호가 일치하지 않습니다.'),
-                  content: Text(
-                    _errorMessage,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('확인'),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        },
+        onPressed: _handleLogin,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF3B82F6),
+          backgroundColor: const Color(0xFF3B82F6),
           foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -121,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _register_field() {
+  // 회원가입 링크
+  Widget _registerField() {
     return TextButton(
       onPressed: () {
         Navigator.push(
@@ -131,8 +95,56 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Text(
         '회원가입',
-        style: TextStyle(color: Color(0xFF3B82F6)),
+        style: TextStyle(color: const Color(0xFF3B82F6)),
       ),
+    );
+  }
+
+  // 로그인 처리 함수
+  Future<void> _handleLogin() async {
+    try {
+      final token = await ApiService.login(
+        username: _idController.text,
+        password: _passwordController.text,
+      );
+
+      await ApiService().saveToken(token);
+
+      context.read<AuthProvider>().login();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
+    } catch (e) {
+      _showErrorDialog(e.toString());
+    }
+  }
+
+  // 오류 다이얼로그 표시
+  void _showErrorDialog(String error) {
+    setState(() {
+      _errorMessage = error;
+    });
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('로그인 오류'),
+          content: Text(
+            "아이디 혹은 비밀번호가 일치하지 않습니다",
+            style: const TextStyle(fontSize: 18, color: Colors.grey),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -148,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
               'N.C.SENSOR',
               style: TextStyle(
                 fontSize: 50,
-                color: Color(0xFF3B82F6),
+                color: const Color(0xFF3B82F6),
                 fontFamily: 'DoHyeon',
                 fontWeight: FontWeight.w500,
               ),
@@ -163,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             _buildLoginButton(),
             const SizedBox(height: 20),
-            _register_field(),
+            _registerField(),
           ],
         ),
       ),
