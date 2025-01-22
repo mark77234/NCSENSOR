@@ -33,7 +33,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
   // 경고 : 3500 이상, LED 작동 O (300ms)
   // 위험 : 3800 이상, LED 작동 O (100ms)
   // "
-  List<double> threshold = [3500, 3800, 4500];
+  List<double> threshold = [1500, 2000, 4500];
 
   @override
   void initState() {
@@ -56,7 +56,10 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
   double alcoholResult() {
     List<double> numericData =
         widget.receivedData.map((e) => double.tryParse(e) ?? 0.0).toList();
-    return _calculateAverageOfMiddleFive(numericData);
+    double result = _calculateAverageOfMiddleFive(numericData);
+    // result = threshold[2] - result;
+
+    return result;
   }
 
   void _setAlcoholStage() {
@@ -168,7 +171,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            '%',
+                            'ppm',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w400,
@@ -229,7 +232,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                             ),
                           ),
                           Text(
-                            '${threshold[0]} ~ ${threshold[1]}% 미만',
+                            '${threshold[0]} ~ ${threshold[1]}ppm 미만',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -250,7 +253,7 @@ class _AlcoholResultScreenState extends State<AlcoholResultScreen> {
                             ),
                           ),
                           Text(
-                            '${threshold[1]}% 이상',
+                            '${threshold[1]}ppm 이상',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
