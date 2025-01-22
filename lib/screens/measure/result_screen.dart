@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/measure/measure_screen.dart';
 import '../../constants/styles.dart';
-import '../main_screen.dart';
+import '../splash/main_screen.dart';
 import 'package:taesung1/services/api_service.dart';
 import 'package:taesung1/models/result_model.dart';
 

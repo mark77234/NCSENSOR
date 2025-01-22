@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../screens/profile/manage_screen.dart';
 import '../screens/splash/entry_screen.dart';
 import '../screens/login/login_screen.dart';
-import '../screens/main_screen.dart';
+import '../screens/splash/main_screen.dart';
 
 class AppRoutes {
   static const String entry = '/';
