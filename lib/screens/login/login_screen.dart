@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taesung1/screens/splash/main_screen.dart';
 import 'package:taesung1/services/api_service.dart';
+import '../../constants/styles.dart';
 import '../../providers/auth_provider.dart';
 import 'package:taesung1/screens/login/register_screen.dart';
 
@@ -13,18 +14,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _idController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _obscureText = true;
-  String _errorMessage = '';
+  // TextEditingController 텍스트를 관리하는 객체(입력,읽기,수정)
+  final TextEditingController _idEntered = TextEditingController();
+  final TextEditingController _passwordEntered = TextEditingController();
+  bool _hideText = true; // 비밀번호 숨김여부
+  String? _errorMessage; // ? ->  null 값을 가질 수 있다.
 
-  void _togglePasswordVisibility() {
+
+  @override
+  void dispose() { // TextEditingController 에서 사용하는 메모리 반환, 리소스 회수 -> 앱 성능 관리
+    _idEntered.dispose();
+    _passwordEntered.dispose();
+    super.dispose();
+  }
+
+  void _togglePasswordHide() { // 비밀번호 숨김 여부
     setState(() {
-      _obscureText = !_obscureText;
+      _hideText = !_hideText;
     });
   }
 
-  Widget _buildTextField({
+  Widget _buildInputField({  // 입력 필드
     required String label,
     bool isPassword = false,
     required TextEditingController controller,
@@ -35,26 +45,26 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 50,
         child: TextField(
           controller: controller,
-          obscureText: isPassword ? _obscureText : false,
+          obscureText: isPassword ? _hideText : false, // isPassword가 true면 hideText, false면 false 반환
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: TextStyle(color: const Color(0xFFB0B0B0)),
+            labelStyle: const TextStyle(color: ColorStyles.lightgrey,),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
+              borderSide: const BorderSide(color: ColorStyles.lightgrey, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: Colors.grey, width: 2),
+              borderSide: const BorderSide(color: ColorStyles.lightgrey, width: 2),
             ),
             suffixIcon: isPassword
                 ? IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
-                      color: const Color(0xFFB0B0B0),
-                    ),
-                    onPressed: _togglePasswordVisibility,
-                  )
+              icon: Icon(
+                _hideText ? Icons.visibility_off : Icons.visibility,
+                color: ColorStyles.lightgrey,
+              ),
+              onPressed: _togglePasswordHide,
+            )
                 : null,
           ),
         ),
@@ -62,7 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // 로그인 버튼
   Widget _buildLoginButton() {
     return SizedBox(
       width: 320,
@@ -72,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF3B82F6),
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -85,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _registerField() {
+  Widget _buildRegisterButton() {
     return TextButton(
       onPressed: () {
         Navigator.push(
@@ -93,24 +101,19 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => const RegisterScreen()),
         );
       },
-      child: Text(
+      child: const Text(
         '회원가입',
-        style: TextStyle(color: const Color(0xFF3B82F6)),
+        style: TextStyle(color: Color(0xFF3B82F6)),
       ),
     );
   }
 
-  // 로그인 처리 함수
   Future<void> _handleLogin() async {
     try {
-      final token = await ApiService.login(
-        username: _idController.text,
-        password: _passwordController.text,
-      );
+      await context
+          .read<AuthProvider>()
+          .login(_idEntered.text.trim(), _passwordEntered.text.trim());
 
-      await ApiService().saveToken(token);
-
-      context.read<AuthProvider>().login();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainScreen()),
@@ -129,9 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('로그인 오류'),
+          title: const Text('로그인 실패'),
           content: Text(
-            "아이디 혹은 비밀번호가 일치하지 않습니다",
+            _errorMessage ?? '알 수 없는 오류가 발생했습니다.',
             style: const TextStyle(fontSize: 18, color: Colors.grey),
           ),
           actions: [
@@ -155,26 +158,27 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'N.C.SENSOR',
               style: TextStyle(
                 fontSize: 50,
-                color: const Color(0xFF3B82F6),
+                color: Color(0xFF3B82F6),
                 fontFamily: 'DoHyeon',
                 fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 40),
-            _buildTextField(label: '아이디', controller: _idController),
+            _buildInputField(label: '아이디', controller: _idEntered),
             const SizedBox(height: 10),
-            _buildTextField(
-                label: '비밀번호',
-                isPassword: true,
-                controller: _passwordController),
+            _buildInputField(
+              label: '비밀번호',
+              isPassword: true,
+              controller: _passwordEntered,
+            ),
             const SizedBox(height: 20),
             _buildLoginButton(),
             const SizedBox(height: 20),
-            _registerField(),
+            _buildRegisterButton(),
           ],
         ),
       ),

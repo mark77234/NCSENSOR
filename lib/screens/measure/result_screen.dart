@@ -118,7 +118,7 @@ class _ResultScreenState extends State<ResultScreen> {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
-        side: BorderSide(color: ColorStyles.grey, width: 0.5),
+        side: BorderSide(color: ColorStyles.lightgrey, width: 0.5),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),

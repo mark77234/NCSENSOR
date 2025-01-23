@@ -198,7 +198,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return ElevatedButton.styleFrom(
       foregroundColor: isSelected ? ColorStyles.primary : ColorStyles.secondary,
       backgroundColor:
-      isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.grey,
+      isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.lightgrey,
       elevation: 0,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(

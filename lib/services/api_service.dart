@@ -15,36 +15,43 @@ import 'api_client.dart';
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
 
-  static Future<String> login(
-      {required String username, required String password}) async {
+  static Future<String> login({
+    required String username,
+    required String password,
+  }) async {
     try {
       print('로그인 요청: username = $username, password = $password');
 
-      final response = await _apiClient.post('/auth/login', data: {
-        'username': username,
-        'password': password,
-      },options: Options(
-        headers: {
-          "Content-Type" :"application/x-www-form-urlencoded"
-        }
-      ));
+      final response = await _apiClient.post(
+        '/auth/login',
+        data: {
+          'username': username,
+          'password': password,
+        },
+        options: Options(
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         final accessToken = response.data['access_token'];
-        final refreshToken = response.data['refresh_token'];
-
-        print(
-            '로그인 성공: access_token = $accessToken, refresh_token = $refreshToken');
-
+        print('로그인 성공: access_token = $accessToken');
         return accessToken;
-      } else if (response.statusCode == 401) {
-        final error_msg = response.data['msg'];
-        return Future.error(error_msg);
       } else {
-        throw Exception('오류: 상태코드 ${response.statusCode}');
+        throw Exception('오류 발생: 상태 코드 ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('로그인 실패: $e'); // 예외 처리
+      if (e is DioException) {
+        print('DioException 발생: ${e.response?.statusCode}');
+        if (e.response?.statusCode == 401) {
+          print('401 상태 코드 확인: ${e.response?.data}');
+          return Future.error(e.response?.data['msg']);
+        }
+      }
+      // 기타 예외 처리
+      throw Exception('로그인 실패: $e');
     }
   }
 

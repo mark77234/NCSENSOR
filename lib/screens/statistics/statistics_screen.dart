@@ -225,7 +225,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Container(
       width: 200,
       padding: EdgeInsets.all(4),
-      decoration: ContainerStyles.tile.copyWith(color: ColorStyles.grey),
+      decoration: ContainerStyles.tile.copyWith(color: ColorStyles.lightgrey),
       child: DropdownButton<MeasureLabel>(
         value: selectedLabel,
         onChanged: (MeasureLabel? newValue) {

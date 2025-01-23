@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class ColorStyles {
   static const Color primary = Color(0xFF3B82F6);
   static const Color secondary = Color(0xFF6B7280);
-  static const Color grey = Color(0xFFF3F4F6);
+  static const Color lightgrey = Color(0xFFF3F4F6);
+  static const Color darkgrey = Color(0xFFB0B0B0);
   static const Color background = Color(0xFFF9FAFB);
   static const Color error = Color(0xFFEF4444);
 }
@@ -59,7 +60,7 @@ class ButtonStyles {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(15),
       side: BorderSide(
-        color: ColorStyles.grey,
+        color: ColorStyles.lightgrey,
         width: 1.5,
       ),
     ),
@@ -107,7 +108,7 @@ class ContainerStyles {
   static BoxDecoration card = BoxDecoration(
     color: Colors.white,
     borderRadius: RadiusStyles.common,
-    border: Border.all(color: ColorStyles.grey),
+    border: Border.all(color: ColorStyles.lightgrey),
   );
 
   static BoxDecoration tile = BoxDecoration(

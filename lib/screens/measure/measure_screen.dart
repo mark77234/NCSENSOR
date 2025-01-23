@@ -91,7 +91,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Color.lerp(
-                        ColorStyles.grey, ColorStyles.primary, _progress) ??
+                        ColorStyles.lightgrey, ColorStyles.primary, _progress) ??
                         ColorStyles.primary,
                   ),
                 ),
@@ -109,7 +109,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: BorderSide(
-                        color: ColorStyles.grey,
+                        color: ColorStyles.lightgrey,
                         width: 1,
                       ),
                     ),
@@ -164,7 +164,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                     ? (_isLoading ? Colors.grey : Colors.white)
                     : Colors.white,
                 backgroundColor: _progress < 1.0
-                    ? (_isLoading ? ColorStyles.grey : ColorStyles.primary)
+                    ? (_isLoading ? ColorStyles.lightgrey : ColorStyles.primary)
                     : ColorStyles.primary,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 40,
