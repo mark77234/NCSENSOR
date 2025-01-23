@@ -45,23 +45,23 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 50,
         child: TextField(
           controller: controller,
-          obscureText: isPassword ? _hideText : false, // isPassword가 true면 hideText, false면 false 반환
+          obscureText: isPassword ? _hideText : false, // isPassword가 true면 hideText, false면 false 반환 / '*'표시
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: const TextStyle(color: ColorStyles.lightgrey,),
+            labelStyle: const TextStyle(color: ColorStyles.darkgrey,),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: ColorStyles.lightgrey, width: 1),
+              borderSide: const BorderSide(color: ColorStyles.darkgrey, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: ColorStyles.lightgrey, width: 2),
+              borderSide: const BorderSide(color: ColorStyles.darkgrey, width: 2),
             ),
-            suffixIcon: isPassword
+            suffixIcon: isPassword  // 비밀번호칸인지 확인 / 입력 위젯에 추가할 수 있는 아이콘
                 ? IconButton(
               icon: Icon(
                 _hideText ? Icons.visibility_off : Icons.visibility,
-                color: ColorStyles.lightgrey,
+                color: ColorStyles.darkgrey,
               ),
               onPressed: _togglePasswordHide,
             )
@@ -111,8 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     try {
       await context
-          .read<AuthProvider>()
-          .login(_idEntered.text.trim(), _passwordEntered.text.trim());
+          .read<AuthProvider>() // 메소드
+          .login(_idEntered.text.trim(), _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
 
       Navigator.pushReplacement(
         context,
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return AlertDialog(
           title: const Text('로그인 실패'),
           content: Text(
-            _errorMessage ?? '알 수 없는 오류가 발생했습니다.',
+            _errorMessage ?? '알 수 없는 오류가 발생했습니다.', // null인 경우 해결
             style: const TextStyle(fontSize: 18, color: Colors.grey),
           ),
           actions: [
