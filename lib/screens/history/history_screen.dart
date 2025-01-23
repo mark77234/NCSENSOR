@@ -1,12 +1,12 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../constants/styles.dart';
-import '../../models/history_model.dart';
-import '../../services/api_service.dart';
-import '../../widgets/common/my_header.dart';
+import 'package:taesung1/constants/styles.dart';
+import 'package:taesung1/models/history_model.dart';
+import 'package:taesung1/services/api_service.dart';
+import 'package:taesung1/widgets/common/my_header.dart';
+import 'package:taesung1/widgets/screens/history/empty_history_widget.dart';
+import 'package:taesung1/widgets/screens/history/history_list.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -29,29 +29,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     _loadHistoryData();
   }
 
-  DateTimeRange _getDateRange() {
-    final now = DateTime.now();
-    DateTime startDate;
-    DateTime endDate = DateTime(now.year, now.month + 1, 0); // 현재 달의 마지막 날
-
-    switch (selectedRange) {
-      case "이번 달":
-        startDate = DateTime(now.year, now.month, 1);
-        break;
-      case "6개월":
-        startDate = DateTime(now.year, now.month - 5, 1);
-        break;
-      case "1년":
-        startDate = DateTime(now.year - 1, now.month + 1, 1);
-        break;
-      default:
-        // 기본값: 이번 달
-        startDate = DateTime(now.year, now.month, 1);
-    }
-
-    return DateTimeRange(start: startDate, end: endDate);
-  }
-
   Future<void> _loadHistoryData() async {
     setState(() {
       _isLoading = true;
@@ -59,7 +36,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     try {
       DateTimeRange dateRange;
-
       if (selectedRange != null) {
         dateRange = _getDateRange();
       } else {
@@ -85,6 +61,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
         _isLoading = false;
       });
     }
+  }
+
+  DateTimeRange _getDateRange() {
+    final now = DateTime.now();
+    DateTime startDate;
+    DateTime endDate = DateTime(now.year, now.month + 1, 0); // 현재 달의 마지막 날
+
+    switch (selectedRange) {
+      case "이번 달":
+        startDate = DateTime(now.year, now.month, 1);
+        break;
+      case "6개월":
+        startDate = DateTime(now.year, now.month - 5, 1);
+        break;
+      case "1년":
+        startDate = DateTime(now.year - 1, now.month + 1, 1);
+        break;
+      default:
+      // 기본값: 이번 달
+        startDate = DateTime(now.year, now.month, 1);
+    }
+
+    return DateTimeRange(start: startDate, end: endDate);
   }
 
   bool _isDateAvailable(int delta) {
@@ -119,36 +118,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
             if (_isLoading)
               Center(child: CircularProgressIndicator())
             else if (records.isEmpty)
-              _buildEmptyState()
+              EmptyHistoryWidget()
             else
-              _buildHistoryList(),
+              HistoryList(records: records),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.history,
-            size: 48,
-            color: Colors.grey,
-          ),
-          SizedBox(height: 16),
-          Text(
-            "기록이 없습니다.",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -224,129 +198,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return ElevatedButton.styleFrom(
       foregroundColor: isSelected ? ColorStyles.primary : ColorStyles.secondary,
       backgroundColor:
-          isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.grey,
+      isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.grey,
       elevation: 0,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-      ),
-    );
-  }
-
-  Widget _buildHistoryList() {
-    // 날짜별로 기록 그룹화
-    Map<String, List<HistoryData>> groupedRecords = {};
-    for (var record in records) {
-      String dateKey = DateFormat('yyyy년 MM월 dd일').format(record.datetime);
-      groupedRecords.putIfAbsent(dateKey, () => []).add(record);
-    }
-
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: groupedRecords.length,
-      itemBuilder: (context, index) {
-        String date = groupedRecords.keys.elementAt(index);
-        List<HistoryData> dayRecords = groupedRecords[date]!;
-        return _buildDayGroup(date, dayRecords);
-      },
-    );
-  }
-
-  Widget _buildDayGroup(String date, List<HistoryData> dayRecords) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
-            date,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: ColorStyles.secondary,
-            ),
-          ),
-        ),
-        ...dayRecords.map((record) => _buildHistoryItem(record)).toList(),
-        SizedBox(height: 8),
-      ],
-    );
-  }
-
-  Widget _buildHistoryItem(HistoryData record) {
-    return Container(
-      decoration: ContainerStyles.card,
-      padding: EdgeInsets.all(4),
-      margin: EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: _buildHistoryIcon(record.title),
-        title: Text(
-          record.title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          DateFormat('HH:mm').format(record.datetime),
-          style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 14,
-          ),
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              "${record.result.value} ${record.result.unit}",
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorStyles.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              record.result.content,
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorStyles.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHistoryIcon(String title) {
-    String assetName;
-
-    switch (title) {
-      case "음주":
-        assetName = "drinking";
-        break;
-      case "입냄새":
-        assetName = "mouth";
-        break;
-      case "겨드랑이냄새":
-        assetName = "armpit";
-        break;
-      case "발냄새":
-        assetName = "foot";
-        break;
-      default:
-        assetName = "measure";
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 2.0),
-      child: SvgPicture.asset(
-        "assets/icons/$assetName.svg",
-        width: 40,
-        height: 40,
       ),
     );
   }
