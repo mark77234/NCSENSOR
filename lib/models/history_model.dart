@@ -75,9 +75,7 @@ extension DateRangeExtension on DateRange {
         break;
       case DateRange.oneYear:
         startDate = DateTime(now.year - 1, now.month + 1, 1);
-        break;
-      default:
-        startDate = DateTime(now.year, now.month, 1); // 기본값: 이번 달
+        break;//기본값: 이번 달
     }
     return DateTimeRange(start: startDate, end: endDate);
   }
