@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.getRoutes(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: ColorStyles.primary,
-        highlightColor: ColorStyles.primary,
-        focusColor: ColorStyles.primary,
+        primaryColor: ColorStyles.lightgrey,
+        highlightColor: ColorStyles.lightgrey,
+        focusColor: ColorStyles.lightgrey,
         scaffoldBackgroundColor: ColorStyles.background,
         // 앱의 배경 색상 설정
         appBarTheme: const AppBarTheme(

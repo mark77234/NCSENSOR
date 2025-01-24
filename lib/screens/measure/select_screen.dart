@@ -62,57 +62,77 @@ class _SelectScreenState extends State<SelectScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        for (var article in articledata!.articles)
-                          ElevatedButton(
-                            style: selectedItem == article.name
-                                ? ButtonStyles.primaryOutlined
-                                : ButtonStyles.greyOutlined,
-                            onPressed: () {
+                        Container(
+                          width: 150,
+                          height: 60,
+                          color: ColorStyles.background,
+                          child: DropdownButton<String>(
+                            value: selectedItem.isEmpty
+                                ? articledata!.articles
+                                    .firstWhere(
+                                        (article) =>
+                                            article.subtypes == null ||
+                                            article.subtypes!.isEmpty,
+                                        orElse: () => articledata!.articles
+                                            .first // subtypes가 없는 첫 번째 항목을 찾고 없으면 첫 번째 항목 반환
+                                        )
+                                    .name
+                                : selectedItem,
+                            onChanged: (newValue) {
                               setState(() {
-                                selectedItem = article.name;
+                                selectedItem = newValue!;
                                 selectedBodyParts = '';
-                                UUID = article.id;
+                                UUID = articledata!.articles
+                                    .firstWhere((article) =>
+                                        article.name == selectedItem)
+                                    .id;
                               });
                             },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/${_getIconFortype(article.name)}.svg',
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          article.name,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            height: 1.5,
+                            items: articledata!.articles
+                                .map<DropdownMenuItem<String>>((article) {
+                              return DropdownMenuItem<String>(
+                                value: article.name,
+                                child: Material(
+                                  color: ColorStyles.background, // 배경색을 투명하게 설정
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/${_getIconFortype(article.name)}.svg',
+                                        height: 40,
+                                        width: 40,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            article.name,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.5,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        Text(
-                                          '${article.name} 측정',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
+                                          Text(
+                                            '${article.name} 측정',
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
+                              );
+                            }).toList(),
+                            underline: SizedBox(),
                           ),
+                        ),
                       ],
                     ),
                     if (selectedItem.isNotEmpty &&
