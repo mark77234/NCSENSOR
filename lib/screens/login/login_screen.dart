@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:NCSensor/screens/splash/main_screen.dart';
-import 'package:NCSensor/services/api_service.dart';
 import '../../constants/styles.dart';
 import '../../providers/auth_provider.dart';
 import 'package:NCSensor/screens/login/register_screen.dart';

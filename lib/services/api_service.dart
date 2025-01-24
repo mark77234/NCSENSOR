@@ -11,71 +11,21 @@ import 'package:NCSensor/models/result_model.dart';
 import 'package:NCSensor/models/aritcle_model.dart';
 import '../storage/secure_storage.dart';
 import 'api_client.dart';
+import 'package:NCSensor/services/login_service.dart';
 
 
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
+  late final LoginService _loginService;
 
-  static Future<String> login({
-    required String username,
-    required String password,
-  }) async {
-    print('\n[로그인 요청] \n아이디: $username\n 비밀번호: $password\n');
-    try {
-      final response = await _sendLoginRequest(username: username, password: password);
-      return _handleLoginResponse(response);
-    } catch (e) {
-      return await _handleLoginError(e);
-    }
+  ApiService(){
+    _loginService = LoginService(this);
   }
 
-// 로그인 API 요청을 별도로 분리
-  static Future<Response> _sendLoginRequest({
-    required String username,
-    required String password,
-  }) async {
-    return await _apiClient.post(
-      '/auth/login',
-      data: {
-        'username': username,
-        'password': password,
-      },
-      options: Options(
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      ),
-    );
-  }
+  Dio get client => _apiClient;
 
-// 응답 처리 로직을 별도로 분리
-  static String _handleLoginResponse(Response response) {
-    if (response.statusCode == 200) {
-      final accessToken = response.data['access_token'];
-      print('\n< 로그인 성공: access_token = $accessToken >\n');
-      return accessToken;
-    } else {
-      throw Exception('오류 발생: 상태 코드 ${response.statusCode}');
-    }
-  }
-
-// 에러 처리 로직을 별도로 분리
-  static Future _handleLoginError(Object e) {
-    if (e is DioException) {
-      print('DioException 발생: ${e.response?.statusCode}');
-      if (e.response?.statusCode == 401) {
-        final errorMessage = e.response?.data['msg'] ?? '인증 실패';
-        print('401 상태 코드 확인: $errorMessage');
-        return Future.error(errorMessage);
-      } else {
-        final errorMsg = e.response?.data['msg'] ?? '서버 오류';
-        print('서버 에러 발생: 상태 코드 ${e.response?.statusCode}, 메시지: $errorMsg');
-        return Future.error(errorMsg);
-      }
-    }
-    // 기타 예외 처리
-    print('예기치 못한 오류 발생: $e');
-    throw Exception('로그인 실패: $e');
+  Future<String> login({required String username, required String password}){
+    return _loginService.login(username: username,password: password);
   }
 
   // JWT 저장
