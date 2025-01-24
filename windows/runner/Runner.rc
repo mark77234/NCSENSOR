@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "taesung1" "\0"
+            VALUE "CompanyName", "NCSensor Inc." "\0"
+            VALUE "FileDescription", "NCSensor" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "taesung1" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "InternalName", "NCSensor" "\0"
+            VALUE "LegalCopyright", "Copyright 2025 NCSensor" "\0"
             VALUE "OriginalFilename", "taesung1.exe" "\0"
-            VALUE "ProductName", "taesung1" "\0"
+            VALUE "ProductName", "NCSensor" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
