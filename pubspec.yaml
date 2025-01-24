@@ -44,6 +44,7 @@ dependencies:
   image_picker: ^1.1.2
   http: ^1.2.2
   flutter_secure_storage: ^9.2.4
+  package_rename: ^1.8.0
 
 dev_dependencies:
   flutter_test:
@@ -104,3 +105,35 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+package_rename_config:
+  android:
+    app_name: NCSensor
+    package_name: com.tsei.ncsensor
+    override_old_package: true
+    lang: kotlin
+
+  ios:
+    app_name: NCSensor
+    bundle_name: com.tsei.ncsensor
+    package_name: com.tsei.ncsensor
+
+  linux:
+    app_name: # (String) The window title of the linux app
+    package_name: # (String) The application id of the linux app
+    exe_name: # (String) The executable name (binary name) of the linux app
+
+  macos:
+    app_name: # (String) The product name of the macos app
+    package_name: # (String) The product bundle identifier of the macos app
+    copyright_notice: # (String) The product copyright of the macos app
+
+  web:
+    app_name: # (String) The title of the web app and PWA
+    short_app_name: # (String) The short display name of the PWA (Optional, defaults to app_name if not set)
+    description: # (String) The description of the web app and PWA
+
+  windows:
+    app_name: # (String) The window title & software name of the windows app
+    organization: # (String) The organization name (company name) of the windows app
+    copyright_notice: # (String) The legal copyright of the windows app
+    exe_name: # (String) The executable name (binary name) of the windows app

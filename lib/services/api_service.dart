@@ -12,6 +12,7 @@ import 'package:taesung1/models/aritcle_model.dart';
 import '../storage/secure_storage.dart';
 import 'api_client.dart';
 
+
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
 
