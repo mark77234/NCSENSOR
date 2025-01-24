@@ -131,6 +131,13 @@ class _SelectScreenState extends State<SelectScreen> {
                               );
                             }).toList(),
                             underline: SizedBox(),
+                            dropdownColor: ColorStyles.background, // 드롭다운 배경색
+                            icon: const Icon(Icons.arrow_drop_down, color: Colors.black), // 드롭다운 화살표 스타일
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(15), // 드롭다운 모서리 둥글게
                           ),
                         ),
                       ],
