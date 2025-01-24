@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taesung1/constants/styles.dart';
-import 'package:taesung1/providers/auth_provider.dart';
-import 'package:taesung1/routes/app_routes.dart';
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/providers/auth_provider.dart';
+import 'package:NCSensor/routes/app_routes.dart';
 
 void main() {
   runApp(

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taesung1/routes/app_routes.dart';
-import 'package:taesung1/services/api_service.dart';
+import 'package:NCSensor/routes/app_routes.dart';
+import 'package:NCSensor/services/api_service.dart';
 
 import '../../constants/styles.dart';
 import '../../models/user_model.dart';

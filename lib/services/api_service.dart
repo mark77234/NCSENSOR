@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:taesung1/models/history_model.dart';
-import 'package:taesung1/models/user_model.dart';
+import 'package:NCSensor/models/history_model.dart';
+import 'package:NCSensor/models/user_model.dart';
 import '../constants/infra.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
-import 'package:taesung1/models/result_model.dart';
-import 'package:taesung1/models/aritcle_model.dart';
+import 'package:NCSensor/models/result_model.dart';
+import 'package:NCSensor/models/aritcle_model.dart';
 import '../storage/secure_storage.dart';
 import 'api_client.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/services/api_service.dart'; // ApiService 경로
+import 'package:NCSensor/services/api_service.dart'; // ApiService 경로
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

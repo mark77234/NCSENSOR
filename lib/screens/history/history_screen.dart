@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:taesung1/constants/styles.dart';
-import 'package:taesung1/models/history_model.dart';
-import 'package:taesung1/services/api_service.dart';
-import 'package:taesung1/widgets/common/my_header.dart';
-import 'package:taesung1/widgets/screens/history/empty_history_widget.dart';
-import 'package:taesung1/widgets/screens/history/history_list.dart';
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/models/history_model.dart';
+import 'package:NCSensor/services/api_service.dart';
+import 'package:NCSensor/widgets/common/my_header.dart';
+import 'package:NCSensor/widgets/screens/history/empty_history_widget.dart';
+import 'package:NCSensor/widgets/screens/history/history_list.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure/measure_screen.dart';
+import 'package:NCSensor/screens/measure/measure_screen.dart';
 import '../../constants/styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:taesung1/services/api_service.dart';
-import 'package:taesung1/models/aritcle_model.dart';
+import 'package:NCSensor/services/api_service.dart';
+import 'package:NCSensor/models/aritcle_model.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});

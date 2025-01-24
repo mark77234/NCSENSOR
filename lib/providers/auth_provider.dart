@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/services/api_service.dart';
+import 'package:NCSensor/services/api_service.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = false;

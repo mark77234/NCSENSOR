@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:taesung1/services/interceptor.dart';
+import 'package:NCSensor/services/interceptor.dart';
 
 Dio createClient(baseUrl) {
   return Dio(BaseOptions(

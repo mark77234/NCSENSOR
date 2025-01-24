@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/measure/select_screen.dart';
-import 'package:taesung1/screens/profile/profile_screen.dart';
-import 'package:taesung1/screens/statistics/statistics_screen.dart';
+import 'package:NCSensor/screens/measure/select_screen.dart';
+import 'package:NCSensor/screens/profile/profile_screen.dart';
+import 'package:NCSensor/screens/statistics/statistics_screen.dart';
 
 import '../../constants/styles.dart';
 import '../history/history_screen.dart';
