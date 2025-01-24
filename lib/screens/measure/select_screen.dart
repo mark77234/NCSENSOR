@@ -59,166 +59,10 @@ class _SelectScreenState extends State<SelectScreen> {
               else
                 Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 150,
-                          height: 60,
-                          color: ColorStyles.background,
-                          child: DropdownButton<String>(
-                            value: selectedItem.isEmpty
-                                ? articledata!.articles
-                                    .firstWhere(
-                                        (article) =>
-                                            article.subtypes == null ||
-                                            article.subtypes!.isEmpty,
-                                        orElse: () => articledata!.articles
-                                            .first // subtypes가 없는 첫 번째 항목을 찾고 없으면 첫 번째 항목 반환
-                                        )
-                                    .name
-                                : selectedItem,
-                            onChanged: (newValue) {
-                              setState(() {
-                                selectedItem = newValue!;
-                                selectedBodyParts = '';
-                                UUID = articledata!.articles
-                                    .firstWhere((article) =>
-                                        article.name == selectedItem)
-                                    .id;
-                              });
-                            },
-                            items: articledata!.articles
-                                .map<DropdownMenuItem<String>>((article) {
-                              return DropdownMenuItem<String>(
-                                value: article.name,
-                                child: Material(
-                                  color: ColorStyles.background, // 배경색을 투명하게 설정
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/icons/${_getIconFortype(article.name)}.svg',
-                                        height: 40,
-                                        width: 40,
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            article.name,
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              height: 1.5,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            '${article.name} 측정',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            underline: SizedBox(),
-                            dropdownColor: ColorStyles.background, // 드롭다운 배경색
-                            icon: const Icon(Icons.arrow_drop_down, color: Colors.black), // 드롭다운 화살표 스타일
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15), // 드롭다운 모서리 둥글게
-                          ),
-                        ),
-                      ],
-                    ),
+                    _buildDropdown(),
                     if (selectedItem.isNotEmpty &&
-                        articledata!.articles
-                            .any((article) => // 조건 내 하나라도 만족하면 true
-                                article.name == selectedItem &&
-                                article.subtypes != null && // NULL이 아닌지 확인
-                                article.subtypes!.isNotEmpty)) // 안비어 있는지 확인
-                      Column(
-                        children: [
-                          const SizedBox(height: 40),
-                          const Center(
-                            child: Text(
-                              "측정 부위를 선택해주세요",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          Column(
-                            children: [
-                              for (var subtype in articledata!.articles
-                                  .firstWhere(
-                                      (article) => article.name == selectedItem)
-                                  .subtypes!)
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: ElevatedButton(
-                                    style: selectedBodyParts == subtype.name
-                                        ? ButtonStyles.primaryOutlined
-                                        : ButtonStyles.greyOutlined,
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedBodyParts = subtype.name;
-                                        UUID = subtype.id;
-                                      });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/icons/${_getIconForSubtype(subtype.name)}.svg',
-                                          height: 40,
-                                          width: 40,
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              subtype.name,
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              '${subtype.name} 악취 측정',
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        _hasSubtypes(selectedItem))
+                      _buildBodyPartsSelection(),
                   ],
                 ),
               const SizedBox(height: 20),
@@ -230,6 +74,165 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
+  // Dropdown UI
+  Widget _buildDropdown() {
+    final firstArticle = articledata!.articles
+        .firstWhere(
+            (article) => article.subtypes == null || article.subtypes!.isEmpty,
+        orElse: () => articledata!.articles.first);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          width: 150,
+          height: 60,
+          color: ColorStyles.background,
+          child: DropdownButton<String>(
+            value: selectedItem.isEmpty ? firstArticle.name : selectedItem,
+            onChanged: (newValue) {
+              setState(() {
+                selectedItem = newValue!;
+                selectedBodyParts = '';
+                UUID = firstArticle.id;
+              });
+            },
+            items: articledata!.articles.map<DropdownMenuItem<String>>((article) {
+              return DropdownMenuItem<String>(
+                value: article.name,
+                child: Material(
+                  color: ColorStyles.background,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/${_getIconFortype(article.name)}.svg',
+                        height: 40,
+                        width: 40,
+                      ),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            article.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            '${article.name} 측정',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+            underline: SizedBox(),
+            dropdownColor: ColorStyles.background,
+            icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Check if selected item has subtypes
+  bool _hasSubtypes(String selectedItem) {
+    final article = articledata!.articles
+        .firstWhere((article) => article.name == selectedItem);
+    return article.subtypes != null && article.subtypes!.isNotEmpty;
+  }
+
+  // Body parts selection UI
+  Widget _buildBodyPartsSelection() {
+    final selectedArticle = articledata!.articles
+        .firstWhere((article) => article.name == selectedItem);
+
+    return Column(
+      children: [
+        const SizedBox(height: 40),
+        const Center(
+          child: Text(
+            "측정 부위를 선택해주세요",
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
+        Column(
+          children: [
+            for (var subtype in selectedArticle.subtypes!)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: ElevatedButton(
+                  style: selectedBodyParts == subtype.name
+                      ? ButtonStyles.primaryOutlined
+                      : ButtonStyles.greyOutlined,
+                  onPressed: () {
+                    setState(() {
+                      selectedBodyParts = subtype.name;
+                      UUID = subtype.id;
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/${_getIconForSubtype(subtype.name)}.svg',
+                        height: 40,
+                        width: 40,
+                      ),
+                      const SizedBox(width: 12),
+                      Column(
+                        children: [
+                          Text(
+                            subtype.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            '${subtype.name} 악취 측정',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // Get icon for subtype
   String _getIconForSubtype(String name) {
     switch (name) {
       case '입냄새':
@@ -243,6 +246,7 @@ class _SelectScreenState extends State<SelectScreen> {
     }
   }
 
+  // Get icon for type
   String _getIconFortype(String name) {
     switch (name) {
       case '체취':
@@ -254,6 +258,7 @@ class _SelectScreenState extends State<SelectScreen> {
     }
   }
 
+  // Empty state widget
   Widget _buildEmptyState() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 32),
@@ -279,6 +284,7 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
+  // Start button widget
   Widget _buildStart() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -305,6 +311,7 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
+  // Navigate to next screen
   Future<void> _navigate(BuildContext context) async {
     Navigator.pushReplacement(
       context,
@@ -314,6 +321,7 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
+  // Show error dialog
   void _showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
