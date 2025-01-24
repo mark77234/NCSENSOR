@@ -1,64 +1,62 @@
 import 'base_hook.dart';
 
-class ApiHookModel {
+class ApiState<T> {
   final bool isLoading;
   final bool error;
-  final dynamic data;
+  final T? data;
   final Function reFetch;
-  final bool isCashed;
 
-  ApiHookModel({
+  ApiState({
     required this.isLoading,
     required this.error,
     required this.data,
     required this.reFetch,
-    required this.isCashed,
   });
 
-  ApiHookModel copyWith({
+  ApiState<T> copyWith({
     bool? isLoading,
     bool? error,
-    dynamic data,
+    T? data,
     Function? reFetch,
-    bool? isCashed,
   }) {
-    return ApiHookModel(
+    return ApiState<T>(
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
       data: data ?? this.data,
       reFetch: reFetch ?? this.reFetch,
-      isCashed: isCashed ?? this.isCashed,
     );
   }
 }
 
-class ApiHook extends BaseHook<ApiHookModel> {
-  ApiHook()
-      : super(ApiHookModel(
+class ApiHook<T> extends BaseHook<ApiState<T>> {
+  final Function? onError;
+  final Future<T> Function() apiCall;
+
+  ApiHook({
+    required this.apiCall,
+    this.onError,
+  }) : super(ApiState<T>(
           isLoading: false,
           error: false,
           data: null,
-          reFetch: () {},
-          isCashed: false,
-        ));
-
-  void startLoading() {
-    state = state.copyWith(isLoading: true);
+          reFetch: () {}, // 초기화 시점에 _fetchData를 설정
+        )) {
+    state = state.copyWith(reFetch: _fetchData);
+    _fetchData();
   }
 
-  void setError(bool error) {
-    state = state.copyWith(error: error);
-  }
+  void _fetchData() async {
+    if (state.isLoading) return; // 이미 로딩 중이면 반환
 
-  void setData(dynamic data) {
-    state = state.copyWith(isLoading: false, error: false, data: data);
-  }
-
-  void setReFetch(Function reFetch) {
-    state = state.copyWith(reFetch: reFetch);
-  }
-
-  void setIsCashed(bool isCashed) {
-    state = state.copyWith(isCashed: isCashed);
+    state = state.copyWith(isLoading: true, error: false);
+    try {
+      final result = await apiCall();
+      state = state.copyWith(data: result, isLoading: false);
+    } catch (err) {
+      state = state.copyWith(error: true, isLoading: false);
+      if (onError != null) {
+        onError!(err);
+      }
+    }
   }
 }
