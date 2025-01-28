@@ -30,7 +30,7 @@ enum BreathState {
 class _BreathScreenState extends State<BreathScreen> {
   BreathState _breathState = BreathState.ready;
   double _progress = 0.0;
-  double _blowLimitSec = 10.0;
+  final double _blowLimitSec = 10.0;
 
   Future<void> _showBlowDialog(BuildContext context) async {
     return showDialog<void>(

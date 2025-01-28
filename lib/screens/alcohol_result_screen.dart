@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:taesung1/screens/breath_screen.dart';
-import 'package:taesung1/screens/main_screen.dart';
 
 import '../constants/styles.dart';
 

@@ -77,7 +77,7 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
       state = state.copyWith(error: err.toString(), isLoading: false);
       print('에러 발생 : $err');
       if (_onError != null) {
-        _onError!(err);
+        _onError(err);
       }
     }
   }

@@ -44,7 +44,7 @@ class HistoryList extends StatelessWidget {
             ),
           ),
         ),
-        ...dayRecords.map((record) => _buildHistoryItem(record)).toList(),
+        ...dayRecords.map((record) => _buildHistoryItem(record)),
         SizedBox(height: 8),
       ],
     );
