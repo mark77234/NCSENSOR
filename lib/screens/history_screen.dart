@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taesung1/utils/api_hook.dart';
 
 import '../models/history_model.dart';
 import '../services/api_service.dart';
@@ -14,45 +15,68 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  late final ApiHook historyApiHook;
   DateRange? selectedRange = DateRange.thisMonth;
-  List<HistoryData> records = [];
   DateTime currentMonth = DateTime.now();
-  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _loadHistoryData();
+    historyApiHook =
+        ApiHook<List<HistoryData>>(apiCall: ApiService.getHistoryData, params: {
+      'start': dateRange.start,
+      'end': dateRange.end,
+    });
+    historyApiHook.addListener(() {
+      setState(() {});
+    });
   }
 
-  Future<void> _loadHistoryData() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      DateTimeRange dateRange = selectedRange?.dateRange ??
-          DateTimeRange(
-            start: DateTime(currentMonth.year, currentMonth.month, 1),
-            end: DateTime(currentMonth.year, currentMonth.month + 1, 0),
-          );
-
-      final data = await ApiService.getHistoryData(
-        start: dateRange.start,
-        end: dateRange.end,
+  DateTimeRange get dateRange =>
+      selectedRange?.dateRange ??
+      DateTimeRange(
+        start: DateTime(currentMonth.year, currentMonth.month, 1),
+        end: DateTime(currentMonth.year, currentMonth.month + 1, 0),
       );
 
-      setState(() {
-        records = data;
-      });
-    } catch (e) {
-      print('Error loading history data: $e');
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+  @override
+  void didUpdateWidget(covariant HistoryScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    historyApiHook.updateParams({
+      'start': dateRange.start,
+      'end': dateRange.end,
+    });
   }
+
+  @override
+  void dispose() {
+    historyApiHook.dispose();
+    super.dispose();
+  }
+
+  // Future<void> _loadHistoryData() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //
+  //   try {
+  //
+  //     final data = await ApiService.getHistoryData(
+  //       start: dateRange.start,
+  //       end: dateRange.end,
+  //     );
+  //
+  //     setState(() {
+  //       records = data;
+  //     });
+  //   } catch (e) {
+  //     print('Error loading history data: $e');
+  //   } finally {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
 
   void _updateMonth(DateTime newMonth) {
     setState(() {
@@ -79,22 +103,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
           children: [
             MyHeader(title: "기록"),
             DateSelector(
-              loadData: _loadHistoryData,
               currentMonth: currentMonth,
               selectedRange: selectedRange,
               setDate: _updateMonth,
               setRange: _updateRange,
             ),
             SizedBox(height: 16),
-            if (_isLoading)
+            if (historyApiHook.state.isLoading)
               Center(child: CircularProgressIndicator())
-            else if (records.isEmpty)
+            else if (historyApiHook.state.data.isEmpty)
               EmptyDisplayBox(
                 icon: Icons.history,
                 text: "기록이 없습니다.",
               )
             else
-              HistoryList(records: records),
+              HistoryList(records: historyApiHook.state.data),
           ],
         ),
       ),

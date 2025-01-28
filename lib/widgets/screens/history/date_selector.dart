@@ -7,14 +7,12 @@ import '../../../models/history_model.dart';
 class DateSelector extends StatelessWidget {
   const DateSelector({
     super.key,
-    required this.loadData,
     required this.currentMonth,
     required this.selectedRange,
     required this.setDate,
     required this.setRange,
   });
 
-  final Function loadData;
   final DateTime currentMonth;
   final DateRange? selectedRange;
   final Function(DateTime newMonth) setDate;
@@ -29,7 +27,6 @@ class DateSelector extends StatelessWidget {
     if (!_isDateAvailable(delta)) return;
     setDate(DateTime(currentMonth.year, currentMonth.month + delta));
     setRange(null);
-    loadData();
   }
 
   @override
@@ -85,7 +82,6 @@ class DateSelector extends StatelessWidget {
           onPressed: () {
             DateRange? newRange = isSelected ? null : range;
             setRange(newRange);
-            loadData();
           },
           style: _getRangeButtonStyle(isSelected),
           child: Text(
