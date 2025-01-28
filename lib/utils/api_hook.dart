@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'base_hook.dart';
 
 class ApiState<T> {
   final bool isLoading;
-  final bool error;
+  final String? error;
   final T? data;
   final Function reFetch;
 
@@ -15,7 +17,7 @@ class ApiState<T> {
 
   ApiState<T> copyWith({
     bool? isLoading,
-    bool? error,
+    String? error,
     T? data,
     Function? reFetch,
   }) {
@@ -29,34 +31,62 @@ class ApiState<T> {
 }
 
 class ApiHook<T> extends BaseHook<ApiState<T>> {
-  final Function? onError;
-  final Future<T> Function() apiCall;
+  final Function? _onError;
+  final Function _apiCall;
+  Map<String, dynamic>? _params;
+  final Duration? _debounceTime;
+  Timer? _debounce;
 
   ApiHook({
-    required this.apiCall,
-    this.onError,
-  }) : super(ApiState<T>(
+    required Function apiCall,
+    Function? onError,
+    Map<String, dynamic>? params,
+    Duration? debounceTime,
+  })  : _params = params,
+        _apiCall = apiCall,
+        _onError = onError,
+        _debounceTime = debounceTime ?? Duration(milliseconds: 500),
+        super(ApiState<T>(
           isLoading: false,
-          error: false,
+          error: null,
           data: null,
           reFetch: () {}, // 초기화 시점에 _fetchData를 설정
         )) {
     state = state.copyWith(reFetch: _fetchData);
-    _fetchData();
+    _debounceFetch();
+  }
+
+  void _debounceFetch() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel(); //이미 있다면 취소
+    _debounce = Timer(_debounceTime!, () {
+      _fetchData();
+    });
   }
 
   void _fetchData() async {
-    if (state.isLoading) return; // 이미 로딩 중이면 반환
-
-    state = state.copyWith(isLoading: true, error: false);
+    state = state.copyWith(isLoading: true, error: null);
     try {
-      final result = await apiCall();
+      late final result;
+      if (_params == null) {
+        result = await _apiCall();
+      } else {
+        result = await _apiCall(_params);
+      }
       state = state.copyWith(data: result, isLoading: false);
     } catch (err) {
-      state = state.copyWith(error: true, isLoading: false);
-      if (onError != null) {
-        onError!(err);
+      state = state.copyWith(error: err.toString(), isLoading: false);
+      print('에러 발생 : $err');
+      if (_onError != null) {
+        _onError!(err);
       }
+    }
+  }
+
+  void updateParams(Map<String, dynamic> newParams) {
+    // 이전 param과 확인하고 update
+    if (_params != newParams) {
+      _params = newParams;
+      _debounceFetch();
     }
   }
 }
