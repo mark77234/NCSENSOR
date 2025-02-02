@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../screens/profile/manage_screen.dart';
 import '../screens/splash/entry_screen.dart';
-import '../screens/login/login_screen.dart';
+import '../screens/auth/login_screen.dart';
 import '../screens/splash/main_screen.dart';
 
 class AppRoutes {
   static const String entry = '/';
-  static const String login = '/login';
+  static const String login = '/auth';
   static const String main = '/main';
   static const String measure = '/measure';
   static const String history = '/history';

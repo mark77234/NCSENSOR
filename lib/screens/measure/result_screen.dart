@@ -343,10 +343,10 @@ class _ResultScreenState extends State<ResultScreen> {
           Text(
             "데이터를 가져오는데 문제가 발생했습니다.",
             style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
+                fontSize: 16,
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.none),
           ),
         ],
       ),

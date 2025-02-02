@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:NCSensor/screens/splash/main_screen.dart';
 import '../../constants/styles.dart';
 import '../../providers/auth_provider.dart';
-import 'package:NCSensor/screens/login/register_screen.dart';
+import 'package:NCSensor/screens/auth/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

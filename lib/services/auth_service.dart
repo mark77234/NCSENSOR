@@ -24,7 +24,7 @@ class LoginService {
     required String password,
   }) async {
     return await _apiService.client.post(
-      '/auth/login',
+      '/auth/auth',
       data: {
         'username': username,
         'password': password,
