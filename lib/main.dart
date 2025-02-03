@@ -1,3 +1,4 @@
+import 'package:NCSensor/providers/uidata_provider.dart';
 import 'package:NCSensor/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider(apiService)),
+        ChangeNotifierProvider(create: (_) => UiDataProvider()),
       ],
       child: MyApp(),
     ),

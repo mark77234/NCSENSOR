@@ -1,9 +1,11 @@
+import 'package:NCSensor/providers/uidata_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
+import 'package:provider/provider.dart';
 import '../../constants/styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:NCSensor/services/api_service.dart';
-import 'package:NCSensor/models/aritcle_model.dart';
+
+import '../../models/ui_model.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});
@@ -13,37 +15,34 @@ class SelectScreen extends StatefulWidget {
 }
 
 class _SelectScreenState extends State<SelectScreen> {
-  bool _isLabelLoading = false;
   String selectedItem = '';
   String selectedBodyParts = '';
   String UUID = '';
-  ArticleData? articledata;
 
   @override
   void initState() {
     super.initState();
-    _loadArticleData();
-  }
-
-  Future<void> _loadArticleData() async {
-    setState(() {
-      _isLabelLoading = true;
-    });
-    try {
-      final data = await ApiService.getArticleData();
-      setState(() {
-        articledata = data;
-      });
-    } catch (e) {
-      print('Error loading measure labels: $e');
-    }
-    setState(() {
-      _isLabelLoading = false;
+    // Initialize selection when data is available
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final uiDataProvider = Provider.of<UiDataProvider>(context, listen: false);
+      if (uiDataProvider.uiData != null && uiDataProvider.uiData!.articles.isNotEmpty) {
+        setState(() {
+          selectedItem = uiDataProvider.uiData!.articles.first.name;
+          UUID = uiDataProvider.uiData!.articles.first.id;
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final uiDataProvider = Provider.of<UiDataProvider>(context);
+    final uiData = uiDataProvider.uiData;
+
+    if (uiData == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,19 +51,9 @@ class _SelectScreenState extends State<SelectScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
-              if (_isLabelLoading)
-                const CircularProgressIndicator()
-              else if (articledata == null || articledata!.articles.isEmpty)
-                _buildEmptyState()
-              else
-                Column(
-                  children: [
-                    _buildDropdown(),
-                    if (selectedItem.isNotEmpty &&
-                        _hasSubtypes(selectedItem))
-                      _buildBodyPartsSelection(),
-                  ],
-                ),
+              _buildDropdown(uiData),
+              if (selectedItem.isNotEmpty && _hasSubtypes(uiData))
+                _buildBodyPartsSelection(uiData),
               const SizedBox(height: 20),
               _buildStart()
             ],
@@ -74,30 +63,27 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
-  // Dropdown UI
-  Widget _buildDropdown() {
-    final firstArticle = articledata!.articles
-        .firstWhere(
-            (article) => article.subtypes == null || article.subtypes!.isEmpty,
-        orElse: () => articledata!.articles.first);
-
+  Widget _buildDropdown(UiData uiData) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          width: 150,
+          width: 250,
           height: 60,
           color: ColorStyles.background,
           child: DropdownButton<String>(
-            value: selectedItem.isEmpty ? firstArticle.name : selectedItem,
+            value: selectedItem.isEmpty ? uiData.articles.first.name : selectedItem,
             onChanged: (newValue) {
+              final selectedArticle = uiData.articles.firstWhere(
+                    (article) => article.name == newValue,
+              );
               setState(() {
                 selectedItem = newValue!;
                 selectedBodyParts = '';
-                UUID = firstArticle.id;
+                UUID = selectedArticle.id;
               });
             },
-            items: articledata!.articles.map<DropdownMenuItem<String>>((article) {
+            items: uiData.articles.map<DropdownMenuItem<String>>((article) {
               return DropdownMenuItem<String>(
                 value: article.name,
                 child: Material(
@@ -105,7 +91,7 @@ class _SelectScreenState extends State<SelectScreen> {
                   child: Row(
                     children: [
                       SvgPicture.asset(
-                        'assets/icons/${_getIconFortype(article.name)}.svg',
+                        'assets/icons/${article.icon}',
                         height: 40,
                         width: 40,
                       ),
@@ -120,15 +106,13 @@ class _SelectScreenState extends State<SelectScreen> {
                               fontWeight: FontWeight.bold,
                               height: 1.5,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                           Text(
-                            '${article.name} 측정',
+                            article.content,
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -137,43 +121,36 @@ class _SelectScreenState extends State<SelectScreen> {
                 ),
               );
             }).toList(),
-            underline: SizedBox(),
+            underline: const SizedBox(),
             dropdownColor: ColorStyles.background,
             icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
-            borderRadius: BorderRadius.circular(15),
           ),
         ),
       ],
     );
   }
 
-  // Check if selected item has subtypes
-  bool _hasSubtypes(String selectedItem) {
-    final article = articledata!.articles
-        .firstWhere((article) => article.name == selectedItem);
+  bool _hasSubtypes(UiData uiData) {
+    final article = uiData.articles.firstWhere(
+          (article) => article.name == selectedItem,
+    );
     return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 
-  // Body parts selection UI
-  Widget _buildBodyPartsSelection() {
-    final selectedArticle = articledata!.articles
-        .firstWhere((article) => article.name == selectedItem);
+  Widget _buildBodyPartsSelection(UiData uiData) {
+    final selectedArticle = uiData.articles.firstWhere(
+          (article) => article.name == selectedItem,
+    );
 
     return Column(
       children: [
         const SizedBox(height: 40),
-        const Center(
-          child: Text(
-            "측정 부위를 선택해주세요",
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+        const Text(
+          "측정 부위를 선택해주세요",
+          style: TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
         const SizedBox(height: 30),
@@ -197,7 +174,7 @@ class _SelectScreenState extends State<SelectScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        'assets/icons/${_getIconForSubtype(subtype.name)}.svg',
+                        'assets/icons/${subtype.icon}',
                         height: 40,
                         width: 40,
                       ),
@@ -213,12 +190,11 @@ class _SelectScreenState extends State<SelectScreen> {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            '${subtype.name} 악취 측정',
+                            subtype.content,
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -232,59 +208,6 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
-  // Get icon for subtype
-  String _getIconForSubtype(String name) {
-    switch (name) {
-      case '입냄새':
-        return "mouth";
-      case '발냄새':
-        return 'foot';
-      case '겨드랑이냄새':
-        return 'armpit';
-      default:
-        return 'default';
-    }
-  }
-
-  // Get icon for type
-  String _getIconFortype(String name) {
-    switch (name) {
-      case '체취':
-        return "body";
-      case '음주':
-        return 'drinking';
-      default:
-        return 'default';
-    }
-  }
-
-  // Empty state widget
-  Widget _buildEmptyState() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(
-            Icons.error,
-            size: 48,
-            color: Colors.grey,
-          ),
-          SizedBox(height: 16),
-          Text(
-            "데이터를 가져오는데 오류가 발생했습니다",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Start button widget
   Widget _buildStart() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -301,7 +224,12 @@ class _SelectScreenState extends State<SelectScreen> {
         } else if (selectedItem == '체취' && selectedBodyParts.isEmpty) {
           _showErrorDialog(context, '체취 부위를 선택해 주세요.');
         } else {
-          _navigate(context);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MeasureScreen(UUID),
+            ),
+          );
         }
       },
       child: const Text(
@@ -311,17 +239,6 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
-  // Navigate to next screen
-  Future<void> _navigate(BuildContext context) async {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MeasureScreen(UUID),
-      ),
-    );
-  }
-
-  // Show error dialog
   void _showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
