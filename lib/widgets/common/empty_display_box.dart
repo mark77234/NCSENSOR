@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EmptyHistoryWidget extends StatelessWidget {
-  const EmptyHistoryWidget({super.key});
+class EmptyDisplayBox extends StatelessWidget {
+  const EmptyDisplayBox({super.key, this.icon, this.text});
+
+  final IconData? icon;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +14,13 @@ class EmptyHistoryWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.history,
+            icon ?? Icons.not_interested_rounded,
             size: 48,
             color: Colors.grey,
           ),
           SizedBox(height: 16),
           Text(
-            "기록이 없습니다.",
+            text ?? "데이터가 없습니다.",
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey,

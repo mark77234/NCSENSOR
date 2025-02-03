@@ -1,19 +1,77 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/history_model.dart';
+import '../../../services/api_service.dart';
+import '../../../utils/api_hook.dart';
+import '../../common/empty_display_box.dart';
+import 'history_item.dart';
 
-class HistoryList extends StatelessWidget {
-  const HistoryList({super.key, required this.records});
+class HistoryList extends StatefulWidget {
+  const HistoryList({super.key, required this.dateRange});
 
-  final List<HistoryData> records;
+  final DateTimeRange dateRange;
+
+  @override
+  State<HistoryList> createState() => _HistoryListState();
+}
+
+class _HistoryListState extends State<HistoryList> {
+  late final ApiHook historyApiHook;
+
+  @override
+  void initState() {
+    super.initState();
+    historyApiHook = ApiHook<List<HistoryData>>(
+        apiCall: (params) => ApiService.getHistoryData(
+              start: params['start'],
+              end: params['end'],
+            ),
+        params: {
+          'start': widget.dateRange.start,
+          'end': widget.dateRange.end,
+        });
+    historyApiHook.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant HistoryList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    historyApiHook.updateParams({
+      'start': widget.dateRange.start,
+      'end': widget.dateRange.end,
+    });
+  }
+
+  @override
+  void dispose() {
+    historyApiHook.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, List<HistoryData>> groupedRecords = {};
-    for (var record in records) {
+    final ApiState(:isLoading, :data, :error) = historyApiHook.state;
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+    if (error != null) {
+      return EmptyDisplayBox(
+        icon: Icons.error,
+        text: "기록을 불러오는 중 오류가 발생했습니다.",
+      );
+    }
+    if (data?.isEmpty ?? true) {
+      return EmptyDisplayBox(
+        icon: Icons.history,
+        text: "기록이 없습니다.",
+      );
+    }
+    final Map<String, List<HistoryData>> groupedRecords = {};
+    for (HistoryData record in data) {
       String dateKey = DateFormat('yyyy년 MM월 dd일').format(record.datetime);
       groupedRecords.putIfAbsent(dateKey, () => []).add(record);
     }
@@ -44,86 +102,9 @@ class HistoryList extends StatelessWidget {
             ),
           ),
         ),
-        ...dayRecords.map((record) => _buildHistoryItem(record)).toList(),
+        ...dayRecords.map((record) => HistoryItem(record: record)),
         SizedBox(height: 8),
       ],
-    );
-  }
-
-  Widget _buildHistoryItem(HistoryData record) {
-    return Container(
-      decoration: ContainerStyles.card,
-      padding: EdgeInsets.all(4),
-      margin: EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: _buildHistoryIcon(record.title),
-        title: Text(
-          record.title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          DateFormat('HH:mm').format(record.datetime),
-          style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 14,
-          ),
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              "${record.result.value} ${record.result.unit}",
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorStyles.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              record.result.content,
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorStyles.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHistoryIcon(String title) {
-    String assetName;
-
-    switch (title) {
-      case "음주":
-        assetName = "drinking";
-        break;
-      case "입냄새":
-        assetName = "mouth";
-        break;
-      case "겨드랑이냄새":
-        assetName = "armpit";
-        break;
-      case "발냄새":
-        assetName = "foot";
-        break;
-      default:
-        assetName = "measure";
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 2.0),
-      child: SvgPicture.asset(
-        "assets/$assetName.svg",
-        width: 40,
-        height: 40,
-      ),
     );
   }
 }
