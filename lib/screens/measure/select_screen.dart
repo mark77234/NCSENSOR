@@ -1,10 +1,10 @@
-import 'package:NCSensor/providers/uidata_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:NCSensor/providers/ui_data_provider.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
-import 'package:provider/provider.dart';
-import '../../constants/styles.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
+import '../../constants/styles.dart';
 import '../../models/ui_model.dart';
 
 class SelectScreen extends StatefulWidget {
@@ -24,8 +24,10 @@ class _SelectScreenState extends State<SelectScreen> {
     super.initState();
     // Initialize selection when data is available
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final uiDataProvider = Provider.of<UiDataProvider>(context, listen: false);
-      if (uiDataProvider.uiData != null && uiDataProvider.uiData!.articles.isNotEmpty) {
+      final uiDataProvider =
+          Provider.of<UiDataProvider>(context, listen: false);
+      if (uiDataProvider.uiData != null &&
+          uiDataProvider.uiData!.articles.isNotEmpty) {
         setState(() {
           selectedItem = uiDataProvider.uiData!.articles.first.name;
           UUID = uiDataProvider.uiData!.articles.first.id;
@@ -72,10 +74,12 @@ class _SelectScreenState extends State<SelectScreen> {
           height: 60,
           color: ColorStyles.background,
           child: DropdownButton<String>(
-            value: selectedItem.isEmpty ? uiData.articles.first.name : selectedItem,
+            value: selectedItem.isEmpty
+                ? uiData.articles.first.name
+                : selectedItem,
             onChanged: (newValue) {
               final selectedArticle = uiData.articles.firstWhere(
-                    (article) => article.name == newValue,
+                (article) => article.name == newValue,
               );
               setState(() {
                 selectedItem = newValue!;
@@ -132,14 +136,14 @@ class _SelectScreenState extends State<SelectScreen> {
 
   bool _hasSubtypes(UiData uiData) {
     final article = uiData.articles.firstWhere(
-          (article) => article.name == selectedItem,
+      (article) => article.name == selectedItem,
     );
     return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 
   Widget _buildBodyPartsSelection(UiData uiData) {
     final selectedArticle = uiData.articles.firstWhere(
-          (article) => article.name == selectedItem,
+      (article) => article.name == selectedItem,
     );
 
     return Column(
