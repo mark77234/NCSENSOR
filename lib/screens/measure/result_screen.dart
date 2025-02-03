@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/styles.dart';
+import '../../models/result_model.dart';
 import '../../providers/ui_data_provider.dart';
+import '../../services/api_service.dart';
 import '../splash/main_screen.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:NCSensor/models/ui_model.dart';
@@ -21,19 +23,46 @@ class _ResultScreenState extends State<ResultScreen> {
   bool _isLoading = true;
   String? _errorMessage;
 
+  BodyResultData? bodyResultData;
+
+  List<Map<String, dynamic>> sensors = [
+    {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "2", "value": 2, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "3", "value": 3, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "4", "value": 5, "measured_at": "2025-01-22T00:00:00"},
+  ];
+
   @override
   void initState() {
     super.initState();
     articleId = widget.UUID;
     _loadData();
+    _loadResultData(articleId, sensors);
+  }
+
+  Future<void> _loadResultData(
+      String articleId, List<Map<String, dynamic>> sensors) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final data = await ApiService.getBodyData(articleId, sensors);
+      setState(() {
+        measuredValue = data.value;
+      });
+    } catch (e) {
+      print("오류: $e");
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   void _loadData() async {
     try {
-      // Simulated measured value - replace with actual API call
       await Future.delayed(const Duration(seconds: 1));
       setState(() {
-        measuredValue = 0.015; // Example value for demonstration
         _isLoading = false;
       });
     } catch (e) {
@@ -67,7 +96,6 @@ class _ResultScreenState extends State<ResultScreen> {
       return _buildErrorState();
     }
 
-    // Find matching article or subtype
     Article? article;
     Subtype? subtype;
     for (var a in uiData.articles) {
@@ -90,7 +118,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
     final result = article?.result ?? subtype?.result;
     final sections = article?.sections ?? subtype?.sections;
-    final title = article?.name ?? subtype?.name;
+    final title = article?.result?.title ?? subtype?.result.title;
     final unit = article?.unit ?? subtype?.unit;
 
     if (result == null || sections == null) {
