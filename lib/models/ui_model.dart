@@ -22,14 +22,6 @@ class UiData {
       stats: Stats.fromJson(json['stats']),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'version': version,
-      'articles': articles.map((article) => article.toJson()).toList(),
-      'stats': stats.toJson(),
-    };
-  }
 }
 
 class Article {
@@ -69,19 +61,6 @@ class Article {
           : null,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'unit': unit,
-      'content': content,
-      'icon': icon,
-      'result': result?.toJson(),
-      'sections': sections?.map((e) => e.toJson()).toList(),
-      'subtypes': subtypes?.map((e) => e.toJson()).toList(),
-    };
-  }
 }
 
 class Subtype {
@@ -111,22 +90,9 @@ class Subtype {
       content: json['content'] as String,
       icon: json['icon'] as String,
       result: Result.fromJson(json['result']),
-      sections: (json['sections'] as List)
-          .map((e) => Section.fromJson(e))
-          .toList(),
+      sections:
+          (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'unit': unit,
-      'content': content,
-      'icon': icon,
-      'result': result.toJson(),
-      'sections': sections.map((e) => e.toJson()).toList(),
-    };
   }
 }
 
@@ -147,14 +113,6 @@ class Result {
       min: json['min'] as num,
       max: json['max'] as num,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'min': min,
-      'max': max,
-    };
   }
 }
 
@@ -185,17 +143,6 @@ class Section {
       color: colorFromHex(json['color']),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'level': level,
-      'name': name,
-      'min': min.toJson(),
-      'max': max.toJson(),
-      'content': content,
-      'color': color,
-    };
-  }
 }
 
 class ValueRange {
@@ -213,13 +160,6 @@ class ValueRange {
       isContained: json['is_contained'] as bool,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'value': value,
-      'is_contained': isContained,
-    };
-  }
 }
 
 class Stats {
@@ -235,9 +175,8 @@ class Stats {
 
   factory Stats.fromJson(Map<String, dynamic> json) {
     return Stats(
-      cardStats: (json['CARD'] as List)
-          .map((e) => StatCard.fromJson(e))
-          .toList(),
+      cardStats:
+          (json['CARD'] as List).map((e) => StatCard.fromJson(e)).toList(),
       percentStats: (json['PERCENT'] as List)
           .map((e) => StatPercent.fromJson(e))
           .toList(),
@@ -245,14 +184,6 @@ class Stats {
           .map((e) => StatComparison.fromJson(e))
           .toList(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'CARD': cardStats.map((e) => e.toJson()).toList(),
-      'PERCENT': percentStats.map((e) => e.toJson()).toList(),
-      'COMPARISON': comparisonStats.map((e) => e.toJson()).toList(),
-    };
   }
 }
 
@@ -277,15 +208,6 @@ class StatCard {
       icon: json['icon'] as String,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'title': title,
-      'unit': unit,
-      'icon': icon,
-    };
-  }
 }
 
 class StatPercent {
@@ -308,15 +230,6 @@ class StatPercent {
       unit: json['unit'] as String,
       icon: json['icon'] as String,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'title': title,
-      'unit': unit,
-      'icon': icon,
-    };
   }
 }
 
@@ -345,15 +258,6 @@ class StatComparison {
           : null, // null 체크 추가
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'title': title,
-      'result': result?.toJson(), // null-safe 연산자 사용
-      'chart': chart?.toJson(),   // null-safe 연산자 사용
-    };
-  }
 }
 
 class ComparisonResult {
@@ -370,13 +274,6 @@ class ComparisonResult {
       unit: json['unit'] as String,
       content: json['content'] as String,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'unit': unit,
-      'content': content,
-    };
   }
 }
 
@@ -395,18 +292,8 @@ class ComparisonChart {
     return ComparisonChart(
       min: json['min'] as num,
       max: json['max'] as num,
-      bar: (json['bar'] as List)
-          .map((e) => ChartBar.fromJson(e))
-          .toList(),
+      bar: (json['bar'] as List).map((e) => ChartBar.fromJson(e)).toList(),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'min': min,
-      'max': max,
-      'bar': bar.map((e) => e.toJson()).toList(),
-    };
   }
 }
 
@@ -427,13 +314,5 @@ class ChartBar {
       name: json['name'] as String,
       color: json['color'] as String,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'name': name,
-      'color': color,
-    };
   }
 }
