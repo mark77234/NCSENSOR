@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
 import 'base_hook.dart';
 
 class ApiState<T> {
@@ -28,6 +30,11 @@ class ApiState<T> {
       reFetch: reFetch ?? this.reFetch,
     );
   }
+
+  @override
+  String toString() {
+    return 'ApiState(isLoading: $isLoading, error: $error, data: $data)';
+  }
 }
 
 class ApiHook<T> extends BaseHook<ApiState<T>> {
@@ -35,7 +42,9 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
   final Function _apiCall;
   Map<String, dynamic>? _params;
   final Duration? _debounceTime;
-  Timer? _debounce;
+  Timer? _debounceTimer;
+  final DeepCollectionEquality _deepCollectionEquality =
+      DeepCollectionEquality();
 
   ApiHook({
     required Function apiCall,
@@ -52,18 +61,19 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
           data: null,
           reFetch: () {}, // 초기화 시점에 _fetchData를 설정
         )) {
-    state = state.copyWith(reFetch: _fetchData);
+    state = state.copyWith(reFetch: _debounceFetch);
     _debounceFetch();
   }
 
-  void _debounceFetch() {
-    if (_debounce?.isActive ?? false) _debounce!.cancel(); //이미 있다면 취소
-    _debounce = Timer(_debounceTime!, () {
-      _fetchData();
-    });
+  void _debounce(Function() action) {
+    if (_debounceTimer?.isActive ?? false) {
+      _debounceTimer!.cancel(); //이미 있다면 취소
+    }
+    _debounceTimer = Timer(_debounceTime!, action);
   }
 
   void _fetchData() async {
+    print('API 호출');
     state = state.copyWith(isLoading: true, error: null);
     try {
       late final result;
@@ -72,6 +82,7 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
       } else {
         result = await _apiCall(_params);
       }
+      print('API 호출 성공 : $result');
       state = state.copyWith(data: result, isLoading: false);
     } catch (err) {
       state = state.copyWith(error: err.toString(), isLoading: false);
@@ -82,11 +93,25 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
     }
   }
 
+  void _debounceFetch() {
+    _debounce(_fetchData);
+  }
+
+  // didUpdateWidget 에서 호출하는 것을 권장한다.
+  // build 내부에서 호출해도 되긴 한다. 근데 불필요한 호출이 될 수 있다.
   void updateParams(Map<String, dynamic> newParams) {
-    // 이전 param과 확인하고 update
-    if (_params != newParams) {
-      _params = newParams;
-      _debounceFetch();
-    }
+    if (_deepCollectionEquality.equals(_params, newParams)) return;
+    _debounce(
+      () {
+        _params = newParams;
+        _fetchData();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
   }
 }
