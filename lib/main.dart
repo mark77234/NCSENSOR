@@ -1,10 +1,10 @@
-import 'package:NCSensor/providers/uidata_provider.dart';
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/providers/auth_provider.dart';
+import 'package:NCSensor/providers/ui_data_provider.dart';
+import 'package:NCSensor/routes/app_routes.dart';
 import 'package:NCSensor/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:NCSensor/constants/styles.dart';
-import 'package:NCSensor/providers/auth_provider.dart';
-import 'package:NCSensor/routes/app_routes.dart';
 
 void main() {
   final apiService = ApiService();

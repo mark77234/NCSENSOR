@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:NCSensor/screens/splash/splash_screen.dart';
-import 'package:NCSensor/services/api_service.dart';  // API 서비스 임포트
+import 'package:NCSensor/services/api_service.dart'; // API 서비스 임포트
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/uidata_provider.dart';
+
+import '../../providers/ui_data_provider.dart';
 import 'main_screen.dart';
 
 class EntryScreen extends StatelessWidget {
   const EntryScreen({super.key});
-
 
   Future<void> _initializeApp(BuildContext context) async {
     final uiData = await ApiService.getUiData();
