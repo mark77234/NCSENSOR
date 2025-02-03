@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taesung1/routes/app_routes.dart';
+import 'package:NCSensor/routes/app_routes.dart';
+import 'package:NCSensor/services/api_service.dart';
 
-import '../constants/styles.dart';
-import '../models/user_model.dart';
-import '../widgets/common/editable_field.dart';
-import '../widgets/common/my_header.dart';
+import '../../constants/styles.dart';
+import '../../models/user_model.dart';
+import '../../widgets/common/editable_field.dart';
+import '../../widgets/common/my_header.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {
@@ -20,20 +21,35 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   static const double _profilePictureRadius = 48.0;
   static const double _editButtonRadius = 16.0;
+  UserProfile? userProfile;
 
   bool isEditing = false;
+  bool _isLoading = false;
   late UserProfile userData;
   late UserProfile visibleData;
 
   @override
   void initState() {
     super.initState();
-    userData = UserProfile(
-      name: "홍길동",
-      phone: "010-1234-5678",
-      email: "example@email.com",
-    );
-    visibleData = userData;
+    _loadUserProfile();
+  }
+
+  Future<void> _loadUserProfile() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final data = await ApiService.getUserProfile();
+      setState(() {
+        userProfile = data;
+        visibleData = data;
+      });
+    } catch (e) {
+      print('Error');
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   Future<void> _pickImage() async {
@@ -68,7 +84,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void handleEdit() {
     setState(() {
       isEditing = true;
-      visibleData = userData;
     });
   }
 
@@ -82,25 +97,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void handleCancel() {
     setState(() {
       isEditing = false;
-      visibleData = userData;
+      visibleData = userProfile!;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MyHeader(title: "프로필"),
-            _buildProfileCard(),
-          ],
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (userProfile == null) {
+      return _buildEmptyState();
+    } else {
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              MyHeader(title: "프로필"),
+              _buildProfileCard(),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   Widget _buildProfileCard() {
@@ -133,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : null,
             child: visibleData.imagePath == null
                 ? Icon(Icons.person,
-                    size: _profilePictureRadius, color: Colors.grey)
+                size: _profilePictureRadius, color: Colors.grey)
                 : null,
           ),
           if (isEditing)
@@ -169,16 +190,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           value: visibleData.phone,
           isEditing: isEditing,
           keyboardType: TextInputType.phone,
-          onChanged: (value) =>
-              visibleData = visibleData.copyWith(phone: value),
+          onChanged: (value) => visibleData = visibleData.copyWith(phone: value),
         ),
         EditableField(
           label: "이메일",
           value: visibleData.email,
           isEditing: isEditing,
           keyboardType: TextInputType.emailAddress,
-          onChanged: (value) =>
-              visibleData = visibleData.copyWith(email: value),
+          onChanged: (value) => visibleData = visibleData.copyWith(email: value),
         ),
       ],
     );
@@ -187,41 +206,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildActionButtons() {
     return isEditing
         ? Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: handleCancel,
-                  style: ButtonStyles.primaryExpandOutlined,
-                  child: Text("취소하기"),
-                ),
-              ),
-              SizedBox(width: 8),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: handleSave,
-                  style: ButtonStyles.primaryExpandElevated,
-                  child: Text("저장하기"),
-                ),
-              ),
-            ],
-          )
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: handleCancel,
+            style: ButtonStyles.primaryExpandOutlined,
+            child: Text("취소하기"),
+          ),
+        ),
+        SizedBox(width: 8),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: handleSave,
+            style: ButtonStyles.primaryExpandElevated,
+            child: Text("저장하기"),
+          ),
+        ),
+      ],
+    )
         : Column(
-            children: [
-              ElevatedButton(
-                onPressed: handleEdit,
-                style: ButtonStyles.primaryExpandOutlined,
-                child: Text("수정하기"),
-              ),
-              SizedBox(height: 8),
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.manage);
-                },
-                style: ButtonStyles.primaryExpandElevated,
-                icon: Icon(Icons.group),
-                label: Text("사용자 관리"),
-              ),
-            ],
-          );
+      children: [
+        ElevatedButton(
+          onPressed: handleEdit,
+          style: ButtonStyles.primaryExpandOutlined,
+          child: Text("수정하기"),
+        ),
+        SizedBox(height: 8),
+        ElevatedButton.icon(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.manage);
+          },
+          style: ButtonStyles.primaryExpandElevated,
+          icon: Icon(Icons.group),
+          label: Text("사용자 관리"),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error,
+            size: 48,
+            color: Colors.grey,
+          ),
+          SizedBox(height: 16),
+          Text(
+            "데이터를 가져오는데 문제가 발생했습니다.",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

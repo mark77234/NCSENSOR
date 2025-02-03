@@ -1,4 +1,4 @@
-name: taesung1
+name: NCSensor
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -43,7 +43,8 @@ dependencies:
   intl: ^0.20.1
   image_picker: ^1.1.2
   http: ^1.2.2
-  flutter_blue_plus: ^1.35.0
+  flutter_secure_storage: ^9.2.4
+  package_rename: ^1.8.0
   collection: ^1.19.0
 
 dev_dependencies:
@@ -105,3 +106,35 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+package_rename_config:
+  android:
+    app_name: NCSensor
+    package_name: com.tsei.ncsensor
+    override_old_package: true
+    lang: kotlin
+
+  ios:
+    app_name: NCSensor
+    bundle_name: com.tsei.ncsensor
+    package_name: com.tsei.ncsensor
+
+  linux:
+    app_name: NCSensor
+    package_name: com.tsei.ncsensor
+    exe_name: ncsensor_linux
+
+  macos:
+    app_name: NCSensor
+    package_name: com.tsei.ncsensor
+    copyright_notice: "Copyright 2025 NCSensor"
+
+  web:
+    app_name: NCSensor
+    short_app_name: NCSensor
+    description: "NCSensor web application."
+
+  windows:
+    app_name: NCSensor
+    organization: NCSensor Inc.
+    copyright_notice: "Copyright 2025 NCSensor"
+    exe_name: NCSensor.exe

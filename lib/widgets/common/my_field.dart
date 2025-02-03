@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/constants/styles.dart';
+import 'package:NCSensor/constants/styles.dart';
 
 class MyField extends StatelessWidget {
   final String label;

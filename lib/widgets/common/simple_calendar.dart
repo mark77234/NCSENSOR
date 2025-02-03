@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/constants/styles.dart';
+import 'package:NCSensor/constants/styles.dart';
 
 // highlightedDates has date, value objects
 // ex) {"date": "2021-10-01", "value": "1"}
