@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants/styles.dart';
-import '../../../models/history_model.dart';
+import '../../../models/data/history_model.dart';
 
 class DateSelector extends StatelessWidget {
   const DateSelector({

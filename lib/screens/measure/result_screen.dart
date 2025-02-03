@@ -1,10 +1,11 @@
+import 'package:NCSensor/models/index.dart';
+import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../constants/styles.dart';
 import '../../providers/ui_data_provider.dart';
 import '../splash/main_screen.dart';
-import 'package:NCSensor/screens/measure/measure_screen.dart';
-import 'package:NCSensor/models/ui_model.dart';
 
 class ResultScreen extends StatefulWidget {
   final String UUID;
@@ -151,8 +152,8 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
 
-  Widget _buildResultCard(
-      int stage, Result result, List<Section> sections, double value, String? unit) {
+  Widget _buildResultCard(int stage, Result result, List<Section> sections,
+      double value, String? unit) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -259,7 +260,7 @@ class _ResultScreenState extends State<ResultScreen> {
             Column(
               children: List.generate(
                 sections.length,
-                    (index) => Padding(
+                (index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

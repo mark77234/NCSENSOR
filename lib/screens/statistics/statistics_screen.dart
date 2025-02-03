@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/styles.dart';
 import '../../models/measure_model.dart';
-import '../../models/statistic_data_model.dart';
+import '../../models/statistic_model.dart';
 import '../../services/api_service.dart';
 import '../../widgets/common/carousel.dart';
 import '../../widgets/common/compare_graph_card.dart';
@@ -103,7 +102,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   Widget _buildViewContent(StatisticData view) {
-    switch (view.type) {
+    switch (view.ui) {
       case StaticViewType.card:
         return _buildCardContent(view as CardData);
       case StaticViewType.percent:
