@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import '../utils/util.dart';
+
 class UiData {
   final int version;
   final List<Article> articles;
@@ -160,7 +164,7 @@ class Section {
   final ValueRange min;
   final ValueRange max;
   final String content;
-  final String color;
+  final Color color;
 
   Section({
     required this.level,
@@ -178,7 +182,7 @@ class Section {
       min: ValueRange.fromJson(json['min']),
       max: ValueRange.fromJson(json['max']),
       content: json['content'] as String,
-      color: json['color'] as String,
+      color: colorFromHex(json['color']),
     );
   }
 
@@ -319,22 +323,26 @@ class StatPercent {
 class StatComparison {
   final String type;
   final String title;
-  final ComparisonResult result;
-  final ComparisonChart chart;
+  final ComparisonResult? result;
+  final ComparisonChart? chart;
 
   StatComparison({
     required this.type,
     required this.title,
-    required this.result,
-    required this.chart,
+    this.result,
+    this.chart,
   });
 
   factory StatComparison.fromJson(Map<String, dynamic> json) {
     return StatComparison(
       type: json['type'] as String,
       title: json['title'] as String,
-      result: ComparisonResult.fromJson(json['result']),
-      chart: ComparisonChart.fromJson(json['chart']),
+      result: json['result'] != null
+          ? ComparisonResult.fromJson(json['result'])
+          : null, // null 체크 추가
+      chart: json['chart'] != null
+          ? ComparisonChart.fromJson(json['chart'])
+          : null, // null 체크 추가
     );
   }
 
@@ -342,8 +350,8 @@ class StatComparison {
     return {
       'type': type,
       'title': title,
-      'result': result.toJson(),
-      'chart': chart.toJson(),
+      'result': result?.toJson(), // null-safe 연산자 사용
+      'chart': chart?.toJson(),   // null-safe 연산자 사용
     };
   }
 }
