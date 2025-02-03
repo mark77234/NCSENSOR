@@ -9,21 +9,28 @@ import 'main_screen.dart';
 class EntryScreen extends StatelessWidget {
   const EntryScreen({super.key});
 
+  // entry_screen.dart
   Future<void> _initializeApp(BuildContext context) async {
-    final uiData = await ApiService.getUiData();
-    Provider.of<UiDataProvider>(context, listen: false).updateData(uiData);
-    await Future.delayed(const Duration(seconds: 3)); // 최소 로딩 시간
+    try {
+      final uiData = await ApiService.getUiData();
+      Provider.of<UiDataProvider>(context, listen: false).updateData(uiData);
+      await Future.delayed(const Duration(seconds: 3));
+    } catch (e) {
+      print(">>>${e}");
+      throw e;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final initializationFuture = _initializeApp(context);
     return FutureBuilder(
-      future: _initializeApp(context),
+      future: initializationFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SplashScreen();
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('${snapshot.error}'));
         } else {
           return const MainScreen();
         }

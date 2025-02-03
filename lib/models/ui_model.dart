@@ -319,22 +319,26 @@ class StatPercent {
 class StatComparison {
   final String type;
   final String title;
-  final ComparisonResult result;
-  final ComparisonChart chart;
+  final ComparisonResult? result;
+  final ComparisonChart? chart;
 
   StatComparison({
     required this.type,
     required this.title,
-    required this.result,
-    required this.chart,
+    this.result,
+    this.chart,
   });
 
   factory StatComparison.fromJson(Map<String, dynamic> json) {
     return StatComparison(
       type: json['type'] as String,
       title: json['title'] as String,
-      result: ComparisonResult.fromJson(json['result']),
-      chart: ComparisonChart.fromJson(json['chart']),
+      result: json['result'] != null
+          ? ComparisonResult.fromJson(json['result'])
+          : null, // null 체크 추가
+      chart: json['chart'] != null
+          ? ComparisonChart.fromJson(json['chart'])
+          : null, // null 체크 추가
     );
   }
 
@@ -342,8 +346,8 @@ class StatComparison {
     return {
       'type': type,
       'title': title,
-      'result': result.toJson(),
-      'chart': chart.toJson(),
+      'result': result?.toJson(), // null-safe 연산자 사용
+      'chart': chart?.toJson(),   // null-safe 연산자 사용
     };
   }
 }
