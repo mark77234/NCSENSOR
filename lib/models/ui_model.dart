@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import '../utils/util.dart';
+
 class UiData {
   final int version;
   final List<Article> articles;
@@ -160,7 +164,7 @@ class Section {
   final ValueRange min;
   final ValueRange max;
   final String content;
-  final String color;
+  final Color color;
 
   Section({
     required this.level,
@@ -178,7 +182,7 @@ class Section {
       min: ValueRange.fromJson(json['min']),
       max: ValueRange.fromJson(json['max']),
       content: json['content'] as String,
-      color: json['color'] as String,
+      color: colorFromHex(json['color']),
     );
   }
 

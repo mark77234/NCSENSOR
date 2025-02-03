@@ -22,7 +22,6 @@ class _SelectScreenState extends State<SelectScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize selection when data is available
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final uiDataProvider = Provider.of<UiDataProvider>(context, listen: false);
       if (uiDataProvider.uiData != null && uiDataProvider.uiData!.articles.isNotEmpty) {
@@ -48,7 +47,6 @@ class _SelectScreenState extends State<SelectScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 50),
               _buildDropdown(uiData),
@@ -65,10 +63,10 @@ class _SelectScreenState extends State<SelectScreen> {
 
   Widget _buildDropdown(UiData uiData) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 300,
+          width: 250,
           height: 60,
           color: ColorStyles.background,
           child: DropdownButton<String>(
@@ -94,6 +92,7 @@ class _SelectScreenState extends State<SelectScreen> {
                         'assets/icons/${article.icon}',
                         height: 40,
                         width: 40,
+                        placeholderBuilder: (BuildContext context) => const Icon(Icons.error),
                       ),
                       const SizedBox(width: 12),
                       Column(

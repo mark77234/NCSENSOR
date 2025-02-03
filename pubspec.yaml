@@ -65,6 +65,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+    - assets/icons/
 
   fonts:
     - family: DoHyeon
