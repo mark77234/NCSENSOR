@@ -1,14 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../constants/styles.dart';
-import '../models/measure_model.dart';
-import '../models/statistic_data_model.dart';
-import '../services/api_service.dart';
-import '../widgets/common/carousel.dart';
-import '../widgets/common/compare_graph_card.dart';
-import '../widgets/common/my_card.dart';
-import '../widgets/common/my_header.dart';
+import '../../constants/styles.dart';
+import '../../models/measure_model.dart';
+import '../../models/statistic_data_model.dart';
+import '../../services/api_service.dart';
+import '../../widgets/common/carousel.dart';
+import '../../widgets/common/compare_graph_card.dart';
+import '../../widgets/common/my_card.dart';
+import '../../widgets/common/my_header.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -118,7 +119,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
           child: SvgPicture.asset(
-            "assets/${card.icon}",
+            "assets/icons/${card.icon}",
             width: 40,
             height: 40,
           ),
@@ -164,7 +165,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 ),
               ),
               SvgPicture.asset(
-                "assets/customGraph.svg",
+                "assets/icons/customGraph.svg",
                 width: 96,
                 height: 200,
               ),
@@ -224,7 +225,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return Container(
       width: 200,
       padding: EdgeInsets.all(4),
-      decoration: ContainerStyles.tile.copyWith(color: ColorStyles.grey),
+      decoration: ContainerStyles.tile.copyWith(color: ColorStyles.lightgrey),
       child: DropdownButton<MeasureLabel>(
         value: selectedLabel,
         onChanged: (MeasureLabel? newValue) {

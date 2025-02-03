@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../constants/styles.dart';
-import '../models/history_model.dart';
-import '../services/api_service.dart';
-import '../widgets/common/my_header.dart';
-import '../widgets/screens/history/empty_history_widget.dart';
-import '../widgets/screens/history/history_list.dart';
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/models/history_model.dart';
+import 'package:NCSensor/services/api_service.dart';
+import 'package:NCSensor/widgets/common/my_header.dart';
+import 'package:NCSensor/widgets/screens/history/empty_history_widget.dart';
+import 'package:NCSensor/widgets/screens/history/history_list.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -79,7 +79,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         startDate = DateTime(now.year - 1, now.month + 1, 1);
         break;
       default:
-        // 기본값: 이번 달
+      // 기본값: 이번 달
         startDate = DateTime(now.year, now.month, 1);
     }
 
@@ -198,7 +198,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return ElevatedButton.styleFrom(
       foregroundColor: isSelected ? ColorStyles.primary : ColorStyles.secondary,
       backgroundColor:
-          isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.grey,
+      isSelected ? ColorStyles.primary.withAlpha(50) : ColorStyles.lightgrey,
       elevation: 0,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(

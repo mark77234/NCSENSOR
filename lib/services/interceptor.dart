@@ -20,6 +20,8 @@ class CustomInterceptors extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     log('[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri} ${err.response?.statusCode} ${err.requestOptions.data} ${err.response?.data}');
+    log('에러 상태코드 ${err.response?.statusCode}');
+    log('에러 데이터: ${err.response?.data}');
     handler.next(err);
   }
 }

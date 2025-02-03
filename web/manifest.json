@@ -1,11 +1,11 @@
 {
-    "name": "taesung1",
-    "short_name": "taesung1",
+    "name": "NCSensor",
+    "short_name": "NCSensor",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "NCSensor web application.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

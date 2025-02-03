@@ -31,7 +31,7 @@ class BreathProgressIndicator extends StatelessWidget {
             fontSize: 40,
             fontWeight: FontWeight.bold,
             color:
-                Color.lerp(ColorStyles.grey, ColorStyles.primary, progress) ??
+                Color.lerp(ColorStyles.lightgrey, ColorStyles.primary, progress) ??
                     ColorStyles.primary,
           ),
         ),

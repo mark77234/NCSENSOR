@@ -1,14 +1,18 @@
+import 'package:NCSensor/providers/uidata_provider.dart';
+import 'package:NCSensor/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taesung1/constants/styles.dart';
-import 'package:taesung1/providers/auth_provider.dart';
-import 'package:taesung1/routes/app_routes.dart';
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/providers/auth_provider.dart';
+import 'package:NCSensor/routes/app_routes.dart';
 
 void main() {
+  final apiService = ApiService();
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider(apiService)),
+        ChangeNotifierProvider(create: (_) => UiDataProvider()),
       ],
       child: MyApp(),
     ),
@@ -25,9 +29,9 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.getRoutes(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: ColorStyles.primary,
-        highlightColor: ColorStyles.primary,
-        focusColor: ColorStyles.primary,
+        primaryColor: ColorStyles.lightgrey,
+        highlightColor: ColorStyles.lightgrey,
+        focusColor: ColorStyles.lightgrey,
         scaffoldBackgroundColor: ColorStyles.background,
         // 앱의 배경 색상 설정
         appBarTheme: const AppBarTheme(

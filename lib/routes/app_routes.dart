@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:taesung1/screens/manage_screen.dart';
 
-import '../screens/entry_screen.dart';
-import '../screens/login_screen.dart';
-import '../screens/main_screen.dart';
+import '../screens/profile/manage_screen.dart';
+import '../screens/splash/entry_screen.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/splash/main_screen.dart';
 
 class AppRoutes {
   static const String entry = '/';
-  static const String login = '/login';
+  static const String login = '/auth';
   static const String main = '/main';
   static const String measure = '/measure';
   static const String history = '/history';
   static const String statistics = '/statistics';
   static const String profile = '/profile';
   static const String manage = '/profile/manage';
-  static const String bleTest = '/bleTest';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
