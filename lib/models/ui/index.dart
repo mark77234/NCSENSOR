@@ -1,4 +1,3 @@
-
 import 'article_model.dart';
 import 'statistic_model.dart';
 
@@ -24,26 +23,25 @@ class UiData {
   }
 
   Article? findArticleById(String id) {
-    try{
+    try {
       return articles.firstWhere((article) => article.id == id);
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  // Stat? findStatByData(StatisticData data) {
-  //   try {
-  //     switch (data.ui) {
-  //       case StatisticUi.percent:
-  //         return stats.percent.firstWhere((p) => p.type == data.type);
-  //       case StatisticUi.card:
-  //         return stats.card.firstWhere((c) => c.type == data.type);
-  //       case StatisticUi.comparison:
-  //         return stats.comparison.firstWhere((c) => c.type == data.type);
-  //     }
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
-
+  Stat? findStatByData(StatisticData data) {
+    try {
+      switch (data.ui) {
+        case StatisticUi.percent:
+          return stats.percent.firstWhere((p) => p.type == data.type);
+        case StatisticUi.card:
+          return stats.card.firstWhere((c) => c.type == data.type);
+        case StatisticUi.comparison:
+          return stats.comparison.firstWhere((c) => c.type == data.type);
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 }

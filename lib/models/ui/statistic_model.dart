@@ -1,37 +1,44 @@
 class Stats {
-  final List<StatCard> cardStats;
-  final List<StatPercent> percentStats;
-  final List<StatComparison> comparisonStats;
+  final List<StatCard> card;
+  final List<StatPercent> percent;
+  final List<StatComparison> comparison;
 
   Stats({
-    required this.cardStats,
-    required this.percentStats,
-    required this.comparisonStats,
+    required this.card,
+    required this.percent,
+    required this.comparison,
   });
 
   factory Stats.fromJson(Map<String, dynamic> json) {
     return Stats(
-      cardStats:
-      (json['CARD'] as List).map((e) => StatCard.fromJson(e)).toList(),
-      percentStats: (json['PERCENT'] as List)
+      card: (json['CARD'] as List).map((e) => StatCard.fromJson(e)).toList(),
+      percent: (json['PERCENT'] as List)
           .map((e) => StatPercent.fromJson(e))
           .toList(),
-      comparisonStats: (json['COMPARISON'] as List)
+      comparison: (json['COMPARISON'] as List)
           .map((e) => StatComparison.fromJson(e))
           .toList(),
     );
   }
 }
 
-class StatCard {
+abstract class Stat {
   final String type;
   final String title;
+
+  Stat({
+    required this.type,
+    required this.title,
+  });
+}
+
+class StatCard extends Stat {
   final String unit;
   final String icon;
 
   StatCard({
-    required this.type,
-    required this.title,
+    required super.type,
+    required super.title,
     required this.unit,
     required this.icon,
   });
@@ -44,26 +51,15 @@ class StatCard {
       icon: json['icon'] as String,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'title': title,
-      'unit': unit,
-      'icon': icon,
-    };
-  }
 }
 
-class StatPercent {
-  final String type;
-  final String title;
+class StatPercent extends Stat {
   final String unit;
   final String icon;
 
   StatPercent({
-    required this.type,
-    required this.title,
+    required super.type,
+    required super.title,
     required this.unit,
     required this.icon,
   });
@@ -76,26 +72,15 @@ class StatPercent {
       icon: json['icon'] as String,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'title': title,
-      'unit': unit,
-      'icon': icon,
-    };
-  }
 }
 
-class StatComparison {
-  final String type;
-  final String title;
+class StatComparison extends Stat {
   final ComparisonResult? result;
   final ComparisonChart? chart;
 
   StatComparison({
-    required this.type,
-    required this.title,
+    required super.type,
+    required super.title,
     this.result,
     this.chart,
   });
@@ -128,13 +113,6 @@ class ComparisonResult {
       unit: json['unit'] as String,
       content: json['content'] as String,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'unit': unit,
-      'content': content,
-    };
   }
 }
 

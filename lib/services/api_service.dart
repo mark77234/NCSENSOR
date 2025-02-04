@@ -1,10 +1,15 @@
 import 'dart:convert';
 
+import 'package:NCSensor/models/data/aritcle_model.dart';
+import 'package:NCSensor/models/data/history_model.dart';
+import 'package:NCSensor/models/result_model.dart';
+import 'package:NCSensor/models/user_model.dart';
+import 'package:NCSensor/services/auth_service.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:NCSensor/models/history_model.dart';
-import 'package:NCSensor/models/user_model.dart';
+
 import '../constants/infra.dart';
+import '../models/data/statistic_model.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
 import 'package:NCSensor/models/result_model.dart';
@@ -12,21 +17,19 @@ import '../models/ui/index.dart';
 
 import '../storage/secure_storage.dart';
 import 'api_client.dart';
-import 'package:NCSensor/services/auth_service.dart';
-
 
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
   late final LoginService _loginService;
 
-  ApiService(){
+  ApiService() {
     _loginService = LoginService(this);
   }
 
   Dio get client => _apiClient;
 
-  Future<String> login({required String username, required String password}){
-    return _loginService.login(username: username,password: password);
+  Future<String> login({required String username, required String password}) {
+    return _loginService.login(username: username, password: password);
   }
 
   // JWT 저장

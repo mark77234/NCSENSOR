@@ -70,7 +70,7 @@ class Subtype {
       icon: json['icon'] as String,
       result: Result.fromJson(json['result']),
       sections:
-      (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
+          (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
     );
   }
 
@@ -93,14 +93,6 @@ class Result {
       min: json['min'] as num,
       max: json['max'] as num,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'min': min,
-      'max': max,
-    };
   }
 }
 
@@ -131,7 +123,6 @@ class Section {
       color: colorFromHex(json['color']),
     );
   }
-
 }
 
 class ValueRange {
