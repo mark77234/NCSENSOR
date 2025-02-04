@@ -1,0 +1,162 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../../constants/styles.dart';
+import '../../../models/ui/article_model.dart';
+
+class MeasurementDropdown extends StatelessWidget {
+  final List<Article> articles;
+  final String selectedItem;
+  final Function(String, String) onChanged;
+
+  const MeasurementDropdown({
+    super.key,
+    required this.articles,
+    required this.selectedItem,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(bottom: 12.0),
+          child: Text(
+            '측정 항목 선택',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          decoration: BoxDecoration(
+            color: ColorStyles.background,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4,
+              ),
+            ],
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedItem.isEmpty
+                  ? articles.first.name
+                  : selectedItem,
+              onChanged: (newValue) {
+                final selectedArticle = articles.firstWhere(
+                      (article) => article.name == newValue,
+                );
+                onChanged(newValue!, selectedArticle.id);
+              },
+              items: articles.map((article) => _buildDropdownItem(article)).toList(),
+              isExpanded: true,
+              icon: const Padding(
+                padding: EdgeInsets.only(right: 12.0),
+                child: Icon(Icons.arrow_drop_down, size: 28, color: ColorStyles.primary,),
+              ),
+              dropdownColor: ColorStyles.background,
+              borderRadius: BorderRadius.circular(8.0),
+              elevation: 4,
+              menuMaxHeight: 400,
+              itemHeight: 80,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              selectedItemBuilder: (BuildContext context) {
+                return articles.map<Widget>((Article article) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/${article.icon}',
+                          height: 40,
+                          width: 40,
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              article.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              article.content,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList();
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // 드롭다운 아이템 빌드
+  DropdownMenuItem<String> _buildDropdownItem(Article article) {
+    return DropdownMenuItem<String>(
+      value: article.name,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: 16.0, vertical: 8.0),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              'assets/icons/${article.icon}',
+              height: 40,
+              width: 40,
+              placeholderBuilder: (BuildContext context) =>
+              const Icon(Icons.error, size: 40),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    article.name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    article.content,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey.shade600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
