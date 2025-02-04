@@ -1,13 +1,13 @@
+import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../constants/styles.dart';
 import '../../models/data/result_model.dart';
 import '../../models/ui/article_model.dart';
 import '../../providers/ui_data_provider.dart';
 import '../../services/api_service.dart';
-import '../splash/main_screen.dart';
-import 'package:NCSensor/screens/measure/measure_screen.dart';
-
+import '../common/main_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String UUID;
@@ -124,7 +124,6 @@ class _ResultScreenState extends State<ResultScreen> {
     final title = article?.result?.title ?? subtype?.result.title;
     final unit = article?.unit ?? subtype?.unit;
 
-
     if (result == null || sections == null) {
       return _buildErrorState();
     }
@@ -171,7 +170,8 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildResultCard(stage, result, sections, measuredValue!, unit, comment),
+              _buildResultCard(
+                  stage, result, sections, measuredValue!, unit, comment),
               const SizedBox(height: 20),
               _buildStatusCard(sections, title),
               const SizedBox(height: 20),
@@ -183,8 +183,8 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
 
-  Widget _buildResultCard(
-      int stage, Result result, List<Section> sections, double value, String? unit, String? comment) {
+  Widget _buildResultCard(int stage, Result result, List<Section> sections,
+      double value, String? unit, String? comment) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -291,7 +291,7 @@ class _ResultScreenState extends State<ResultScreen> {
             Column(
               children: List.generate(
                 sections.length,
-                    (index) => Padding(
+                (index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

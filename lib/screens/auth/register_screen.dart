@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:NCSensor/services/api_service.dart'; // ApiService 경로
+import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -24,8 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildTextField(
       {required String label,
-        bool isPassword = false,
-        required TextEditingController controller}) {
+      bool isPassword = false,
+      required TextEditingController controller}) {
     return Center(
       child: SizedBox(
         width: 320,
@@ -57,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: ElevatedButton(
         onPressed: () async {
           try {
-            await ApiService.signup(
+            await ApiService.user.signup(
               username: _usernameController.text,
               password: _passwordController.text,
               name: _nameController.text,
@@ -104,7 +104,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 40),
             _buildTextField(label: '아이디', controller: _usernameController),
             const SizedBox(height: 10),
-            _buildTextField(label: '비밀번호', isPassword: true, controller: _passwordController),
+            _buildTextField(
+                label: '비밀번호',
+                isPassword: true,
+                controller: _passwordController),
             const SizedBox(height: 10),
             _buildTextField(label: '이름', controller: _nameController),
             const SizedBox(height: 10),
