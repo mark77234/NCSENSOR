@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../constants/styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../models/ui/article_model.dart';
 import '../../models/ui/index.dart';
 
 class SelectScreen extends StatefulWidget {
@@ -144,74 +145,143 @@ class _SelectScreenState extends State<SelectScreen> {
     return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 
+  // Widget _buildBodyPartsSelection(UiData uiData) {
+  //   final selectedArticle = uiData.articles.firstWhere(
+  //     (article) => article.name == selectedItem,
+  //   );
+  //
+  //   return Column(
+  //     children: [
+  //       const SizedBox(height: 40),
+  //       const Text(
+  //         "측정 부위를 선택해주세요",
+  //         style: TextStyle(
+  //           color: Colors.grey,
+  //           fontWeight: FontWeight.bold,
+  //           fontSize: 16,
+  //         ),
+  //       ),
+  //       const SizedBox(height: 30),
+  //       Column(
+  //         children: [
+  //           for (var subtype in selectedArticle.subtypes!)
+  //             Padding(
+  //               padding: const EdgeInsets.only(bottom: 10),
+  //               child: ElevatedButton(
+  //                 style: selectedBodyParts == subtype.name
+  //                     ? ButtonStyles.primaryOutlined
+  //                     : ButtonStyles.greyOutlined,
+  //                 onPressed: () {
+  //                   setState(() {
+  //                     selectedBodyParts = subtype.name;
+  //                     UUID = subtype.id;
+  //                   });
+  //                 },
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     SvgPicture.asset(
+  //                       'assets/icons/${subtype.icon}',
+  //                       height: 40,
+  //                       width: 40,
+  //                     ),
+  //                     const SizedBox(width: 12),
+  //                     Column(
+  //                       children: [
+  //                         Text(
+  //                           subtype.name,
+  //                           style: const TextStyle(
+  //                             fontSize: 16,
+  //                             fontWeight: FontWeight.bold,
+  //                           ),
+  //                         ),
+  //                         const SizedBox(height: 5),
+  //                         Text(
+  //                           subtype.content,
+  //                           style: const TextStyle(
+  //                             fontSize: 12,
+  //                             color: Colors.grey,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget _buildBodyPartsSelection(UiData uiData) {
     final selectedArticle = uiData.articles.firstWhere(
-      (article) => article.name == selectedItem,
+          (article) => article.name == selectedItem,
     );
 
-    return Column(
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      childAspectRatio: 1.6,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
       children: [
-        const SizedBox(height: 40),
-        const Text(
-          "측정 부위를 선택해주세요",
-          style: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+        for (var subtype in selectedArticle.subtypes!)
+          _buildBodyPartCard(subtype),
+      ],
+    );
+  }
+
+  Widget _buildBodyPartCard(Subtype subtype) {
+    final isSelected = selectedBodyParts == subtype.name;
+
+    return InkWell(
+      onTap: () {
+        setState(() {
+          selectedBodyParts = subtype.name;
+          UUID = subtype.id;
+        });
+      },
+      borderRadius: BorderRadius.circular(16),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? ColorStyles.primary : Colors.grey.shade300,
+            width: 1.5,
           ),
         ),
-        const SizedBox(height: 30),
-        Column(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            for (var subtype in selectedArticle.subtypes!)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: ElevatedButton(
-                  style: selectedBodyParts == subtype.name
-                      ? ButtonStyles.primaryOutlined
-                      : ButtonStyles.greyOutlined,
-                  onPressed: () {
-                    setState(() {
-                      selectedBodyParts = subtype.name;
-                      UUID = subtype.id;
-                    });
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/${subtype.icon}',
-                        height: 40,
-                        width: 40,
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        children: [
-                          Text(
-                            subtype.name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            subtype.content,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+            SvgPicture.asset(
+              'assets/icons/${subtype.icon}',
+            ),
+            const SizedBox(height: 12),
+            Text(
+              subtype.name,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              subtype.content,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 
