@@ -11,7 +11,6 @@ import '../models/data/result_model.dart';
 import '../models/data/statistic_model.dart';
 import '../models/data/user_model.dart';
 import '../models/ui/index.dart';
-
 import '../storage/secure_storage.dart';
 import 'api_client.dart';
 
@@ -31,12 +30,12 @@ class ApiService {
 
   // JWT 저장
   Future<void> saveToken(String token) async {
-    await SecureStorageService.saveToken(token);
+    await SecureStorage.saveToken(token);
   }
 
   // JWT 읽기
   Future<String?> getToken() async {
-    return await SecureStorageService.getToken();
+    return await SecureStorage.getToken();
   }
 
   static Future<void> signup({
