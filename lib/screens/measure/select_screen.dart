@@ -23,8 +23,10 @@ class _SelectScreenState extends State<SelectScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final uiDataProvider = Provider.of<UiDataProvider>(context, listen: false);
-      if (uiDataProvider.uiData != null && uiDataProvider.uiData!.articles.isNotEmpty) {
+      final uiDataProvider =
+          Provider.of<UiDataProvider>(context, listen: false);
+      if (uiDataProvider.uiData != null &&
+          uiDataProvider.uiData!.articles.isNotEmpty) {
         setState(() {
           selectedItem = uiDataProvider.uiData!.articles.first.name;
           UUID = uiDataProvider.uiData!.articles.first.id;
@@ -42,19 +44,22 @@ class _SelectScreenState extends State<SelectScreen> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              _buildDropdown(uiData),
-              if (selectedItem.isNotEmpty && _hasSubtypes(uiData))
-                _buildBodyPartsSelection(uiData),
-              const SizedBox(height: 20),
-              _buildStart()
-            ],
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 100),
+                _buildDropdown(uiData),
+                if (selectedItem.isNotEmpty && _hasSubtypes(uiData))
+                  _buildBodyPartsSelection(uiData),
+                const SizedBox(height: 20),
+                _buildStart()
+              ],
+            ),
           ),
         ),
       ),
@@ -70,10 +75,12 @@ class _SelectScreenState extends State<SelectScreen> {
           height: 60,
           color: ColorStyles.background,
           child: DropdownButton<String>(
-            value: selectedItem.isEmpty ? uiData.articles.first.name : selectedItem,
+            value: selectedItem.isEmpty
+                ? uiData.articles.first.name
+                : selectedItem,
             onChanged: (newValue) {
               final selectedArticle = uiData.articles.firstWhere(
-                    (article) => article.name == newValue,
+                (article) => article.name == newValue,
               );
               setState(() {
                 selectedItem = newValue!;
@@ -92,7 +99,8 @@ class _SelectScreenState extends State<SelectScreen> {
                         'assets/icons/${article.icon}',
                         height: 40,
                         width: 40,
-                        placeholderBuilder: (BuildContext context) => const Icon(Icons.error),
+                        placeholderBuilder: (BuildContext context) =>
+                            const Icon(Icons.error),
                       ),
                       const SizedBox(width: 12),
                       Column(
@@ -131,14 +139,14 @@ class _SelectScreenState extends State<SelectScreen> {
 
   bool _hasSubtypes(UiData uiData) {
     final article = uiData.articles.firstWhere(
-          (article) => article.name == selectedItem,
+      (article) => article.name == selectedItem,
     );
     return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 
   Widget _buildBodyPartsSelection(UiData uiData) {
     final selectedArticle = uiData.articles.firstWhere(
-          (article) => article.name == selectedItem,
+      (article) => article.name == selectedItem,
     );
 
     return Column(
@@ -242,14 +250,15 @@ class _SelectScreenState extends State<SelectScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('오류'),
+        title: const Text('필수 선택', style: TextStyle(fontWeight: FontWeight.bold)),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('확인'),
+            child: const Text('확인', style: TextStyle(color: ColorStyles.primary)),
           ),
         ],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
