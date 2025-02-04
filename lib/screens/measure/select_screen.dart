@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../constants/styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../models/ui_model.dart';
+import '../../models/ui/index.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});

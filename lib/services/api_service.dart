@@ -8,8 +8,8 @@ import '../constants/infra.dart';
 import '../models/measure_model.dart';
 import '../models/statistic_data_model.dart';
 import 'package:NCSensor/models/result_model.dart';
-import 'package:NCSensor/models/aritcle_model.dart';
-import '../models/ui_model.dart';
+import '../models/ui/index.dart';
+
 import '../storage/secure_storage.dart';
 import 'api_client.dart';
 import 'package:NCSensor/services/auth_service.dart';
@@ -129,11 +129,6 @@ class ApiService {
       print("error: $e");
       rethrow;
     }
-  }
-
-  static Future<ArticleData> getArticleData() async {
-    final response = await _apiClient.get('/measure/articles');
-    return ArticleData.fromJson(response.data);
   }
 
   static Future<List<HistoryData>> getHistoryData(

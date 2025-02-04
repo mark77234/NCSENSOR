@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/styles.dart';
 import '../../models/result_model.dart';
+import '../../models/ui/article_model.dart';
 import '../../providers/ui_data_provider.dart';
 import '../../services/api_service.dart';
 import '../splash/main_screen.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
-import 'package:NCSensor/models/ui_model.dart';
+
 
 class ResultScreen extends StatefulWidget {
   final String UUID;
