@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants/storage_key.dart';
+
 class PreferencesStorage {
   static late final SharedPreferencesWithCache _prefs;
   static bool _initialized = false;
@@ -16,14 +18,14 @@ class PreferencesStorage {
     _initialized = true;
   }
 
-  static String? read(String key) {
-    _checkIsAvailable(key);
-    return _prefs.getString(key);
+  static String? read(StorageKey key) {
+    _checkIsAvailable(key.name);
+    return _prefs.getString(key.name);
   }
 
-  static Future<void> save(String key, String value) async {
-    _checkIsAvailable(key);
-    await _prefs.setString(key, value);
+  static Future<void> save(StorageKey key, String value) async {
+    _checkIsAvailable(key.name);
+    await _prefs.setString(key.name, value);
   }
 
   static void _checkIsAvailable(String key) {
