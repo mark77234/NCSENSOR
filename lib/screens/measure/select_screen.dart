@@ -55,9 +55,10 @@ class _SelectScreenState extends State<SelectScreen> {
               children: [
                 const SizedBox(height: 100),
                 _buildDropdown(uiData),
+                const SizedBox(height: 30),
                 if (selectedItem.isNotEmpty && _hasSubtypes(uiData))
                   _buildBodyPartsSelection(uiData),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 _buildStart()
               ],
             ),
@@ -68,70 +69,145 @@ class _SelectScreenState extends State<SelectScreen> {
   }
 
   Widget _buildDropdown(UiData uiData) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12.0),
+          child: Text(
+            '측정 항목 선택',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey.shade700,
+            ),
+          ),
+        ),
         Container(
-          width: 250,
-          height: 60,
-          color: ColorStyles.background,
-          child: DropdownButton<String>(
-            value: selectedItem.isEmpty
-                ? uiData.articles.first.name
-                : selectedItem,
-            onChanged: (newValue) {
-              final selectedArticle = uiData.articles.firstWhere(
-                (article) => article.name == newValue,
-              );
-              setState(() {
-                selectedItem = newValue!;
-                selectedBodyParts = '';
-                UUID = selectedArticle.id;
-              });
-            },
-            items: uiData.articles.map<DropdownMenuItem<String>>((article) {
-              return DropdownMenuItem<String>(
-                value: article.name,
-                child: Material(
-                  color: ColorStyles.background,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/${article.icon}',
-                        height: 40,
-                        width: 40,
-                        placeholderBuilder: (BuildContext context) =>
-                            const Icon(Icons.error),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            article.name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              height: 1.5,
-                            ),
+          width: MediaQuery.of(context).size.width * 0.8,
+          decoration: BoxDecoration(
+            color: ColorStyles.background,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedItem.isEmpty
+                  ? uiData.articles.first.name
+                  : selectedItem,
+              onChanged: (newValue) {
+                final selectedArticle = uiData.articles.firstWhere(
+                      (article) => article.name == newValue,
+                );
+                setState(() {
+                  selectedItem = newValue!;
+                  selectedBodyParts = '';
+                  UUID = selectedArticle.id;
+                });
+              },
+              items: uiData.articles.map<DropdownMenuItem<String>>((article) {
+                return DropdownMenuItem<String>(
+                  value: article.name,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/${article.icon}',
+                          height: 40,
+                          width: 40,
+                          placeholderBuilder: (BuildContext context) =>
+                          const Icon(Icons.error, size: 40),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                article.name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                article.content,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
-                          Text(
-                            article.content,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }).toList(),
-            underline: const SizedBox(),
-            dropdownColor: ColorStyles.background,
-            icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
+                );
+              }).toList(),
+              icon: const Padding(
+                padding: EdgeInsets.only(right: 12.0),
+                child: Icon(Icons.arrow_drop_down, size: 28, color: ColorStyles.primary,),
+              ),
+              isExpanded: true,
+              dropdownColor: ColorStyles.background,
+              borderRadius: BorderRadius.circular(8.0),
+              elevation: 4,
+              menuMaxHeight: 400,
+              itemHeight: 80,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              selectedItemBuilder: (BuildContext context) {
+                return uiData.articles.map<Widget>((Article article) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/${article.icon}',
+                          height: 40,
+                          width: 40,
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              article.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              article.content,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList();
+              },
+            ),
           ),
         ),
       ],
@@ -145,76 +221,6 @@ class _SelectScreenState extends State<SelectScreen> {
     return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 
-  // Widget _buildBodyPartsSelection(UiData uiData) {
-  //   final selectedArticle = uiData.articles.firstWhere(
-  //     (article) => article.name == selectedItem,
-  //   );
-  //
-  //   return Column(
-  //     children: [
-  //       const SizedBox(height: 40),
-  //       const Text(
-  //         "측정 부위를 선택해주세요",
-  //         style: TextStyle(
-  //           color: Colors.grey,
-  //           fontWeight: FontWeight.bold,
-  //           fontSize: 16,
-  //         ),
-  //       ),
-  //       const SizedBox(height: 30),
-  //       Column(
-  //         children: [
-  //           for (var subtype in selectedArticle.subtypes!)
-  //             Padding(
-  //               padding: const EdgeInsets.only(bottom: 10),
-  //               child: ElevatedButton(
-  //                 style: selectedBodyParts == subtype.name
-  //                     ? ButtonStyles.primaryOutlined
-  //                     : ButtonStyles.greyOutlined,
-  //                 onPressed: () {
-  //                   setState(() {
-  //                     selectedBodyParts = subtype.name;
-  //                     UUID = subtype.id;
-  //                   });
-  //                 },
-  //                 child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   mainAxisSize: MainAxisSize.min,
-  //                   children: [
-  //                     SvgPicture.asset(
-  //                       'assets/icons/${subtype.icon}',
-  //                       height: 40,
-  //                       width: 40,
-  //                     ),
-  //                     const SizedBox(width: 12),
-  //                     Column(
-  //                       children: [
-  //                         Text(
-  //                           subtype.name,
-  //                           style: const TextStyle(
-  //                             fontSize: 16,
-  //                             fontWeight: FontWeight.bold,
-  //                           ),
-  //                         ),
-  //                         const SizedBox(height: 5),
-  //                         Text(
-  //                           subtype.content,
-  //                           style: const TextStyle(
-  //                             fontSize: 12,
-  //                             color: Colors.grey,
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget _buildBodyPartsSelection(UiData uiData) {
     final selectedArticle = uiData.articles.firstWhere(
@@ -245,15 +251,23 @@ class _SelectScreenState extends State<SelectScreen> {
           UUID = subtype.id;
         });
       },
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(12),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          color: ColorStyles.background,
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? ColorStyles.primary : Colors.grey.shade300,
             width: 1.5,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -290,9 +304,9 @@ class _SelectScreenState extends State<SelectScreen> {
       style: ElevatedButton.styleFrom(
         backgroundColor: ColorStyles.primary,
         foregroundColor: Colors.white,
-        minimumSize: const Size(300, 60),
+        minimumSize: const Size(400, 80),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
       onPressed: () {
