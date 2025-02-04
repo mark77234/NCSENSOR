@@ -1,3 +1,23 @@
+class ArticleData {
+  final List<Article> articles;
+
+  ArticleData({
+    required this.articles,
+  });
+
+  factory ArticleData.fromJson(Map<String, dynamic> json) {
+    return ArticleData(
+      articles: (json['articles'] as List)
+          .map((e) => Article.fromJson(e))
+          .toList(),
+    );
+  }
+}
+
+class Article {
+  final String id;
+  final String name;
+  final List<Subtype>? subtypes;
 
   Article({
     required this.id,

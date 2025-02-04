@@ -1,3 +1,4 @@
+import '../data/statistic_model.dart';
 import 'article_model.dart';
 import 'statistic_model.dart';
 

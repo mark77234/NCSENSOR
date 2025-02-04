@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants/styles.dart';
-import '../../models/result_model.dart';
+import '../../models/data/result_model.dart';
 import '../../models/ui/article_model.dart';
 import '../../providers/ui_data_provider.dart';
 import '../../services/api_service.dart';

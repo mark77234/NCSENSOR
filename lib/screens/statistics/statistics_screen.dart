@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../constants/styles.dart';
-import '../../models/measure_model.dart';
-import '../../models/statistic_model.dart';
+import '../../models/data/measure_model.dart';
+import '../../models/data/statistic_model.dart';
 import '../../services/api_service.dart';
-import '../../widgets/common/carousel.dart';
-import '../../widgets/common/compare_graph_card.dart';
 import '../../widgets/common/my_card.dart';
 import '../../widgets/common/my_header.dart';
 
@@ -103,12 +101,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   Widget _buildViewContent(StatisticData view) {
     switch (view.ui) {
-      case StaticViewType.card:
+      case StatisticUi.card:
         return _buildCardContent(view as CardData);
-      case StaticViewType.percent:
+      case StatisticUi.percent:
         return _buildPercentContent(view as PercentData);
-      case StaticViewType.comparison:
-        return _buildComparisonContent(view as ComparisonData);
+
+      case StatisticUi.comparison:
+        throw UnimplementedError();
     }
   }
 
@@ -117,24 +116,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       child: ListTile(
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
-          child: SvgPicture.asset(
-            "assets/icons/${card.icon}",
-            width: 40,
-            height: 40,
-          ),
-        ),
-        title: Text(
-          card.title,
-          style: TextStyles.label,
-        ),
-        subtitle: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(card.value.toString(), style: TextStyles.title),
-            SizedBox(width: 8),
-            Text(card.unit.toString(),
-                style: TextStyles.label.copyWith(fontWeight: FontWeight.bold)),
-          ],
         ),
       ),
     );
@@ -148,31 +129,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 8),
-            Text(
-              chart.title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 8),
             Stack(children: [
-              Positioned(
-                left: 24,
-                bottom: 20,
-                child: Container(
-                  color: Color(0xFF57D655),
-                  width: 40,
-                  height: 145 * chart.value / chart.max,
-                ),
-              ),
               SvgPicture.asset(
                 "assets/icons/customGraph.svg",
                 width: 96,
                 height: 200,
               ),
             ]),
-            Text(
-              "${chart.value}${chart.unit}",
-              style: TextStyles.title,
-            ),
             SizedBox(height: 8),
           ],
         ),
@@ -180,20 +144,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
 
-  Widget _buildComparisonContent(ComparisonData data) {
-    double carouselHeight = 300;
-    return Carousel(
-      length: data.charts.length,
-      height: carouselHeight,
-      builder: (BuildContext context, int index) {
-        ComparisonChart chart = data.charts[index];
-        return CompareGraphCard(
-          data: chart,
-          height: carouselHeight,
-        );
-      },
-    );
-  }
 
   Widget _buildEmptyState() {
     return Container(

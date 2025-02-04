@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
-import '../../models/statistic_model.dart';
+import '../../models/static_data_model.dart';
 import 'my_card.dart';
 
 class CompareGraphCard extends StatelessWidget {

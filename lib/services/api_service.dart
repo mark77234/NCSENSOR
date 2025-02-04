@@ -1,18 +1,15 @@
 import 'dart:convert';
 
-import 'package:NCSensor/models/data/aritcle_model.dart';
 import 'package:NCSensor/models/data/history_model.dart';
-import 'package:NCSensor/models/result_model.dart';
-import 'package:NCSensor/models/user_model.dart';
 import 'package:NCSensor/services/auth_service.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/infra.dart';
+import '../models/data/measure_model.dart';
+import '../models/data/result_model.dart';
 import '../models/data/statistic_model.dart';
-import '../models/measure_model.dart';
-import '../models/statistic_data_model.dart';
-import 'package:NCSensor/models/result_model.dart';
+import '../models/data/user_model.dart';
 import '../models/ui/index.dart';
 
 import '../storage/secure_storage.dart';

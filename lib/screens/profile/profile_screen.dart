@@ -6,7 +6,7 @@ import 'package:NCSensor/routes/app_routes.dart';
 import 'package:NCSensor/services/api_service.dart';
 
 import '../../constants/styles.dart';
-import '../../models/user_model.dart';
+import '../../models/data/user_model.dart';
 import '../../widgets/common/editable_field.dart';
 import '../../widgets/common/my_header.dart';
 
