@@ -23,6 +23,7 @@ class _ResultScreenState extends State<ResultScreen> {
   double? measuredValue;
   bool _isLoading = true;
   String? _errorMessage;
+  String? comment;
 
   BodyResultData? bodyResultData;
 
@@ -51,6 +52,7 @@ class _ResultScreenState extends State<ResultScreen> {
       final data = await ApiService.getBodyData(articleId, sensors);
       setState(() {
         measuredValue = data.value;
+        comment = data.comment;
       });
     } catch (e) {
       print("오류: $e");
@@ -122,6 +124,7 @@ class _ResultScreenState extends State<ResultScreen> {
     final title = article?.result?.title ?? subtype?.result.title;
     final unit = article?.unit ?? subtype?.unit;
 
+
     if (result == null || sections == null) {
       return _buildErrorState();
     }
@@ -168,7 +171,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildResultCard(stage, result, sections, measuredValue!, unit),
+              _buildResultCard(stage, result, sections, measuredValue!, unit, comment),
               const SizedBox(height: 20),
               _buildStatusCard(sections, title),
               const SizedBox(height: 20),
@@ -181,7 +184,7 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   Widget _buildResultCard(
-      int stage, Result result, List<Section> sections, double value, String? unit) {
+      int stage, Result result, List<Section> sections, double value, String? unit, String? comment) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -227,7 +230,7 @@ class _ResultScreenState extends State<ResultScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  value.toStringAsFixed(3),
+                  '${value}',
                   style: const TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.bold,
@@ -252,7 +255,7 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              sections[stage].content,
+              comment!,
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0xFF6B7280),
