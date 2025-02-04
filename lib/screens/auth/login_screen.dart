@@ -1,9 +1,10 @@
+import 'package:NCSensor/screens/auth/register_screen.dart';
+import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:NCSensor/screens/splash/main_screen.dart';
+
 import '../../constants/styles.dart';
 import '../../providers/auth_provider.dart';
-import 'package:NCSensor/screens/auth/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,21 +20,23 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _hideText = true; // 비밀번호 숨김여부
   String? _errorMessage; // ? ->  null 값을 가질 수 있다.
 
-
   @override
-  void dispose() { // TextEditingController 에서 사용하는 메모리 반환, 리소스 회수 -> 앱 성능 관리
+  void dispose() {
+    // TextEditingController 에서 사용하는 메모리 반환, 리소스 회수 -> 앱 성능 관리
     _idEntered.dispose();
     _passwordEntered.dispose();
     super.dispose();
   }
 
-  void _togglePasswordHide() { // 비밀번호 숨김 여부
+  void _togglePasswordHide() {
+    // 비밀번호 숨김 여부
     setState(() {
       _hideText = !_hideText;
     });
   }
 
-  Widget _buildInputField({  // 입력 필드
+  Widget _buildInputField({
+    // 입력 필드
     required String label,
     bool isPassword = false,
     required TextEditingController controller,
@@ -44,26 +47,31 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 50,
         child: TextField(
           controller: controller,
-          obscureText: isPassword ? _hideText : false, // isPassword가 true면 hideText, false면 false 반환 / '*'표시
+          obscureText: isPassword ? _hideText : false,
+          // isPassword가 true면 hideText, false면 false 반환 / '*'표시
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: const TextStyle(color: ColorStyles.darkgrey,),
+            labelStyle: const TextStyle(
+              color: ColorStyles.darkgrey,
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: ColorStyles.darkgrey, width: 1),
+              borderSide:
+                  const BorderSide(color: ColorStyles.darkgrey, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(color: ColorStyles.darkgrey, width: 2),
+              borderSide:
+                  const BorderSide(color: ColorStyles.darkgrey, width: 2),
             ),
-            suffixIcon: isPassword  // 비밀번호칸인지 확인 / 입력 위젯에 추가할 수 있는 아이콘
+            suffixIcon: isPassword // 비밀번호칸인지 확인 / 입력 위젯에 추가할 수 있는 아이콘
                 ? IconButton(
-              icon: Icon(
-                _hideText ? Icons.visibility_off : Icons.visibility,
-                color: ColorStyles.darkgrey,
-              ),
-              onPressed: _togglePasswordHide,
-            )
+                    icon: Icon(
+                      _hideText ? Icons.visibility_off : Icons.visibility,
+                      color: ColorStyles.darkgrey,
+                    ),
+                    onPressed: _togglePasswordHide,
+                  )
                 : null,
           ),
         ),
@@ -111,7 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await context
           .read<AuthProvider>() // 메소드
-          .login(_idEntered.text.trim(), _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
+          .login(_idEntered.text.trim(),
+              _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
 
       Navigator.pushReplacement(
         context,
