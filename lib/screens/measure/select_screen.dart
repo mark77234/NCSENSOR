@@ -73,7 +73,7 @@ class _SelectScreenState extends State<SelectScreen> {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            MeasurementDropdown(
+            Dropdown(
               articles: uiData.articles,
               selectedItem: selectedItem,
               onChanged: _handleDropdownChange,

@@ -22,9 +22,8 @@ class BodyPartGrid extends StatelessWidget {
     final article = uiData.articles.firstWhere((a) => a.name == selectedItem);
     return GridView.count(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
-      childAspectRatio: 1.6,
+      childAspectRatio: 1.5,
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
       children: article.subtypes!.map((subtype) => BodyPartCard(

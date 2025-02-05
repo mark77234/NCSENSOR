@@ -4,12 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import '../../../constants/styles.dart';
 import '../../../models/ui/article_model.dart';
 
-class MeasurementDropdown extends StatelessWidget {
+class Dropdown extends StatelessWidget {
   final List<Article> articles;
   final String selectedItem;
   final Function(String, String) onChanged;
 
-  const MeasurementDropdown({
+  const Dropdown({
     super.key,
     required this.articles,
     required this.selectedItem,
@@ -27,7 +27,7 @@ class MeasurementDropdown extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.grey,
+              color: ColorStyles.darkgrey,
             ),
           ),
         ),
@@ -58,11 +58,10 @@ class MeasurementDropdown extends StatelessWidget {
               isExpanded: true,
               icon: const Padding(
                 padding: EdgeInsets.only(right: 12.0),
-                child: Icon(Icons.arrow_drop_down, size: 28, color: ColorStyles.primary,),
+                child: Icon(Icons.arrow_drop_down, size: 30, color: ColorStyles.primary,),
               ),
               dropdownColor: ColorStyles.background,
               borderRadius: BorderRadius.circular(8.0),
-              elevation: 4,
               menuMaxHeight: 400,
               itemHeight: 80,
               style: TextStyle(
@@ -127,8 +126,6 @@ class MeasurementDropdown extends StatelessWidget {
               'assets/icons/${article.icon}',
               height: 40,
               width: 40,
-              placeholderBuilder: (BuildContext context) =>
-              const Icon(Icons.error, size: 40),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -149,7 +146,6 @@ class MeasurementDropdown extends StatelessWidget {
                       fontSize: 14,
                       color: Colors.grey.shade600,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

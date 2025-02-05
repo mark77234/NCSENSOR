@@ -24,17 +24,16 @@ class BodyPartCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: ColorStyles.background,
           border:
-              Border.all(color: isSelected ? ColorStyles.primary : Colors.grey),
+              Border.all(color: isSelected ? ColorStyles.primary : ColorStyles.lightgrey),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
               blurRadius: 4,
-              offset: Offset(0, 2),
             ),
           ],
         ),
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
