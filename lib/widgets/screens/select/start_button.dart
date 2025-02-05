@@ -41,7 +41,7 @@ class StartMeasurementButton extends StatelessWidget {
         }
       },
       child: const Text(
-        '측정 시작',
+        '항목 선택',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
