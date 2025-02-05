@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import '../../models/ui/index.dart';
-import '../../widgets/screens/select/bodypartGrid.dart';
+import '../../widgets/screens/select/bodypart_grid.dart';
 import '../../widgets/screens/select/dropdown.dart';
-import '../../widgets/screens/select/startButton.dart';
+import '../../widgets/screens/select/start_button.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/ui/index.dart';
-import 'bodypartCard.dart';
+import 'bodypart_card.dart';
 
 class BodyPartGrid extends StatelessWidget {
   final String selectedItem;
