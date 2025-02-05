@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../models/ui/index.dart';
 import '../../widgets/screens/select/bodypart_grid.dart';
 import '../../widgets/screens/select/dropdown.dart';
-import '../../widgets/screens/select/start_button.dart';
+import '../../widgets/screens/select/action_button.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});
@@ -87,7 +87,7 @@ class _SelectScreenState extends State<SelectScreen> {
                 onSubtypeSelected: _handleSubtypeSelect,
               ),
             const SizedBox(height: 30),
-            StartMeasurementButton(
+            ActionButton(
               selectedItem: selectedItem,
               selectedBodyParts: selectedBodyParts,
               uuid: UUID,

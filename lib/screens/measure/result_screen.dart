@@ -1,13 +1,13 @@
+import 'package:NCSensor/widgets/common/error_screen.dart';
+import 'package:NCSensor/widgets/screens/result/result_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../constants/styles.dart';
 import '../../models/data/result_model.dart';
 import '../../models/ui/article_model.dart';
 import '../../providers/ui_data_provider.dart';
 import '../../services/api_service.dart';
-import '../splash/main_screen.dart';
-import 'package:NCSensor/screens/measure/measure_screen.dart';
-
+import '../../widgets/screens/result/action_button.dart';
+import '../../widgets/screens/result/status_card.dart';
 
 class ResultScreen extends StatefulWidget {
   final String UUID;
@@ -92,11 +92,11 @@ class _ResultScreenState extends State<ResultScreen> {
     }
 
     if (_errorMessage != null) {
-      return _buildErrorState();
+      return ErrorScreen(errorMessage: _errorMessage);
     }
 
-    if (uiData == null || measuredValue == null) {
-      return _buildErrorState();
+    if (uiData == null || measuredValue == null || comment == null) {
+      return ErrorScreen(errorMessage: _errorMessage);
     }
 
     Article? article;
@@ -116,7 +116,7 @@ class _ResultScreenState extends State<ResultScreen> {
     }
 
     if (article == null && subtype == null) {
-      return _buildErrorState();
+      return ErrorScreen(errorMessage: _errorMessage);
     }
 
     final result = article?.result ?? subtype?.result;
@@ -124,9 +124,8 @@ class _ResultScreenState extends State<ResultScreen> {
     final title = article?.result?.title ?? subtype?.result.title;
     final unit = article?.unit ?? subtype?.unit;
 
-
     if (result == null || sections == null) {
-      return _buildErrorState();
+      return ErrorScreen(errorMessage: _errorMessage);
     }
 
     // Determine current stage
@@ -171,244 +170,27 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildResultCard(stage, result, sections, measuredValue!, unit, comment),
+              ResultCard(
+                stage: stage,
+                result: result,
+                sections: sections,
+                value: measuredValue!,
+                unit: unit,
+                comment: comment,
+              ),
               const SizedBox(height: 20),
-              _buildStatusCard(sections, title),
+              // _buildStatusCard(sections, title),
+              StatusCard(
+                sections: sections,
+                title: title,
+              ),
               const SizedBox(height: 20),
-              _buildActionButtons(context),
+              ActionButton(
+                context: context,
+                uuid: widget.UUID,
+              )
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildResultCard(
-      int stage, Result result, List<Section> sections, double value, String? unit, String? comment) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(color: ColorStyles.lightgrey, width: 0.5),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  '현재 상태',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: sections[stage].color,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      sections[stage].name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: sections[stage].color,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '${value}',
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  unit ?? '',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Color(0xFF6B7280),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            LinearProgressIndicator(
-              value: value / result.max,
-              backgroundColor: const Color(0xFFF3F4F6),
-              valueColor: AlwaysStoppedAnimation<Color>(sections[stage].color),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              comment!,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color(0xFF6B7280),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatusCard(List<Section> sections, String title) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: const BorderSide(color: Colors.grey, width: 0.5),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Column(
-              children: List.generate(
-                sections.length,
-                    (index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: sections[index].color,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            sections[index].name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF4B5563),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        sections[index].content,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF4B5563),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildActionButtons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MeasureScreen(widget.UUID),
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            side: BorderSide(color: ColorStyles.primary),
-            fixedSize: const Size(150, 70),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          child: Text(
-            '다시측정',
-            style: TextStyle(
-              color: ColorStyles.primary,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MainScreen(),
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ColorStyles.primary,
-            fixedSize: const Size(150, 70),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          child: const Text(
-            '확인',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildErrorState() {
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.error,
-              size: 48,
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              _errorMessage ?? "데이터를 찾을 수 없습니다.",
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
         ),
       ),
     );
