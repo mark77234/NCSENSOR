@@ -10,9 +10,13 @@ class AuthProvider with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
 
   Future<void> login(String username, String password) async {
-    final token =
+    final response =
         await ApiService.user.login(username: username, password: password);
-    await SecureStorage.saveToken(token);
+
+    final String accessToken = response['access_token'];
+    final String refreshToken = response['refresh_token'];
+    await SecureStorage.saveAccessToken(accessToken);
+    await SecureStorage.saveRefreshToken(refreshToken);
 
     _isLoggedIn = true;
     notifyListeners();

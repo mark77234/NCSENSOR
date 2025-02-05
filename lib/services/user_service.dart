@@ -20,18 +20,17 @@ class UserService {
     required String username,
     required String password,
   }) async {
-    return await _apiClient.post(
-      '/login',
+    final response = await _apiClient.post(
+      '/auth/login',
       data: {
         'username': username,
         'password': password,
       },
       options: Options(
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
       ),
     );
+    return response.data;  // Ensure this returns the parsed JSON map
   }
 
   Future<void> signup({
