@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/styles.dart';
+import '../../../screens/common/main_screen.dart';
 import '../../../screens/measure/measure_screen.dart';
-import '../../../screens/splash/main_screen.dart';
 
 class ActionButton extends StatelessWidget {
   final BuildContext context;

@@ -1,10 +1,12 @@
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/screens/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:NCSensor/screens/measure/select_screen.dart';
 import 'package:NCSensor/screens/profile/profile_screen.dart';
 import 'package:NCSensor/screens/statistics/statistics_screen.dart';
 
-import '../../constants/styles.dart';
-import '../history/history_screen.dart';
+
+
 
 class MainScreen extends StatefulWidget { // 상태관리 위젯
   const MainScreen({super.key, this.selectedIndex = 0});
