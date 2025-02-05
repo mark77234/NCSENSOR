@@ -127,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
     } catch (e) {
+      print(e);
       _showErrorDialog(e.toString());
     }
   }
