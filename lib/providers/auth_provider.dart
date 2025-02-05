@@ -1,5 +1,5 @@
 import 'package:NCSensor/services/api_service.dart';
-import 'package:NCSensor/storage/secure_storage.dart';
+import 'package:NCSensor/storage/base/secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/ui_data_provider.dart';
-import '../../storage/preferences_storage.dart';
+import '../../storage/base/preferences_storage.dart';
 import 'error_screen.dart';
 import 'main_screen.dart';
 import 'splash_screen.dart';

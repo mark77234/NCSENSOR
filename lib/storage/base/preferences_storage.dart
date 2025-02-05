@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants/storage_key.dart';
+import '../../constants/storage_key.dart';
 
 class PreferencesStorage {
   static late final SharedPreferencesWithCache _prefs;

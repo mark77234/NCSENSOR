@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../models/data/user_model.dart';
-import '../storage/secure_storage.dart';
+import '../storage/base/secure_storage.dart';
 
 class UserService {
   Dio _apiClient;
