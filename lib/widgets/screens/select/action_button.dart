@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../constants/styles.dart';
 import '../../../screens/measure/measure_screen.dart';
 
-class StartMeasurementButton extends StatelessWidget {
+class ActionButton extends StatelessWidget {
   final String selectedItem;
   final String selectedBodyParts;
   final String uuid;
 
-  const StartMeasurementButton({
+  const ActionButton({
     super.key,
     required this.selectedItem,
     required this.selectedBodyParts,
