@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/widgets/common/error_dialog.dart';
 import 'package:NCSensor/widgets/screens/login/input_field.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../widgets/common/error_message.dart';
 import '../../widgets/screens/login/login_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -39,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     try {
       await context
-          .read<AuthProvider>() // 메소드
+          .read<AuthProvider>()
           .login(_idEntered.text.trim(),
               _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
 
@@ -48,13 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
     } catch (e) {
+      final errorMessage = getErrorMessage(e);
       print(e);
-      _showErrorDialog(e.toString());
+      _showErrorDialog(errorMessage);
     }
   }
 
   void _showErrorDialog(String error) {
-
     showDialog(
         context: context,
         builder: (context) => ErrorDialog(
