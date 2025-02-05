@@ -1,17 +1,16 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class SecureStorageService {
+class SecureStorage {
   static final FlutterSecureStorage _storage = FlutterSecureStorage();
 
+  static Future<void> saveAccessToken(String token) async {
+    print("access_token saved");
+    await _storage.write(key: 'access_token', value: token);
+  }
 
-  static Future<void> saveToken(String token) async {
-    try {
-      await _storage.write(key: 'access_token', value: token);
-      print('JWT 토큰 저장 성공');
-    } catch (e) {
-      print('JWT 토큰 저장 실패: $e');
-      throw Exception('JWT 토큰 저장 실패: $e');
-    }
+  static Future<void> saveRefreshToken(String token) async {
+    print("refresh_token saved");
+    await _storage.write(key: 'refresh_token', value: token);
   }
 
   // JWT 토큰 읽기

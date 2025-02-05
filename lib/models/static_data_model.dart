@@ -113,7 +113,7 @@ class ComparisonChart {
     return ComparisonChart(
       title: json['title'],
       bars:
-          (json['bar'] as List).map((e) => ComparisonBar.fromJson(e)).toList(),
+      (json['bar'] as List).map((e) => ComparisonBar.fromJson(e)).toList(),
       min: json['min'].toDouble(),
       max: json['max'].toDouble(),
       comment: ComparisonComment.fromJson(json['comment']),

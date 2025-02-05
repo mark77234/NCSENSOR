@@ -46,6 +46,7 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   package_rename: ^1.8.0
   collection: ^1.19.0
+  shared_preferences: ^2.5.1
 
 dev_dependencies:
   flutter_test:

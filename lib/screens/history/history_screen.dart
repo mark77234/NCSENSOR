@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/history_model.dart';
+import '../../models/data/history_model.dart';
 import '../../widgets/common/my_header.dart';
 import '../../widgets/screens/history/history.dart';
 

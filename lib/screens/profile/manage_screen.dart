@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
-import '../../models/user_model.dart';
+import '../../models/data/user_model.dart';
 import '../../widgets/common/my_field.dart';
 import '../../widgets/common/sm_tile.dart';
 
