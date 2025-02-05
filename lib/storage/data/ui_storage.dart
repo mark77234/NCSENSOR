@@ -21,16 +21,16 @@ class UiStorage {
   }
 
   static Future<void> init() async {
-    UiData? localUiData = await UiStorage.load();
+    await UiStorage.load();
     String? error;
     try {
-      final uiData = await ApiService.getUiData(version: localUiData?.version);
+      final uiData = await ApiService.getUiData(version: _data?.version);
       if (uiData != null) await UiStorage.save(uiData);
       if (_data == null) error = "초기화에 실패했습니다.";
     } on DioException catch (e) {
       error = "네트워크 문제 : ${e.message}";
       if (e.type == DioExceptionType.connectionError) {
-        error = localUiData == null ? '인터넷 연결이 필요합니다.' : null;
+        error = _data == null ? '인터넷 연결이 필요합니다.' : null;
       }
     }
     if (error != null) {
@@ -39,17 +39,15 @@ class UiStorage {
   }
 
   // 초기화 (앱 시작시 호출)
-  static Future<UiData?> load() async {
+  static Future<void> load() async {
     try {
       final jsonString = PreferencesStorage.read(StorageKey.ui);
       if (jsonString != null) {
         _data = UiData.fromJson(jsonDecode(jsonString));
       }
-      return _data;
     } catch (e) {
       print(e);
     }
-    return null;
   }
 
   // UI 데이터 저장
