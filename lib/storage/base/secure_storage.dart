@@ -1,53 +1,37 @@
+import 'package:NCSensor/constants/storage_key.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
   static final FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  static Future<void> saveAccessToken(String token) async {
-    print("access_token saved");
-    await _storage.write(key: 'access_token', value: token);
+  static Future<void> write(StorageKey key, String value) async {
+    await _storage.write(key: key.name, value: value);
   }
 
-  static Future<void> saveRefreshToken(String token) async {
-    print("refresh_token saved");
-    await _storage.write(key: 'refresh_token', value: token);
-  }
-
-  // JWT 토큰 읽기
-  static Future<String?> getToken() async {
+  static Future<String?> read(StorageKey key) async {
     try {
-      final token = await _storage.read(key: 'access_token');
-      if (token != null) {
-        print('JWT 토큰 읽기 성공');
-      } else {
-        print('저장된 JWT 토큰이 없습니다.');
-      }
-      return token;
+      return await _storage.read(key: key.name);
     } catch (e) {
-      print('JWT 토큰 읽기 실패: $e');
-      throw Exception('JWT 토큰 읽기 실패: $e');
+      print('보안 저장소 읽기 실패: $e');
+      rethrow;
     }
   }
 
-  // JWT 토큰 삭제
-  static Future<void> deleteToken() async {
+  static Future<void> delete(StorageKey key) async {
     try {
-      await _storage.delete(key: 'access_token');
-      print('JWT 토큰 삭제 성공');
+      await _storage.delete(key: key.name);
     } catch (e) {
-      print('JWT 토큰 삭제 실패: $e');
-      throw Exception('JWT 토큰 삭제 실패: $e');
+      print('보안 저장소 삭제 실패: $e');
+      rethrow;
     }
   }
 
-  // 모든 키 삭제
   static Future<void> deleteAll() async {
     try {
       await _storage.deleteAll();
-      print('모든 데이터 삭제 성공');
     } catch (e) {
-      print('모든 데이터 삭제 실패: $e');
-      throw Exception('모든 데이터 삭제 실패: $e');
+      print('보안 저장소 전체 삭제 실패: $e');
+      rethrow;
     }
   }
 }
