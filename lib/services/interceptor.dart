@@ -9,9 +9,10 @@ class CustomInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // Do something before request is sent
     log('[REQ] [${options.method}] ${options.uri} ${options.data} ${options.headers}');
-    if (options.headers['Authorization'] == 'true') {
+    if (options.headers['Authorization'] == true) {
       options.headers.remove('Authorization');
       final token = AuthStorage.accessToken;
+      print('토큰: $token');
       if (token == null) {
         throw Exception('토큰이 없습니다.');
       }
