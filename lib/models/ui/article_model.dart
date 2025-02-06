@@ -82,7 +82,7 @@ class Subtype {
       icon: json['icon'] as String,
       result: Result.fromJson(json['result']),
       sections:
-      (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
+          (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
     );
   }
 

@@ -1,11 +1,12 @@
 import 'package:NCSensor/providers/ui_data_provider.dart';
+import 'package:NCSensor/storage/data/ui_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+
 import '../../models/ui/index.dart';
+import '../../widgets/screens/select/action_button.dart';
 import '../../widgets/screens/select/bodypart_grid.dart';
 import '../../widgets/screens/select/dropdown.dart';
-import '../../widgets/screens/select/action_button.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({super.key});
@@ -57,7 +58,7 @@ class _SelectScreenState extends State<SelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uiData = context.watch<UiDataProvider>().uiData;
+    final uiData = UiStorage.data;
     return Scaffold(
       body: _buildContent(uiData),
     );
@@ -97,13 +98,11 @@ class _SelectScreenState extends State<SelectScreen> {
       ),
     );
   }
+
   bool _hasSubtypes(UiData uiData) {
     final article = uiData.articles.firstWhere(
-          (article) => article.name == selectedItem,
+      (article) => article.name == selectedItem,
     );
     return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 }
-
-
-

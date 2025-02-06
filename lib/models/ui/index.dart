@@ -45,4 +45,13 @@ class UiData {
       return null;
     }
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'version': version,
+      'articles': articles.map((article) => article.toJson()).toList(),
+      'stats': stats.toJson(),
+    };
+  }
 }

@@ -58,11 +58,8 @@ class UiStorage {
   // UI 데이터 저장
   static Future<void> _save(UiData data) async {
     print('UiStorage : save');
-    final jsonString = jsonEncode({
-      'version': data.version,
-      'articles': data.articles,
-      'stats': data.stats,
-    });
+    final jsonString = jsonEncode(data.toJson());
+    print('UiStorage data : $jsonString');
     await PreferencesStorage.save(StorageKey.ui, jsonString);
     _data = data;
   }
