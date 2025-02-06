@@ -46,6 +46,7 @@ class UiStorage {
     print('UiStorage : load');
     try {
       final jsonString = PreferencesStorage.read(StorageKey.ui);
+      print('UiStorage data : $jsonString');
       if (jsonString != null) {
         _data = UiData.fromJson(jsonDecode(jsonString));
       }

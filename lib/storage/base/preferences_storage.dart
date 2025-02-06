@@ -9,7 +9,8 @@ class PreferencesStorage {
 
   PreferencesStorage._(); // 외부에서 인스턴스 생성 금지
 
-  static Future<void> init() async {
+  static Future<void> init({bool clear = true}) async {
+    print('PreferencesStorage : init');
     if (_initialized) {
       return;
     }
@@ -18,6 +19,9 @@ class PreferencesStorage {
         allowList: _keys,
       ),
     );
+    _prefs.clear();
+    //저장소에 머 들어잇느지 print
+    print(_prefs.keys);
     _initialized = true;
   }
 
