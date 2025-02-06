@@ -35,7 +35,7 @@ class EntryScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SplashScreen();
         } else if (snapshot.hasError) {
-          return ErrorScreen(error: snapshot.error.toString());
+          return ErrorScreen(error: snapshot.error);
         } else {
           return const MainScreen();
         }

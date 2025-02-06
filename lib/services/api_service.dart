@@ -67,7 +67,7 @@ class ApiService {
   }
 
   static Future<UiData> getUiData() async {
-    final response = await _apiClient.get('/ui', queryParameters: {
+    final response = await _apiClient.get('/metadata', queryParameters: {
       'version': 1,
     });
     return UiData.fromJson(response.data);
