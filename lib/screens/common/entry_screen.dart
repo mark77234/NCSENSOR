@@ -1,9 +1,9 @@
+import 'package:NCSensor/screens/auth/login_screen.dart';
 import 'package:NCSensor/storage/base/preferences_storage.dart';
 import 'package:NCSensor/storage/data/ui_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'error_screen.dart';
-import 'main_screen.dart';
 import 'splash_screen.dart';
 
 class EntryScreen extends StatelessWidget {
@@ -34,7 +34,7 @@ class EntryScreen extends StatelessWidget {
           String error = '${snapshot.error}\n앱을 다시 실행해주세요';
           return ErrorScreen(error: error);
         } else {
-          return const MainScreen();
+          return const LoginScreen();
         }
       },
     );

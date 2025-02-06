@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import '../../utils/util.dart';
 
-class Article {
+class ArticleMeta {
   final String id;
   final String name;
   final String? unit;
@@ -12,7 +12,7 @@ class Article {
   final List<Section>? sections;
   final List<Subtype>? subtypes;
 
-  Article({
+  ArticleMeta({
     required this.id,
     required this.name,
     this.unit,
@@ -23,8 +23,8 @@ class Article {
     this.subtypes,
   });
 
-  factory Article.fromJson(Map<String, dynamic> json) {
-    return Article(
+  factory ArticleMeta.fromJson(Map<String, dynamic> json) {
+    return ArticleMeta(
       id: json['id'] as String,
       name: json['name'] as String,
       unit: json['unit'],
@@ -55,17 +55,17 @@ class Article {
 
   Section? findSectionForValue(num value) {
     if (sections == null) return null;
-    
+
     for (final section in sections!) {
       bool isInRange = false;
-      
+
       // 최소값 체크
       if (section.min.isContained) {
         isInRange = value >= section.min.value;
       } else {
         isInRange = value > section.min.value;
       }
-      
+
       // 최대값 체크
       if (isInRange) {
         if (section.max.isContained) {
@@ -74,7 +74,7 @@ class Article {
           isInRange = value < section.max.value;
         }
       }
-      
+
       if (isInRange) return section;
     }
     return null;

@@ -7,7 +7,7 @@ import '../../../models/ui/article_model.dart';
 
 class HistoryItem extends StatelessWidget {
   final HistoryData data;
-  final Article article;
+  final ArticleMeta article;
 
   const HistoryItem({
     super.key,

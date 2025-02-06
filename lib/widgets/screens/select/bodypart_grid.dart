@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/ui/index.dart';
+import '../../../models/ui/ncs_meta.dart';
 import 'bodypart_card.dart';
 
 class BodyPartGrid extends StatelessWidget {
   final String selectedItem;
   final String selectedBodyParts;
-  final UiData uiData;
+  final NcsMetaData uiData;
   final Function(String, String) onSubtypeSelected;
 
   const BodyPartGrid({
@@ -26,11 +26,13 @@ class BodyPartGrid extends StatelessWidget {
       childAspectRatio: 1.5,
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      children: article.subtypes!.map((subtype) => BodyPartCard(
-        subtype: subtype,
-        isSelected: selectedBodyParts == subtype.name,
-        onTap: () => onSubtypeSelected(subtype.name, subtype.id),
-      )).toList(),
+      children: article.subtypes!
+          .map((subtype) => BodyPartCard(
+                subtype: subtype,
+                isSelected: selectedBodyParts == subtype.name,
+                onTap: () => onSubtypeSelected(subtype.name, subtype.id),
+              ))
+          .toList(),
     );
   }
 }

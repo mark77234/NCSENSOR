@@ -9,7 +9,7 @@ import '../constants/infra.dart';
 import '../models/data/measure_model.dart';
 import '../models/data/result_model.dart';
 import '../models/data/statistic_model.dart';
-import '../models/ui/index.dart';
+import '../models/ui/ncs_meta.dart';
 import 'api_client.dart';
 
 class ApiService {
@@ -27,9 +27,9 @@ class ApiService {
   }
 
   static Future<List<StatisticData>> getStatisticData(
-      {required String labelId, String unit = "MONTH"}) async {
+      {required String articleId, String unit = "MONTH"}) async {
     final response = await _apiClient.get('/report', queryParameters: {
-      'article_id': labelId,
+      'article_id': articleId,
       'unit': unit,
     });
 
@@ -66,13 +66,15 @@ class ApiService {
         .toList();
   }
 
-  static Future<UiData?> getUiData({int? version}) async {
+  static Future<NcsMetaData?> getUiData({int? version}) async {
     final response = await _apiClient.get(
       '/metadata',
       queryParameters: {
         'version': version ?? 0,
       },
     );
-    return response.statusCode == 200 ? UiData.fromJson(response.data) : null;
+    return response.statusCode == 200
+        ? NcsMetaData.fromJson(response.data)
+        : null;
   }
 }
