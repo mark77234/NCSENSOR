@@ -28,7 +28,7 @@ abstract class StatisticData {
 }
 
 class PercentData extends StatisticData {
-  final double value;
+  final num value;
 
   PercentData({
     required this.value,
@@ -44,7 +44,7 @@ class PercentData extends StatisticData {
 }
 
 class CardData extends StatisticData {
-  final double value;
+  final num value;
 
   CardData({
     required this.value,
