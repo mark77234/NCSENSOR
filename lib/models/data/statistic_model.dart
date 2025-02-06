@@ -72,7 +72,7 @@ class ComparisonData extends StatisticData {
       charts: (json['charts'] as List)
           .map((e) => ComparisonChart.fromJson(e))
           .toList(),
-      type: json['type'],
+      type: json['type'] ?? "",
     );
   }
 }
