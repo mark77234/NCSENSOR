@@ -34,7 +34,7 @@ class UserService {
     );
     final authData = AuthData.fromJson(response.data);
     await AuthStorage.saveTokens(
-        accessToken: authData.accessToken, refreshToken: authData.refreshToken);
+        accessToken: authData.accessToken);
     return authData; // Ensure this returns the parsed JSON map
   }
 
