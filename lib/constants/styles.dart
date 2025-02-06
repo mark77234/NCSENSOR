@@ -9,6 +9,7 @@ class ColorStyles {
   static const Color error = Color(0xFFEF4444);
 }
 
+
 class RadiusStyles {
   static const BorderRadius common = BorderRadius.all(Radius.circular(8));
   static const BorderRadius rounded = BorderRadius.all(Radius.circular(12));
@@ -22,6 +23,10 @@ class TextStyles {
   static const TextStyle label =
       TextStyle(fontSize: 12, color: ColorStyles.secondary);
   static const TextStyle body = TextStyle(fontSize: 14, color: Colors.black);
+  static const TextStyle progressPercentage = TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.bold,
+  );
 }
 
 class ButtonStyles {

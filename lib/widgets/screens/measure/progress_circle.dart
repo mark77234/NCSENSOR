@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../constants/styles.dart';
 
 class ProgressCircle extends StatelessWidget {
@@ -9,32 +8,55 @@ class ProgressCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size.width * 0.4;
     return Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(
-          width: 180,
-          height: 180,
-          child: CircularProgressIndicator(
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withValues(alpha: 230,),
+                blurRadius: 10,
+                spreadRadius: 3,
+              ),
+            ],
+          ),
+          child:
+          CircularProgressIndicator(
             value: progress,
             strokeWidth: 18,
-            backgroundColor: ColorStyles.lightgrey,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              Color.lerp(ColorStyles.primary, ColorStyles.primary, progress) ??
-                  ColorStyles.primary,
+            backgroundColor: ColorStyles.primary.withValues(alpha: 230,),
+            valueColor: const AlwaysStoppedAnimation<Color>(
+              ColorStyles.primary,
             ),
           ),
         ),
-        Text(
-          '${(progress * 100).toInt()}%',
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: Color.lerp(
-                ColorStyles.primary, ColorStyles.primary, progress) ??
-                ColorStyles.primary,
-          ),
-        ),
+
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${(progress * 100).toInt()}%',
+              style: TextStyles.progressPercentage.copyWith(
+                fontSize: size * 0.25,
+                fontWeight: FontWeight.w800,
+                color: ColorStyles.primary,
+              ),
+            ),
+            SizedBox(height: size * 0.05),
+            Text(
+              '진행률',
+              style: TextStyle(
+                fontSize: size * 0.1,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        )
       ],
     );
   }
