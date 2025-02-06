@@ -1,9 +1,9 @@
 import '../data/statistic_model.dart';
 
 class StatsMeta {
-  final List<StatCard> card;
-  final List<StatPercent> percent;
-  final List<StatComparison> comparison;
+  final List<StatCardMeta> card;
+  final List<StatPercentMeta> percent;
+  final List<StatCompareMeta> comparison;
 
   StatsMeta({
     required this.card,
@@ -41,12 +41,13 @@ class StatsMeta {
 
   factory StatsMeta.fromJson(Map<String, dynamic> json) {
     return StatsMeta(
-      card: (json['CARD'] as List).map((e) => StatCard.fromJson(e)).toList(),
+      card:
+          (json['CARD'] as List).map((e) => StatCardMeta.fromJson(e)).toList(),
       percent: (json['PERCENT'] as List)
-          .map((e) => StatPercent.fromJson(e))
+          .map((e) => StatPercentMeta.fromJson(e))
           .toList(),
       comparison: (json['COMPARISON'] as List)
-          .map((e) => StatComparison.fromJson(e))
+          .map((e) => StatCompareMeta.fromJson(e))
           .toList(),
     );
   }
@@ -72,19 +73,19 @@ abstract class StatMetaItem {
   Map<String, dynamic> toJson();
 }
 
-class StatCard extends StatMetaItem {
+class StatCardMeta extends StatMetaItem {
   final String unit;
   final String icon;
 
-  StatCard({
+  StatCardMeta({
     required super.type,
     required super.title,
     required this.unit,
     required this.icon,
   });
 
-  factory StatCard.fromJson(Map<String, dynamic> json) {
-    return StatCard(
+  factory StatCardMeta.fromJson(Map<String, dynamic> json) {
+    return StatCardMeta(
       type: json['type'] as String,
       title: json['title'] as String,
       unit: json['unit'] as String,
@@ -103,13 +104,13 @@ class StatCard extends StatMetaItem {
   }
 }
 
-class StatPercent extends StatMetaItem {
+class StatPercentMeta extends StatMetaItem {
   final num min;
   final num max;
   final String? unit;
   final String? icon;
 
-  StatPercent({
+  StatPercentMeta({
     required super.type,
     required super.title,
     this.unit,
@@ -118,8 +119,8 @@ class StatPercent extends StatMetaItem {
     required this.max,
   });
 
-  factory StatPercent.fromJson(Map<String, dynamic> json) {
-    return StatPercent(
+  factory StatPercentMeta.fromJson(Map<String, dynamic> json) {
+    return StatPercentMeta(
       type: json['type'] as String,
       title: json['title'] as String,
       unit: json['unit'] != null ? json['unit'] as String : null,
@@ -142,12 +143,12 @@ class StatPercent extends StatMetaItem {
   }
 }
 
-class StatComparison extends StatMetaItem {
+class StatCompareMeta extends StatMetaItem {
   final String? unit;
   final num min;
   final num max;
 
-  StatComparison({
+  StatCompareMeta({
     required super.type,
     required super.title,
     this.unit,
@@ -155,8 +156,8 @@ class StatComparison extends StatMetaItem {
     required this.max,
   });
 
-  factory StatComparison.fromJson(Map<String, dynamic> json) {
-    return StatComparison(
+  factory StatCompareMeta.fromJson(Map<String, dynamic> json) {
+    return StatCompareMeta(
       type: json['type'] as String,
       title: json['title'] as String,
       unit: json['unit'] != null ? json['unit'] as String : null,
