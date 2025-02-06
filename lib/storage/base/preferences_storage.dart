@@ -1,15 +1,18 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants/storage_key.dart';
+import '../../constants/storage_key.dart';
 
 class PreferencesStorage {
   static late final SharedPreferencesWithCache _prefs;
   static bool _initialized = false;
-  static final Set<String> _keys = {};
+  static final Set<String> _keys = {StorageKey.ui.name};
 
   PreferencesStorage._(); // 외부에서 인스턴스 생성 금지
 
   static Future<void> init() async {
+    if (_initialized) {
+      return;
+    }
     _prefs = await SharedPreferencesWithCache.create(
       cacheOptions: SharedPreferencesWithCacheOptions(
         allowList: _keys,
