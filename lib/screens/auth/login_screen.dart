@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/widgets/common/error_dialog.dart';
 import 'package:NCSensor/widgets/screens/login/input_field.dart';
@@ -23,6 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idEntered = TextEditingController();
   final TextEditingController _passwordEntered = TextEditingController();
   bool _hideText = true; // 비밀번호 숨김여부
+  bool devMode = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (devMode) {
+      // 테스트용
+      _idEntered.text = 'tsei';
+      _passwordEntered.text = 'tsei1234';
+    }
+  }
 
   @override
   void dispose() {
@@ -41,10 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleLogin() async {
     try {
-      await context
-          .read<AuthProvider>()
-          .login(_idEntered.text.trim(),
-              _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
+      await context.read<AuthProvider>().login(_idEntered.text.trim(),
+          _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
 
       Navigator.pushReplacement(
         context,
