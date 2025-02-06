@@ -33,6 +33,9 @@ class UiStorage {
         // 인터넷 없어도 기존에 데이터 있을시 에러 제거
         error = _data == null ? '인터넷 연결이 필요합니다.' : null;
       }
+    } catch (e, s) {
+      error = "알 수 없는 오류 : $e";
+      print(s);
     }
 
     if (error != null) {
