@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../constants/styles.dart';
 import '../../../models/data/statistic_model.dart';
 import '../../../models/ui/article_model.dart';
+import '../../../models/ui/statistic_model.dart';
 import '../../../services/api_service.dart';
+import '../../../storage/data/ui_storage.dart';
 import '../../../utils/api_hook.dart';
 import '../../common/empty_display_box.dart';
 import '../../common/my_card.dart';
@@ -19,6 +22,7 @@ class ViewContainer extends StatefulWidget {
 
 class _ViewContainerState extends State<ViewContainer> {
   late final ApiHook<List<StatisticData>> statisticApiHook;
+  late final StatsMeta statsMeta;
 
   @override
   void initState() {
@@ -31,6 +35,7 @@ class _ViewContainerState extends State<ViewContainer> {
         'articleId': widget.selectedArticle.id,
       },
     );
+    statsMeta = UiStorage.data.stats;
   }
 
   @override
@@ -74,28 +79,53 @@ class _ViewContainerState extends State<ViewContainer> {
   }
 
   Widget _buildViewContent(StatisticData data) {
+    StatMetaItem? statMeta = statsMeta.findMetaByData(data);
+    if (statMeta == null) {
+      return EmptyDisplayBox(
+        icon: Icons.error,
+        text: "통계 메타 정보를 찾을 수 없습니다.",
+      );
+    }
     switch (data.ui) {
       case StatisticUi.card:
-        return _buildCardContent(data as CardData);
+        return _buildCardContent(data as CardData, statMeta as StatCardMeta);
       case StatisticUi.percent:
-        return _buildPercentContent(data as PercentData);
+        return _buildPercentContent(
+            data as PercentData, statMeta as StatPercentMeta);
       case StatisticUi.comparison:
-        return _buildComparisonContent(data as ComparisonData);
+        return SizedBox();
     }
-    return SizedBox();
   }
 
-  Widget _buildCardContent(CardData card) {
+  Widget _buildCardContent(CardData card, StatCardMeta meta) {
     return MyCard(
       child: ListTile(
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
+          child: SvgPicture.asset(
+            "assets/icons/${meta.icon}",
+            width: 40,
+            height: 40,
+          ),
+        ),
+        title: Text(
+          meta.title,
+          style: TextStyles.label,
+        ),
+        subtitle: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(card.value.toString(), style: TextStyles.title),
+            SizedBox(width: 8),
+            Text(meta.unit.toString(),
+                style: TextStyles.label.copyWith(fontWeight: FontWeight.bold)),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildPercentContent(PercentData chart) {
+  Widget _buildPercentContent(PercentData data, StatPercentMeta meta) {
     return MyCard(
       child: SizedBox(
         width: double.infinity,
@@ -103,14 +133,31 @@ class _ViewContainerState extends State<ViewContainer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 8),
+            Text(
+              meta.title,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
             Stack(children: [
+              Positioned(
+                left: 24,
+                bottom: 20,
+                child: Container(
+                  color: Color(0xFF57D655),
+                  width: 40,
+                  height: 145 * data.value / meta.max,
+                ),
+              ),
               SvgPicture.asset(
                 "assets/icons/customGraph.svg",
                 width: 96,
                 height: 200,
               ),
             ]),
+            Text(
+              "${data.value}${meta.unit}",
+              style: TextStyles.title,
+            ),
             SizedBox(height: 8),
           ],
         ),
@@ -118,17 +165,15 @@ class _ViewContainerState extends State<ViewContainer> {
     );
   }
 
-  Widget _buildComparisonContent(ComparisonData data) {
-    return Column(
-      children: data.charts.map((chart) {
-        return MyCard(
-          child: ListTile(
-            title: Text(chart.type),
-            subtitle:
-                Text('지난달: ${chart.lastMonth}, 이번달: ${chart.currentMonth}'),
-          ),
-        );
-      }).toList(),
-    );
-  }
+// Widget _buildComparisonContent(ComparisonData data, StatCompareMeta meta) {
+//   double carouselHeight = 300;
+//   return Carousel(
+//     length: data.charts.length,
+//     height: carouselHeight,
+//     builder: (BuildContext context, int index) {
+//       ComparisonChart chart = data.charts[index];
+//       return
+//     },
+//   );
+// }
 }
