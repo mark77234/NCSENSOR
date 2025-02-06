@@ -105,8 +105,8 @@ class StatCardMeta extends StatMetaItem {
 }
 
 class StatPercentMeta extends StatMetaItem {
-  final num min;
-  final num max;
+  // final num min;
+  // final num max;
   final String? unit;
   final String? icon;
 
@@ -115,8 +115,8 @@ class StatPercentMeta extends StatMetaItem {
     required super.title,
     this.unit,
     this.icon,
-    required this.min,
-    required this.max,
+    // required this.min,
+    // required this.max,
   });
 
   factory StatPercentMeta.fromJson(Map<String, dynamic> json) {
@@ -125,8 +125,8 @@ class StatPercentMeta extends StatMetaItem {
       title: json['title'] as String,
       unit: json['unit'] != null ? json['unit'] as String : null,
       icon: json['icon'] != null ? json['icon'] as String : null,
-      min: json['min'] as num,
-      max: json['max'] as num,
+      // min: json['min'] as num,
+      // max: json['max'] as num,
     );
   }
 
@@ -137,8 +137,8 @@ class StatPercentMeta extends StatMetaItem {
       'title': title,
       'unit': unit,
       'icon': icon,
-      'min': min,
-      'max': max,
+      // 'min': min,
+      // 'max': max,
     };
   }
 }

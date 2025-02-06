@@ -145,7 +145,7 @@ class _ViewContainerState extends State<ViewContainer> {
                 child: Container(
                   color: Color(0xFF57D655),
                   width: 40,
-                  height: 145 * data.value / meta.max,
+                  height: 145 * data.value / 1,
                 ),
               ),
               SvgPicture.asset(
