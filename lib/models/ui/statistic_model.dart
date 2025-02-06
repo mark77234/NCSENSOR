@@ -1,3 +1,5 @@
+import '../data/statistic_model.dart';
+
 class StatsMeta {
   final List<StatCard> card;
   final List<StatPercent> percent;
@@ -8,6 +10,34 @@ class StatsMeta {
     required this.percent,
     required this.comparison,
   });
+
+  StatMetaItem? findMetaByData(StatisticData data) {
+    try {
+      switch (data.ui) {
+        case StatisticUi.card:
+          return card.firstWhere(
+            (item) => item.type == data.type,
+            orElse: () =>
+                throw Exception('Card meta not found for type: ${data.type}'),
+          );
+        case StatisticUi.percent:
+          return percent.firstWhere(
+            (item) => item.type == data.type,
+            orElse: () => throw Exception(
+                'Percent meta not found for type: ${data.type}'),
+          );
+        case StatisticUi.comparison:
+          return comparison.firstWhere(
+            (item) => item.type == data.type,
+            orElse: () => throw Exception(
+                'Comparison meta not found for type: ${data.type}'),
+          );
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   factory StatsMeta.fromJson(Map<String, dynamic> json) {
     return StatsMeta(
@@ -74,18 +104,18 @@ class StatCard extends StatMetaItem {
 }
 
 class StatPercent extends StatMetaItem {
-  final num? min;
-  final num? max;
+  final num min;
+  final num max;
   final String? unit;
   final String? icon;
 
   StatPercent({
     required super.type,
     required super.title,
-    required this.unit,
-    required this.icon,
-    this.min,
-    this.max,
+    this.unit,
+    this.icon,
+    required this.min,
+    required this.max,
   });
 
   factory StatPercent.fromJson(Map<String, dynamic> json) {
@@ -94,8 +124,8 @@ class StatPercent extends StatMetaItem {
       title: json['title'] as String,
       unit: json['unit'] != null ? json['unit'] as String : null,
       icon: json['icon'] != null ? json['icon'] as String : null,
-      min: json['min'] != null ? json['min'] as num : null,
-      max: json['max'] != null ? json['max'] as num : null,
+      min: json['min'] as num,
+      max: json['max'] as num,
     );
   }
 
@@ -114,15 +144,15 @@ class StatPercent extends StatMetaItem {
 
 class StatComparison extends StatMetaItem {
   final String? unit;
-  final num? min;
-  final num? max;
+  final num min;
+  final num max;
 
   StatComparison({
     required super.type,
     required super.title,
     this.unit,
-    this.min,
-    this.max,
+    required this.min,
+    required this.max,
   });
 
   factory StatComparison.fromJson(Map<String, dynamic> json) {
@@ -130,8 +160,8 @@ class StatComparison extends StatMetaItem {
       type: json['type'] as String,
       title: json['title'] as String,
       unit: json['unit'] != null ? json['unit'] as String : null,
-      min: json['min'] != null ? json['min'] as num : null,
-      max: json['max'] != null ? json['max'] as num : null,
+      min: json['min'] as num,
+      max: json['max'] as num,
     );
   }
 
