@@ -35,6 +35,9 @@ class _ViewContainerState extends State<ViewContainer> {
         'articleId': widget.selectedArticle.id,
       },
     );
+    statisticApiHook.addListener(() {
+      setState(() {});
+    });
     statsMeta = UiStorage.data.stats;
   }
 
