@@ -2,43 +2,23 @@ import 'package:flutter/material.dart';
 
 class HistoryData {
   final String id;
-  final String title;
-  final HistoryResult result;
+  final String articleId;
+  final double value;
   final DateTime datetime;
 
   HistoryData({
     required this.id,
-    required this.title,
-    required this.result,
+    required this.articleId,
+    required this.value,
     required this.datetime,
   });
 
   factory HistoryData.fromJson(Map<String, dynamic> json) {
     return HistoryData(
       id: json['id'],
-      title: json['title'],
-      result: HistoryResult.fromJson(json['result']),
-      datetime: DateTime.parse(json['datetime']),
-    );
-  }
-}
-
-class HistoryResult {
-  final double value;
-  final String unit;
-  final String content;
-
-  HistoryResult({
-    required this.value,
-    required this.unit,
-    required this.content,
-  });
-
-  factory HistoryResult.fromJson(Map<String, dynamic> json) {
-    return HistoryResult(
+      articleId: json['article_id'],
       value: json['value'].toDouble(),
-      unit: json['unit'],
-      content: json['content'],
+      datetime: DateTime.parse(json['datetime']),
     );
   }
 }
@@ -75,7 +55,7 @@ extension DateRangeExtension on DateRange {
         break;
       case DateRange.oneYear:
         startDate = DateTime(now.year - 1, now.month + 1, 1);
-        break;//기본값: 이번 달
+        break; //기본값: 이번 달
     }
     return DateTimeRange(start: startDate, end: endDate);
   }
