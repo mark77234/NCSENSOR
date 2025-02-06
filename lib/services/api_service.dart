@@ -49,7 +49,7 @@ class ApiService {
 
   static Future<List<StatisticData>> getStatisticData(
       {required String articleId, String unit = "MONTH"}) async {
-    final response = await _apiClient.get('/report',
+    final response = await _apiClient.get('/stats',
         queryParameters: {
           'article_id': articleId,
           'unit': unit,
