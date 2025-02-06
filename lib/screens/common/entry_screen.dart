@@ -18,7 +18,7 @@ class EntryScreen extends StatelessWidget {
     try {
       // await PreferencesStorage.init();
       final uiData = await ApiService.getUiData();
-      Provider.of<UiDataProvider>(context, listen: false).updateData(uiData);
+      Provider.of<UiDataProvider>(context, listen: false).updateData(uiData!);
       await Future.delayed(const Duration(seconds: 3));
     } catch (e) {
       print(">>>${e}");

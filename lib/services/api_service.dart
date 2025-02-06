@@ -66,10 +66,14 @@ class ApiService {
         .toList();
   }
 
-  static Future<UiData> getUiData() async {
+  static Future<UiData?> getUiData({int? version}) async {
     final response = await _apiClient.get('/metadata', queryParameters: {
-      'version': 1,
+      'version': version ?? 0,
     });
-    return UiData.fromJson(response.data);
+    if (response.statusCode == 200) {
+      return UiData.fromJson(response.data);
+    } else {
+      return null;
+    }
   }
 }
