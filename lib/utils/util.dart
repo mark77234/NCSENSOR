@@ -7,3 +7,6 @@ Color colorFromHex(String hexColor) {
     throw FormatException("Invalid color format: $hexColor");
   }
 }
+String colorToHex(Color color) {
+  return '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+}
