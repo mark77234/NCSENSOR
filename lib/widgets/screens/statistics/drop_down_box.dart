@@ -22,7 +22,9 @@ class _DropDownBoxState extends State<DropDownBox> {
     if (widget.selectedArticle == null) {
       final articles = UiStorage.data.articles;
       if (articles.isNotEmpty) {
-        widget.setArticle(articles.first);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          widget.setArticle(articles.first);
+        });
       }
     }
   }
