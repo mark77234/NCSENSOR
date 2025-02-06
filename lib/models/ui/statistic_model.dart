@@ -20,6 +20,14 @@ class Stats {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'CARD': card.map((e) => e.toJson()).toList(),
+      'PERCENT': percent.map((e) => e.toJson()).toList(),
+      'COMPARISON': comparison.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 abstract class Stat {
@@ -30,6 +38,8 @@ abstract class Stat {
     required this.type,
     required this.title,
   });
+
+  Map<String, dynamic> toJson();
 }
 
 class StatCard extends Stat {
@@ -51,6 +61,16 @@ class StatCard extends Stat {
       icon: json['icon'] as String,
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'title': title,
+      'unit': unit,
+      'icon': icon,
+    };
+  }
 }
 
 class StatPercent extends Stat {
@@ -71,6 +91,16 @@ class StatPercent extends Stat {
       unit: json['unit'] as String,
       icon: json['icon'] as String,
     );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'title': title,
+      'unit': unit,
+      'icon': icon,
+    };
   }
 }
 
@@ -97,6 +127,16 @@ class StatComparison extends Stat {
           : null, // null 체크 추가
     );
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'title': title,
+      'result': result?.toJson(),
+      'chart': chart?.toJson(),
+    };
+  }
 }
 
 class ComparisonResult {
@@ -113,6 +153,13 @@ class ComparisonResult {
       unit: json['unit'] as String,
       content: json['content'] as String,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'unit': unit,
+      'content': content,
+    };
   }
 }
 
@@ -134,6 +181,14 @@ class ComparisonChart {
       bar: (json['bar'] as List).map((e) => ChartBar.fromJson(e)).toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'min': min,
+      'max': max,
+      'bar': bar.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class ChartBar {
@@ -153,5 +208,13 @@ class ChartBar {
       name: json['name'] as String,
       color: json['color'] as String,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      'name': name,
+      'color': color,
+    };
   }
 }

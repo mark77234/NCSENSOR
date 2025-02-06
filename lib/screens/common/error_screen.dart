@@ -1,17 +1,22 @@
+import 'package:NCSensor/widgets/common/error_message.dart';
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key, required this.error});
 
-  final String error;
+  final dynamic error;
 
   @override
   Widget build(BuildContext context) {
+    final errorMessage = getErrorMessage(error);
     return Scaffold(
-        body: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Icon(Icons.error), Text(error)],
-    ));
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [Icon(Icons.error), Text(errorMessage)],
+        ),
+      ),
+    );
   }
 }

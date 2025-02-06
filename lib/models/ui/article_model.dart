@@ -40,6 +40,18 @@ class Article {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'unit': unit,
+      'content': content,
+      'icon': icon,
+      'result': result?.toJson(),
+      'sections': sections?.map((e) => e.toJson()).toList(),
+      'subtypes': subtypes?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class Subtype {
@@ -70,10 +82,21 @@ class Subtype {
       icon: json['icon'] as String,
       result: Result.fromJson(json['result']),
       sections:
-          (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
+      (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'unit': unit,
+      'content': content,
+      'icon': icon,
+      'result': result.toJson(),
+      'sections': sections.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
 class Result {
@@ -93,6 +116,14 @@ class Result {
       min: json['min'] as num,
       max: json['max'] as num,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'min': min,
+      'max': max,
+    };
   }
 }
 
@@ -123,6 +154,17 @@ class Section {
       color: colorFromHex(json['color']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'level': level,
+      'name': name,
+      'min': min.toJson(),
+      'max': max.toJson(),
+      'content': content,
+      'color': colorToHex(color),
+    };
+  }
 }
 
 class ValueRange {
@@ -139,5 +181,12 @@ class ValueRange {
       value: json['value'] as num,
       isContained: json['is_contained'] as bool,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'value': value,
+      'is_contained': isContained,
+    };
   }
 }
