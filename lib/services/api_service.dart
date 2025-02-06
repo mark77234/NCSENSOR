@@ -9,13 +9,18 @@ import '../constants/infra.dart';
 import '../models/data/measure_model.dart';
 import '../models/data/result_model.dart';
 import '../models/data/statistic_model.dart';
-import '../models/ui/index.dart';
+import '../models/ui/ncs_meta.dart';
 import 'api_client.dart';
 
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
+  static final Options _authedOption = Options(
+    headers: {
+      'Authorization': true,
+    },
+  );
 
-  static final user = UserService(_apiClient);
+  static final user = UserService(_apiClient, _authedOption);
 
   ApiService._();
 
@@ -23,18 +28,6 @@ class ApiService {
     final response = await _apiClient.get('/measure/articles');
     return (response.data["articles"] as List)
         .map((e) => MeasureLabel.fromJson(e))
-        .toList();
-  }
-
-  static Future<List<StatisticData>> getStatisticData(
-      {required String labelId, String unit = "MONTH"}) async {
-    final response = await _apiClient.get('/report', queryParameters: {
-      'article_id': labelId,
-      'unit': unit,
-    });
-
-    return (response.data["views"] as List)
-        .map((e) => StatisticData.fromJson(e))
         .toList();
   }
 
@@ -54,25 +47,43 @@ class ApiService {
     }
   }
 
+  static Future<List<StatisticData>> getStatisticData(
+      {required String articleId, String unit = "MONTH"}) async {
+    final response = await _apiClient.get('/stats',
+        queryParameters: {
+          'article_id': articleId,
+          'unit': unit,
+        },
+        options: _authedOption);
+
+    return (response.data["views"] as List)
+        .map((e) => StatisticData.fromJson(e))
+        .toList();
+  }
+
   static Future<List<HistoryData>> getHistoryData(
       {required DateTime start, required DateTime end}) async {
-    final response = await _apiClient.get('/history', queryParameters: {
-      'start': DateFormat('yyyy-MM-dd').format(start),
-      'end': DateFormat('yyyy-MM-dd').format(end),
-    });
+    final response = await _apiClient.get('/history',
+        queryParameters: {
+          'start': DateFormat('yyyy-MM-dd').format(start),
+          'end': DateFormat('yyyy-MM-dd').format(end),
+        },
+        options: _authedOption);
 
     return (response.data["history"] as List)
         .map((e) => HistoryData.fromJson(e))
         .toList();
   }
 
-  static Future<UiData?> getUiData({int? version}) async {
+  static Future<NcsMetaData?> getUiData({int? version}) async {
     final response = await _apiClient.get(
       '/metadata',
       queryParameters: {
         'version': version ?? 0,
       },
     );
-    return response.statusCode == 200 ? UiData.fromJson(response.data) : null;
+    return response.statusCode == 200
+        ? NcsMetaData.fromJson(response.data)
+        : null;
   }
 }

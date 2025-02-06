@@ -1,22 +1,53 @@
-class Stats {
-  final List<StatCard> card;
-  final List<StatPercent> percent;
-  final List<StatComparison> comparison;
+import '../data/statistic_model.dart';
 
-  Stats({
+class StatsMeta {
+  final List<StatCardMeta> card;
+  final List<StatPercentMeta> percent;
+  final List<StatCompareMeta> comparison;
+
+  StatsMeta({
     required this.card,
     required this.percent,
     required this.comparison,
   });
 
-  factory Stats.fromJson(Map<String, dynamic> json) {
-    return Stats(
-      card: (json['CARD'] as List).map((e) => StatCard.fromJson(e)).toList(),
+  StatMetaItem? findMetaByData(StatisticData data) {
+    try {
+      switch (data.ui) {
+        case StatisticUi.card:
+          return card.firstWhere(
+            (item) => item.type == data.type,
+            orElse: () =>
+                throw Exception('Card meta not found for type: ${data.type}'),
+          );
+        case StatisticUi.percent:
+          return percent.firstWhere(
+            (item) => item.type == data.type,
+            orElse: () => throw Exception(
+                'Percent meta not found for type: ${data.type}'),
+          );
+        case StatisticUi.comparison:
+          return comparison.firstWhere(
+            (item) => item.type == data.type,
+            orElse: () => throw Exception(
+                'Comparison meta not found for type: ${data.type}'),
+          );
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  factory StatsMeta.fromJson(Map<String, dynamic> json) {
+    return StatsMeta(
+      card:
+          (json['CARD'] as List).map((e) => StatCardMeta.fromJson(e)).toList(),
       percent: (json['PERCENT'] as List)
-          .map((e) => StatPercent.fromJson(e))
+          .map((e) => StatPercentMeta.fromJson(e))
           .toList(),
       comparison: (json['COMPARISON'] as List)
-          .map((e) => StatComparison.fromJson(e))
+          .map((e) => StatCompareMeta.fromJson(e))
           .toList(),
     );
   }
@@ -30,11 +61,11 @@ class Stats {
   }
 }
 
-abstract class Stat {
+abstract class StatMetaItem {
   final String type;
   final String title;
 
-  Stat({
+  StatMetaItem({
     required this.type,
     required this.title,
   });
@@ -42,19 +73,19 @@ abstract class Stat {
   Map<String, dynamic> toJson();
 }
 
-class StatCard extends Stat {
+class StatCardMeta extends StatMetaItem {
   final String unit;
   final String icon;
 
-  StatCard({
+  StatCardMeta({
     required super.type,
     required super.title,
     required this.unit,
     required this.icon,
   });
 
-  factory StatCard.fromJson(Map<String, dynamic> json) {
-    return StatCard(
+  factory StatCardMeta.fromJson(Map<String, dynamic> json) {
+    return StatCardMeta(
       type: json['type'] as String,
       title: json['title'] as String,
       unit: json['unit'] as String,
@@ -73,23 +104,29 @@ class StatCard extends Stat {
   }
 }
 
-class StatPercent extends Stat {
-  final String unit;
-  final String icon;
+class StatPercentMeta extends StatMetaItem {
+  // final num min;
+  // final num max;
+  final String? unit;
+  final String? icon;
 
-  StatPercent({
+  StatPercentMeta({
     required super.type,
     required super.title,
-    required this.unit,
-    required this.icon,
+    this.unit,
+    this.icon,
+    // required this.min,
+    // required this.max,
   });
 
-  factory StatPercent.fromJson(Map<String, dynamic> json) {
-    return StatPercent(
+  factory StatPercentMeta.fromJson(Map<String, dynamic> json) {
+    return StatPercentMeta(
       type: json['type'] as String,
       title: json['title'] as String,
-      unit: json['unit'] as String,
-      icon: json['icon'] as String,
+      unit: json['unit'] != null ? json['unit'] as String : null,
+      icon: json['icon'] != null ? json['icon'] as String : null,
+      // min: json['min'] as num,
+      // max: json['max'] as num,
     );
   }
 
@@ -100,121 +137,43 @@ class StatPercent extends Stat {
       'title': title,
       'unit': unit,
       'icon': icon,
+      // 'min': min,
+      // 'max': max,
     };
   }
 }
 
-class StatComparison extends Stat {
-  final ComparisonResult? result;
-  final ComparisonChart? chart;
-
-  StatComparison({
-    required super.type,
-    required super.title,
-    this.result,
-    this.chart,
-  });
-
-  factory StatComparison.fromJson(Map<String, dynamic> json) {
-    return StatComparison(
-      type: json['type'] as String,
-      title: json['title'] as String,
-      result: json['result'] != null
-          ? ComparisonResult.fromJson(json['result'])
-          : null, // null 체크 추가
-      chart: json['chart'] != null
-          ? ComparisonChart.fromJson(json['chart'])
-          : null, // null 체크 추가
-    );
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type,
-      'title': title,
-      'result': result?.toJson(),
-      'chart': chart?.toJson(),
-    };
-  }
-}
-
-class ComparisonResult {
-  final String unit;
-  final String content;
-
-  ComparisonResult({
-    required this.unit,
-    required this.content,
-  });
-
-  factory ComparisonResult.fromJson(Map<String, dynamic> json) {
-    return ComparisonResult(
-      unit: json['unit'] as String,
-      content: json['content'] as String,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'unit': unit,
-      'content': content,
-    };
-  }
-}
-
-class ComparisonChart {
+class StatCompareMeta extends StatMetaItem {
+  final String? unit;
   final num min;
   final num max;
-  final List<ChartBar> bar;
 
-  ComparisonChart({
+  StatCompareMeta({
+    required super.type,
+    required super.title,
+    this.unit,
     required this.min,
     required this.max,
-    required this.bar,
   });
 
-  factory ComparisonChart.fromJson(Map<String, dynamic> json) {
-    return ComparisonChart(
+  factory StatCompareMeta.fromJson(Map<String, dynamic> json) {
+    return StatCompareMeta(
+      type: json['type'] as String,
+      title: json['title'] as String,
+      unit: json['unit'] != null ? json['unit'] as String : null,
       min: json['min'] as num,
       max: json['max'] as num,
-      bar: (json['bar'] as List).map((e) => ChartBar.fromJson(e)).toList(),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'min': min,
-      'max': max,
-      'bar': bar.map((e) => e.toJson()).toList(),
-    };
-  }
-}
-
-class ChartBar {
-  final String type;
-  final String name;
-  final String color;
-
-  ChartBar({
-    required this.type,
-    required this.name,
-    required this.color,
-  });
-
-  factory ChartBar.fromJson(Map<String, dynamic> json) {
-    return ChartBar(
-      type: json['type'] as String,
-      name: json['name'] as String,
-      color: json['color'] as String,
-    );
-  }
-
+  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type,
-      'name': name,
-      'color': color,
+      'title': title,
+      'unit': unit,
+      'min': min,
+      'max': max,
     };
   }
 }

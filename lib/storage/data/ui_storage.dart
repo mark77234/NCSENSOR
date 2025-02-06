@@ -3,17 +3,17 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import '../../constants/storage_key.dart';
-import '../../models/ui/index.dart';
+import '../../models/ui/ncs_meta.dart';
 import '../../services/api_service.dart';
 import '../base/preferences_storage.dart';
 
 class UiStorage {
   UiStorage._();
 
-  static UiData? _data;
+  static NcsMetaData? _data;
 
   // null이 될 수 없는 getter > UiStorage.data 사용
-  static UiData get data {
+  static NcsMetaData get data {
     if (_data == null) {
       throw StateError('UI 데이터가 없습니다.');
     }
@@ -33,6 +33,9 @@ class UiStorage {
         // 인터넷 없어도 기존에 데이터 있을시 에러 제거
         error = _data == null ? '인터넷 연결이 필요합니다.' : null;
       }
+    } catch (e, s) {
+      error = "알 수 없는 오류 : $e";
+      print(s);
     }
 
     if (error != null) {
@@ -48,7 +51,7 @@ class UiStorage {
       final jsonString = PreferencesStorage.read(StorageKey.ui);
       print('UiStorage data : $jsonString');
       if (jsonString != null) {
-        _data = UiData.fromJson(jsonDecode(jsonString));
+        _data = NcsMetaData.fromJson(jsonDecode(jsonString));
       }
     } catch (e) {
       print(e);
@@ -56,13 +59,10 @@ class UiStorage {
   }
 
   // UI 데이터 저장
-  static Future<void> _save(UiData data) async {
+  static Future<void> _save(NcsMetaData data) async {
     print('UiStorage : save');
-    final jsonString = jsonEncode({
-      'version': data.version,
-      'articles': data.articles,
-      'stats': data.stats,
-    });
+    final jsonString = jsonEncode(data.toJson());
+    print('UiStorage data : $jsonString');
     await PreferencesStorage.save(StorageKey.ui, jsonString);
     _data = data;
   }

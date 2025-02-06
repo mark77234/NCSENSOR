@@ -1,10 +1,10 @@
+import 'package:NCSensor/storage/data/ui_storage.dart';
 import 'package:NCSensor/widgets/common/error_screen.dart';
 import 'package:NCSensor/widgets/screens/result/result_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import '../../models/data/result_model.dart';
 import '../../models/ui/article_model.dart';
-import '../../providers/ui_data_provider.dart';
 import '../../services/api_service.dart';
 import '../../widgets/screens/result/action_button.dart';
 import '../../widgets/screens/result/status_card.dart';
@@ -82,8 +82,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uiDataProvider = Provider.of<UiDataProvider>(context);
-    final uiData = uiDataProvider.uiData;
+    final uiData = UiStorage.data;
 
     if (_isLoading) {
       return const Scaffold(
@@ -99,7 +98,7 @@ class _ResultScreenState extends State<ResultScreen> {
       return ErrorScreen(errorMessage: _errorMessage);
     }
 
-    Article? article;
+    ArticleMeta? article;
     Subtype? subtype;
     for (var a in uiData.articles) {
       if (a.id == articleId) {

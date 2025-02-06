@@ -2,28 +2,28 @@ import '../data/statistic_model.dart';
 import 'article_model.dart';
 import 'statistic_model.dart';
 
-class UiData {
+class NcsMetaData {
   final int version;
-  final List<Article> articles;
-  final Stats stats;
+  final List<ArticleMeta> articles;
+  final StatsMeta stats;
 
-  UiData({
+  NcsMetaData({
     required this.version,
     required this.articles,
     required this.stats,
   });
 
-  factory UiData.fromJson(Map<String, dynamic> json) {
-    return UiData(
+  factory NcsMetaData.fromJson(Map<String, dynamic> json) {
+    return NcsMetaData(
       version: json['version'] as int,
       articles: (json['articles'] as List)
-          .map((article) => Article.fromJson(article))
+          .map((article) => ArticleMeta.fromJson(article))
           .toList(),
-      stats: Stats.fromJson(json['stats']),
+      stats: StatsMeta.fromJson(json['stats']),
     );
   }
 
-  Article? findArticleById(String id) {
+  ArticleMeta? findArticleById(String id) {
     try {
       return articles.firstWhere((article) => article.id == id);
     } catch (e) {
@@ -31,7 +31,7 @@ class UiData {
     }
   }
 
-  Stat? findStatByData(StatisticData data) {
+  StatMetaItem? findStatByData(StatisticData data) {
     try {
       switch (data.ui) {
         case StatisticUi.percent:
@@ -44,5 +44,14 @@ class UiData {
     } catch (e) {
       return null;
     }
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'version': version,
+      'articles': articles.map((article) => article.toJson()).toList(),
+      'stats': stats.toJson(),
+    };
   }
 }

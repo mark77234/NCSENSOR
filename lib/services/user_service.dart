@@ -1,22 +1,24 @@
+import 'package:NCSensor/storage/data/auth_storage.dart';
 import 'package:dio/dio.dart';
 
+import '../models/data/auth_model.dart';
 import '../models/data/user_model.dart';
-import '../storage/base/secure_storage.dart';
 
 class UserService {
   Dio _apiClient;
+  Options _authedOption;
 
   // 싱글톤
-  UserService._(this._apiClient);
+  UserService._(this._apiClient, this._authedOption);
 
   static UserService? _instance;
 
-  factory UserService(Dio dio) {
-    _instance ??= UserService._(dio);
+  factory UserService(Dio dio, Options authedOption) {
+    _instance ??= UserService._(dio, authedOption);
     return _instance!;
   }
 
-  Future<dynamic> login({
+  Future<AuthData> login({
     required String username,
     required String password,
   }) async {
@@ -30,7 +32,10 @@ class UserService {
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
       ),
     );
-    return response.data;  // Ensure this returns the parsed JSON map
+    final authData = AuthData.fromJson(response.data);
+    await AuthStorage.saveTokens(
+        accessToken: authData.accessToken);
+    return authData; // Ensure this returns the parsed JSON map
   }
 
   Future<void> signup({
@@ -50,23 +55,11 @@ class UserService {
   }
 
   Future<UserProfile> getUserProfile() async {
-    final token = await SecureStorage.getToken();
-    if (token == null) {
-      throw Exception('JWT 토큰이 없습니다. 다시 로그인 해주세요.');
-    }
-
-    final response = await _apiClient.get('/my',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token', // Authorization 헤더에 JWT 포함
-          },
-        ));
-
-    print(response.data); // 사용자 프로필 출력
+    final response = await _apiClient.get('/my', options: _authedOption);
     return UserProfile.fromJson(response.data);
   }
 
   Future<void> getUser() async {
-    await _apiClient.get('/user');
+    await _apiClient.get('/user', options: _authedOption);
   }
 }

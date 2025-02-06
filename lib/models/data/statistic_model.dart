@@ -28,7 +28,7 @@ abstract class StatisticData {
 }
 
 class PercentData extends StatisticData {
-  final double value;
+  final num value;
 
   PercentData({
     required this.value,
@@ -44,7 +44,7 @@ class PercentData extends StatisticData {
 }
 
 class CardData extends StatisticData {
-  final double value;
+  final num value;
 
   CardData({
     required this.value,
@@ -60,20 +60,39 @@ class CardData extends StatisticData {
 }
 
 class ComparisonData extends StatisticData {
-  final double lastMonth;
-  final double currentMonth;
+  final List<ComparisonChart> charts;
 
   ComparisonData({
-    required this.lastMonth,
-    required this.currentMonth,
+    required this.charts,
     required super.type,
   }) : super(ui: StatisticUi.comparison);
 
   factory ComparisonData.fromJson(Map<String, dynamic> json) {
     return ComparisonData(
+      charts: (json['charts'] as List)
+          .map((e) => ComparisonChart.fromJson(e))
+          .toList(),
+      type: json['type'] ?? "",
+    );
+  }
+}
+
+class ComparisonChart {
+  final String type;
+  final double lastMonth;
+  final double currentMonth;
+
+  ComparisonChart({
+    required this.type,
+    required this.lastMonth,
+    required this.currentMonth,
+  });
+
+  factory ComparisonChart.fromJson(Map<String, dynamic> json) {
+    return ComparisonChart(
+      type: json['type'],
       lastMonth: json['last_month'].toDouble(),
       currentMonth: json['current_month'].toDouble(),
-      type: json['type'],
     );
   }
 }

@@ -5,7 +5,7 @@ import '../../../constants/styles.dart';
 import '../../../models/ui/article_model.dart';
 
 class Dropdown extends StatelessWidget {
-  final List<Article> articles;
+  final List<ArticleMeta> articles;
   final String selectedItem;
   final Function(String, String) onChanged;
 
@@ -45,20 +45,24 @@ class Dropdown extends StatelessWidget {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: selectedItem.isEmpty
-                  ? articles.first.name
-                  : selectedItem,
+              value: selectedItem.isEmpty ? articles.first.name : selectedItem,
               onChanged: (newValue) {
                 final selectedArticle = articles.firstWhere(
-                      (article) => article.name == newValue,
+                  (article) => article.name == newValue,
                 );
                 onChanged(newValue!, selectedArticle.id);
               },
-              items: articles.map((article) => _buildDropdownItem(article)).toList(),
+              items: articles
+                  .map((article) => _buildDropdownItem(article))
+                  .toList(),
               isExpanded: true,
               icon: const Padding(
                 padding: EdgeInsets.only(right: 12.0),
-                child: Icon(Icons.arrow_drop_down, size: 30, color: ColorStyles.primary,),
+                child: Icon(
+                  Icons.arrow_drop_down,
+                  size: 30,
+                  color: ColorStyles.primary,
+                ),
               ),
               dropdownColor: ColorStyles.background,
               borderRadius: BorderRadius.circular(8.0),
@@ -70,7 +74,7 @@ class Dropdown extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
               selectedItemBuilder: (BuildContext context) {
-                return articles.map<Widget>((Article article) {
+                return articles.map<Widget>((ArticleMeta article) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -114,12 +118,11 @@ class Dropdown extends StatelessWidget {
   }
 
   // 드롭다운 아이템 빌드
-  DropdownMenuItem<String> _buildDropdownItem(Article article) {
+  DropdownMenuItem<String> _buildDropdownItem(ArticleMeta article) {
     return DropdownMenuItem<String>(
       value: article.name,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Row(
           children: [
             SvgPicture.asset(

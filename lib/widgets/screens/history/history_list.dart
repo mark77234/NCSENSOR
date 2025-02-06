@@ -3,7 +3,9 @@ import 'package:intl/intl.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/history_model.dart';
+import '../../../models/ui/ncs_meta.dart';
 import '../../../services/api_service.dart';
+import '../../../storage/data/ui_storage.dart';
 import '../../../utils/api_hook.dart';
 import '../../common/empty_display_box.dart';
 import 'history_item.dart';
@@ -18,12 +20,12 @@ class HistoryList extends StatefulWidget {
 }
 
 class _HistoryListState extends State<HistoryList> {
-  late final ApiHook historyApiHook;
+  late final ApiHook<List<HistoryData>> historyApiHook;
 
   @override
   void initState() {
     super.initState();
-    historyApiHook = ApiHook<List<HistoryData>>(
+    historyApiHook = ApiHook(
         apiCall: (params) => ApiService.getHistoryData(
               start: params['start'],
               end: params['end'],
@@ -71,7 +73,7 @@ class _HistoryListState extends State<HistoryList> {
       );
     }
     final Map<String, List<HistoryData>> groupedRecords = {};
-    for (HistoryData record in data) {
+    for (HistoryData record in data!) {
       String dateKey = DateFormat('yyyy년 MM월 dd일').format(record.datetime);
       groupedRecords.putIfAbsent(dateKey, () => []).add(record);
     }
@@ -87,7 +89,9 @@ class _HistoryListState extends State<HistoryList> {
     );
   }
 
-  Widget _buildDayGroup(String date, List<HistoryData> dayRecords) {
+  Widget _buildDayGroup(String date, List<HistoryData> records) {
+    final NcsMetaData uiData = UiStorage.data;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,7 +106,16 @@ class _HistoryListState extends State<HistoryList> {
             ),
           ),
         ),
-        ...dayRecords.map((record) => HistoryItem(record: record)),
+        ...records.map((record) {
+          final article = uiData.findArticleById(record.articleId);
+          if (article != null) {
+            return HistoryItem(
+              data: record,
+              article: article,
+            );
+          }
+          return SizedBox();
+        }).toList(),
         SizedBox(height: 8),
       ],
     );

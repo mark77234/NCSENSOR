@@ -84,9 +84,10 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
       }
       print('API 호출 성공 : $result');
       state = state.copyWith(data: result, isLoading: false);
-    } catch (err) {
+    } catch (err, stackTrace) {
       state = state.copyWith(error: err.toString(), isLoading: false);
       print('에러 발생 : $err');
+      print(stackTrace);
       if (_onError != null) {
         _onError(err);
       }
