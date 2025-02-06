@@ -2,11 +2,24 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+import '../storage/data/auth_storage.dart';
+
 class CustomInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // Do something before request is sent
     log('[REQ] [${options.method}] ${options.uri} ${options.data} ${options.headers}');
+    if (options.headers['Authorization'] == 'true') {
+      options.headers.remove('Authorization');
+      final token = AuthStorage.accessToken;
+      if (token == null) {
+        throw Exception('토큰이 없습니다.');
+      }
+      options.headers.addAll({
+        'Authorization': 'Bearer $token',
+      });
+    }
+
     handler.next(options);
   }
 
