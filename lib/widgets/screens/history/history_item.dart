@@ -1,83 +1,41 @@
+import 'package:NCSensor/models/data/history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../../constants/styles.dart';
-import '../../../models/data/history_model.dart';
+import '../../../models/ui/article_model.dart';
 
 class HistoryItem extends StatelessWidget {
-  final HistoryData record;
+  final HistoryData data;
+  final Article article;
 
-  const HistoryItem({super.key, required this.record});
+  const HistoryItem({
+    super.key,
+    required this.data,
+    required this.article,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: ContainerStyles.card,
-      padding: EdgeInsets.all(4),
-      margin: EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: _buildHistoryIcon(record.title),
-        title: Text(
-          record.title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          DateFormat('HH:mm').format(record.datetime),
-          style: TextStyle(
-            color: Colors.grey.shade600,
-            fontSize: 14,
-          ),
-        ),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              "${record.result.value} ${record.result.unit}",
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorStyles.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              record.result.content,
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorStyles.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+    Section? section = article.findSectionForValue(data.value);
+    return ListTile(
+      leading: _buildHistoryIcon(article.icon),
+      title: Text(article.name),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('${data.value} ${article?.unit ?? ''}'),
+          Text(section?.name ?? '', style: TextStyle(color: section?.color)),
+        ],
+      ),
+      trailing: Text(
+        DateFormat('HH:mm').format(data.datetime),
+        style: TextStyle(color: Colors.grey),
       ),
     );
   }
 
-  Widget _buildHistoryIcon(String title) {
-    String assetName;
-
-    switch (title) {
-      case "음주":
-        assetName = "drinking";
-        break;
-      case "입냄새":
-        assetName = "mouth";
-        break;
-      case "겨드랑이냄새":
-        assetName = "armpit";
-        break;
-      case "발냄새":
-        assetName = "foot";
-        break;
-      default:
-        assetName = "measure";
-    }
-
+  Widget _buildHistoryIcon(String assetName) {
     return Padding(
       padding: const EdgeInsets.only(right: 2.0),
       child: SvgPicture.asset(

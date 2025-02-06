@@ -1,9 +1,11 @@
+import 'package:NCSensor/models/ui/index.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/history_model.dart';
 import '../../../services/api_service.dart';
+import '../../../storage/data/ui_storage.dart';
 import '../../../utils/api_hook.dart';
 import '../../common/empty_display_box.dart';
 import 'history_item.dart';
@@ -87,7 +89,9 @@ class _HistoryListState extends State<HistoryList> {
     );
   }
 
-  Widget _buildDayGroup(String date, List<HistoryData> dayRecords) {
+  Widget _buildDayGroup(String date, List<HistoryData> records) {
+    final UiData uiData = UiStorage.data;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,7 +106,16 @@ class _HistoryListState extends State<HistoryList> {
             ),
           ),
         ),
-        ...dayRecords.map((record) => HistoryItem(record: record)),
+        ...records.map((record) {
+          final article = uiData.findArticleById(record.articleId);
+          if (article != null) {
+            return HistoryItem(
+              data: record,
+              article: article,
+            );
+          }
+          return SizedBox();
+        }).toList(),
         SizedBox(height: 8),
       ],
     );
