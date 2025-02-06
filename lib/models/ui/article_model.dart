@@ -52,6 +52,33 @@ class Article {
       'subtypes': subtypes?.map((e) => e.toJson()).toList(),
     };
   }
+
+  Section? findSectionForValue(num value) {
+    if (sections == null) return null;
+    
+    for (final section in sections!) {
+      bool isInRange = false;
+      
+      // 최소값 체크
+      if (section.min.isContained) {
+        isInRange = value >= section.min.value;
+      } else {
+        isInRange = value > section.min.value;
+      }
+      
+      // 최대값 체크
+      if (isInRange) {
+        if (section.max.isContained) {
+          isInRange = value <= section.max.value;
+        } else {
+          isInRange = value < section.max.value;
+        }
+      }
+      
+      if (isInRange) return section;
+    }
+    return null;
+  }
 }
 
 class Subtype {
