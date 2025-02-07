@@ -1,4 +1,4 @@
-import 'package:NCSensor/storage/data/ui_storage.dart';
+import 'package:NCSensor/storage/data/meta_storage.dart';
 import 'package:NCSensor/widgets/common/error_screen.dart';
 import 'package:NCSensor/widgets/screens/result/result_card.dart';
 import 'package:flutter/material.dart';

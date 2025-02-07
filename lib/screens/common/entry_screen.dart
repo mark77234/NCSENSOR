@@ -1,6 +1,6 @@
 import 'package:NCSensor/screens/auth/login_screen.dart';
 import 'package:NCSensor/storage/base/preferences_storage.dart';
-import 'package:NCSensor/storage/data/ui_storage.dart';
+import 'package:NCSensor/storage/data/meta_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'error_screen.dart';

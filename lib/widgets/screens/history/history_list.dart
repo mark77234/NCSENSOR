@@ -5,7 +5,7 @@ import '../../../constants/styles.dart';
 import '../../../models/data/history_model.dart';
 import '../../../models/ui/ncs_meta.dart';
 import '../../../services/api_service.dart';
-import '../../../storage/data/ui_storage.dart';
+import '../../../storage/data/meta_storage.dart';
 import '../../../utils/api_hook.dart';
 import '../../common/empty_display_box.dart';
 import 'history_item.dart';
