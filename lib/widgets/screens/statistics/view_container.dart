@@ -8,6 +8,7 @@ import '../../../models/ui/statistic_model.dart';
 import '../../../services/api_service.dart';
 import '../../../storage/data/meta_storage.dart';
 import '../../../utils/api_hook.dart';
+import '../../common/api_state_builder.dart';
 import '../../common/empty_display_box.dart';
 import '../../common/my_card.dart';
 
@@ -57,27 +58,17 @@ class _ViewContainerState extends State<ViewContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final ApiState(:isLoading, :data, :error) = statisticApiHook.state;
-    if (isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (error != null) {
-      return EmptyDisplayBox(
-        icon: Icons.error,
-        text: "통계을 불러오는 중 오류가 발생했습니다.",
-      );
-    }
-    if (data?.isEmpty ?? true) {
-      return EmptyDisplayBox(
-        icon: Icons.history,
-        text: "통계가 없습니다.",
-      );
-    }
-
-    return Column(
-      children: [
-        ...data!.map((data) => _buildViewContent(data)),
-      ],
+    return ApiStateBuilder(
+      apiState: statisticApiHook.state,
+      title: "통계",
+      icon: Icons.analytics_outlined,
+      builder: (context, data) {
+        return Column(
+          children: [
+            ...data!.map((data) => _buildViewContent(data)),
+          ],
+        );
+      },
     );
   }
 
