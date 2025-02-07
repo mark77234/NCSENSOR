@@ -33,16 +33,7 @@ class Dropdown extends StatelessWidget {
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.8,
-          decoration: BoxDecoration(
-            color: ColorStyles.background,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 4,
-              ),
-            ],
-          ),
+          decoration: ContainerStyles.tile.copyWith(color: ColorStyles.lightgrey),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: selectedItem.isEmpty ? articles.first.name : selectedItem,
@@ -60,12 +51,12 @@ class Dropdown extends StatelessWidget {
                 padding: EdgeInsets.only(right: 12.0),
                 child: Icon(
                   Icons.arrow_drop_down,
-                  size: 30,
+                  size: 20,
                   color: ColorStyles.primary,
                 ),
               ),
               dropdownColor: ColorStyles.background,
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: RadiusStyles.common,
               menuMaxHeight: 400,
               itemHeight: 80,
               style: TextStyle(
@@ -96,10 +87,11 @@ class Dropdown extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            const SizedBox(height: 10),
                             Text(
                               article.content,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 color: Colors.grey.shade600,
                               ),
                             ),
