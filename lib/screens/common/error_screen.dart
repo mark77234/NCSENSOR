@@ -1,4 +1,4 @@
-import 'package:NCSensor/widgets/common/error_message.dart';
+import 'package:NCSensor/utils/error_message.dart';
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
