@@ -26,15 +26,13 @@ class _SelectScreenState extends State<SelectScreen> {
 
   // 초기 선택 항목 설정
   void _initializeSelection() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final uiData = UiStorage.data;
-      if (uiData.articles.isNotEmpty) {
-        setState(() {
-          selectedItem = uiData.articles.first.name;
-          UUID = uiData.articles.first.id;
-        });
-      }
-    });
+    final uiData = UiStorage.data;
+    if (uiData.articles.isNotEmpty) {
+      setState(() {
+        selectedItem = uiData.articles.first.name;
+        UUID = uiData.articles.first.id;
+      });
+    }
   }
 
   // 드롭다운 변경 핸들러
