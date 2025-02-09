@@ -14,6 +14,7 @@ class SensorStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: SizeStyles.getMediaWidth(context, 0.8),
       decoration: ContainerStyles.card,
       padding: EdgeInsets.all(16),
       child: Row(
