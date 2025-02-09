@@ -8,7 +8,7 @@ class ProgressCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width * 0.6;
+    final size = SizeStyles.getMediaWidth(context, 0.6);
     return Stack(
       alignment: Alignment.center,
       children: [

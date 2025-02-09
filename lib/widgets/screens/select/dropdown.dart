@@ -32,7 +32,7 @@ class Dropdown extends StatelessWidget {
           ),
         ),
         Container(
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: SizeStyles.getMediaWidth(context, 0.8),
           decoration: ContainerStyles.tile.copyWith(color: ColorStyles.lightgrey),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
