@@ -10,7 +10,6 @@ class ArticleMeta {
   final String icon;
   final Result? result;
   final List<Section>? sections;
-  final List<Subtype>? subtypes;
 
   ArticleMeta({
     required this.id,
@@ -20,7 +19,6 @@ class ArticleMeta {
     required this.icon,
     this.result,
     this.sections,
-    this.subtypes,
   });
 
   factory ArticleMeta.fromJson(Map<String, dynamic> json) {
@@ -34,9 +32,6 @@ class ArticleMeta {
       sections: json['sections'] != null
           ? (json['sections'] as List).map((e) => Section.fromJson(e)).toList()
           : null,
-      subtypes: json['subtypes'] != null
-          ? (json['subtypes'] as List).map((e) => Subtype.fromJson(e)).toList()
-          : null,
     );
   }
 
@@ -49,7 +44,6 @@ class ArticleMeta {
       'icon': icon,
       'result': result?.toJson(),
       'sections': sections?.map((e) => e.toJson()).toList(),
-      'subtypes': subtypes?.map((e) => e.toJson()).toList(),
     };
   }
 

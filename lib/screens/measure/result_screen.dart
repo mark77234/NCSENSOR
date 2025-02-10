@@ -46,7 +46,7 @@ class _ResultScreenState extends State<ResultScreen> {
     });
 
     try {
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 2));
       final response = await ApiService.getBodyData(widget.articleId, _testsensors);
       setState(() {
         measuredValue = response.value;
@@ -82,29 +82,21 @@ class _ResultScreenState extends State<ResultScreen> {
     }
 
     ArticleMeta? article;
-    Subtype? subtype;
     for (var a in uiData.articles) {
       if (a.id == widget.articleId) {
         article = a;
         break;
-      } else if (a.subtypes != null) {
-        for (var s in a.subtypes!) {
-          if (s.id == widget.articleId) {
-            subtype = s;
-            break;
-          }
-        }
       }
     }
 
-    if (article == null && subtype == null) {
+    if (article == null ) {
       return ErrorScreen(errorMessage: _errorMessage);
     }
 
-    final result = article?.result ?? subtype?.result;
-    final sections = article?.sections ?? subtype?.sections;
-    final title = article?.result?.title ?? subtype?.result.title;
-    final unit = article?.unit ?? subtype?.unit;
+    final result = article.result;
+    final sections = article.sections;
+    final title = article.result?.title;
+    final unit = article.unit;
 
     if (result == null || sections == null) {
       return ErrorScreen(errorMessage: _errorMessage);
