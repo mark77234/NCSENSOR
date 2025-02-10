@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../models/ui/ncs_meta.dart';
 import '../../widgets/screens/select/action_button.dart';
-import '../../widgets/screens/select/bodypart_grid.dart';
 import '../../widgets/screens/select/dropdown.dart';
 
 class SelectScreen extends StatefulWidget {
