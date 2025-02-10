@@ -18,7 +18,7 @@ class PageData{
 
 List<PageData> navPages = [
   // 페이지 데이터 리스트
-  PageData(SelectScreen(), '측정', Icons.home),
+  PageData(SelectScreen(), '항목', Icons.home),
   PageData(HistoryScreen(), '기록', Icons.history),
   PageData(StatisticsScreen(), '통계', Icons.analytics_outlined),
   PageData(ProfileScreen(), '프로필', Icons.person),
