@@ -1,14 +1,13 @@
 import 'package:NCSensor/constants/styles.dart';
 import 'package:NCSensor/screens/history/history_screen.dart';
+import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:NCSensor/screens/measure/select_screen.dart';
 import 'package:NCSensor/screens/profile/profile_screen.dart';
 import 'package:NCSensor/screens/statistics/statistics_screen.dart';
 
-
-
-
-class MainScreen extends StatefulWidget { // 상태관리 위젯
+class MainScreen extends StatefulWidget {
+  // 상태관리 위젯
   const MainScreen({super.key, this.selectedIndex = 0});
 
   final int selectedIndex;
@@ -17,7 +16,8 @@ class MainScreen extends StatefulWidget { // 상태관리 위젯
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> { // 상태관리 클래스
+class _MainScreenState extends State<MainScreen> {
+  // 상태관리 클래스
   @override
   void initState() {
     super.initState();
@@ -26,21 +26,23 @@ class _MainScreenState extends State<MainScreen> { // 상태관리 클래스
 
   int _selectedIndex = 0;
 
-
-  final List<PageData> _pages = [ // 페이지 데이터 리스트
+  final List<PageData> _pages = [
+    // 페이지 데이터 리스트
     PageData(SelectScreen(), '측정', Icons.home),
     PageData(HistoryScreen(), '기록', Icons.history),
     PageData(StatisticsScreen(), '통계', Icons.analytics_outlined),
     PageData(ProfileScreen(), '프로필', Icons.person),
   ];
 
-  void _onItemTapped(int index) { // 탭 시 인덱스 업데이트
+  void _onItemTapped(int index) {
+    // 탭 시 인덱스 업데이트
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  Widget _buildBottomNavigationBar() { // 네비게이션 바 생성 메소드
+  Widget _buildBottomNavigationBar() {
+    // 네비게이션 바 생성 메소드
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
@@ -58,16 +60,42 @@ class _MainScreenState extends State<MainScreen> { // 상태관리 클래스
     );
   }
 
+  PreferredSizeWidget _buildAppBar() {
+    final page = _pages[_selectedIndex];
+    return AppBar(
+      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+          "N.C.SENSOR",
+          style: const TextStyle(
+            color: ColorStyles.primary,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          page.label,
+          style: const TextStyle(
+            color: ColorStyles.darkgrey,
+            fontSize: 25,
+          ),
+        ),
+      ]),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) { // UI
+  Widget build(BuildContext context) {
+    // UI
     return Scaffold(
+      appBar: _buildAppBar(),
       body: SafeArea(child: _pages[_selectedIndex].widget),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 }
 
-class PageData { // 페이지 데이터 저장 클래스
+class PageData {
+  // 페이지 데이터 저장 클래스
   final Widget widget;
   final String label;
   final IconData icon;
