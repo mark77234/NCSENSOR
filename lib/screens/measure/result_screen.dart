@@ -113,17 +113,14 @@ class _ResultScreenState extends State<ResultScreen> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-
     return Scaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // 세로 기준 가운데 정렬
-              crossAxisAlignment: CrossAxisAlignment.center, // 가로 기준 가운데 정렬 (선택사항)
-
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
               ResultCard(
                 stage: _stage,
                 result: result,
