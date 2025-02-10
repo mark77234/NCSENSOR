@@ -123,3 +123,12 @@ class ContainerStyles {
 
 // static
 }
+
+class SizeStyles {
+  static double getMediaWidth(BuildContext context, double ratio) {
+    return MediaQuery.of(context).size.width * ratio;
+  }
+  static double getMediaHeight(BuildContext context, double ratio) {
+    return MediaQuery.of(context).size.height * ratio;
+  }
+}

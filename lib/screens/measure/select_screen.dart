@@ -26,14 +26,11 @@ class _SelectScreenState extends State<SelectScreen> {
 
   // 초기 선택 항목 설정
   void _initializeSelection() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final uiData = UiStorage.data;
-      if (uiData.articles.isNotEmpty) {
-        setState(() {
-          selectedItem = uiData.articles.first.name;
-          UUID = uiData.articles.first.id;
-        });
-      }
+    final uiData = UiStorage.data;
+
+    setState(() {
+      selectedItem = uiData.articles.first.name;
+      UUID = uiData.articles.first.id;
     });
   }
 
@@ -43,14 +40,6 @@ class _SelectScreenState extends State<SelectScreen> {
       selectedItem = newValue;
       selectedBodyParts = '';
       UUID = newUUID;
-    });
-  }
-
-  // 체취 부위 선택 핸들러
-  void _handleSubtypeSelect(String subtypeName, String subtypeId) {
-    setState(() {
-      selectedBodyParts = subtypeName;
-      UUID = subtypeId;
     });
   }
 
@@ -64,8 +53,6 @@ class _SelectScreenState extends State<SelectScreen> {
 
   // 컨텐츠 빌더
   Widget _buildContent(NcsMetaData uiData) {
-    if (uiData == null) return const Center(child: CircularProgressIndicator());
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       child: Center(
@@ -78,14 +65,6 @@ class _SelectScreenState extends State<SelectScreen> {
               onChanged: _handleDropdownChange,
             ),
             const SizedBox(height: 30),
-            if (selectedItem.isNotEmpty && _hasSubtypes(uiData))
-              BodyPartGrid(
-                selectedItem: selectedItem,
-                selectedBodyParts: selectedBodyParts,
-                uiData: uiData,
-                onSubtypeSelected: _handleSubtypeSelect,
-              ),
-            const SizedBox(height: 30),
             ActionButton(
               selectedItem: selectedItem,
               selectedBodyParts: selectedBodyParts,
@@ -95,12 +74,5 @@ class _SelectScreenState extends State<SelectScreen> {
         ),
       ),
     );
-  }
-
-  bool _hasSubtypes(NcsMetaData uiData) {
-    final article = uiData.articles.firstWhere(
-      (article) => article.name == selectedItem,
-    );
-    return article.subtypes != null && article.subtypes!.isNotEmpty;
   }
 }

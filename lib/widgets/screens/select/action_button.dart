@@ -21,7 +21,8 @@ class ActionButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: ColorStyles.primary,
         foregroundColor: Colors.white,
-        minimumSize: const Size(400, 80),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        minimumSize: Size(SizeStyles.getMediaWidth(context, 0.8), 60),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

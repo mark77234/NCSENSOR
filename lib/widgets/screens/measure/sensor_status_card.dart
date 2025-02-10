@@ -1,3 +1,4 @@
+import 'package:NCSensor/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 class SensorStatusCard extends StatelessWidget {
@@ -12,32 +13,23 @@ class SensorStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Colors.grey.shade200,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "센서 상태",
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+    return Container(
+      width: SizeStyles.getMediaWidth(context, 0.8),
+      decoration: ContainerStyles.card,
+      padding: EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "센서 상태",
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
             ),
-            _buildStatusIndicator(context),
-          ],
-        ),
+          ),
+          _buildStatusIndicator(context),
+        ],
       ),
     );
   }
@@ -46,10 +38,14 @@ class SensorStatusCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 230,),
+        color: color.withValues(
+          alpha: 230,
+        ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: color.withValues(alpha: 230,),
+          color: color.withValues(
+            alpha: 230,
+          ),
           width: 1,
         ),
       ),

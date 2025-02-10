@@ -8,28 +8,18 @@ class ProgressCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width * 0.4;
+    final size = SizeStyles.getMediaWidth(context, 0.6);
     return Stack(
       alignment: Alignment.center,
       children: [
         Container(
           width: size,
           height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withValues(alpha: 230,),
-                blurRadius: 10,
-                spreadRadius: 3,
-              ),
-            ],
-          ),
           child:
           CircularProgressIndicator(
             value: progress,
             strokeWidth: 18,
-            backgroundColor: ColorStyles.primary.withValues(alpha: 230,),
+            backgroundColor: ColorStyles.lightgrey,
             valueColor: const AlwaysStoppedAnimation<Color>(
               ColorStyles.primary,
             ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/styles.dart';
 
-
 class ActionButton extends StatelessWidget {
   final bool isLoading;
   final bool isCompleted;
@@ -22,25 +21,26 @@ class ActionButton extends StatelessWidget {
     final buttonText = isLoading
         ? "측정중..."
         : isCompleted
-        ? "결과 보기"
-        : "측정하기";
+            ? "결과 보기"
+            : "측정하기";
 
     return ElevatedButton(
       onPressed: isLoading
           ? null
           : isCompleted
-          ? onNavigateToResult
-          : onStartMeasurement,
+              ? onNavigateToResult
+              : onStartMeasurement,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor: isCompleted ? ColorStyles.secondary : ColorStyles.primary,
+        backgroundColor:
+            isCompleted ? ColorStyles.secondary : ColorStyles.primary,
         disabledBackgroundColor: ColorStyles.lightgrey,
         padding: const EdgeInsets.symmetric(vertical: 16),
         textStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
-        minimumSize: const Size(double.infinity, 60),
+        minimumSize: Size(SizeStyles.getMediaWidth(context, 0.8), 60),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
