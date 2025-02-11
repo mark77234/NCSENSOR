@@ -16,7 +16,14 @@ class CompareGraphCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     num diff = meta.max - meta.min;
-    num percent = (data.currentMonth - data.lastMonth) / data.lastMonth * 100;
+    String percentText;
+
+    if (data.lastMonth > 0 && data.lastMonth > 0) {
+      num percent = (data.currentMonth - data.lastMonth) / data.lastMonth * 100;
+      percentText = "${percent.toStringAsFixed(1)}${meta.unit}";
+    } else {
+      percentText = "신규";
+    }
 
     return MyCard(
         child: SizedBox(
@@ -75,11 +82,11 @@ class CompareGraphCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "$percent${meta.unit}",
+                      percentText,
                       style:
                           TextStyles.title.copyWith(color: ColorStyles.primary),
                     ),
-                    Text("지난 달 대비")
+                    if (percentText != "신규") Text("지난 달 대비")
                   ],
                 ),
               ],
