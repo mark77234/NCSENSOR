@@ -22,7 +22,11 @@ class ActionButton extends StatelessWidget {
           // 다시 측정 버튼
           Expanded(
             child: OutlinedButton.icon(
-              icon: Icon(Icons.refresh_rounded, size: 20),
+              icon: Icon(
+                Icons.refresh_rounded,
+                size: 20,
+                color: ColorStyles.primary,
+              ),
               label: const Text('다시 측정'),
               onPressed: () => _navigateToMeasure(),
               style: OutlinedButton.styleFrom(
