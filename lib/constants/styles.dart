@@ -9,13 +9,18 @@ class ColorStyles {
   static const Color error = Color(0xFFEF4444);
 }
 
-
 class RadiusStyles {
   static const BorderRadius common = BorderRadius.all(Radius.circular(8));
   static const BorderRadius rounded = BorderRadius.all(Radius.circular(12));
 }
 
 class TextStyles {
+  static const TextStyle apptitle = TextStyle(
+    fontSize: 50,
+    color: Color(0xFF3B82F6),
+    fontFamily: 'DoHyeon',
+    fontWeight: FontWeight.w500,
+  );
   static const TextStyle title =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
   static const TextStyle subtitle =
@@ -128,6 +133,7 @@ class SizeStyles {
   static double getMediaWidth(BuildContext context, double ratio) {
     return MediaQuery.of(context).size.width * ratio;
   }
+
   static double getMediaHeight(BuildContext context, double ratio) {
     return MediaQuery.of(context).size.height * ratio;
   }
