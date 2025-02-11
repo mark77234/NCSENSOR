@@ -7,12 +7,16 @@ import 'error_screen.dart';
 import 'splash_screen.dart';
 
 class EntryScreen extends StatelessWidget {
-  const EntryScreen({super.key});
+  EntryScreen({super.key});
+
+  bool _isInitialized = false;
 
   Future<void> _initializeApp() async {
+    if (_isInitialized) return;
     print(">>>_initializeApp");
     await PreferencesStorage.init();
     await UiStorage.init();
+    _isInitialized = true;
   }
 
   @override
