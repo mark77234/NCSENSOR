@@ -1,3 +1,4 @@
+import 'package:NCSensor/constants/styles.dart';
 import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/widgets/common/error_dialog.dart';
 import 'package:NCSensor/widgets/screens/login/input_field.dart';
@@ -110,12 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget buildTitle() {
     return const Text(
       'N.C.SENSOR',
-      style: TextStyle(
-        fontSize: 50,
-        color: Color(0xFF3B82F6),
-        fontFamily: 'DoHyeon',
-        fontWeight: FontWeight.w500,
-      ),
+      style: TextStyles.apptitle
     );
   }
 }

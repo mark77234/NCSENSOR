@@ -1,6 +1,5 @@
 import 'package:NCSensor/screens/history/history_screen.dart';
 import 'package:NCSensor/screens/measure/select_screen.dart';
-import 'package:NCSensor/screens/profile/profile_screen.dart';
 import 'package:NCSensor/screens/statistics/statistics_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,5 +20,5 @@ List<PageData> navPages = [
   PageData(SelectScreen(), '항목', Icons.home),
   PageData(HistoryScreen(), '기록', Icons.history),
   PageData(StatisticsScreen(), '통계', Icons.analytics_outlined),
-  PageData(ProfileScreen(), '프로필', Icons.person),
+  // PageData(ProfileScreen(), '프로필', Icons.person),
 ];
