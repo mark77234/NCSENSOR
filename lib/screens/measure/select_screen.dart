@@ -52,25 +52,23 @@ class _SelectScreenState extends State<SelectScreen> {
 
   // 컨텐츠 빌더
   Widget _buildContent(NcsMetaData uiData) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-      child: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            Dropdown(
-              articles: uiData.articles,
-              selectedItem: selectedItem,
-              onChanged: _handleDropdownChange,
-            ),
-            const SizedBox(height: 30),
-            ActionButton(
-              selectedItem: selectedItem,
-              selectedBodyParts: selectedBodyParts,
-              uuid: UUID,
-            ),
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Dropdown(
+            articles: uiData.articles,
+            selectedItem: selectedItem,
+            onChanged: _handleDropdownChange,
+          ),
+          const SizedBox(height: 50),
+          ActionButton(
+            selectedItem: selectedItem,
+            selectedBodyParts: selectedBodyParts,
+            uuid: UUID,
+          ),
+        ],
       ),
     );
   }

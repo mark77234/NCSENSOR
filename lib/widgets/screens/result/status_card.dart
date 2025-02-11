@@ -28,7 +28,7 @@ class StatusCard extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
+                fontFamily: "DoHyeon",
                 fontSize: 20,
               ),
             ),
@@ -36,39 +36,40 @@ class StatusCard extends StatelessWidget {
             Column(
               children: List.generate(
                 sections.length,
-                (index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                    (index) =>
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CircleAvatar(
-                            radius: 5,
-                            backgroundColor: sections[index].color,
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 5,
+                                backgroundColor: sections[index].color,
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                sections[index].name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF4B5563),
+                                  fontFamily: "DoHyeon",
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 10),
                           Text(
-                            sections[index].name,
+                            sections[index].content,
                             style: const TextStyle(
                               fontSize: 16,
                               color: Color(0xFF4B5563),
-                              fontWeight: FontWeight.bold,
+                              fontFamily: "DoHyeon",
                             ),
                           ),
                         ],
                       ),
-                      Text(
-                        sections[index].content,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF4B5563),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
               ),
             ),
           ],
@@ -76,4 +77,5 @@ class StatusCard extends StatelessWidget {
       ),
     );
   }
+
 }

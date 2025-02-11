@@ -1,14 +1,10 @@
-import 'package:NCSensor/constants/styles.dart';
-import 'package:NCSensor/screens/history/history_screen.dart';
+import 'package:NCSensor/constants/navigation_constants.dart';
+import 'package:NCSensor/widgets/screens/main/ncsAppBar.dart';
+import 'package:NCSensor/widgets/screens/main/ncsBottomNavigationBar.dart';
 import 'package:flutter/material.dart';
-import 'package:NCSensor/screens/measure/select_screen.dart';
-import 'package:NCSensor/screens/profile/profile_screen.dart';
-import 'package:NCSensor/screens/statistics/statistics_screen.dart';
 
-
-
-
-class MainScreen extends StatefulWidget { // 상태관리 위젯
+class MainScreen extends StatefulWidget {
+  // 상태관리 위젯
   const MainScreen({super.key, this.selectedIndex = 0});
 
   final int selectedIndex;
@@ -17,7 +13,8 @@ class MainScreen extends StatefulWidget { // 상태관리 위젯
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> { // 상태관리 클래스
+class _MainScreenState extends State<MainScreen> {
+  // 상태관리 클래스
   @override
   void initState() {
     super.initState();
@@ -26,55 +23,20 @@ class _MainScreenState extends State<MainScreen> { // 상태관리 클래스
 
   int _selectedIndex = 0;
 
-
-  final List<PageData> _pages = [ // 페이지 데이터 리스트
-    PageData(SelectScreen(), '측정', Icons.home),
-    PageData(HistoryScreen(), '기록', Icons.history),
-    PageData(StatisticsScreen(), '통계', Icons.analytics_outlined),
-    PageData(ProfileScreen(), '프로필', Icons.person),
-  ];
-
-  void _onItemTapped(int index) { // 탭 시 인덱스 업데이트
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  Widget _buildBottomNavigationBar() { // 네비게이션 바 생성 메소드
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
-      items: [
-        for (final page in _pages)
-          BottomNavigationBarItem(
-            icon: Icon(page.icon, color: Colors.grey),
-            activeIcon: Icon(page.icon, color: ColorStyles.primary),
-            label: page.label,
-          ),
-      ],
-      selectedItemColor: ColorStyles.primary,
-      unselectedItemColor: Colors.grey,
-      type: BottomNavigationBarType.fixed,
-    );
-  }
-
   @override
-  Widget build(BuildContext context) { // UI
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: _pages[_selectedIndex].widget),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      appBar: NCSAppBar(title: navPages[_selectedIndex].label),
+      body: SafeArea(child: navPages[_selectedIndex].widget),
+      bottomNavigationBar:
+          NCSBottomNavBar(currentIndex: _selectedIndex, onTap: _onItemTapped),
     );
   }
 }
 
-class PageData { // 페이지 데이터 저장 클래스
-  final Widget widget;
-  final String label;
-  final IconData icon;
-
-  PageData(
-    this.widget,
-    this.label,
-    this.icon,
-  );
-}

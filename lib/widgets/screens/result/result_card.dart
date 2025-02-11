@@ -41,7 +41,7 @@ class ResultCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    fontFamily: "DoHyeon",
                   ),
                 ),
                 Row(
@@ -55,7 +55,7 @@ class ResultCard extends StatelessWidget {
                       sections[stage].name,
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontFamily: "DoHyeon",
                         color: sections[stage].color,
                       ),
                     ),
@@ -68,10 +68,10 @@ class ResultCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${value}',
+                  '$value',
                   style: const TextStyle(
                     fontSize: 48,
-                    fontWeight: FontWeight.bold,
+                    fontFamily: "DoHyeon",
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -80,7 +80,7 @@ class ResultCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     color: Color(0xFF6B7280),
-                    fontWeight: FontWeight.bold,
+                    fontFamily: "DoHyeon",
                   ),
                 ),
               ],
@@ -97,7 +97,7 @@ class ResultCard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0xFF6B7280),
-                fontWeight: FontWeight.bold,
+                fontFamily: "DoHyeon",
               ),
             ),
           ],
