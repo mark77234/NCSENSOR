@@ -82,8 +82,13 @@ class ApiService {
         'version': version ?? 0,
       },
     );
-    return response.statusCode == 200
-        ? NcsMetaData.fromJson(response.data)
-        : null;
+    try {
+      return response.statusCode == 200
+          ? NcsMetaData.fromJson(response.data)
+          : null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }
