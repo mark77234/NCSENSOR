@@ -3,11 +3,11 @@ import 'package:intl/intl.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/history_model.dart';
-import '../../../models/ui/ncs_meta.dart';
+import '../../../models/meta/ncs_meta.dart';
 import '../../../services/api_service.dart';
-import '../../../storage/data/ui_storage.dart';
+import '../../../storage/data/meta_storage.dart';
 import '../../../utils/api_hook.dart';
-import '../../common/empty_display_box.dart';
+import '../../common/api_state_builder.dart';
 import 'history_item.dart';
 
 class HistoryList extends StatefulWidget {
@@ -56,35 +56,26 @@ class _HistoryListState extends State<HistoryList> {
 
   @override
   Widget build(BuildContext context) {
-    final ApiState(:isLoading, :data, :error) = historyApiHook.state;
-    if (isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (error != null) {
-      return EmptyDisplayBox(
-        icon: Icons.error,
-        text: "기록을 불러오는 중 오류가 발생했습니다.",
-      );
-    }
-    if (data?.isEmpty ?? true) {
-      return EmptyDisplayBox(
-        icon: Icons.history,
-        text: "기록이 없습니다.",
-      );
-    }
-    final Map<String, List<HistoryData>> groupedRecords = {};
-    for (HistoryData record in data!) {
-      String dateKey = DateFormat('yyyy년 MM월 dd일').format(record.datetime);
-      groupedRecords.putIfAbsent(dateKey, () => []).add(record);
-    }
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: groupedRecords.length,
-      itemBuilder: (context, index) {
-        String date = groupedRecords.keys.elementAt(index);
-        List<HistoryData> dayRecords = groupedRecords[date]!;
-        return _buildDayGroup(date, dayRecords);
+    return ApiStateBuilder(
+      apiState: historyApiHook.state,
+      title: "기록",
+      icon: Icons.history,
+      builder: (context, data) {
+        final Map<String, List<HistoryData>> groupedRecords = {};
+        for (HistoryData record in data!) {
+          String dateKey = DateFormat('yyyy년 MM월 dd일').format(record.datetime);
+          groupedRecords.putIfAbsent(dateKey, () => []).add(record);
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: groupedRecords.length,
+          itemBuilder: (context, index) {
+            String date = groupedRecords.keys.elementAt(index);
+            List<HistoryData> dayRecords = groupedRecords[date]!;
+            return _buildDayGroup(date, dayRecords);
+          },
+        );
       },
     );
   }

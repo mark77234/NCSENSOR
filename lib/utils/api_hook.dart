@@ -56,7 +56,7 @@ class ApiHook<T> extends BaseHook<ApiState<T>> {
         _onError = onError,
         _debounceTime = debounceTime ?? Duration(milliseconds: 500),
         super(ApiState<T>(
-          isLoading: false,
+          isLoading: true,
           error: null,
           data: null,
           reFetch: () {}, // 초기화 시점에 _fetchData를 설정

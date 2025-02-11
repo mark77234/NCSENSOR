@@ -1,15 +1,17 @@
+import 'package:NCSensor/widgets/common/icon_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/statistic_model.dart';
-import '../../../models/ui/article_model.dart';
-import '../../../models/ui/statistic_model.dart';
+import '../../../models/meta/article_model.dart';
+import '../../../models/meta/statistic_model.dart';
 import '../../../services/api_service.dart';
-import '../../../storage/data/ui_storage.dart';
+import '../../../storage/data/meta_storage.dart';
 import '../../../utils/api_hook.dart';
+import '../../common/api_state_builder.dart';
 import '../../common/empty_display_box.dart';
 import '../../common/my_card.dart';
+import 'compare_graph_card.dart';
 
 class ViewContainer extends StatefulWidget {
   const ViewContainer({super.key, required this.selectedArticle});
@@ -57,27 +59,17 @@ class _ViewContainerState extends State<ViewContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final ApiState(:isLoading, :data, :error) = statisticApiHook.state;
-    if (isLoading) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (error != null) {
-      return EmptyDisplayBox(
-        icon: Icons.error,
-        text: "통계을 불러오는 중 오류가 발생했습니다.",
-      );
-    }
-    if (data?.isEmpty ?? true) {
-      return EmptyDisplayBox(
-        icon: Icons.history,
-        text: "통계가 없습니다.",
-      );
-    }
-
-    return Column(
-      children: [
-        ...data!.map((data) => _buildViewContent(data)),
-      ],
+    return ApiStateBuilder(
+      apiState: statisticApiHook.state,
+      title: "통계",
+      icon: Icons.analytics_outlined,
+      builder: (context, data) {
+        return Column(
+          children: [
+            ...data!.map((data) => _buildViewContent(data)),
+          ],
+        );
+      },
     );
   }
 
@@ -96,7 +88,10 @@ class _ViewContainerState extends State<ViewContainer> {
         return _buildPercentContent(
             data as PercentData, statMeta as StatPercentMeta);
       case StatisticUi.comparison:
-        return SizedBox();
+        return CompareGraphCard(
+          data: data as ComparisonData,
+          meta: statMeta as StatCompareMeta,
+        );
     }
   }
 
@@ -105,11 +100,7 @@ class _ViewContainerState extends State<ViewContainer> {
       child: ListTile(
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
-          child: SvgPicture.asset(
-            "assets/icons/${meta.icon}",
-            width: 40,
-            height: 40,
-          ),
+          child: IconWidget(icon: meta.icon),
         ),
         title: Text(
           meta.title,
@@ -151,11 +142,12 @@ class _ViewContainerState extends State<ViewContainer> {
                   height: 145 * data.value / 1,
                 ),
               ),
-              SvgPicture.asset(
-                "assets/icons/customGraph.svg",
-                width: 96,
-                height: 200,
-              ),
+              IconWidget(icon: meta.icon),
+              // SvgPicture.asset(
+              //   "assets/icons/customGraph.svg",
+              //   width: 96,
+              //   height: 200,
+              // ),
             ]),
             Text(
               "${data.value}${meta.unit}",
@@ -167,16 +159,4 @@ class _ViewContainerState extends State<ViewContainer> {
       ),
     );
   }
-
-// Widget _buildComparisonContent(ComparisonData data, StatCompareMeta meta) {
-//   double carouselHeight = 300;
-//   return Carousel(
-//     length: data.charts.length,
-//     height: carouselHeight,
-//     builder: (BuildContext context, int index) {
-//       ComparisonChart chart = data.charts[index];
-//       return
-//     },
-//   );
-// }
 }

@@ -1,8 +1,8 @@
+import 'package:NCSensor/widgets/common/icon_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../constants/styles.dart';
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 
 class Dropdown extends StatelessWidget {
   final List<ArticleMeta> articles;
@@ -71,11 +71,7 @@ class Dropdown extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        SvgPicture.asset(
-                          'assets/icons/${article.icon}',
-                          height: 40,
-                          width: 40,
-                        ),
+                        IconWidget(icon: article.icon),
                         const SizedBox(width: 16),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -119,11 +115,7 @@ class Dropdown extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Row(
           children: [
-            SvgPicture.asset(
-              'assets/icons/${article.icon}',
-              height: 40,
-              width: 40,
-            ),
+            IconWidget(icon: article.icon),
             const SizedBox(width: 16),
             Expanded(
               child: Column(

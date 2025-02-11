@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 
 class StatusCard extends StatelessWidget {
   final List<Section> sections;

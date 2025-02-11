@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:NCSensor/constants/styles.dart';
 import 'package:NCSensor/providers/auth_provider.dart';
 import 'package:NCSensor/routes/app_routes.dart';
@@ -5,14 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runZonedGuarded(() {
+    WidgetsFlutterBinding.ensureInitialized();
+    FlutterError.onError = (details) {
+      log('error inside Flutter');
+      FlutterError.presentError(details);
+    };
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ],
+        child: MyApp(),
+      ),
+    );
+  }, (error, stackTrace) {
+    log('error outside Flutter', error: error, stackTrace: stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {

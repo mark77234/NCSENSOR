@@ -1,7 +1,7 @@
-import 'package:NCSensor/storage/data/ui_storage.dart';
+import 'package:NCSensor/storage/data/meta_storage.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/ui/ncs_meta.dart';
+import '../../models/meta/ncs_meta.dart';
 import '../../widgets/screens/select/action_button.dart';
 import '../../widgets/screens/select/dropdown.dart';
 
