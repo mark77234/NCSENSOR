@@ -60,39 +60,20 @@ class CardData extends StatisticData {
 }
 
 class ComparisonData extends StatisticData {
-  final List<ComparisonChart> charts;
+  final double lastMonth;
+  final double currentMonth;
 
   ComparisonData({
-    required this.charts,
+    required this.lastMonth,
+    required this.currentMonth,
     required super.type,
   }) : super(ui: StatisticUi.comparison);
 
   factory ComparisonData.fromJson(Map<String, dynamic> json) {
     return ComparisonData(
-      charts: (json['charts'] as List)
-          .map((e) => ComparisonChart.fromJson(e))
-          .toList(),
-      type: json['type'] ?? "",
-    );
-  }
-}
-
-class ComparisonChart {
-  final String type;
-  final double lastMonth;
-  final double currentMonth;
-
-  ComparisonChart({
-    required this.type,
-    required this.lastMonth,
-    required this.currentMonth,
-  });
-
-  factory ComparisonChart.fromJson(Map<String, dynamic> json) {
-    return ComparisonChart(
-      type: json['type'],
       lastMonth: json['last_month'].toDouble(),
       currentMonth: json['current_month'].toDouble(),
+      type: json['type'] ?? "",
     );
   }
 }
