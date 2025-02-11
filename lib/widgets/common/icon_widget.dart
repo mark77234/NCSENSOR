@@ -3,12 +3,16 @@ import 'package:flutter_svg/svg.dart';
 
 class IconWidget extends StatelessWidget {
   final String icon;
-  final double size;
+  final double width;
+  final double height;
+  final defaultIcon;
 
   const IconWidget({
     super.key,
     required this.icon,
-    this.size = 40,
+    this.width = 40,
+    this.height = 40,
+    this.defaultIcon = 'measure.svg',
   });
 
   @override
@@ -21,15 +25,15 @@ class IconWidget extends StatelessWidget {
       if (icon.startsWith('http')) {
         return Image.network(
           icon,
-          width: size,
-          height: size,
+          width: width,
+          height: height,
           errorBuilder: (_, __, ___) => _buildDefaultIcon(),
         );
       }
       return SvgPicture.asset(
         'assets/icons/$icon',
-        width: size,
-        height: size,
+        width: width,
+        height: height,
         errorBuilder: (_, __, ___) => _buildDefaultIcon(),
       );
     } catch (e) {
@@ -39,9 +43,9 @@ class IconWidget extends StatelessWidget {
 
   Widget _buildDefaultIcon() {
     return SvgPicture.asset(
-      'assets/icons/measure.svg',
-      width: size,
-      height: size,
+      'assets/icons/$defaultIcon',
+      width: 40,
+      height: 40,
     );
   }
-} 
+}

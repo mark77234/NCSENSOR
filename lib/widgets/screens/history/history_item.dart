@@ -48,7 +48,7 @@ class HistoryItem extends StatelessWidget {
   Widget _buildHistoryIcon(String assetName) {
     return Padding(
       padding: const EdgeInsets.only(right: 2.0),
-      child: IconWidget(icon: assetName, size: 40),
+      child: IconWidget(icon: assetName),
     );
   }
 }
