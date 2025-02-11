@@ -25,7 +25,7 @@ class SensorStatusCard extends StatelessWidget {
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 18,
-              fontFamily: "BaeMin",
+              fontFamily: "DoHyeon",
             ),
           ),
           _buildStatusIndicator(context),
@@ -66,7 +66,7 @@ class SensorStatusCard extends StatelessWidget {
             style: TextStyle(
               color: color,
               fontSize: 18,
-              fontFamily: "BaeMin",
+              fontFamily: "DoHyeon",
             ),
           ),
         ],

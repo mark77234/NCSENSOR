@@ -1,14 +1,9 @@
+import 'package:NCSensor/constants/styles.dart';
 import 'package:NCSensor/storage/data/meta_storage.dart';
 import 'package:NCSensor/widgets/common/error_screen.dart';
 import 'package:NCSensor/widgets/screens/main/ncsAppBar.dart';
-import 'package:NCSensor/widgets/screens/main/ncsBottomNavigationBar.dart';
 import 'package:NCSensor/widgets/screens/result/result_card.dart';
 import 'package:flutter/material.dart';
-
-import 'package:NCSensor/screens/history/history_screen.dart';
-import 'package:NCSensor/screens/profile/profile_screen.dart';
-import 'package:NCSensor/screens/statistics/statistics_screen.dart';
-
 import '../../models/data/result_model.dart';
 import '../../models/meta/article_model.dart';
 import '../../services/api_service.dart';
@@ -25,50 +20,6 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  int _selectedIndex = 0;
-
-  final List<PageData> navPages = []; // 이동: initState로 이전
-
-  @override
-  void initState() {
-    super.initState();
-    navPages.addAll([
-      PageData(_ResultContent(articleId: widget.articleId), '항목', Icons.home),
-      PageData(const HistoryScreen(), '기록', Icons.history),
-      PageData(const StatisticsScreen(), '통계', Icons.analytics_outlined),
-      PageData(const ProfileScreen(), '프로필', Icons.person),
-    ]);
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NCSAppBar(title: "결과"),
-      body: SafeArea(child: navPages[_selectedIndex].widget),
-      bottomNavigationBar: NCSBottomNavBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class _ResultContent extends StatefulWidget {
-  final String articleId;
-
-  const _ResultContent({required this.articleId});
-
-  @override
-  State<_ResultContent> createState() => _ResultContentState();
-}
-
-class _ResultContentState extends State<_ResultContent> {
   double? measuredValue;
   bool _isLoading = true;
   String? _errorMessage;
@@ -140,7 +91,7 @@ class _ResultContentState extends State<_ResultContent> {
     }
   }
 
-  int get _stage{
+  int get _stage {
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
       final min = section.min.value;
@@ -159,35 +110,57 @@ class _ResultContentState extends State<_ResultContent> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Scaffold(
+        appBar: NCSAppBar(title: "결과"),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CircularProgressIndicator(
+                strokeWidth: 8, // 두께 조절
+                valueColor: AlwaysStoppedAnimation<Color>(ColorStyles.primary),
+                backgroundColor: ColorStyles.lightgrey,
+              ),
+              Text(
+                "결과 분석 중...",
+                style: TextStyle(
+                  fontFamily: "DoHyeon",
+                  color: ColorStyles.primary,
+                  fontSize: 30,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
     }
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ResultCard(
-              stage: _stage,
-              result: result,
-              sections: sections,
-              value: measuredValue!,
-              unit: unit,
-              comment: comment,
-            ),
-            const SizedBox(height: 20),
-            // _buildStatusCard(sections, title),
-            StatusCard(
-              sections: sections,
-              title: title,
-            ),
-            const SizedBox(height: 20),
-            ActionButton(
-              context: context,
-              uuid: widget.articleId,
-            )
-          ],
+    return Scaffold(
+      appBar: NCSAppBar(title: "결과"),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ResultCard(
+                stage: _stage,
+                result: result,
+                sections: sections,
+                value: measuredValue!,
+                unit: unit,
+                comment: comment,
+              ),
+              StatusCard(
+                sections: sections,
+                title: title,
+              ),
+              ActionButton(
+                context: context,
+                uuid: widget.articleId,
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -87,44 +87,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'N.C.SENSOR',
-              style: TextStyle(
-                fontSize: 50,
-                color: Color(0xFF3B82F6),
-                fontFamily: 'DoHyeon',
-                fontWeight: FontWeight.w500,
-              ),
+              "준비중입니다 !",
+              style: TextStyle(fontSize: 30, fontFamily: "DoHyeon"),
             ),
-            const SizedBox(height: 40),
-            _buildTextField(label: '아이디', controller: _usernameController),
-            const SizedBox(height: 10),
-            _buildTextField(
-                label: '비밀번호',
-                isPassword: true,
-                controller: _passwordController),
-            const SizedBox(height: 10),
-            _buildTextField(label: '이름', controller: _nameController),
-            const SizedBox(height: 10),
-            _buildTextField(label: '이메일', controller: _emailController),
-            const SizedBox(height: 10),
-            _buildTextField(label: '전화번호', controller: _phoneController),
-            const SizedBox(height: 20),
-            _buildSignupButton(),
-            const SizedBox(height: 20),
-            if (_errorMessage.isNotEmpty)
-              Text(
-                _errorMessage,
-                style: TextStyle(color: Colors.red, fontSize: 14),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); // 이전 화면으로 돌아가기
+              },
+              child: Text("뒤로 가기"),
+            ),
           ],
         ),
       ),
     );
   }
+
+// @override
+// Widget build(BuildContext context) {
+//   return Scaffold(
+//     body: Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Text(
+//             'N.C.SENSOR',
+//             style: TextStyle(
+//               fontSize: 50,
+//               color: Color(0xFF3B82F6),
+//               fontFamily: 'DoHyeon',
+//               fontWeight: FontWeight.w500,
+//             ),
+//           ),
+//           const SizedBox(height: 40),
+//           _buildTextField(label: '아이디', controller: _usernameController),
+//           const SizedBox(height: 10),
+//           _buildTextField(
+//               label: '비밀번호',
+//               isPassword: true,
+//               controller: _passwordController),
+//           const SizedBox(height: 10),
+//           _buildTextField(label: '이름', controller: _nameController),
+//           const SizedBox(height: 10),
+//           _buildTextField(label: '이메일', controller: _emailController),
+//           const SizedBox(height: 10),
+//           _buildTextField(label: '전화번호', controller: _phoneController),
+//           const SizedBox(height: 20),
+//           _buildSignupButton(),
+//           const SizedBox(height: 20),
+//           if (_errorMessage.isNotEmpty)
+//             Text(
+//               _errorMessage,
+//               style: TextStyle(color: Colors.red, fontSize: 14),
+//             ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 }

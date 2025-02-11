@@ -54,7 +54,7 @@ class _SelectScreenState extends State<SelectScreen> {
   Widget _buildContent(NcsMetaData uiData) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Dropdown(
@@ -62,7 +62,6 @@ class _SelectScreenState extends State<SelectScreen> {
             selectedItem: selectedItem,
             onChanged: _handleDropdownChange,
           ),
-          const SizedBox(height: 50),
           ActionButton(
             selectedItem: selectedItem,
             selectedBodyParts: selectedBodyParts,

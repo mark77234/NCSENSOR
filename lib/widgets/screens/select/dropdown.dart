@@ -27,13 +27,16 @@ class Dropdown extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               color: ColorStyles.darkgrey,
-              fontFamily: 'BaeMin',
+              fontFamily: 'DoHyeon',
             ),
           ),
         ),
+        const SizedBox(
+          height: 20,
+        ),
         Container(
           width: SizeStyles.getMediaWidth(context, 0.8),
-          decoration: ContainerStyles.block,
+          decoration: ContainerStyles.card.copyWith(borderRadius: RadiusStyles.largeRadius,),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: selectedItem.isEmpty ? articles.first.name : selectedItem,
@@ -55,7 +58,7 @@ class Dropdown extends StatelessWidget {
                   color: ColorStyles.primary,
                 ),
               ),
-              dropdownColor: ColorStyles.lightgrey,
+              dropdownColor: Colors.white,
               borderRadius: RadiusStyles.largeRadius,
               menuMaxHeight: 400,
               itemHeight: 80,
@@ -63,7 +66,7 @@ class Dropdown extends StatelessWidget {
                 color: Colors.black,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'BaeMin',
+                fontFamily: 'DoHyeon',
               ),
               selectedItemBuilder: (BuildContext context) {
                 return articles.map<Widget>((ArticleMeta article) {
@@ -82,7 +85,7 @@ class Dropdown extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'BaeMin',
+                                fontFamily: 'DoHyeon',
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -127,7 +130,7 @@ class Dropdown extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'BaeMin',
+                      fontFamily: 'DoHyeon',
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -136,7 +139,7 @@ class Dropdown extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade600,
-                      fontFamily: 'BaeMin',
+                      fontFamily: 'DoHyeon',
                     ),
                   ),
                 ],

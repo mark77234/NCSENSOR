@@ -46,7 +46,7 @@ class ActionButton extends StatelessWidget {
         ),
       ),
       child: Text(buttonText,
-      style: TextStyle(fontFamily: "BaeMin"),),
+      style: TextStyle(fontFamily: "DoHyeon"),),
     );
   }
 }

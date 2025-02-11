@@ -23,85 +23,80 @@ class ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(color: ColorStyles.lightgrey, width: 0.5),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  '현재 상태',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontFamily: "DoHyeon",
-                  ),
+    return Container(
+      decoration: ContainerStyles.card,
+      padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                '현재 상태',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: "DoHyeon",
                 ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: sections[stage].color,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      sections[stage].name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: "DoHyeon",
-                        color: sections[stage].color,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '$value',
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontFamily: "DoHyeon",
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  unit ?? '',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Color(0xFF6B7280),
-                    fontFamily: "DoHyeon",
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            LinearProgressIndicator(
-              value: value / result.max,
-              backgroundColor: const Color(0xFFF3F4F6),
-              valueColor: AlwaysStoppedAnimation<Color>(sections[stage].color),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              comment!,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color(0xFF6B7280),
-                fontFamily: "DoHyeon",
               ),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 5,
+                    backgroundColor: sections[stage].color,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    sections[stage].name,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: "DoHyeon",
+                      color: sections[stage].color,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '$value',
+                style: const TextStyle(
+                  fontSize: 48,
+                  fontFamily: "DoHyeon",
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                unit ?? '',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Color(0xFF6B7280),
+                  fontFamily: "DoHyeon",
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          LinearProgressIndicator(
+            value: value / result.max,
+            backgroundColor: const Color(0xFFF3F4F6),
+            valueColor: AlwaysStoppedAnimation<Color>(sections[stage].color),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            comment!,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color(0xFF6B7280),
+              fontFamily: "DoHyeon",
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
