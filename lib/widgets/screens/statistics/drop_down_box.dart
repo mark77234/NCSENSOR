@@ -1,7 +1,7 @@
 import 'package:NCSensor/constants/styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 import '../../../storage/data/meta_storage.dart';
 
 class DropDownBox extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 
 class StatusCard extends StatelessWidget {
   final List<Section> sections;
@@ -36,31 +36,20 @@ class StatusCard extends StatelessWidget {
             Column(
               children: List.generate(
                 sections.length,
-                    (index) =>
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 5,
-                                backgroundColor: sections[index].color,
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                sections[index].name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF4B5563),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                          CircleAvatar(
+                            radius: 5,
+                            backgroundColor: sections[index].color,
                           ),
+                          const SizedBox(width: 10),
                           Text(
-                            sections[index].content,
+                            sections[index].name,
                             style: const TextStyle(
                               fontSize: 16,
                               color: Color(0xFF4B5563),
@@ -69,7 +58,17 @@ class StatusCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
+                      Text(
+                        sections[index].content,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF4B5563),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
@@ -77,5 +76,4 @@ class StatusCard extends StatelessWidget {
       ),
     );
   }
-
 }

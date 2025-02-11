@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/statistic_model.dart';
-import '../../../models/ui/article_model.dart';
-import '../../../models/ui/statistic_model.dart';
+import '../../../models/meta/article_model.dart';
+import '../../../models/meta/statistic_model.dart';
 import '../../../services/api_service.dart';
 import '../../../storage/data/meta_storage.dart';
 import '../../../utils/api_hook.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../constants/styles.dart';
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 
 class Dropdown extends StatelessWidget {
   final List<ArticleMeta> articles;
@@ -33,7 +33,8 @@ class Dropdown extends StatelessWidget {
         ),
         Container(
           width: SizeStyles.getMediaWidth(context, 0.8),
-          decoration: ContainerStyles.tile.copyWith(color: ColorStyles.lightgrey),
+          decoration:
+              ContainerStyles.tile.copyWith(color: ColorStyles.lightgrey),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: selectedItem.isEmpty ? articles.first.name : selectedItem,

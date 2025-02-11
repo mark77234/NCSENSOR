@@ -4,7 +4,7 @@ import 'package:NCSensor/widgets/screens/result/result_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/data/result_model.dart';
-import '../../models/ui/article_model.dart';
+import '../../models/meta/article_model.dart';
 import '../../services/api_service.dart';
 import '../../widgets/screens/result/action_button.dart';
 import '../../widgets/screens/result/status_card.dart';
@@ -90,7 +90,7 @@ class _ResultScreenState extends State<ResultScreen> {
     }
   }
 
-  int get _stage{
+  int get _stage {
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
       final min = section.min.value;
@@ -119,8 +119,10 @@ class _ResultScreenState extends State<ResultScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // 세로 기준 가운데 정렬
-              crossAxisAlignment: CrossAxisAlignment.center, // 가로 기준 가운데 정렬 (선택사항)
+            mainAxisAlignment: MainAxisAlignment.center,
+            // 세로 기준 가운데 정렬
+            crossAxisAlignment: CrossAxisAlignment.center,
+            // 가로 기준 가운데 정렬 (선택사항)
 
             children: [
               const SizedBox(height: 20),

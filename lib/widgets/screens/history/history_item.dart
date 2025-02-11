@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 
 class HistoryItem extends StatelessWidget {
   final HistoryData data;

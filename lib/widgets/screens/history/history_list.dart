@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/history_model.dart';
-import '../../../models/ui/ncs_meta.dart';
+import '../../../models/meta/ncs_meta.dart';
 import '../../../services/api_service.dart';
 import '../../../storage/data/meta_storage.dart';
 import '../../../utils/api_hook.dart';

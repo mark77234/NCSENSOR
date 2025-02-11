@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import '../../constants/storage_key.dart';
-import '../../models/ui/ncs_meta.dart';
+import '../../models/meta/ncs_meta.dart';
 import '../../services/api_service.dart';
 import '../base/preferences_storage.dart';
 

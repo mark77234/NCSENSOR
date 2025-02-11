@@ -9,7 +9,7 @@ import '../constants/infra.dart';
 import '../models/data/measure_model.dart';
 import '../models/data/result_model.dart';
 import '../models/data/statistic_model.dart';
-import '../models/ui/ncs_meta.dart';
+import '../models/meta/ncs_meta.dart';
 import 'api_client.dart';
 
 class ApiService {
@@ -86,7 +86,7 @@ class ApiService {
       return response.statusCode == 200
           ? NcsMetaData.fromJson(response.data)
           : null;
-    }catch(err,stace){
+    } catch (err, stace) {
       return null;
     }
   }

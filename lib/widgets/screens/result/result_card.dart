@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/styles.dart';
-import '../../../models/ui/article_model.dart';
+import '../../../models/meta/article_model.dart';
 
 class ResultCard extends StatelessWidget {
   final int stage;
