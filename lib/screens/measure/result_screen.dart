@@ -10,16 +10,15 @@ import '../../widgets/screens/result/action_button.dart';
 import '../../widgets/screens/result/status_card.dart';
 
 class ResultScreen extends StatefulWidget {
-  final String UUID;
+  final String articleId;
 
-  const ResultScreen(this.UUID, {super.key});
+  const ResultScreen(this.articleId, {super.key});
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  late String articleId;
   double? measuredValue;
   bool _isLoading = true;
   String? _errorMessage;
@@ -27,34 +26,45 @@ class _ResultScreenState extends State<ResultScreen> {
 
   BodyResultData? bodyResultData;
 
-  List<Map<String, dynamic>> sensors = [
+  static const _testSensors = [
     {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
     {"sensor_id": "2", "value": 2, "measured_at": "2025-01-22T00:00:00"},
     {"sensor_id": "3", "value": 3, "measured_at": "2025-01-22T00:00:00"},
     {"sensor_id": "4", "value": 5, "measured_at": "2025-01-22T00:00:00"},
   ];
 
+  ArticleMeta? _article;
+
+  late final result;
+  late final sections;
+  late final title;
+  late final unit;
+
   @override
   void initState() {
     super.initState();
-    articleId = widget.UUID;
-    _loadData();
-    _loadResultData(articleId, sensors);
+    _loadResultData();
   }
 
-  Future<void> _loadResultData(
-      String articleId, List<Map<String, dynamic>> sensors) async {
+  Future<void> _loadResultData() async {
+    await _loadUiData();
+
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final data = await ApiService.getBodyData(articleId, sensors);
+      await Future.delayed(const Duration(seconds: 1));
+      final response =
+          await ApiService.getBodyData(widget.articleId, _testSensors);
       setState(() {
-        measuredValue = data.value;
-        comment = data.comment;
+        measuredValue = response.value;
+        comment = response.comment;
       });
     } catch (e) {
+      setState(() {
+        ErrorScreen(errorMessage: _errorMessage);
+      });
       print("오류: $e");
     }
     setState(() {
@@ -62,73 +72,25 @@ class _ResultScreenState extends State<ResultScreen> {
     });
   }
 
-  void _loadData() async {
-    try {
-      await Future.delayed(const Duration(seconds: 1));
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _errorMessage = "데이터를 불러오는데 실패했습니다.";
-        _isLoading = false;
-      });
-    }
-  }
-
-  String getCurrentDateTime() {
-    return DateTime.now().toString().substring(0, 16);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Future<void> _loadUiData() async {
     final uiData = UiStorage.data;
-
-    if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (_errorMessage != null) {
-      return ErrorScreen(errorMessage: _errorMessage);
-    }
-
-    if (uiData == null || measuredValue == null || comment == null) {
-      return ErrorScreen(errorMessage: _errorMessage);
-    }
-
-    ArticleMeta? article;
-    Subtype? subtype;
-    for (var a in uiData.articles) {
-      if (a.id == articleId) {
-        article = a;
-        break;
-      } else if (a.subtypes != null) {
-        for (var s in a.subtypes!) {
-          if (s.id == articleId) {
-            subtype = s;
-            break;
-          }
+    try {
+      for (var article in uiData.articles) {
+        if (article.id == widget.articleId) {
+          _article = article;
+          break;
         }
       }
+      result = _article!.result;
+      sections = _article!.sections;
+      title = _article!.result.title;
+      unit = _article!.unit;
+    } catch (e) {
+      ErrorScreen(errorMessage: _errorMessage);
     }
+  }
 
-    if (article == null && subtype == null) {
-      return ErrorScreen(errorMessage: _errorMessage);
-    }
-
-    final result = article?.result ?? subtype?.result;
-    final sections = article?.sections ?? subtype?.sections;
-    final title = article?.result?.title ?? subtype?.result.title;
-    final unit = article?.unit ?? subtype?.unit;
-
-    if (result == null || sections == null) {
-      return ErrorScreen(errorMessage: _errorMessage);
-    }
-
-    // Determine current stage
-    int stage = 0;
+  int get _stage{
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
       final min = section.min.value;
@@ -138,39 +100,32 @@ class _ResultScreenState extends State<ResultScreen> {
 
       if ((isMinContained ? measuredValue! >= min : measuredValue! > min) &&
           (isMaxContained ? measuredValue! <= max : measuredValue! < max)) {
-        stage = i;
-        break;
+        return i;
       }
+    }
+    return 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          title!,
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, // 세로 기준 가운데 정렬
+              crossAxisAlignment: CrossAxisAlignment.center, // 가로 기준 가운데 정렬 (선택사항)
+
             children: [
-              Text(
-                getCurrentDateTime(),
-                style: const TextStyle(
-                  color: Color(0xFF6B7280),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               const SizedBox(height: 20),
               ResultCard(
-                stage: stage,
+                stage: _stage,
                 result: result,
                 sections: sections,
                 value: measuredValue!,
@@ -186,7 +141,7 @@ class _ResultScreenState extends State<ResultScreen> {
               const SizedBox(height: 20),
               ActionButton(
                 context: context,
-                uuid: widget.UUID,
+                uuid: widget.articleId,
               )
             ],
           ),

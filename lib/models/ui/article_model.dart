@@ -5,22 +5,20 @@ import '../../utils/util.dart';
 class ArticleMeta {
   final String id;
   final String name;
-  final String? unit;
+  final String unit;
   final String content;
   final String icon;
-  final Result? result;
-  final List<Section>? sections;
-  final List<Subtype>? subtypes;
+  final Result result;
+  final List<Section> sections;
 
   ArticleMeta({
     required this.id,
     required this.name,
-    this.unit,
+    required this.unit,
     required this.content,
     required this.icon,
-    this.result,
-    this.sections,
-    this.subtypes,
+    required this.result,
+    required this.sections,
   });
 
   factory ArticleMeta.fromJson(Map<String, dynamic> json) {
@@ -30,13 +28,8 @@ class ArticleMeta {
       unit: json['unit'],
       content: json['content'] as String,
       icon: json['icon'] as String,
-      result: json['result'] != null ? Result.fromJson(json['result']) : null,
-      sections: json['sections'] != null
-          ? (json['sections'] as List).map((e) => Section.fromJson(e)).toList()
-          : null,
-      subtypes: json['subtypes'] != null
-          ? (json['subtypes'] as List).map((e) => Subtype.fromJson(e)).toList()
-          : null,
+      result: Result.fromJson(json['result']),
+      sections: (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
     );
   }
 
@@ -47,16 +40,14 @@ class ArticleMeta {
       'unit': unit,
       'content': content,
       'icon': icon,
-      'result': result?.toJson(),
-      'sections': sections?.map((e) => e.toJson()).toList(),
-      'subtypes': subtypes?.map((e) => e.toJson()).toList(),
+      'result': result.toJson(),
+      'sections': sections.map((e) => e.toJson()).toList(),
     };
   }
 
   Section? findSectionForValue(num value) {
-    if (sections == null) return null;
 
-    for (final section in sections!) {
+    for (final section in sections) {
       bool isInRange = false;
 
       // 최소값 체크
@@ -81,50 +72,6 @@ class ArticleMeta {
   }
 }
 
-class Subtype {
-  final String id;
-  final String name;
-  final String? unit;
-  final String content;
-  final String icon;
-  final Result result;
-  final List<Section> sections;
-
-  Subtype({
-    required this.id,
-    required this.name,
-    this.unit,
-    required this.content,
-    required this.icon,
-    required this.result,
-    required this.sections,
-  });
-
-  factory Subtype.fromJson(Map<String, dynamic> json) {
-    return Subtype(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      unit: json['unit'],
-      content: json['content'] as String,
-      icon: json['icon'] as String,
-      result: Result.fromJson(json['result']),
-      sections:
-          (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'unit': unit,
-      'content': content,
-      'icon': icon,
-      'result': result.toJson(),
-      'sections': sections.map((e) => e.toJson()).toList(),
-    };
-  }
-}
 
 class Result {
   final String title;
