@@ -89,8 +89,10 @@ class _MeasureContentState extends State<_MeasureContent> {
   void _navigateToResult() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => ResultScreen(widget.UUID),
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => ResultScreen(widget.UUID),
+        transitionsBuilder: (_, a, __, c) =>
+            FadeTransition(opacity: a, child: c),
       ),
     );
   }
