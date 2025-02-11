@@ -19,10 +19,10 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttonText = isLoading
-        ? "측정중..."
+        ? "측정 중..."
         : isCompleted
             ? "결과 보기"
-            : "측정하기";
+            : "측정 하기";
 
     return ElevatedButton(
       onPressed: isLoading
@@ -45,7 +45,8 @@ class ActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
       ),
-      child: Text(buttonText),
+      child: Text(buttonText,
+      style: TextStyle(fontFamily: "BaeMin"),),
     );
   }
 }

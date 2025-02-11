@@ -22,7 +22,7 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 320,
+        width: SizeStyles.getMediaWidth(context, 0.8),
         height: 50,
         child: TextField(
           controller: controller,
@@ -32,6 +32,7 @@ class InputField extends StatelessWidget {
             labelText: label,
             labelStyle: const TextStyle(
               color: ColorStyles.darkgrey,
+              fontFamily: 'BaeMin',
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),

@@ -62,7 +62,7 @@ class _SelectScreenState extends State<SelectScreen> {
             selectedItem: selectedItem,
             onChanged: _handleDropdownChange,
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 50),
           ActionButton(
             selectedItem: selectedItem,
             selectedBodyParts: selectedBodyParts,

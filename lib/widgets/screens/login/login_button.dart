@@ -1,3 +1,4 @@
+import 'package:NCSensor/constants/styles.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
@@ -10,7 +11,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 320,
+      width: SizeStyles.getMediaWidth(context, 0.8),
       height: 50,
       child: ElevatedButton(
         onPressed: onPressed,
@@ -23,7 +24,7 @@ class LoginButton extends StatelessWidget {
         ),
         child: const Text(
           '로그인',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle( fontFamily: 'BaeMin'),
         ),
       ),
     );

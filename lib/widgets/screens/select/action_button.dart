@@ -24,7 +24,7 @@ class ActionButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         minimumSize: Size(SizeStyles.getMediaWidth(context, 0.8), 60),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: RadiusStyles.rounded
         ),
       ),
       onPressed: () {
@@ -43,7 +43,7 @@ class ActionButton extends StatelessWidget {
       },
       child: const Text(
         '항목 선택',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 18, fontFamily: 'BaeMin',),
       ),
     );
   }

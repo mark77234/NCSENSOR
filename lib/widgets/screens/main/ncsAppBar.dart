@@ -18,18 +18,16 @@ class NCSAppBar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
-          "N.C.SENSOR",
-          style: const TextStyle(
-            color: ColorStyles.primary,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
+          "NCSENSOR",
+          style: TextStyles.apptitle.copyWith(fontSize: 30)
         ),
         Text(
           title,
           style: const TextStyle(
             color: ColorStyles.darkgrey,
             fontSize: 25,
+            fontFamily: 'DoHyeon',
+            fontWeight: FontWeight.w300
           ),
         ),
       ]),

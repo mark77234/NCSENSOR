@@ -82,26 +82,35 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             buildTitle(),
-            const SizedBox(height: 40),
-            // _buildInputField(label: '아이디', controller: _idEntered),
-            InputField(
-              label: '아이디',
-              controller: _idEntered,
-            ),
-            const SizedBox(height: 10),
-            InputField(
-              label: '비밀번호',
-              isPassword: true,
-              controller: _passwordEntered,
-              hideText: _hideText,
-              togglePasswordHide: _togglePasswordHide,
-            ),
             const SizedBox(height: 20),
-            LoginButton(
-              onPressed: _handleLogin,
+            Container(
+              decoration: ContainerStyles.block,
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.all(4),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  InputField(
+                    label: '아이디',
+                    controller: _idEntered,
+                  ),
+                  const SizedBox(height: 10),
+                  InputField(
+                    label: '비밀번호',
+                    isPassword: true,
+                    controller: _passwordEntered,
+                    hideText: _hideText,
+                    togglePasswordHide: _togglePasswordHide,
+                  ),
+                  const SizedBox(height: 20),
+                  LoginButton(
+                    onPressed: _handleLogin,
+                  ),
+                  const SizedBox(height: 20),
+                  RegisterButton(),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            RegisterButton(),
           ],
         ),
       ),
@@ -109,9 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildTitle() {
-    return const Text(
-      'N.C.SENSOR',
-      style: TextStyles.apptitle
-    );
+    return const Text('NCSENSOR', style: TextStyles.apptitle);
   }
 }

@@ -39,7 +39,7 @@ class ActionButton extends StatelessWidget {
             style: TextStyle(
               color: ColorStyles.primary,
               fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontFamily: "BaeMin",
             ),
           ),
         ),
@@ -61,7 +61,7 @@ class ActionButton extends StatelessWidget {
             '확인',
             style: TextStyle(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontFamily: "BaeMin",
               fontSize: 16,
             ),
           ),

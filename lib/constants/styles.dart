@@ -12,6 +12,7 @@ class ColorStyles {
 class RadiusStyles {
   static const BorderRadius common = BorderRadius.all(Radius.circular(8));
   static const BorderRadius rounded = BorderRadius.all(Radius.circular(12));
+  static const BorderRadius largeRadius = BorderRadius.all(Radius.circular(30));
 }
 
 class TextStyles {
@@ -19,7 +20,7 @@ class TextStyles {
     fontSize: 50,
     color: Color(0xFF3B82F6),
     fontFamily: 'DoHyeon',
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   );
   static const TextStyle title =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
@@ -124,6 +125,11 @@ class ContainerStyles {
   static BoxDecoration tile = BoxDecoration(
     color: ColorStyles.background,
     borderRadius: RadiusStyles.common,
+  );
+  static BoxDecoration block = BoxDecoration(
+    color: ColorStyles.lightgrey,
+    borderRadius: RadiusStyles.largeRadius,
+    border: Border.all(color: ColorStyles.darkgrey),
   );
 
 // static

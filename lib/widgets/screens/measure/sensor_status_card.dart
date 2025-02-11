@@ -25,7 +25,7 @@ class SensorStatusCard extends StatelessWidget {
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontFamily: "BaeMin",
             ),
           ),
           _buildStatusIndicator(context),
@@ -58,12 +58,6 @@ class SensorStatusCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
               shape: BoxShape.circle,
-              border: Border.all(
-                color: color.computeLuminance() > 0.4
-                    ? Colors.black26
-                    : Colors.transparent,
-                width: 1.5,
-              ),
             ),
           ),
           const SizedBox(width: 8),
@@ -71,7 +65,8 @@ class SensorStatusCard extends StatelessWidget {
             status,
             style: TextStyle(
               color: color,
-              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              fontFamily: "BaeMin",
             ),
           ),
         ],
