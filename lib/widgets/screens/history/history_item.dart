@@ -1,9 +1,9 @@
 import 'package:NCSensor/models/data/history_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/meta/article_model.dart';
+import '../../common/icon_widget.dart';
 
 class HistoryItem extends StatelessWidget {
   final HistoryData data;
@@ -38,11 +38,7 @@ class HistoryItem extends StatelessWidget {
   Widget _buildHistoryIcon(String assetName) {
     return Padding(
       padding: const EdgeInsets.only(right: 2.0),
-      child: SvgPicture.asset(
-        "assets/$assetName.svg",
-        width: 40,
-        height: 40,
-      ),
+      child: IconWidget(icon: assetName, size: 40),
     );
   }
 }

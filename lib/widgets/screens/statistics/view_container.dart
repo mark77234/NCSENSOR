@@ -1,3 +1,4 @@
+import 'package:NCSensor/widgets/common/icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -96,11 +97,7 @@ class _ViewContainerState extends State<ViewContainer> {
       child: ListTile(
         leading: Padding(
           padding: const EdgeInsets.only(right: 2.0),
-          child: SvgPicture.asset(
-            "assets/icons/${meta.icon}",
-            width: 40,
-            height: 40,
-          ),
+          child: IconWidget(icon: meta.icon),
         ),
         title: Text(
           meta.title,
