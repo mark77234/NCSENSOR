@@ -1,6 +1,5 @@
 import 'package:NCSensor/widgets/common/icon_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/statistic_model.dart';
@@ -12,6 +11,7 @@ import '../../../utils/api_hook.dart';
 import '../../common/api_state_builder.dart';
 import '../../common/empty_display_box.dart';
 import '../../common/my_card.dart';
+import 'compare_graph_card.dart';
 
 class ViewContainer extends StatefulWidget {
   const ViewContainer({super.key, required this.selectedArticle});
@@ -88,7 +88,10 @@ class _ViewContainerState extends State<ViewContainer> {
         return _buildPercentContent(
             data as PercentData, statMeta as StatPercentMeta);
       case StatisticUi.comparison:
-        return SizedBox();
+        return CompareGraphCard(
+          data: data as ComparisonData,
+          meta: statMeta as StatCompareMeta,
+        );
     }
   }
 
@@ -139,11 +142,12 @@ class _ViewContainerState extends State<ViewContainer> {
                   height: 145 * data.value / 1,
                 ),
               ),
-              SvgPicture.asset(
-                "assets/icons/customGraph.svg",
-                width: 96,
-                height: 200,
-              ),
+              IconWidget(icon: meta.icon),
+              // SvgPicture.asset(
+              //   "assets/icons/customGraph.svg",
+              //   width: 96,
+              //   height: 200,
+              // ),
             ]),
             Text(
               "${data.value}${meta.unit}",
@@ -155,16 +159,4 @@ class _ViewContainerState extends State<ViewContainer> {
       ),
     );
   }
-
-// Widget _buildComparisonContent(ComparisonData data, StatCompareMeta meta) {
-//   double carouselHeight = 300;
-//   return Carousel(
-//     length: data.charts.length,
-//     height: carouselHeight,
-//     builder: (BuildContext context, int index) {
-//       ComparisonChart chart = data.charts[index];
-//       return
-//     },
-//   );
-// }
 }
