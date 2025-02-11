@@ -50,7 +50,7 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NCSAppBar(title: "측정"),
+      appBar: NCSAppBar(title: "결과"),
       body: SafeArea(child: navPages[_selectedIndex].widget),
       bottomNavigationBar: NCSBottomNavBar(
         currentIndex: _selectedIndex,
