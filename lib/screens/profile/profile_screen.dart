@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:NCSensor/routes/app_routes.dart';
 import 'package:NCSensor/services/api_service.dart';
+import 'package:NCSensor/widgets/common/error_box.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../constants/styles.dart';
 import '../../models/data/user_model.dart';
@@ -106,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else if (userProfile == null) {
-      return _buildEmptyState();
+      return Center(child: ErrorBox(errorMessage: "데이터를 가져오는데 문제가 발생했습니다."));
     } else {
       return SingleChildScrollView(
         child: Padding(
