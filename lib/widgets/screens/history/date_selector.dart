@@ -26,7 +26,6 @@ class DateSelector extends StatelessWidget {
   void _changeMonth(int delta) {
     if (!_isDateAvailable(delta)) return;
     setDate(DateTime(currentMonth.year, currentMonth.month + delta));
-    setRange(null);
   }
 
   @override
