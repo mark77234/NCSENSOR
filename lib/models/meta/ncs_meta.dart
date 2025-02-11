@@ -46,7 +46,6 @@ class NcsMetaData {
     }
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
       'version': version,

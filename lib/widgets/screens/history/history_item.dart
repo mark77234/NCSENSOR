@@ -26,7 +26,7 @@ class HistoryItem extends StatelessWidget {
         leading: _buildHistoryIcon(article.icon),
         title: Text(article.name,
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-        subtitle: Text('${data.value} ${article?.unit ?? ''}'),
+        subtitle: Text('${data.value} ${article.unit}'),
         trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,

@@ -87,6 +87,8 @@ class ApiService {
           ? NcsMetaData.fromJson(response.data)
           : null;
     } catch (err, stace) {
+      print('에러 발생 : $err');
+      print(stace);
       return null;
     }
   }

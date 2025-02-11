@@ -246,29 +246,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           );
   }
-
-  Widget _buildEmptyState() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error,
-            size: 48,
-            color: Colors.grey,
-          ),
-          SizedBox(height: 16),
-          Text(
-            "데이터를 가져오는데 문제가 발생했습니다.",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
