@@ -12,7 +12,7 @@ class ProgressCircle extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Container(
+        SizedBox(
           width: size,
           height: size,
           child:
@@ -43,6 +43,7 @@ class ProgressCircle extends StatelessWidget {
               style: TextStyle(
                 fontSize: size * 0.1,
                 color: Colors.grey,
+                fontFamily: "BaeMin"
               ),
             ),
           ],

@@ -1,8 +1,7 @@
+import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/screens/common/main_screen.dart';
+import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants/styles.dart';
-import '../../../screens/common/main_screen.dart';
-import '../../../screens/measure/measure_screen.dart';
 
 class ActionButton extends StatelessWidget {
   final BuildContext context;
@@ -16,57 +15,82 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MeasureScreen(uuid),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: Row(
+        children: [
+          // 다시 측정 버튼
+          Expanded(
+            child: OutlinedButton.icon(
+              icon: Icon(Icons.refresh_rounded, size: 20),
+              label: const Text('다시 측정'),
+              onPressed: () => _navigateToMeasure(),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey[800],
+                side: BorderSide(color: Colors.grey[300]!),
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                textStyle: const TextStyle(
+                  fontFamily: 'DoHyeon',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+                elevation: 0,
+              ),
             ),
           ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            side: BorderSide(color: ColorStyles.primary),
-            fixedSize: const Size(150, 70),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+
+          const SizedBox(width: 12),
+
+          // 확인 버튼
+          Expanded(
+            child: FilledButton.icon(
+              icon: Icon(Icons.check_rounded, size: 20),
+              label: const Text('확인'),
+              onPressed: () => _navigateToMain(),
+              style: FilledButton.styleFrom(
+                backgroundColor: ColorStyles.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                textStyle: const TextStyle(
+                  fontFamily: 'DoHyeon',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+                elevation: 2,
+                shadowColor: Colors.black.withOpacity(0.1),
+              ),
             ),
           ),
-          child: Text(
-            '다시측정',
-            style: TextStyle(
-              color: ColorStyles.primary,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MainScreen(),
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ColorStyles.primary,
-            fixedSize: const Size(150, 70),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          child: const Text(
-            '확인',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
+    );
+  }
+
+  void _navigateToMeasure() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => MeasureScreen(uuid),
+        transitionsBuilder: (_, a, __, c) =>
+            FadeTransition(opacity: a, child: c),
+      ),
+    );
+  }
+
+  void _navigateToMain() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const MainScreen(),
+        transitionsBuilder: (_, a, __, c) =>
+            FadeTransition(opacity: a, child: c),
+      ),
     );
   }
 }

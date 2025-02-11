@@ -28,7 +28,7 @@ class StatusCard extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
+                fontFamily: "DoHyeon",
                 fontSize: 20,
               ),
             ),
@@ -54,7 +54,7 @@ class StatusCard extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Color(0xFF4B5563),
-                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "DoHyeon",
                                 ),
                               ),
                             ],
@@ -64,7 +64,7 @@ class StatusCard extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 16,
                               color: Color(0xFF4B5563),
-                              fontWeight: FontWeight.bold,
+                              fontFamily: "DoHyeon",
                             ),
                           ),
                         ],

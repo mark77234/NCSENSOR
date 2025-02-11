@@ -9,13 +9,19 @@ class ColorStyles {
   static const Color error = Color(0xFFEF4444);
 }
 
-
 class RadiusStyles {
   static const BorderRadius common = BorderRadius.all(Radius.circular(8));
   static const BorderRadius rounded = BorderRadius.all(Radius.circular(12));
+  static const BorderRadius largeRadius = BorderRadius.all(Radius.circular(30));
 }
 
 class TextStyles {
+  static const TextStyle apptitle = TextStyle(
+    fontSize: 50,
+    color: Color(0xFF3B82F6),
+    fontFamily: 'DoHyeon',
+    fontWeight: FontWeight.w600,
+  );
   static const TextStyle title =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
   static const TextStyle subtitle =
@@ -120,6 +126,11 @@ class ContainerStyles {
     color: ColorStyles.background,
     borderRadius: RadiusStyles.common,
   );
+  static BoxDecoration block = BoxDecoration(
+    color: ColorStyles.lightgrey,
+    borderRadius: RadiusStyles.largeRadius,
+    border: Border.all(color: ColorStyles.darkgrey),
+  );
 
 // static
 }
@@ -128,6 +139,7 @@ class SizeStyles {
   static double getMediaWidth(BuildContext context, double ratio) {
     return MediaQuery.of(context).size.width * ratio;
   }
+
   static double getMediaHeight(BuildContext context, double ratio) {
     return MediaQuery.of(context).size.height * ratio;
   }
