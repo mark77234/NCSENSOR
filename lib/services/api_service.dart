@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/infra.dart';
-import '../models/data/measure_model.dart';
 import '../models/data/result_model.dart';
 import '../models/data/statistic_model.dart';
 import '../models/meta/ncs_meta.dart';
@@ -25,14 +24,15 @@ class ApiService {
 
   ApiService._();
 
-
   static Future<BodyResultData> getResultData(
       String articleId, List<Map<String, dynamic>> sensors) async {
     String sensorsJson = jsonEncode(sensors);
-    final response = await _apiClient.get('/measure', queryParameters: {
-      'article_id': articleId,
-      'sensors': sensorsJson,
-    });
+    final response = await _apiClient.get('/measure',
+        queryParameters: {
+          'article_id': articleId,
+          'sensors': sensorsJson,
+        },
+        options: _authedOption);
     return BodyResultData.fromJson(response.data);
   }
 
