@@ -57,7 +57,7 @@ class _ResultScreenState extends State<ResultScreen> {
     try {
       await Future.delayed(const Duration(seconds: 1));
       final response =
-          await ApiService.getBodyData(widget.articleId, _testSensors);
+          await ApiService.getResultData(widget.articleId, _testSensors);
       setState(() {
         measuredValue = response.value;
         comment = response.comment;
