@@ -13,16 +13,16 @@ import '../../common/empty_display_box.dart';
 import '../../common/my_card.dart';
 import 'compare_graph_card.dart';
 
-class ViewContainer extends StatefulWidget {
-  const ViewContainer({super.key, required this.selectedArticle});
+class StatsList extends StatefulWidget {
+  const StatsList({super.key, required this.selectedArticle});
 
   final ArticleMeta selectedArticle;
 
   @override
-  State<ViewContainer> createState() => _ViewContainerState();
+  State<StatsList> createState() => _StatsListState();
 }
 
-class _ViewContainerState extends State<ViewContainer> {
+class _StatsListState extends State<StatsList> {
   late final ApiHook<List<StatisticData>> statisticApiHook;
   late final StatsMeta statsMeta;
 
@@ -44,7 +44,7 @@ class _ViewContainerState extends State<ViewContainer> {
   }
 
   @override
-  void didUpdateWidget(covariant ViewContainer oldWidget) {
+  void didUpdateWidget(covariant StatsList oldWidget) {
     super.didUpdateWidget(oldWidget);
     statisticApiHook.updateParams({
       'articleId': widget.selectedArticle.id,

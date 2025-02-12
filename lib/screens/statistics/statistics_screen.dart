@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../../models/data/measure_model.dart';
 import '../../models/data/statistic_model.dart';
 import '../../models/meta/article_model.dart';
+import '../../widgets/common/empty_display_box.dart';
 import '../../widgets/common/my_header.dart';
 import '../../widgets/screens/statistics/drop_down_box.dart';
-import '../../widgets/screens/statistics/view_container.dart';
+import '../../widgets/screens/statistics/stats_list.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -41,36 +42,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
             SizedBox(height: 16),
             if (selectedArticle == null)
-              _buildEmptyState()
+              EmptyDisplayBox(
+                icon: Icons.analytics_outlined,
+                text: "조회할 통계가 없습니다.",
+              )
             else
-              ViewContainer(selectedArticle: selectedArticle!),
+              StatsList(selectedArticle: selectedArticle!),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.analytics_outlined,
-            size: 48,
-            color: Colors.grey,
-          ),
-          SizedBox(height: 16),
-          Text(
-            "조회할 통계가 없습니다.",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }
