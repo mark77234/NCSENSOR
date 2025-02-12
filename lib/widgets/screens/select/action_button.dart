@@ -23,9 +23,7 @@ class ActionButton extends StatelessWidget {
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 16),
         minimumSize: Size(SizeStyles.getMediaWidth(context, 0.8), 60),
-        shape: RoundedRectangleBorder(
-          borderRadius: RadiusStyles.rounded
-        ),
+        shape: RoundedRectangleBorder(borderRadius: RadiusStyles.rounded),
       ),
       onPressed: () {
         if (selectedItem.isEmpty) {
@@ -33,7 +31,7 @@ class ActionButton extends StatelessWidget {
         } else if (selectedItem == '체취' && selectedBodyParts.isEmpty) {
           _showErrorDialog(context, '체취 부위를 선택해 주세요.');
         } else {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => MeasureScreen(uuid),
@@ -43,7 +41,10 @@ class ActionButton extends StatelessWidget {
       },
       child: const Text(
         '항목 선택',
-        style: TextStyle(fontSize: 18, fontFamily: 'DoHyeon',),
+        style: TextStyle(
+          fontSize: 18,
+          fontFamily: 'DoHyeon',
+        ),
       ),
     );
   }

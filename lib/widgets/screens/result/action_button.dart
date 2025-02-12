@@ -1,5 +1,4 @@
 import 'package:NCSensor/constants/styles.dart';
-import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +46,6 @@ class ActionButton extends StatelessWidget {
           ),
 
           const SizedBox(width: 12),
-
           // 확인 버튼
           Expanded(
             child: FilledButton.icon(
@@ -88,13 +86,6 @@ class ActionButton extends StatelessWidget {
   }
 
   void _navigateToMain() {
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => const MainScreen(),
-        transitionsBuilder: (_, a, __, c) =>
-            FadeTransition(opacity: a, child: c),
-      ),
-    );
+    Navigator.pop(context);
   }
 }
