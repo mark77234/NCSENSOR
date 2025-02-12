@@ -44,7 +44,7 @@ class ResultCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
-                  fontFamily: "DoHyeon",
+                  fontFamily: "Pretendard",
                 ),
               ),
               Row(
@@ -58,7 +58,7 @@ class ResultCard extends StatelessWidget {
                     sections[stage].name,
                     style: TextStyle(
                       fontSize: 18,
-                      fontFamily: "DoHyeon",
+                      fontFamily: "Pretendard",
                       color: sections[stage].color,
                     ),
                   ),
@@ -74,7 +74,7 @@ class ResultCard extends StatelessWidget {
                 result.value.toString(),
                 style: const TextStyle(
                   fontSize: 48,
-                  fontFamily: "DoHyeon",
+                  fontFamily: "Pretendard",
                 ),
               ),
               const SizedBox(width: 8),
@@ -83,7 +83,7 @@ class ResultCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   color: Color(0xFF6B7280),
-                  fontFamily: "DoHyeon",
+                  fontFamily: "Pretendard",
                 ),
               ),
             ],
@@ -100,7 +100,7 @@ class ResultCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               color: Color(0xFF6B7280),
-              fontFamily: "DoHyeon",
+              fontFamily: "Pretendard",
             ),
           ),
         ],

@@ -43,7 +43,7 @@ class ProgressCircle extends StatelessWidget {
               style: TextStyle(
                 fontSize: size * 0.1,
                 color: Colors.grey,
-                fontFamily: "BaeMin"
+                fontFamily: "Pretendard"
               ),
             ),
           ],

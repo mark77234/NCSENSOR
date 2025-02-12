@@ -18,7 +18,6 @@ class ActionButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Row(
         children: [
-          // 다시 측정 버튼
           Expanded(
             child: OutlinedButton.icon(
               icon: Icon(
@@ -36,7 +35,7 @@ class ActionButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 textStyle: const TextStyle(
-                  fontFamily: 'DoHyeon',
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
@@ -60,7 +59,7 @@ class ActionButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 textStyle: const TextStyle(
-                  fontFamily: 'DoHyeon',
+                  fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),

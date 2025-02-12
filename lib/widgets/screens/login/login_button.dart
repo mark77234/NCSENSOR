@@ -24,7 +24,7 @@ class LoginButton extends StatelessWidget {
         ),
         child: const Text(
           '로그인',
-          style: TextStyle( fontFamily: 'BaeMin'),
+          style: TextStyle( fontFamily: 'Pretendard'),
         ),
       ),
     );

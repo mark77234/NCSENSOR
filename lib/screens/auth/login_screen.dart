@@ -29,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     if (devMode) {
       // 테스트용
-      _idEntered.text = 'tsei';
-      _passwordEntered.text = 'tsei1234';
+      _idEntered.text = 'lbc';
+      _passwordEntered.text = 'lbc1234';
     }
   }
 

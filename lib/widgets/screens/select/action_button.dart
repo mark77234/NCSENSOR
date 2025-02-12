@@ -43,7 +43,7 @@ class ActionButton extends StatelessWidget {
         '항목 선택',
         style: TextStyle(
           fontSize: 18,
-          fontFamily: 'DoHyeon',
+          fontFamily: 'Pretendard',
         ),
       ),
     );

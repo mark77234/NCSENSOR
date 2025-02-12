@@ -27,7 +27,7 @@ class Dropdown extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               color: ColorStyles.darkgrey,
-              fontFamily: 'DoHyeon',
+              fontFamily: 'Pretendard',
             ),
           ),
         ),
@@ -66,7 +66,7 @@ class Dropdown extends StatelessWidget {
                 color: Colors.black,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'DoHyeon',
+                fontFamily: 'Pretendard',
               ),
               selectedItemBuilder: (BuildContext context) {
                 return articles.map<Widget>((ArticleMeta article) {
@@ -85,7 +85,7 @@ class Dropdown extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'DoHyeon',
+                                fontFamily: 'Pretendard',
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -130,7 +130,7 @@ class Dropdown extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'DoHyeon',
+                      fontFamily: 'Pretendard',
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -139,7 +139,7 @@ class Dropdown extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade600,
-                      fontFamily: 'DoHyeon',
+                      fontFamily: 'Pretendard',
                     ),
                   ),
                 ],

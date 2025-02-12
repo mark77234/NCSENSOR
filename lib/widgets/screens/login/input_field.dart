@@ -32,7 +32,7 @@ class InputField extends StatelessWidget {
             labelText: label,
             labelStyle: const TextStyle(
               color: ColorStyles.darkgrey,
-              fontFamily: 'BaeMin',
+              fontFamily: 'Pretendard',
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
