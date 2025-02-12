@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/styles.dart';
+import '../../../models/data/result_model.dart';
 import '../../../models/meta/article_model.dart';
 
 class ResultCard extends StatelessWidget {
-  final int stage;
-  final Result result;
-  final List<Section> sections;
-  final double value;
-  final String? unit;
-  final String? comment;
+  final ArticleMeta article;
+  final BodyResultData result;
 
-  const ResultCard({
-    super.key,
-    required this.stage,
-    required this.result,
-    required this.sections,
-    required this.value,
-    this.unit,
-    this.comment,
-  });
+  const ResultCard({super.key, required this.article, required this.result});
+
+  int get stage {
+    for (int i = 0; i < article.sections.length; i++) {
+      final section = article.sections[i];
+      final min = section.min.value;
+      final max = section.max.value;
+      final isMinContained = section.min.isContained;
+      final isMaxContained = section.max.isContained;
+      final measuredValue = result.value;
+
+      if ((isMinContained ? measuredValue! >= min : measuredValue! > min) &&
+          (isMaxContained ? measuredValue! <= max : measuredValue! < max)) {
+        return i;
+      }
+    }
+    return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
+    var sections = article.sections;
     return Container(
       decoration: ContainerStyles.card,
       padding: const EdgeInsets.all(16.0),
@@ -64,7 +71,7 @@ class ResultCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '$value',
+                result.value.toString(),
                 style: const TextStyle(
                   fontSize: 48,
                   fontFamily: "DoHyeon",
@@ -72,7 +79,7 @@ class ResultCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                unit ?? '',
+                article.unit ?? '',
                 style: TextStyle(
                   fontSize: 24,
                   color: Color(0xFF6B7280),
@@ -83,13 +90,13 @@ class ResultCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           LinearProgressIndicator(
-            value: value / result.max,
+            value: result.value / article.result.max,
             backgroundColor: const Color(0xFFF3F4F6),
             valueColor: AlwaysStoppedAnimation<Color>(sections[stage].color),
           ),
           const SizedBox(height: 10),
           Text(
-            comment!,
+            result.comment,
             style: const TextStyle(
               fontSize: 16,
               color: Color(0xFF6B7280),

@@ -22,6 +22,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
   final String sensorStatus = "인식완료";
   final Color sensorColor = ColorStyles.primary;
 
+  static const _testSensors = [
+    {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "2", "value": 2, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "3", "value": 3, "measured_at": "2025-01-22T00:00:00"},
+    {"sensor_id": "4", "value": 5, "measured_at": "2025-01-22T00:00:00"},
+  ];
+
   Future<void> _startMeasurement() async {
     setState(() => _isLoading = true);
 
@@ -42,7 +49,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => ResultScreen(widget.UUID),
+        pageBuilder: (_, __, ___) => ResultScreen(
+          articleId: widget.UUID,
+          sensors: _testSensors,
+        ),
         transitionsBuilder: (_, a, __, c) =>
             FadeTransition(opacity: a, child: c),
       ),
@@ -52,7 +62,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:NCSAppBar(title: "측정"),
+      appBar: NCSAppBar(title: "측정"),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
