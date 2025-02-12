@@ -6,8 +6,8 @@ import 'package:NCSensor/widgets/screens/login/register_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../exceptions/error_message.dart';
 import '../../providers/auth_provider.dart';
-import '../../utils/error_message.dart';
 import '../../widgets/screens/login/login_button.dart';
 
 class LoginScreen extends StatefulWidget {

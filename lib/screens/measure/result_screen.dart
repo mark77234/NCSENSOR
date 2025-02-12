@@ -1,19 +1,19 @@
-import 'package:NCSensor/storage/data/meta_storage.dart';
-import 'package:NCSensor/widgets/common/error_screen.dart';
-import 'package:NCSensor/widgets/screens/main/ncsAppBar.dart';
-import 'package:NCSensor/widgets/screens/main/ncsBottomNavigationBar.dart';
-import 'package:NCSensor/widgets/screens/result/result_card.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NCSensor/screens/history/history_screen.dart';
-import 'package:NCSensor/screens/profile/profile_screen.dart';
-import 'package:NCSensor/screens/statistics/statistics_screen.dart';
-
+import '../../constants/navigation_constants.dart';
 import '../../models/data/result_model.dart';
 import '../../models/meta/article_model.dart';
 import '../../services/api_service.dart';
+import '../../storage/data/meta_storage.dart';
+import '../../widgets/common/error_screen.dart';
+import '../../widgets/common/ncsAppBar.dart';
+import '../../widgets/common/ncsBottomNavigationBar.dart';
 import '../../widgets/screens/result/action_button.dart';
+import '../../widgets/screens/result/result_card.dart';
 import '../../widgets/screens/result/status_card.dart';
+import '../history/history_screen.dart';
+import '../profile/profile_screen.dart';
+import '../statistics/statistics_screen.dart';
 
 class ResultScreen extends StatefulWidget {
   final String articleId;
@@ -140,7 +140,7 @@ class _ResultContentState extends State<_ResultContent> {
     }
   }
 
-  int get _stage{
+  int get _stage {
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
       final min = section.min.value;

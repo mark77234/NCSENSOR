@@ -1,6 +1,6 @@
 import 'package:NCSensor/constants/navigation_constants.dart';
-import 'package:NCSensor/widgets/screens/main/ncsAppBar.dart';
-import 'package:NCSensor/widgets/screens/main/ncsBottomNavigationBar.dart';
+import 'package:NCSensor/widgets/common/ncsAppBar.dart';
+import 'package:NCSensor/widgets/common/ncsBottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -39,4 +39,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-

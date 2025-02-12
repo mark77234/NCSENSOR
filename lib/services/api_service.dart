@@ -12,6 +12,7 @@ import '../models/data/statistic_model.dart';
 import '../models/meta/ncs_meta.dart';
 import 'api_client.dart';
 
+/// api 정의하는 클래스
 class ApiService {
   static final Dio _apiClient = createClient(baseUrl);
   static final Options _authedOption = Options(
@@ -34,17 +35,11 @@ class ApiService {
   static Future<BodyResultData> getBodyData(
       String articleId, List<Map<String, dynamic>> sensors) async {
     String sensorsJson = jsonEncode(sensors);
-
-    try {
-      final response = await _apiClient.get('/measure', queryParameters: {
-        'article_id': articleId,
-        'sensors': sensorsJson,
-      });
-      return BodyResultData.fromJson(response.data);
-    } catch (e) {
-      print("error: $e");
-      rethrow;
-    }
+    final response = await _apiClient.get('/measure', queryParameters: {
+      'article_id': articleId,
+      'sensors': sensorsJson,
+    });
+    return BodyResultData.fromJson(response.data);
   }
 
   static Future<List<StatisticData>> getStatisticData(

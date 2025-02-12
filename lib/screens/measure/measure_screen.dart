@@ -2,9 +2,10 @@ import 'package:NCSensor/constants/navigation_constants.dart';
 import 'package:NCSensor/screens/history/history_screen.dart';
 import 'package:NCSensor/screens/profile/profile_screen.dart';
 import 'package:NCSensor/screens/statistics/statistics_screen.dart';
-import 'package:NCSensor/widgets/screens/main/ncsAppBar.dart';
-import 'package:NCSensor/widgets/screens/main/ncsBottomNavigationBar.dart';
+import 'package:NCSensor/widgets/common/ncsAppBar.dart';
+import 'package:NCSensor/widgets/common/ncsBottomNavigationBar.dart';
 import 'package:flutter/material.dart';
+
 import '../../constants/styles.dart';
 import '../../widgets/screens/measure/action_button.dart';
 import '../../widgets/screens/measure/progress_circle.dart';
