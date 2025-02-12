@@ -1,5 +1,4 @@
 import 'package:NCSensor/constants/styles.dart';
-import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/widgets/common/error_dialog.dart';
 import 'package:NCSensor/widgets/screens/login/input_field.dart';
 import 'package:NCSensor/widgets/screens/login/register_button.dart';
@@ -8,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../exceptions/error_message.dart';
 import '../../providers/auth_provider.dart';
+import '../../routes/app_routes.dart';
 import '../../widgets/screens/login/login_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,11 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await context.read<AuthProvider>().login(_idEntered.text.trim(),
           _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+      Navigator.pushReplacementNamed(context, AppRoutes.main);
     } catch (e) {
       final errorMessage = getErrorMessage(e);
       print(e);
