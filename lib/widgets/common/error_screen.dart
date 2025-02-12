@@ -13,6 +13,9 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('에러'),
+      ),
       body: Center(
         child: ErrorBox(errorMessage: errorMessage),
       ),
