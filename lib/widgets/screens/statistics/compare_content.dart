@@ -5,8 +5,8 @@ import '../../../models/data/statistic_model.dart';
 import '../../../models/meta/statistic_model.dart';
 import '../../common/my_card.dart';
 
-class CompareGraphCard extends StatelessWidget {
-  const CompareGraphCard(
+class CompareContent extends StatelessWidget {
+  const CompareContent(
       {super.key, required this.data, required this.meta, this.height = 300});
 
   final ComparisonData data;
