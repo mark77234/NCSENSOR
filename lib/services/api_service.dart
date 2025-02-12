@@ -25,14 +25,8 @@ class ApiService {
 
   ApiService._();
 
-  static Future<List<MeasureLabel>> getMeasureLabel() async {
-    final response = await _apiClient.get('/measure/articles');
-    return (response.data["articles"] as List)
-        .map((e) => MeasureLabel.fromJson(e))
-        .toList();
-  }
 
-  static Future<BodyResultData> getBodyData(
+  static Future<BodyResultData> getResultData(
       String articleId, List<Map<String, dynamic>> sensors) async {
     String sensorsJson = jsonEncode(sensors);
     final response = await _apiClient.get('/measure', queryParameters: {

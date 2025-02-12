@@ -25,7 +25,7 @@ class TextStyles {
   static const TextStyle title =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
   static const TextStyle subtitle =
-      TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: "DoHyeon");
   static const TextStyle label =
       TextStyle(fontSize: 12, color: ColorStyles.secondary);
   static const TextStyle body = TextStyle(fontSize: 14, color: Colors.black);
@@ -129,7 +129,6 @@ class ContainerStyles {
   static BoxDecoration block = BoxDecoration(
     color: ColorStyles.lightgrey,
     borderRadius: RadiusStyles.largeRadius,
-    border: Border.all(color: ColorStyles.darkgrey),
   );
 
 // static
