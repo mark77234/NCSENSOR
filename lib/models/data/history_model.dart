@@ -33,7 +33,7 @@ extension DateRangeExtension on DateRange {
   String get displayName {
     switch (this) {
       case DateRange.thisMonth:
-        return "이번 달";
+        return "1개월";
       case DateRange.sixMonths:
         return "6개월";
       case DateRange.oneYear:
@@ -41,20 +41,21 @@ extension DateRangeExtension on DateRange {
     }
   }
 
-  DateTimeRange get dateRange {
-    final now = DateTime.now();
+  DateTimeRange dateRange(DateTime? standard) {
+    standard ??= DateTime.now();
     DateTime startDate;
-    DateTime endDate = DateTime(now.year, now.month + 1, 0); // 현재 달의 마지막 날
+    DateTime endDate =
+        DateTime(standard.year, standard.month + 1, 0); // 현재 달의 마지막 날
 
     switch (this) {
       case DateRange.thisMonth:
-        startDate = DateTime(now.year, now.month, 1);
+        startDate = DateTime(standard.year, standard.month, 1);
         break;
       case DateRange.sixMonths:
-        startDate = DateTime(now.year, now.month - 5, 1);
+        startDate = DateTime(standard.year, standard.month - 5, 1);
         break;
       case DateRange.oneYear:
-        startDate = DateTime(now.year - 1, now.month + 1, 1);
+        startDate = DateTime(standard.year - 1, standard.month + 1, 1);
         break; //기본값: 이번 달
     }
     return DateTimeRange(start: startDate, end: endDate);

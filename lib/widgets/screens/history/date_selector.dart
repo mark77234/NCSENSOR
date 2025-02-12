@@ -14,9 +14,9 @@ class DateSelector extends StatelessWidget {
   });
 
   final DateTime currentMonth;
-  final DateRange? selectedRange;
+  final DateRange selectedRange;
   final Function(DateTime newMonth) setDate;
-  final Function(DateRange? range) setRange;
+  final Function(DateRange range) setRange;
 
   bool _isDateAvailable(int delta) {
     final newMonth = DateTime(currentMonth.year, currentMonth.month + delta);
@@ -79,8 +79,7 @@ class DateSelector extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: ElevatedButton(
           onPressed: () {
-            DateRange? newRange = isSelected ? null : range;
-            setRange(newRange);
+            setRange(range);
           },
           style: _getRangeButtonStyle(isSelected),
           child: Text(

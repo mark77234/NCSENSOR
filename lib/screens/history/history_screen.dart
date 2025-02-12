@@ -13,26 +13,17 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  DateRange? selectedRange = DateRange.thisMonth;
+  DateRange selectedRange = DateRange.thisMonth;
   DateTime currentMonth = DateTime.now();
-
-  DateTimeRange get dateRange =>
-      selectedRange?.dateRange ??
-      DateTimeRange(
-        start: DateTime(currentMonth.year, currentMonth.month, 1),
-        end: DateTime(currentMonth.year, currentMonth.month + 1, 0),
-      );
 
   void _updateMonth(DateTime newMonth) {
     setState(() {
       currentMonth = newMonth;
-      selectedRange = null;
     });
   }
 
-  void _updateRange(DateRange? range) {
+  void _updateRange(DateRange range) {
     setState(() {
-      currentMonth = DateTime.now();
       selectedRange = range;
     });
   }
@@ -54,7 +45,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               setRange: _updateRange,
             ),
             SizedBox(height: 16),
-            HistoryList(dateRange: dateRange),
+            HistoryList(dateRange: selectedRange, currentMonth: currentMonth),
           ],
         ),
       ),
