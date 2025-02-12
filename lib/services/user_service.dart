@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import '../models/data/auth_model.dart';
 import '../models/data/user_model.dart';
 
+/// 사용자 api 정의하는 클래스
 class UserService {
   Dio _apiClient;
   Options _authedOption;
@@ -33,8 +34,7 @@ class UserService {
       ),
     );
     final authData = AuthData.fromJson(response.data);
-    await AuthStorage.saveTokens(
-        accessToken: authData.accessToken);
+    await AuthStorage.saveTokens(accessToken: authData.accessToken);
     return authData; // Ensure this returns the parsed JSON map
   }
 

@@ -11,9 +11,11 @@ import '../../common/api_state_builder.dart';
 import 'history_item.dart';
 
 class HistoryList extends StatefulWidget {
-  const HistoryList({super.key, required this.dateRange});
+  const HistoryList(
+      {super.key, required this.dateRange, required this.currentMonth});
 
-  final DateTimeRange dateRange;
+  final DateRange dateRange;
+  final DateTime currentMonth;
 
   @override
   State<HistoryList> createState() => _HistoryListState();
@@ -25,14 +27,16 @@ class _HistoryListState extends State<HistoryList> {
   @override
   void initState() {
     super.initState();
+    DateTimeRange currentRange =
+        widget.dateRange.dateRange(widget.currentMonth);
     historyApiHook = ApiHook(
         apiCall: (params) => ApiService.getHistoryData(
               start: params['start'],
               end: params['end'],
             ),
         params: {
-          'start': widget.dateRange.start,
-          'end': widget.dateRange.end,
+          'start': currentRange.start,
+          'end': currentRange.end,
         });
     historyApiHook.addListener(() {
       setState(() {});
@@ -42,9 +46,11 @@ class _HistoryListState extends State<HistoryList> {
   @override
   void didUpdateWidget(covariant HistoryList oldWidget) {
     super.didUpdateWidget(oldWidget);
+    DateTimeRange currentRange =
+        widget.dateRange.dateRange(widget.currentMonth);
     historyApiHook.updateParams({
-      'start': widget.dateRange.start,
-      'end': widget.dateRange.end,
+      'start': currentRange.start,
+      'end': currentRange.end,
     });
   }
 
