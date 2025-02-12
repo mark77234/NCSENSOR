@@ -30,19 +30,18 @@ class _MeasureScreenState extends State<MeasureScreen> {
   ];
 
   Future<void> _startMeasurement() async {
+    if (!mounted) return;
     setState(() => _isLoading = true);
 
     for (int i = 1; i <= 100; i++) {
       await Future.delayed(const Duration(milliseconds: 30));
-      if (mounted) {
-        setState(() => _progress = i / 100);
+      if (!mounted) return;
+      setState(() => _progress = i / 100);
+      if (i == 100 && mounted) {
+        _navigateToResult();
       }
-      if (i == 100) _navigateToResult();
     }
-
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
+    setState(() => _isLoading = false);
   }
 
   void _navigateToResult() {
