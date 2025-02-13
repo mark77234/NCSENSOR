@@ -70,13 +70,18 @@ class _ResultScreenState extends State<ResultScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ResultCard(
-                      article: article!,
-                      result: data,
-                    ),
-                    StatusCard(
-                      sections: article!.sections,
-                      title: article!.result.title,
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ResultCard(
+                          article: article!,
+                          result: data,
+                        ),
+                        StatusCard(
+                          sections: article!.sections,
+                          title: article!.result.title,
+                        ),
+                      ],
                     ),
                     ActionButton(
                       context: context,
