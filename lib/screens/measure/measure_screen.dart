@@ -63,7 +63,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ProgressCircle(progress: _progress),
+              ProgressCircle(progress: _progress,second: second,),
               SensorStatusCard(status: sensorStatus, color: sensorColor),
               ActionButton(
                 isLoading: _isLoading,
