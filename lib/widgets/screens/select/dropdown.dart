@@ -27,6 +27,7 @@ class Dropdown extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               color: ColorStyles.darkgrey,
+              fontWeight: FontWeight.w500,
               fontFamily: 'Pretendard',
             ),
           ),
@@ -54,20 +55,14 @@ class Dropdown extends StatelessWidget {
                 padding: EdgeInsets.only(right: 12.0),
                 child: Icon(
                   Icons.arrow_drop_down,
-                  size: 20,
-                  color: ColorStyles.primary,
+                  size: 25,
                 ),
               ),
               dropdownColor: Colors.white,
               borderRadius: RadiusStyles.largeRadius,
               menuMaxHeight: 400,
               itemHeight: 80,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Pretendard',
-              ),
+              style: MeasureTextStyles.main,
               selectedItemBuilder: (BuildContext context) {
                 return articles.map<Widget>((ArticleMeta article) {
                   return Padding(
@@ -82,19 +77,12 @@ class Dropdown extends StatelessWidget {
                           children: [
                             Text(
                               article.name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Pretendard',
-                              ),
+                              style: MeasureTextStyles.main,
                             ),
                             const SizedBox(height: 10),
                             Text(
                               article.content,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey.shade600,
-                              ),
+                              style: MeasureTextStyles.sub
                             ),
                           ],
                         ),
@@ -127,20 +115,12 @@ class Dropdown extends StatelessWidget {
                 children: [
                   Text(
                     article.name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Pretendard',
-                    ),
+                    style: MeasureTextStyles.main,
                   ),
                   const SizedBox(height: 10),
                   Text(
                     article.content,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade600,
-                      fontFamily: 'Pretendard',
-                    ),
+                    style: MeasureTextStyles.sub,
                   ),
                 ],
               ),

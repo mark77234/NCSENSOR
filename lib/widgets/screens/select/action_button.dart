@@ -41,10 +41,7 @@ class ActionButton extends StatelessWidget {
       },
       child: const Text(
         '항목 선택',
-        style: TextStyle(
-          fontSize: 18,
-          fontFamily: 'Pretendard',
-        ),
+        style: MeasureTextStyles.button,
       ),
     );
   }

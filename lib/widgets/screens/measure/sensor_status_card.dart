@@ -20,14 +20,10 @@ class SensorStatusCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "센서 상태",
-            style: TextStyle(
-              color: Colors.grey.shade600,
-              fontSize: 18,
-              fontFamily: "Pretendard",
-            ),
-          ),
+          Text("센서 상태",
+              style: MeasureTextStyles.sub.copyWith(
+                fontSize: 18,
+              )),
           _buildStatusIndicator(context),
         ],
       ),
@@ -61,14 +57,11 @@ class SensorStatusCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(
-            status,
-            style: TextStyle(
-              color: color,
-              fontSize: 18,
-              fontFamily: "Pretendard",
-            ),
-          ),
+          Text(status,
+              style: MeasureTextStyles.main.copyWith(
+                color: color,
+                fontSize: 18,
+              )),
         ],
       ),
     );

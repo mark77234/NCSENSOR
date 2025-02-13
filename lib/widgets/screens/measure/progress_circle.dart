@@ -40,11 +40,7 @@ class ProgressCircle extends StatelessWidget {
             SizedBox(height: size * 0.05),
             Text(
               '진행률',
-              style: TextStyle(
-                fontSize: size * 0.1,
-                color: Colors.grey,
-                fontFamily: "Pretendard"
-              ),
+              style: MeasureTextStyles.sub.copyWith(fontSize: size * 0.1,)
             ),
           ],
         )

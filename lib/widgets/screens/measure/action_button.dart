@@ -36,10 +36,7 @@ class ActionButton extends StatelessWidget {
             isCompleted ? ColorStyles.secondary : ColorStyles.primary,
         disabledBackgroundColor: ColorStyles.lightgrey,
         padding: const EdgeInsets.symmetric(vertical: 16),
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: MeasureTextStyles.main,
         minimumSize: Size(SizeStyles.getMediaWidth(context, 0.8), 60),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
