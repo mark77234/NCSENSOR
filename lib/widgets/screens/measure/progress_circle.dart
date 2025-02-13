@@ -5,8 +5,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class ProgressCircle extends StatelessWidget {
   final double progress;
+  final int second;
 
-  const ProgressCircle({super.key, required this.progress});
+  const ProgressCircle({super.key, required this.progress,required this.second});
 
   @override
   Widget build(BuildContext context) {

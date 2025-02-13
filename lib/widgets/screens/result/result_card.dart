@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/result_model.dart';
@@ -76,10 +77,12 @@ class ResultCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          LinearProgressIndicator(
-            value: result.value / article.result.max,
-            backgroundColor: const Color(0xFFF3F4F6),
-            valueColor: AlwaysStoppedAnimation<Color>(sections[stage].color),
+          LinearPercentIndicator(
+            percent: result.value / article.result.max,
+            backgroundColor: ColorStyles.lightgrey,
+            progressColor: sections[stage].color,
+            lineHeight: 10,
+            barRadius: Radius.circular(15)
           ),
           const SizedBox(height: 10),
           Text(
