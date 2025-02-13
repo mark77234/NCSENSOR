@@ -10,11 +10,11 @@ class ProgressCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = SizeStyles.getMediaWidth(context, 0.4);
+    final size = SizeStyles.getMediaWidth(context, 0.3);
     return CircularPercentIndicator(
       radius: size,
       percent: progress,
-      lineWidth: 13,
+      lineWidth: 15,
       backgroundColor: ColorStyles.lightgrey,
       progressColor: ColorStyles.primary,
       center: Column(
@@ -35,6 +35,7 @@ class ProgressCircle extends StatelessWidget {
               )),
         ],
       ),
+      circularStrokeCap: CircularStrokeCap.round,
     );
   }
 }
