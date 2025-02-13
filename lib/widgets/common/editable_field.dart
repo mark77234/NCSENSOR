@@ -1,8 +1,8 @@
 // 재사용 가능한 텍스트 입력 위젯
-import 'package:flutter/material.dart';
 import 'package:NCSensor/constants/styles.dart';
 import 'package:NCSensor/widgets/common/my_field.dart';
 import 'package:NCSensor/widgets/common/sm_tile.dart';
+import 'package:flutter/material.dart';
 
 class EditableField extends StatelessWidget {
   final String label;
@@ -32,11 +32,6 @@ class EditableField extends StatelessWidget {
               controller: TextEditingController(text: value),
             )
           : SmTile(title: value),
-      // Container(
-      //         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      //         decoration: ContainerStyles.tile,
-      //         child: Text(value),
-      //       ),
     );
   }
 }
