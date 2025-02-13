@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         highlightColor: ColorStyles.lightgrey,
         focusColor: ColorStyles.lightgrey,
         scaffoldBackgroundColor: ColorStyles.background,
+        fontFamily: 'Pretendard',
         // 앱의 배경 색상 설정
         appBarTheme: const AppBarTheme(
           backgroundColor: ColorStyles.background, // 앱 바의 색상 설정

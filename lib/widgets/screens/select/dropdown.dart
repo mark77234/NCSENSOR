@@ -27,17 +27,18 @@ class Dropdown extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               color: ColorStyles.darkgrey,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'Pretendard',
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
         const SizedBox(
-          height: 20,
+          height: 16,
         ),
         Container(
           width: SizeStyles.getMediaWidth(context, 0.8),
-          decoration: ContainerStyles.card.copyWith(borderRadius: RadiusStyles.largeRadius,),
+          decoration: ContainerStyles.card.copyWith(
+            borderRadius: RadiusStyles.largeRadius,
+          ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: selectedItem.isEmpty ? articles.first.name : selectedItem,
@@ -80,10 +81,7 @@ class Dropdown extends StatelessWidget {
                               style: MeasureTextStyles.main,
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              article.content,
-                              style: MeasureTextStyles.sub
-                            ),
+                            Text(article.content, style: MeasureTextStyles.sub),
                           ],
                         ),
                       ],

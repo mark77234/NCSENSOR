@@ -24,8 +24,8 @@ class TextStyles {
   );
   static const TextStyle title =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black);
-  static const TextStyle subtitle =
-      TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: "DoHyeon");
+  static const TextStyle subtitle = TextStyle(
+      fontSize: 16, fontWeight: FontWeight.w500, fontFamily: "DoHyeon");
   static const TextStyle label =
       TextStyle(fontSize: 12, color: ColorStyles.secondary);
   static const TextStyle body = TextStyle(fontSize: 14, color: Colors.black);
@@ -35,22 +35,20 @@ class TextStyles {
   );
 }
 
-class MeasureTextStyles{
-  static const TextStyle main = TextStyle( // 클릭 시 드롭박스 제목
+class MeasureTextStyles {
+  static const TextStyle main = TextStyle(
+    // 클릭 시 드롭박스 제목
     color: Colors.black,
     fontSize: 16,
     fontWeight: FontWeight.w900,
-    fontFamily: 'Pretendard',
   );
-  static const TextStyle sub = TextStyle(
-    fontSize: 12,
-    color: ColorStyles.darkgrey
-  );
-  static const TextStyle button = TextStyle( // 클릭 시 드롭박스 제목
+  static const TextStyle sub =
+      TextStyle(fontSize: 12, color: ColorStyles.darkgrey);
+  static const TextStyle button = TextStyle(
+    // 클릭 시 드롭박스 제목
     color: Colors.white,
     fontSize: 16,
     fontWeight: FontWeight.w900,
-    fontFamily: 'Pretendard',
   );
 }
 
