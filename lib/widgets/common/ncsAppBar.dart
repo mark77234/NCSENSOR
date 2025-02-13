@@ -16,8 +16,14 @@ class NCSAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text("NCSENSOR", style: TextStyles.apptitle.copyWith(fontSize: 30)),
+        TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "NCSENSOR",
+              style: TextStyles.apptitle.copyWith(fontSize: 30),
+            )),
         Text(
           title,
           style: const TextStyle(
