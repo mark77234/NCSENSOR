@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const LoginButton({
+  const LoginButton({super.key,
     required this.onPressed,
   });
 
@@ -16,15 +16,15 @@ class LoginButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF3B82F6),
+          backgroundColor: ColorStyles.primary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        child: const Text(
+        child: Text(
           '로그인',
-          style: TextStyle( fontFamily: 'Pretendard'),
+          style: MeasureTextStyles.button
         ),
       ),
     );
