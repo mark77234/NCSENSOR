@@ -27,9 +27,9 @@ class ActionButton extends StatelessWidget {
 
   onPressedButton() {
     if (status == MeasureStatus.done) {
-      return onNavigateToResult;
+      onNavigateToResult();
     } else if (status == MeasureStatus.ready) {
-      return onStartMeasurement;
+      onStartMeasurement();
     } else {
       return null;
     }
@@ -52,7 +52,6 @@ class ActionButton extends StatelessWidget {
       ),
       child: Text(
         buttonText(),
-        style: TextStyle(fontFamily: "Pretendard"),
       ),
     );
   }
