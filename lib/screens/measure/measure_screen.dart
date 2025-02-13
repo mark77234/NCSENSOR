@@ -1,12 +1,12 @@
-import 'package:NCSensor/routes/fade_page_route.dart';
-import 'package:NCSensor/widgets/common/ncs_app_bar.dart';
+import 'package:NCSensor/screens/measure/result_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
+import '../../routes/fade_page_route.dart';
+import '../../widgets/common/ncs_app_bar.dart';
 import '../../widgets/screens/measure/action_button.dart';
 import '../../widgets/screens/measure/progress_circle.dart';
 import '../../widgets/screens/measure/sensor_status_card.dart';
-import 'result_screen.dart';
 
 class MeasureScreen extends StatefulWidget {
   final String articleId;
@@ -26,10 +26,10 @@ enum MeasureStatus {
 }
 
 class _MeasureScreenState extends State<MeasureScreen> {
-  double _progress = 0.0;
-  MeasureStatus measureStatus = MeasureStatus.connecting;
+  MeasureStatus measureStatus = MeasureStatus.ready;
   final Color sensorColor = ColorStyles.primary;
-  int second = 10; // 몇 초 동안 부는지
+  final int limitSec = 10; // 몇 초 동안 측정하는지
+  final double termSec = 1; // 몇 초마다 측정하는지
 
   static const _testSensors = [
     {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
@@ -41,16 +41,15 @@ class _MeasureScreenState extends State<MeasureScreen> {
   Future<void> _startMeasurement() async {
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.measuring);
-
-    for (int i = 1; i <= second; i++) {
-      await Future.delayed(const Duration(milliseconds: 30));
+    for (int i = 1; i <= limitSec; i++) {
       if (!mounted) return;
-      setState(() => _progress = i / second);
-      if (i == second && mounted) {
-        _navigateToResult();
-      }
+      int termMilli = (termSec * 1000).toInt(); // 측정 텀을 밀리세크로 변환
+      await Future.delayed(Duration(milliseconds: termMilli));
+      print("Measuring... $i sec");
     }
+    if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
+    _navigateToResult();
   }
 
   void _navigateToResult() {
@@ -72,8 +71,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ProgressCircle(
-                progress: _progress,
-                second: second,
+                limitSec: limitSec,
+                status: measureStatus,
               ),
               SensorStatusCard(status: measureStatus),
               ActionButton(
