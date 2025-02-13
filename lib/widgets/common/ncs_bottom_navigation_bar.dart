@@ -1,13 +1,16 @@
-import 'package:NCSensor/constants/navigation_constants.dart';
 import 'package:NCSensor/constants/styles.dart';
 import 'package:flutter/material.dart';
+
+import '../../screens/common/main_screen.dart';
 
 class NCSBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
+  final List<PageData> navPages;
 
   const NCSBottomNavBar({
     super.key,
+    required this.navPages,
     required this.currentIndex,
     required this.onTap,
   });
