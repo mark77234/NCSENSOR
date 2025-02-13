@@ -1,6 +1,4 @@
 import 'package:NCSensor/constants/styles.dart';
-import 'package:NCSensor/routes/fade_page_route.dart';
-import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -72,16 +70,11 @@ class ActionButton extends StatelessWidget {
   void _navigateToMeasure() {
     Navigator.pushReplacement(
         context,
-        FadePageRoute(
-            page: MeasureScreen(
-          articleId: uuid,
-        )));
+        MaterialPageRoute(
+            builder: (context) => MeasureScreen(articleId: uuid)));
   }
 
   void _navigateToMain() {
-    Navigator.pushReplacement(
-      context,
-      FadePageRoute(page: MainScreen()),
-    );
+    Navigator.pop(context);
   }
 }
