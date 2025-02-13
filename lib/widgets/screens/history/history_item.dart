@@ -22,23 +22,29 @@ class HistoryItem extends StatelessWidget {
     return Container(
       decoration: ContainerStyles.card,
       margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(right: 4),
       child: ListTile(
         leading: _buildHistoryIcon(article.icon),
         title: Text(article.name,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-        subtitle: Text('${data.value} ${article.unit}'),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+        subtitle: Text(
+          DateFormat('HH:mm').format(data.datetime),
+          style: TextStyle(fontSize: 12, color: Colors.grey),
+        ),
         trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              DateFormat('HH:mm').format(data.datetime),
-              style: TextStyle(color: Colors.grey),
+              '${data.value}${article.unit}',
+              style: TextStyle(fontWeight: FontWeight.w700),
             ),
-            SizedBox(height: 4),
+            SizedBox(height: 6),
             Text(section?.name ?? '',
                 style: TextStyle(
-                    color: section?.color, fontWeight: FontWeight.bold)),
+                  fontSize: 12,
+                  color: section?.color,
+                )),
           ],
         ),
       ),
