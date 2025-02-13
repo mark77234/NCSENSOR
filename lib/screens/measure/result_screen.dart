@@ -8,7 +8,7 @@ import '../../models/meta/article_model.dart';
 import '../../services/api_service.dart';
 import '../../utils/api_hook.dart';
 import '../../widgets/common/api_state_builder.dart';
-import '../../widgets/common/ncsAppBar.dart';
+import '../../widgets/common/ncs_app_bar.dart';
 import '../../widgets/screens/result/action_button.dart';
 import '../../widgets/screens/result/status_card.dart';
 

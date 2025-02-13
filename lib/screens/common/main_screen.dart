@@ -1,6 +1,6 @@
 import 'package:NCSensor/constants/navigation_constants.dart';
-import 'package:NCSensor/widgets/common/ncsAppBar.dart';
-import 'package:NCSensor/widgets/common/ncsBottomNavigationBar.dart';
+import 'package:NCSensor/widgets/common/ncs_app_bar.dart';
+import 'package:NCSensor/widgets/common/ncs_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {

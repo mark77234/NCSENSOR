@@ -1,5 +1,5 @@
 import 'package:NCSensor/routes/fade_page_route.dart';
-import 'package:NCSensor/widgets/common/ncsAppBar.dart';
+import 'package:NCSensor/widgets/common/ncs_app_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
