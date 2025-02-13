@@ -1,5 +1,5 @@
-import 'package:NCSensor/animation/fade_page_route.dart';
 import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/routes/fade_page_route.dart';
 import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';

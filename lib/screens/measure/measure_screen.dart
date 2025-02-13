@@ -1,4 +1,4 @@
-import 'package:NCSensor/animation/fade_page_route.dart';
+import 'package:NCSensor/routes/fade_page_route.dart';
 import 'package:NCSensor/widgets/common/ncsAppBar.dart';
 import 'package:flutter/material.dart';
 
@@ -48,9 +48,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   void _navigateToResult() {
     Navigator.pushReplacement(
-      context,
-      FadePageRoute(page: ResultScreen(articleId: widget.UUID, sensors: _testSensors))
-    );
+        context,
+        FadePageRoute(
+            page: ResultScreen(articleId: widget.UUID, sensors: _testSensors)));
   }
 
   @override
@@ -63,7 +63,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ProgressCircle(progress: _progress,second: second,),
+              ProgressCircle(
+                progress: _progress,
+                second: second,
+              ),
               SensorStatusCard(status: sensorStatus, color: sensorColor),
               ActionButton(
                 isLoading: _isLoading,
