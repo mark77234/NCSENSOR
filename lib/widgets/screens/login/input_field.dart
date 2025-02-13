@@ -30,10 +30,7 @@ class InputField extends StatelessWidget {
           // isPassword가 true면 hideText, false면 false 반환 / '*'표시
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: const TextStyle(
-              color: ColorStyles.darkgrey,
-              fontFamily: 'BaeMin',
-            ),
+            labelStyle: MeasureTextStyles.sub.copyWith(fontSize: 15),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
               borderSide:

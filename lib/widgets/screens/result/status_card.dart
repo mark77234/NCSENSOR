@@ -22,13 +22,10 @@ class StatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontFamily: "DoHyeon",
-              fontSize: 20,
-            ),
-          ),
+          Text(title,
+              style: MeasureTextStyles.main.copyWith(
+                fontSize: 20,
+              )),
           const SizedBox(height: 10),
           Column(
             children: List.generate(
@@ -45,24 +42,18 @@ class StatusCard extends StatelessWidget {
                           backgroundColor: sections[index].color,
                         ),
                         const SizedBox(width: 10),
-                        Text(
-                          sections[index].name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF4B5563),
-                            fontFamily: "DoHyeon",
-                          ),
-                        ),
+                        Text(sections[index].name,
+                            style: MeasureTextStyles.main.copyWith(
+                              fontSize: 16,
+                              color: ColorStyles.darkgrey,
+                            )),
                       ],
                     ),
-                    Text(
-                      sections[index].content,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF4B5563),
-                        fontFamily: "DoHyeon",
-                      ),
-                    ),
+                    Text(sections[index].content,
+                        style: MeasureTextStyles.main.copyWith(
+                          fontSize: 16,
+                          color: ColorStyles.darkgrey,
+                        )),
                   ],
                 ),
               ),

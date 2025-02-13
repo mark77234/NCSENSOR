@@ -4,7 +4,7 @@ class ColorStyles {
   static const Color primary = Color(0xFF3B82F6);
   static const Color secondary = Color(0xFF6B7280);
   static const Color lightgrey = Color(0xFFF3F4F6);
-  static const Color darkgrey = Color(0xFFB0B0B0);
+  static const Color darkgrey = Color(0xFF8A8E8E);
   static const Color background = Color(0xFFF9FAFB);
   static const Color error = Color(0xFFEF4444);
 }
@@ -32,6 +32,25 @@ class TextStyles {
   static const TextStyle progressPercentage = TextStyle(
     fontSize: 40,
     fontWeight: FontWeight.bold,
+  );
+}
+
+class MeasureTextStyles{
+  static const TextStyle main = TextStyle( // 클릭 시 드롭박스 제목
+    color: Colors.black,
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    fontFamily: 'Pretendard',
+  );
+  static const TextStyle sub = TextStyle(
+    fontSize: 12,
+    color: ColorStyles.darkgrey
+  );
+  static const TextStyle button = TextStyle( // 클릭 시 드롭박스 제목
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: FontWeight.w900,
+    fontFamily: 'Pretendard',
   );
 }
 

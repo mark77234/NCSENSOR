@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        child: const Text('회원가입'),
+        child: Text('회원가입'),
       ),
     );
   }

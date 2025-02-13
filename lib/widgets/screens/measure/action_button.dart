@@ -21,7 +21,7 @@ class ActionButton extends StatelessWidget {
     final buttonText = isLoading
         ? "측정 중..."
         : isCompleted
-            ? "결과 보기"
+            ? "측정 완료"
             : "측정 하기";
 
     return ElevatedButton(
@@ -32,21 +32,19 @@ class ActionButton extends StatelessWidget {
               : onStartMeasurement,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
-        backgroundColor:
-            isCompleted ? ColorStyles.secondary : ColorStyles.primary,
+        backgroundColor: ColorStyles.primary,
         disabledBackgroundColor: ColorStyles.lightgrey,
         padding: const EdgeInsets.symmetric(vertical: 16),
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: MeasureTextStyles.main,
         minimumSize: Size(SizeStyles.getMediaWidth(context, 0.8), 60),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
       ),
-      child: Text(buttonText,
-      style: TextStyle(fontFamily: "DoHyeon"),),
+      child: Text(
+        buttonText,
+        style: TextStyle(fontFamily: "Pretendard"),
+      ),
     );
   }
 }

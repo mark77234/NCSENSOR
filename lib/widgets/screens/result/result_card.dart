@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../constants/styles.dart';
 import '../../../models/data/result_model.dart';
@@ -19,8 +20,8 @@ class ResultCard extends StatelessWidget {
       final isMaxContained = section.max.isContained;
       final measuredValue = result.value;
 
-      if ((isMinContained ? measuredValue! >= min : measuredValue! > min) &&
-          (isMaxContained ? measuredValue! <= max : measuredValue! < max)) {
+      if ((isMinContained ? measuredValue >= min : measuredValue > min) &&
+          (isMaxContained ? measuredValue <= max : measuredValue < max)) {
         return i;
       }
     }
@@ -39,14 +40,10 @@ class ResultCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                '현재 상태',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontFamily: "DoHyeon",
-                ),
-              ),
+              Text('현재 상태',
+                  style: MeasureTextStyles.main.copyWith(
+                    fontSize: 20,
+                  )),
               Row(
                 children: [
                   CircleAvatar(
@@ -54,14 +51,11 @@ class ResultCard extends StatelessWidget {
                     backgroundColor: sections[stage].color,
                   ),
                   const SizedBox(width: 10),
-                  Text(
-                    sections[stage].name,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "DoHyeon",
-                      color: sections[stage].color,
-                    ),
-                  ),
+                  Text(sections[stage].name,
+                      style: MeasureTextStyles.main.copyWith(
+                        fontSize: 18,
+                        color: sections[stage].color,
+                      )),
                 ],
               ),
             ],
@@ -70,38 +64,31 @@ class ResultCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                result.value.toString(),
-                style: const TextStyle(
-                  fontSize: 48,
-                  fontFamily: "DoHyeon",
-                ),
-              ),
+              Text("${result.value}",
+                  style: MeasureTextStyles.main.copyWith(
+                    fontSize: 48,
+                  )),
               const SizedBox(width: 8),
-              Text(
-                article.unit ?? '',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Color(0xFF6B7280),
-                  fontFamily: "DoHyeon",
-                ),
-              ),
+              Text(article.unit ?? '',
+                  style: MeasureTextStyles.sub.copyWith(
+                    fontSize: 24,
+                    color: ColorStyles.darkgrey,
+                  )),
             ],
           ),
           const SizedBox(height: 10),
-          LinearProgressIndicator(
-            value: result.value / article.result.max,
-            backgroundColor: const Color(0xFFF3F4F6),
-            valueColor: AlwaysStoppedAnimation<Color>(sections[stage].color),
+          LinearPercentIndicator(
+            percent: result.value / article.result.max,
+            backgroundColor: ColorStyles.lightgrey,
+            progressColor: sections[stage].color,
+            lineHeight: 10,
+            barRadius: Radius.circular(15)
           ),
           const SizedBox(height: 10),
           Text(
             result.comment,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFF6B7280),
-              fontFamily: "DoHyeon",
-            ),
+            style: MeasureTextStyles.sub
+                .copyWith(fontSize: 16, color: ColorStyles.darkgrey),
           ),
         ],
       ),

@@ -14,7 +14,7 @@ class RegisterButton extends StatelessWidget{
       },
       child: const Text(
         '회원가입',
-        style: TextStyle(color: Color(0xFF3B82F6),fontFamily: 'BaeMin',),
+        style: TextStyle(color: Color(0xFF3B82F6),fontFamily: 'Pretendard',),
       ),
     );
   }
