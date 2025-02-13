@@ -1,3 +1,5 @@
+import 'package:NCSensor/animation/fade_page_route.dart';
+import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
@@ -19,7 +21,10 @@ class NCSAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushReplacement(
+                  context,
+                  FadePageRoute(page: MainScreen()),
+                ),
             child: Text(
               "NCSENSOR",
               style: TextStyles.apptitle.copyWith(fontSize: 30),

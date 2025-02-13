@@ -1,4 +1,6 @@
+import 'package:NCSensor/animation/fade_page_route.dart';
 import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/screens/common/main_screen.dart';
 import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -49,10 +51,7 @@ class ActionButton extends StatelessWidget {
           Expanded(
             child: FilledButton.icon(
               icon: Icon(Icons.check_rounded, size: 20),
-              label: Text(
-                '확인',
-                style: MeasureTextStyles.button
-              ),
+              label: Text('확인', style: MeasureTextStyles.button),
               onPressed: () => _navigateToMain(),
               style: FilledButton.styleFrom(
                 backgroundColor: ColorStyles.primary,
@@ -72,16 +71,13 @@ class ActionButton extends StatelessWidget {
 
   void _navigateToMeasure() {
     Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => MeasureScreen(uuid),
-        transitionsBuilder: (_, a, __, c) =>
-            FadeTransition(opacity: a, child: c),
-      ),
-    );
+        context, FadePageRoute(page: MeasureScreen(uuid)));
   }
 
   void _navigateToMain() {
-    Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      FadePageRoute(page: MainScreen()),
+    );
   }
 }
