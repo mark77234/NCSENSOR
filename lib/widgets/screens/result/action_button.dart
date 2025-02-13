@@ -71,7 +71,11 @@ class ActionButton extends StatelessWidget {
 
   void _navigateToMeasure() {
     Navigator.pushReplacement(
-        context, FadePageRoute(page: MeasureScreen(uuid)));
+        context,
+        FadePageRoute(
+            page: MeasureScreen(
+          articleId: uuid,
+        )));
   }
 
   void _navigateToMain() {

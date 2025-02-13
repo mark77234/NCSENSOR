@@ -1,35 +1,45 @@
+import 'package:NCSensor/screens/measure/measure_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/styles.dart';
 
 class ActionButton extends StatelessWidget {
-  final bool isLoading;
-  final bool isCompleted;
   final VoidCallback onStartMeasurement;
   final VoidCallback onNavigateToResult;
+  final MeasureStatus status;
 
   const ActionButton({
     super.key,
-    required this.isLoading,
-    required this.isCompleted,
     required this.onStartMeasurement,
     required this.onNavigateToResult,
+    required this.status,
   });
+
+  String buttonText() {
+    if (status == MeasureStatus.connecting) {
+      return "측정 중...";
+    } else if (status == MeasureStatus.ready) {
+      return "측정 하기";
+    } else {
+      return "측정 완료";
+    }
+  }
+
+  onPressedButton() {
+    if (status == MeasureStatus.connecting ||
+        status == MeasureStatus.measuring) {
+      return null;
+    } else if (status == MeasureStatus.ready) {
+      return onStartMeasurement;
+    } else {
+      return onNavigateToResult;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final buttonText = isLoading
-        ? "측정 중..."
-        : isCompleted
-            ? "측정 완료"
-            : "측정 하기";
-
     return ElevatedButton(
-      onPressed: isLoading
-          ? null
-          : isCompleted
-              ? onNavigateToResult
-              : onStartMeasurement,
+      onPressed: onPressedButton,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: ColorStyles.primary,
@@ -42,7 +52,7 @@ class ActionButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        buttonText,
+        buttonText(),
         style: TextStyle(fontFamily: "Pretendard"),
       ),
     );

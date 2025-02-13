@@ -9,20 +9,27 @@ import '../../widgets/screens/measure/sensor_status_card.dart';
 import 'result_screen.dart';
 
 class MeasureScreen extends StatefulWidget {
-  final String UUID;
+  final String articleId;
 
-  const MeasureScreen(this.UUID, {super.key});
+  const MeasureScreen({super.key, required this.articleId});
 
   @override
   State<MeasureScreen> createState() => _MeasureScreenState();
 }
 
+enum MeasureStatus {
+  connecting, // 센서 연결 중
+  disconnected, // 센서 연결 끊김
+  ready, // 측정 준비 완료
+  measuring, // 측정 중
+  done, // 측정 완료
+}
+
 class _MeasureScreenState extends State<MeasureScreen> {
-  bool _isLoading = false;
   double _progress = 0.0;
-  final String sensorStatus = "인식완료";
+  MeasureStatus measureStatus = MeasureStatus.connecting;
   final Color sensorColor = ColorStyles.primary;
-  int second = 100; // 몇 초 동안 부는지
+  int second = 10; // 몇 초 동안 부는지
 
   static const _testSensors = [
     {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
@@ -33,7 +40,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   Future<void> _startMeasurement() async {
     if (!mounted) return;
-    setState(() => _isLoading = true);
+    setState(() => measureStatus = MeasureStatus.measuring);
 
     for (int i = 1; i <= second; i++) {
       await Future.delayed(const Duration(milliseconds: 30));
@@ -43,14 +50,15 @@ class _MeasureScreenState extends State<MeasureScreen> {
         _navigateToResult();
       }
     }
-    setState(() => _isLoading = false);
+    setState(() => measureStatus = MeasureStatus.done);
   }
 
   void _navigateToResult() {
     Navigator.pushReplacement(
         context,
         FadePageRoute(
-            page: ResultScreen(articleId: widget.UUID, sensors: _testSensors)));
+            page: ResultScreen(
+                articleId: widget.articleId, sensors: _testSensors)));
   }
 
   @override
@@ -67,10 +75,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 progress: _progress,
                 second: second,
               ),
-              SensorStatusCard(status: sensorStatus, color: sensorColor),
+              SensorStatusCard(status: measureStatus),
               ActionButton(
-                isLoading: _isLoading,
-                isCompleted: _progress >= 1.0,
+                status: measureStatus,
                 onNavigateToResult: _navigateToResult,
                 onStartMeasurement: _startMeasurement,
               ),

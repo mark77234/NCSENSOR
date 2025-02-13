@@ -34,7 +34,9 @@ class ActionButton extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MeasureScreen(uuid),
+              builder: (context) => MeasureScreen(
+                articleId: uuid,
+              ),
             ),
           );
         }

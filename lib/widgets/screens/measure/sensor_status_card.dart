@@ -1,15 +1,13 @@
 import 'package:NCSensor/constants/styles.dart';
+import 'package:NCSensor/widgets/screens/measure/status_indicator.dart';
 import 'package:flutter/material.dart';
 
-class SensorStatusCard extends StatelessWidget {
-  final String status;
-  final Color color;
+import '../../../screens/measure/measure_screen.dart';
 
-  const SensorStatusCard({
-    super.key,
-    required this.status,
-    required this.color,
-  });
+class SensorStatusCard extends StatelessWidget {
+  final MeasureStatus status;
+
+  const SensorStatusCard({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
@@ -24,44 +22,7 @@ class SensorStatusCard extends StatelessWidget {
               style: MeasureTextStyles.sub.copyWith(
                 fontSize: 18,
               )),
-          _buildStatusIndicator(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatusIndicator(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: color.withValues(
-          alpha: 230,
-        ),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: color.withValues(
-            alpha: 230,
-          ),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 16,
-            height: 16,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(status,
-              style: MeasureTextStyles.main.copyWith(
-                color: color,
-                fontSize: 18,
-              )),
+          StatusIndicator(status: status),
         ],
       ),
     );
