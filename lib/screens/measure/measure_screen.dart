@@ -22,6 +22,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
   double _progress = 0.0;
   final String sensorStatus = "인식완료";
   final Color sensorColor = ColorStyles.primary;
+  int second = 100; // 몇 초 동안 부는지
 
   static const _testSensors = [
     {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
@@ -34,11 +35,11 @@ class _MeasureScreenState extends State<MeasureScreen> {
     if (!mounted) return;
     setState(() => _isLoading = true);
 
-    for (int i = 1; i <= 100; i++) {
+    for (int i = 1; i <= second; i++) {
       await Future.delayed(const Duration(milliseconds: 30));
       if (!mounted) return;
-      setState(() => _progress = i / 100);
-      if (i == 100 && mounted) {
+      setState(() => _progress = i / second);
+      if (i == second && mounted) {
         _navigateToResult();
       }
     }
