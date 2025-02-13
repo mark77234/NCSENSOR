@@ -16,7 +16,7 @@ class ActionButton extends StatelessWidget {
   });
 
   String buttonText() {
-    if (status == MeasureStatus.connecting) {
+    if (status == MeasureStatus.measuring) {
       return "측정 중...";
     } else if (status == MeasureStatus.ready) {
       return "측정 하기";
@@ -26,13 +26,12 @@ class ActionButton extends StatelessWidget {
   }
 
   onPressedButton() {
-    if (status == MeasureStatus.connecting ||
-        status == MeasureStatus.measuring) {
-      return null;
+    if (status == MeasureStatus.done) {
+      return onNavigateToResult;
     } else if (status == MeasureStatus.ready) {
       return onStartMeasurement;
     } else {
-      return onNavigateToResult;
+      return null;
     }
   }
 
