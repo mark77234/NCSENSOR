@@ -2,7 +2,6 @@ import 'package:NCSensor/screens/history/widgets/history_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/data/history_model.dart';
-import '../../widgets/my_header.dart';
 import 'widgets/date_selector.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -37,7 +36,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            MyHeader(title: "기록"),
             DateSelector(
               currentMonth: currentMonth,
               selectedRange: selectedRange,

@@ -8,7 +8,6 @@ import '../../models/data/user_model.dart';
 import '../../utils/api_hook.dart';
 import '../../widgets/api_state_builder.dart';
 import '../../widgets/error_dialog.dart';
-import '../../widgets/my_header.dart';
 import 'widgets/profile_fields.dart';
 import 'widgets/profile_picture.dart';
 
@@ -93,19 +92,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MyHeader(title: "프로필"),
-            ApiStateBuilder(
-              apiState: profileHook.state,
-              title: "프로필",
-              builder: (context, data) {
-                return _buildProfileCard(isEditing ? editingData! : data);
-              },
-            ),
-          ],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ApiStateBuilder(
+                apiState: profileHook.state,
+                title: "프로필",
+                builder: (context, data) {
+                  return _buildProfileCard(isEditing ? editingData! : data);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
