@@ -1,10 +1,10 @@
-import 'package:NCSensor/widgets/common/ncs_app_bar.dart';
-import 'package:NCSensor/widgets/common/ncs_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/ncs_app_bar.dart';
+import '../../widgets/ncs_bottom_navigation_bar.dart';
 import '../history/history_screen.dart';
-import '../measure/select_screen.dart';
 import '../profile/profile_screen.dart';
+import '../select/select_screen.dart';
 import '../statistics/statistics_screen.dart';
 
 class MainScreen extends StatefulWidget {

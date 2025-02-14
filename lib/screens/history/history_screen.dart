@@ -1,9 +1,9 @@
+import 'package:NCSensor/screens/history/widgets/history_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/data/history_model.dart';
-import '../../widgets/common/my_header.dart';
-import '../../widgets/screens/history/date_selector.dart';
-import '../../widgets/screens/history/history_list.dart';
+import '../../widgets/my_header.dart';
+import 'widgets/date_selector.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});

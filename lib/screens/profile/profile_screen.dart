@@ -6,11 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import '../../constants/styles.dart';
 import '../../models/data/user_model.dart';
 import '../../utils/api_hook.dart';
-import '../../widgets/common/api_state_builder.dart';
-import '../../widgets/common/error_dialog.dart';
-import '../../widgets/common/my_header.dart';
-import '../../widgets/screens/profile/profile_fields.dart';
-import '../../widgets/screens/profile/profile_picture.dart';
+import '../../widgets/api_state_builder.dart';
+import '../../widgets/error_dialog.dart';
+import '../../widgets/my_header.dart';
+import 'widgets/profile_fields.dart';
+import 'widgets/profile_picture.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {

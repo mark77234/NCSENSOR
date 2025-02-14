@@ -1,12 +1,12 @@
-import 'package:NCSensor/screens/measure/result_screen.dart';
+import 'package:NCSensor/screens/result/result_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
 import '../../routes/fade_page_route.dart';
-import '../../widgets/common/ncs_app_bar.dart';
-import '../../widgets/screens/measure/action_button.dart';
-import '../../widgets/screens/measure/progress_circle.dart';
-import '../../widgets/screens/measure/sensor_status_card.dart';
+import '../../widgets/ncs_app_bar.dart';
+import 'widgets/action_button.dart';
+import 'widgets/progress_circle.dart';
+import 'widgets/sensor_status_card.dart';
 
 class MeasureScreen extends StatefulWidget {
   final String articleId;

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../models/data/measure_model.dart';
 import '../../models/data/statistic_model.dart';
 import '../../models/meta/article_model.dart';
-import '../../widgets/common/empty_display_box.dart';
-import '../../widgets/common/my_header.dart';
-import '../../widgets/screens/statistics/drop_down_box.dart';
-import '../../widgets/screens/statistics/stats_list.dart';
+import '../../widgets/empty_display_box.dart';
+import '../../widgets/my_header.dart';
+import 'widgets/drop_down_box.dart';
+import 'widgets/stats_list.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
