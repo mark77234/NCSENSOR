@@ -17,7 +17,7 @@ class ErrorBox extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
-            Icons.error,
+            Icons.error_outline,
             size: 48,
             color: Colors.grey,
           ),
