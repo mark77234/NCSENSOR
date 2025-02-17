@@ -37,3 +37,21 @@
     - 상단에는 평균 악취농도/알코올농도를 알려줌
     - 중단에는 평균 농도를 그림으로 표현
     - 하단에는 지난 달과 이번 달의 바차트를 보여주고 지난 달 대비 증가/감소 퍼센트를 알려줌
+## UI/UX
+### 측정 탭
+<img src="https://github.com/user-attachments/assets/493d59a6-457a-4c85-8bcf-eb41874a12f6" width=20%>
+<img src="https://github.com/user-attachments/assets/f049f8ac-1944-4189-85fb-5cc49ef075d9" width=20%>
+<img src="https://github.com/user-attachments/assets/e73414bc-0c42-4a93-8f68-cec8a66a80a7" width=20%>
+<br>
+
+### 기록 탭
+<img src="https://github.com/user-attachments/assets/ea02e62f-6514-4d1a-bd0e-cbfb6cb6f410" width=20% >
+<img src="https://github.com/user-attachments/assets/80ae7e87-874c-448a-8728-a34d6b9ed227" width=20%>
+<br>
+
+### 통계 탭
+<img src="https://github.com/user-attachments/assets/ab6c6a94-d85e-4964-b60d-543d3aa8c93e" width=20%>
+<br>
+
+### 네비게이션 바
+<img src="https://github.com/user-attachments/assets/1e442acd-8379-45e1-ae61-666e21e00adc" width=20%>
