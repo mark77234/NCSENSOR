@@ -72,7 +72,7 @@ class ApiService {
       },
     );
     try {
-      return response.statusCode == 200
+      return response.statusCode == 200 && response.data != null
           ? NcsMetaData.fromJson(response.data)
           : null;
     } catch (err, stace) {

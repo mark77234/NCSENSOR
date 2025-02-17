@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../screens/profile/manage_screen.dart';
 import '../screens/common//entry_screen.dart';
-import '../screens/auth/login_screen.dart';
 import '../screens/common/main_screen.dart';
+import '../screens/login/login_screen.dart';
+import '../screens/manage/manage_screen.dart';
 
 class AppRoutes {
   static const String entry = '/';

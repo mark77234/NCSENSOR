@@ -1,28 +1,35 @@
-import 'package:NCSensor/animation/fade_page_route.dart';
-import 'package:NCSensor/widgets/common/ncsAppBar.dart';
+import 'package:NCSensor/screens/result/result_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/styles.dart';
-import '../../widgets/screens/measure/action_button.dart';
-import '../../widgets/screens/measure/progress_circle.dart';
-import '../../widgets/screens/measure/sensor_status_card.dart';
-import 'result_screen.dart';
+import '../../routes/fade_page_route.dart';
+import '../../widgets/ncs_app_bar.dart';
+import 'widgets/action_button.dart';
+import 'widgets/progress_circle.dart';
+import 'widgets/sensor_status_card.dart';
 
 class MeasureScreen extends StatefulWidget {
-  final String UUID;
+  final String articleId;
 
-  const MeasureScreen(this.UUID, {super.key});
+  const MeasureScreen({super.key, required this.articleId});
 
   @override
   State<MeasureScreen> createState() => _MeasureScreenState();
 }
 
+enum MeasureStatus {
+  connecting, // 센서 연결 중
+  disconnected, // 센서 연결 끊김
+  ready, // 측정 준비 완료
+  measuring, // 측정 중
+  done, // 측정 완료
+}
+
 class _MeasureScreenState extends State<MeasureScreen> {
-  bool _isLoading = false;
-  double _progress = 0.0;
-  final String sensorStatus = "인식완료";
+  MeasureStatus measureStatus = MeasureStatus.ready;
   final Color sensorColor = ColorStyles.primary;
-  int second = 100; // 몇 초 동안 부는지
+  final int limitSec = 10; // 몇 초 동안 측정하는지
+  final double termSec = 1; // 몇 초마다 측정하는지
 
   static const _testSensors = [
     {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
@@ -33,24 +40,24 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   Future<void> _startMeasurement() async {
     if (!mounted) return;
-    setState(() => _isLoading = true);
-
-    for (int i = 1; i <= second; i++) {
-      await Future.delayed(const Duration(milliseconds: 30));
+    setState(() => measureStatus = MeasureStatus.measuring);
+    for (int i = 1; i <= limitSec; i++) {
       if (!mounted) return;
-      setState(() => _progress = i / second);
-      if (i == second && mounted) {
-        _navigateToResult();
-      }
+      int termMilli = (termSec * 1000).toInt(); // 측정 텀을 밀리세크로 변환
+      await Future.delayed(Duration(milliseconds: termMilli));
+      print("Measuring... $i sec");
     }
-    setState(() => _isLoading = false);
+    if (!mounted) return;
+    setState(() => measureStatus = MeasureStatus.done);
+    _navigateToResult();
   }
 
   void _navigateToResult() {
     Navigator.pushReplacement(
-      context,
-      FadePageRoute(page: ResultScreen(articleId: widget.UUID, sensors: _testSensors))
-    );
+        context,
+        FadePageRoute(
+            page: ResultScreen(
+                articleId: widget.articleId, sensors: _testSensors)));
   }
 
   @override
@@ -63,11 +70,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ProgressCircle(progress: _progress,second: second,),
-              SensorStatusCard(status: sensorStatus, color: sensorColor),
+              ProgressCircle(
+                limitSec: limitSec,
+                status: measureStatus,
+              ),
+              SensorStatusCard(status: measureStatus),
               ActionButton(
-                isLoading: _isLoading,
-                isCompleted: _progress >= 1.0,
+                status: measureStatus,
                 onNavigateToResult: _navigateToResult,
                 onStartMeasurement: _startMeasurement,
               ),

@@ -1,15 +1,15 @@
-import 'dart:io';
-
 import 'package:NCSensor/routes/app_routes.dart';
 import 'package:NCSensor/services/api_service.dart';
-import 'package:NCSensor/widgets/common/error_box.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../constants/styles.dart';
 import '../../models/data/user_model.dart';
-import '../../widgets/common/editable_field.dart';
-import '../../widgets/common/my_header.dart';
+import '../../utils/api_hook.dart';
+import '../../widgets/api_state_builder.dart';
+import '../../widgets/error_dialog.dart';
+import 'widgets/profile_fields.dart';
+import 'widgets/profile_picture.dart';
 
 // 프로필 화면
 class ProfileScreen extends StatefulWidget {
@@ -20,112 +20,98 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  static const double _profilePictureRadius = 48.0;
-  static const double _editButtonRadius = 16.0;
-  UserProfile? userProfile;
-
+  late final ApiHook<UserProfile> profileHook;
   bool isEditing = false;
-  bool _isLoading = false;
-  late UserProfile userData;
-  late UserProfile visibleData;
+  UserProfile? editingData;
 
   @override
   void initState() {
     super.initState();
-    _loadUserProfile();
-  }
-
-  Future<void> _loadUserProfile() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final data = await ApiService.user.getUserProfile();
-      setState(() {
-        userProfile = data;
-        visibleData = data;
-      });
-    } catch (e) {
-      print('Error');
-    }
-    setState(() {
-      _isLoading = false;
+    profileHook = ApiHook<UserProfile>(
+        apiCall: ApiService.user.getUserProfile,
+        onError: (err) => showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+                  errorMessage: err.toString(),
+                )));
+    profileHook.addListener(() {
+      setState(() {});
     });
   }
 
   Future<void> _pickImage() async {
+    if (!isEditing) return;
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image != null) {
         setState(() {
-          visibleData = visibleData.copyWith(imagePath: image.path);
+          editingData = editingData!.copyWith(imagePath: image.path);
         });
       }
     } catch (e) {
-      _showErrorDialog("이미지를 불러오는데 실패했습니다.");
+      showDialog(
+          context: context,
+          builder: (context) => ErrorDialog(
+                errorMessage: e.toString(),
+              ));
     }
   }
 
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("오류"),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("확인"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void handleEdit() {
+  void _handleEdit() {
     setState(() {
+      editingData = profileHook.state.data;
       isEditing = true;
     });
   }
 
-  void handleSave() {
+  void _handleCancel() {
     setState(() {
       isEditing = false;
-      userData = visibleData;
+      editingData = null;
     });
   }
 
-  void handleCancel() {
+  Future<void> _handleSave() async {
+    // api 호출
+    // final response = await ApiService.user.updateProfile(editingData!);
     setState(() {
       isEditing = false;
-      visibleData = userProfile!;
+      editingData = null;
     });
+    profileHook.state.reFetch();
+  }
+
+  @override
+  void dispose() {
+    profileHook.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (userProfile == null) {
-      return Center(child: ErrorBox(errorMessage: "데이터를 가져오는데 문제가 발생했습니다."));
-    } else {
-      return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              MyHeader(title: "프로필"),
-              _buildProfileCard(),
+              ApiStateBuilder(
+                apiState: profileHook.state,
+                title: "프로필",
+                builder: (context, data) {
+                  return _buildProfileCard(isEditing ? editingData! : data);
+                },
+              ),
             ],
           ),
         ),
-      );
-    }
+      ),
+    );
   }
 
-  Widget _buildProfileCard() {
+  Widget _buildProfileCard(UserProfile data) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: ContainerStyles.card,
@@ -133,76 +119,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _buildProfilePicture(),
+          ProfilePicture(
+            data: data,
+            isEditing: isEditing,
+            onImagePick: _pickImage,
+          ),
           SizedBox(height: 16),
-          _buildProfileFields(),
+          ProfileFields(
+            data: data,
+            isEditing: isEditing,
+            onDataChange: (newData) {
+              if (isEditing) {
+                setState(() => editingData = newData);
+              }
+            },
+          ),
           SizedBox(height: 16),
           _buildActionButtons(),
         ],
       ),
-    );
-  }
-
-  Widget _buildProfilePicture() {
-    return Center(
-      child: Stack(
-        children: [
-          CircleAvatar(
-            radius: _profilePictureRadius,
-            backgroundColor: Colors.grey[200],
-            backgroundImage: visibleData.imagePath != null
-                ? FileImage(File(visibleData.imagePath!)) as ImageProvider
-                : null,
-            child: visibleData.imagePath == null
-                ? Icon(Icons.person,
-                    size: _profilePictureRadius, color: Colors.grey)
-                : null,
-          ),
-          if (isEditing)
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: GestureDetector(
-                onTap: _pickImage,
-                child: CircleAvatar(
-                  backgroundColor: ColorStyles.primary,
-                  radius: _editButtonRadius,
-                  child: Icon(Icons.camera_alt,
-                      size: _editButtonRadius, color: Colors.white),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProfileFields() {
-    return Column(
-      children: [
-        EditableField(
-          label: "이름",
-          value: visibleData.name,
-          isEditing: isEditing,
-          onChanged: (value) => visibleData = visibleData.copyWith(name: value),
-        ),
-        EditableField(
-          label: "전화번호",
-          value: visibleData.phone,
-          isEditing: isEditing,
-          keyboardType: TextInputType.phone,
-          onChanged: (value) =>
-              visibleData = visibleData.copyWith(phone: value),
-        ),
-        EditableField(
-          label: "이메일",
-          value: visibleData.email,
-          isEditing: isEditing,
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (value) =>
-              visibleData = visibleData.copyWith(email: value),
-        ),
-      ],
     );
   }
 
@@ -212,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: handleCancel,
+                  onPressed: _handleCancel,
                   style: ButtonStyles.primaryExpandOutlined,
                   child: Text("취소하기"),
                 ),
@@ -220,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(width: 8),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: handleSave,
+                  onPressed: _handleSave,
                   style: ButtonStyles.primaryExpandElevated,
                   child: Text("저장하기"),
                 ),
@@ -230,15 +165,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         : Column(
             children: [
               ElevatedButton(
-                onPressed: handleEdit,
+                onPressed: _handleEdit,
                 style: ButtonStyles.primaryExpandOutlined,
                 child: Text("수정하기"),
               ),
               SizedBox(height: 8),
               ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.manage);
-                },
+                onPressed: () => Navigator.pushNamed(context, AppRoutes.manage),
                 style: ButtonStyles.primaryExpandElevated,
                 icon: Icon(Icons.group),
                 label: Text("사용자 관리"),

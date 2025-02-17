@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:io';
 
@@ -20,6 +19,8 @@ String getErrorMessage(dynamic e) {
           return "인증에 실패했습니다. 다시 로그인해주세요.";
         } else if (e.response?.statusCode == 403) {
           return "접근 권한이 없습니다.";
+        } else if (e.response?.statusCode == 404) {
+          return "요청한 자원을 찾을 수 없습니���.";
         } else if (e.response?.statusCode == 500) {
           return "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
         }
