@@ -38,7 +38,7 @@
     - 중단에는 평균 농도를 그림으로 표현
     - 하단에는 지난 달과 이번 달의 바차트를 보여주고 지난 달 대비 증가/감소 퍼센트를 알려줌
 ## UI/UX
-### 측정 탭
+### 🏠측정 탭
 <img src="https://github.com/user-attachments/assets/493d59a6-457a-4c85-8bcf-eb41874a12f6" width=20%>
 <img src="https://github.com/user-attachments/assets/f049f8ac-1944-4189-85fb-5cc49ef075d9" width=20%>
 <img src="https://github.com/user-attachments/assets/e73414bc-0c42-4a93-8f68-cec8a66a80a7" width=20%>
