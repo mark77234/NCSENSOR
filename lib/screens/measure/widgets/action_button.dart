@@ -20,6 +20,10 @@ class ActionButton extends StatelessWidget {
       return "측정 중...";
     } else if (status == MeasureStatus.ready) {
       return "측정 하기";
+    } else if (status == MeasureStatus.connecting) {
+      return "연결 중...";
+    } else if (status == MeasureStatus.disconnected) {
+      return "측정 불가";
     } else {
       return "측정 완료";
     }

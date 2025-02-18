@@ -74,12 +74,19 @@ class _MeasureScreenState extends State<MeasureScreen> {
         port!.inputStream as Stream<Uint8List>, Uint8List.fromList([13, 10]));
 
     _subscription = _transaction!.stream.listen((String line) {
-      if (measureStatus == MeasureStatus.done || !mounted) return;
+      if (measureStatus == MeasureStatus.done || !mounted) {
+        _subscription?.cancel();
+        return;
+      }
       _testSensors.add({
         "sensor_id": "1",
         "value": line,
       });
       setState(() {});
+    });
+    _subscription?.onDone(() {
+      print("Done");
+      if (!mounted) return;
     });
   }
 
