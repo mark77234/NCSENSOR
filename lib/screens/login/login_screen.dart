@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildTitle(),
+            _buildTitle(),
             const SizedBox(height: 20),
             Column(
               children: [
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildTitle() {
+  Widget _buildTitle() {
     return const Text('NCSENSOR', style: TextStyles.apptitle);
   }
 }
