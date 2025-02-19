@@ -33,7 +33,7 @@ enum MeasureStatus {
 class _MeasureScreenState extends State<MeasureScreen> {
   MeasureStatus measureStatus = MeasureStatus.ready;
   final Color sensorColor = ColorStyles.primary;
-  final int limitSec = 10; // 몇 초 동안 측정하는지
+  final int limitSec = 3; // 몇 초 동안 측정하는지
   final double termSec = 1; // 몇 초마다 측정하는지
 
   //센서관련
@@ -60,6 +60,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
     }
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
+    print(_testSensors);
+    _showErrorDialog();
     _navigateToResult();
   }
 
@@ -78,11 +80,26 @@ class _MeasureScreenState extends State<MeasureScreen> {
         _subscription?.cancel();
         return;
       }
-      _testSensors.add({
-        "sensor_id": "1",
-        "value": line,
-      });
-      print("Sensor: $line");
+
+      String measuredAt = DateTime.now().toIso8601String();
+
+// 센서 데이터를 파싱하여 리스트에 추가
+      List<String> sensorDataList = line.split("   ");  // 공백을 기준으로 spli
+
+      for (int i = 0; i < sensorDataList.length; i += 1) { // "s1: 977 s2: 45 s3: 976 s4: 977"
+        List<String> keyValue = sensorDataList[i].split(" ");
+        String sensorId = keyValue[0]; // "s1:" 같은 형식
+        String sensorValue = keyValue[1]; // "977" 같은 값
+
+
+        // 결과를 _testSensors에 추가
+        _testSensors.add({
+          "sensor_id": sensorId,
+          "value": sensorValue,
+          "measured_at": measuredAt,
+        });
+      }
+
       setState(() {});
     });
     _subscription?.onDone(() {
@@ -107,6 +124,15 @@ class _MeasureScreenState extends State<MeasureScreen> {
   setPort(UsbPort port) {
     if (!mounted) return;
     setState(() => this.port = port);
+  }
+
+  void _showErrorDialog() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("데이터"),
+              content: Text("$_testSensors"),
+            ));
   }
 
   @override
@@ -140,6 +166,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 status: measureStatus,
                 onNavigateToResult: _navigateToResult,
                 onStartMeasurement: _startMeasurement,
+                onDialog: _showErrorDialog,
               ),
             ],
           ),
