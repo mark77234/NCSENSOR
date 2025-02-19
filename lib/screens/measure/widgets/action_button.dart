@@ -6,12 +6,14 @@ import '../../../constants/styles.dart';
 class ActionButton extends StatelessWidget {
   final VoidCallback onStartMeasurement;
   final VoidCallback onNavigateToResult;
+  final VoidCallback onDialog;
   final MeasureStatus status;
 
   const ActionButton({
     super.key,
     required this.onStartMeasurement,
     required this.onNavigateToResult,
+    required this.onDialog,
     required this.status,
   });
 
@@ -31,7 +33,7 @@ class ActionButton extends StatelessWidget {
 
   onPressedButton() {
     if (status == MeasureStatus.done) {
-      onNavigateToResult();
+      onDialog();
     } else if (status == MeasureStatus.ready) {
       onStartMeasurement();
     } else {
