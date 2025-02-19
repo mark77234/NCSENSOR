@@ -82,6 +82,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
         "sensor_id": "1",
         "value": line,
       });
+      print("Sensor: $line");
       setState(() {});
     });
     _subscription?.onDone(() {
