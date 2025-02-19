@@ -23,6 +23,7 @@ class HistoryList extends StatefulWidget {
 
 class _HistoryListState extends State<HistoryList> {
   late final ApiHook<List<HistoryData>> historyApiHook;
+  final NcsMetaData uiData = UiStorage.data;
 
   @override
   void initState() {
@@ -87,8 +88,6 @@ class _HistoryListState extends State<HistoryList> {
   }
 
   Widget _buildDayGroup(String date, List<HistoryData> records) {
-    final NcsMetaData uiData = UiStorage.data;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

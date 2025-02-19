@@ -16,6 +16,7 @@ class _SelectScreenState extends State<SelectScreen> {
   String selectedItem = '';
   String selectedBodyParts = '';
   String UUID = '';
+  NcsMetaData metaData = UiStorage.data;
 
   @override
   void initState() {
@@ -25,11 +26,9 @@ class _SelectScreenState extends State<SelectScreen> {
 
   // 초기 선택 항목 설정
   void _initializeSelection() {
-    final uiData = UiStorage.data;
-
     setState(() {
-      selectedItem = uiData.articles.first.name;
-      UUID = uiData.articles.first.id;
+      selectedItem = metaData.articles.first.name;
+      UUID = metaData.articles.first.id;
     });
   }
 
@@ -44,21 +43,14 @@ class _SelectScreenState extends State<SelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uiData = UiStorage.data;
     return Scaffold(
-      body: _buildContent(uiData),
-    );
-  }
-
-  // 컨텐츠 빌더
-  Widget _buildContent(NcsMetaData uiData) {
-    return Center(
+        body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Dropdown(
-            articles: uiData.articles,
+            articles: metaData.articles,
             selectedItem: selectedItem,
             onChanged: _handleDropdownChange,
           ),
@@ -69,6 +61,6 @@ class _SelectScreenState extends State<SelectScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

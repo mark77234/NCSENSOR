@@ -5,7 +5,7 @@ import 'statistic_model.dart';
 class NcsMetaData {
   final int version;
   final List<ArticleMeta> articles;
-  final StatsMeta stats;
+  final List<StatsMeta> stats;
 
   NcsMetaData({
     required this.version,
@@ -19,10 +19,21 @@ class NcsMetaData {
       articles: (json['articles'] as List)
           .map((article) => ArticleMeta.fromJson(article))
           .toList(),
-      stats: StatsMeta.fromJson(json['stats']),
+      stats: (json['stats'] as List)
+          .map((stat) => StatsMeta.fromJson(stat))
+          .toList(),
     );
   }
 
+  StatsMeta? findStatByData(StatisticData data) {
+    try {
+      return stats
+          .firstWhere((stat) => stat.type == data.type && stat.ui == data.ui);
+    } catch (e) {
+      return null;
+    }
+  }
+  
   ArticleMeta? findArticleById(String id) {
     try {
       return articles.firstWhere((article) => article.id == id);
@@ -31,26 +42,13 @@ class NcsMetaData {
     }
   }
 
-  StatMetaItem? findStatByData(StatisticData data) {
-    try {
-      switch (data.ui) {
-        case StatisticUi.percent:
-          return stats.percent.firstWhere((p) => p.type == data.type);
-        case StatisticUi.card:
-          return stats.card.firstWhere((c) => c.type == data.type);
-        case StatisticUi.comparison:
-          return stats.comparison.firstWhere((c) => c.type == data.type);
-      }
-    } catch (e) {
-      return null;
-    }
-  }
+
 
   Map<String, dynamic> toJson() {
     return {
       'version': version,
       'articles': articles.map((article) => article.toJson()).toList(),
-      'stats': stats.toJson(),
+      'stats': stats.map((stat) => stat.toJson()).toList(),
     };
   }
 }

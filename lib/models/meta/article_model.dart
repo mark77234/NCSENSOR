@@ -29,7 +29,8 @@ class ArticleMeta {
       content: json['content'] as String,
       icon: json['icon'] as String,
       result: Result.fromJson(json['result']),
-      sections: (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
+      sections:
+          (json['sections'] as List).map((e) => Section.fromJson(e)).toList(),
     );
   }
 
@@ -46,7 +47,6 @@ class ArticleMeta {
   }
 
   Section? findSectionForValue(num value) {
-
     for (final section in sections) {
       bool isInRange = false;
 
@@ -71,7 +71,6 @@ class ArticleMeta {
     return null;
   }
 }
-
 
 class Result {
   final String title;

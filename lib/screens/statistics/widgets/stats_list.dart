@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/data/statistic_model.dart';
 import '../../../models/meta/article_model.dart';
+import '../../../models/meta/ncs_meta.dart';
 import '../../../models/meta/statistic_model.dart';
 import '../../../services/api_service.dart';
 import '../../../storage/data/meta_storage.dart';
@@ -23,7 +24,7 @@ class StatsList extends StatefulWidget {
 
 class _StatsListState extends State<StatsList> {
   late final ApiHook<List<StatisticData>> statisticApiHook;
-  late final StatsMeta statsMeta;
+  final NcsMetaData metaData = UiStorage.data;
 
   @override
   void initState() {
@@ -39,7 +40,6 @@ class _StatsListState extends State<StatsList> {
     statisticApiHook.addListener(() {
       setState(() {});
     });
-    statsMeta = UiStorage.data.stats;
   }
 
   @override
@@ -73,7 +73,7 @@ class _StatsListState extends State<StatsList> {
   }
 
   Widget _buildViewContent(StatisticData data) {
-    StatMetaItem? statMeta = statsMeta.findMetaByData(data);
+    StatsMeta? statMeta = metaData.findStatByData(data);
     if (statMeta == null) {
       return EmptyDisplayBox(
         icon: Icons.error,
