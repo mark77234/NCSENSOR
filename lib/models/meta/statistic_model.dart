@@ -21,7 +21,6 @@ abstract class StatsMeta {
     }
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
       'type': type,

@@ -111,7 +111,7 @@ class _HistoryListState extends State<HistoryList> {
             );
           }
           return SizedBox();
-        }).toList(),
+        }),
         SizedBox(height: 8),
       ],
     );

@@ -41,7 +41,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
   Transaction<String>? _transaction;
   StreamSubscription<String>? _subscription;
 
-  List<Map<String, dynamic>> _testSensors = [
+  final List<Map<String, dynamic>> _testSensors = [
     // {"sensor_id": "1", "value": 0, "measured_at": "2025-01-22T00:00:00"},
     // {"sensor_id": "2", "value": 2, "measured_at": "2025-01-22T00:00:00"},
     // {"sensor_id": "3", "value": 3, "measured_at": "2025-01-22T00:00:00"},
