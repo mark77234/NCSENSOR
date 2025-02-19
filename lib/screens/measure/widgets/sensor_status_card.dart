@@ -51,6 +51,7 @@ class _SensorStatusCardState extends State<SensorStatusCard> {
       print("Failed to open");
       return;
     }
+    print("Port opened");
     widget.setPort(port);
     widget.setMeasureStatus(MeasureStatus.ready);
   }
