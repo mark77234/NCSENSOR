@@ -61,7 +61,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
     print(_testSensors);
-    _showErrorDialog();
+    await _showErrorDialog();
     _navigateToResult();
   }
 
@@ -84,13 +84,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
       String measuredAt = DateTime.now().toIso8601String();
 
 // 센서 데이터를 파싱하여 리스트에 추가
-      List<String> sensorDataList = line.split("   ");  // 공백을 기준으로 spli
+      List<String> sensorDataList = line.split("   "); // 공백을 기준으로 spli
 
-      for (int i = 0; i < sensorDataList.length; i += 1) { // "s1: 977 s2: 45 s3: 976 s4: 977"
+      for (int i = 0; i < sensorDataList.length; i += 1) {
+        // "s1: 977 s2: 45 s3: 976 s4: 977"
         List<String> keyValue = sensorDataList[i].split(" ");
         String sensorId = keyValue[0]; // "s1:" 같은 형식
         String sensorValue = keyValue[1]; // "977" 같은 값
-
 
         // 결과를 _testSensors에 추가
         _testSensors.add({
@@ -126,8 +126,8 @@ class _MeasureScreenState extends State<MeasureScreen> {
     setState(() => this.port = port);
   }
 
-  void _showErrorDialog() {
-    showDialog(
+  Future<void> _showErrorDialog() {
+    return showDialog(
         context: context,
         builder: (context) => AlertDialog(
               title: Text("데이터"),
@@ -166,7 +166,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 status: measureStatus,
                 onNavigateToResult: _navigateToResult,
                 onStartMeasurement: _startMeasurement,
-                onDialog: _showErrorDialog,
               ),
             ],
           ),
