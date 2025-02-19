@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../models/data/measure_model.dart';
 import '../../models/data/statistic_model.dart';
 import '../../models/meta/article_model.dart';
 import '../../widgets/empty_display_box.dart';
@@ -16,7 +15,6 @@ class StatisticsScreen extends StatefulWidget {
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
   ArticleMeta? selectedArticle;
-  List<MeasureLabel> measureLabels = [];
   List<StatisticData>? statisticData;
 
   setArticle(ArticleMeta article) {
