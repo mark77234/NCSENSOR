@@ -80,32 +80,28 @@ class _MeasureScreenState extends State<MeasureScreen> {
         _subscription?.cancel();
         return;
       }
-
-      String measuredAt = DateTime.now().toIso8601String();
-
-// 센서 데이터를 파싱하여 리스트에 추가
-      List<String> sensorDataList = line.split("   "); // 공백을 기준으로 spli
-
-      for (int i = 0; i < sensorDataList.length; i += 1) {
-        // "s1: 977 s2: 45 s3: 976 s4: 977"
-        List<String> keyValue = sensorDataList[i].split(" ");
-        String sensorId = keyValue[0]; // "s1:" 같은 형식
-        String sensorValue = keyValue[1]; // "977" 같은 값
-
-        // 결과를 _testSensors에 추가
-        _testSensors.add({
-          "sensor_id": sensorId,
-          "value": sensorValue,
-          "measured_at": measuredAt,
-        });
-      }
-
+      convertAndAddSensorData(line);
       setState(() {});
     });
     _subscription?.onDone(() {
       print("Done");
       if (!mounted) return;
     });
+  }
+
+  void convertAndAddSensorData(String line) {
+    String measuredAt = DateTime.now().toIso8601String();
+    List<String> sensorDataList = line.split("   ");
+    for (int i = 0; i < sensorDataList.length; i += 1) {
+      List<String> keyValue = sensorDataList[i].split(" ");
+      String sensorId = keyValue[0];
+      String sensorValue = keyValue[1];
+      _testSensors.add({
+        "sensor_id": sensorId,
+        "value": sensorValue,
+        "measured_at": measuredAt,
+      });
+    }
   }
 
   void _navigateToResult() {
