@@ -54,6 +54,12 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   @override
+  void dispose() {
+    resultApiHook.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (!metaLoaded) return ErrorScreen(errorMessage: "메타데이터 인식실패");
     return Scaffold(
