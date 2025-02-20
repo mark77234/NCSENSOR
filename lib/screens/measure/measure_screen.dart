@@ -123,14 +123,14 @@ class _MeasureScreenState extends State<MeasureScreen> {
     setState(() => this.port = port);
   }
 
-  // void _showErrorDialog() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) => AlertDialog(
-  //             title: Text("데이터"),
-  //             content: Text("$_testSensors"),
-  //           ));
-  // }
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("센서 상태"),
+              content: Text(message),
+            ));
+  }
 
   @override
   void dispose() {
@@ -158,12 +158,12 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 status: measureStatus,
                 setMeasureStatus: setMeasureStatus,
                 setPort: setPort,
+                showDialog: _showErrorDialog,
               ),
               ActionButton(
                 status: measureStatus,
                 onNavigateToResult: _navigateToResult,
                 onStartMeasurement: _startMeasurement,
-                // onDialog: _showErrorDialog,
               ),
             ],
           ),
