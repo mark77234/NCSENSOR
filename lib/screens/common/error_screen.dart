@@ -1,3 +1,4 @@
+import 'package:NCSensor/constants/styles.dart';
 import 'package:NCSensor/exceptions/error_message.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +14,21 @@ class ErrorScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(Icons.error,size: 40,),
+            Icon(
+              Icons.error_outline,
+              size: 100,
+              color: ColorStyles.primary,
+            ),
             Text(
               errorMessage,
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Pretendard"),
+                fontSize: 30,
+                fontWeight: FontWeight.w900,
+                fontFamily: "Pretendard",
+                color: ColorStyles.primary,
+              ),
             )
           ],
         ),
