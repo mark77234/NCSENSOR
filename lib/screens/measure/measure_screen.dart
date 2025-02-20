@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:NCSensor/screens/result/result_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:usb_serial/transaction.dart';
 import 'package:usb_serial/usb_serial.dart';
@@ -61,7 +61,10 @@ class _MeasureScreenState extends State<MeasureScreen> {
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
     print(_testSensors);
-    await _showDataDialog();
+    // debug모드에서만 데이터 확인
+    if (!kReleaseMode) {
+      await _showDataDialog();
+    }
     _navigateToResult();
   }
 
@@ -126,45 +129,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("데이터"),
-          content: Text("$_testSensors"),
-        ));
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            Icon(
-                MeasureStatus.ready == measureStatus
-                    ? Icons.usb
-                    : Icons.usb_off,
-                color: MeasureStatus.ready == measureStatus
-                    ? ColorStyles.primary
-                    : Colors.redAccent),
-            SizedBox(width: 8),
-            Text(
-              "센서 상태",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,),
-            ),
-          ],
-        ),
-        content: Text(
-          message,
-          style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal),
-        ),
-      ),
-    );
+              title: Text("데이터"),
+              content: Text("$_testSensors"),
+            ));
   }
 
   @override
@@ -193,7 +160,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 status: measureStatus,
                 setMeasureStatus: setMeasureStatus,
                 setPort: setPort,
-                showDialog: _showErrorDialog,
               ),
               ActionButton(
                 status: measureStatus,
