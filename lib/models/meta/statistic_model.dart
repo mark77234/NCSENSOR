@@ -1,79 +1,36 @@
 import '../data/statistic_model.dart';
 
-class StatsMeta {
-  final List<StatCardMeta> card;
-  final List<StatPercentMeta> percent;
-  final List<StatCompareMeta> comparison;
+abstract class StatsMeta {
+  final String type;
+  final String title;
+  final StatisticUi ui;
 
-  StatsMeta({
-    required this.card,
-    required this.percent,
-    required this.comparison,
-  });
-
-  StatMetaItem? findMetaByData(StatisticData data) {
-    try {
-      switch (data.ui) {
-        case StatisticUi.card:
-          return card.firstWhere(
-            (item) => item.type == data.type,
-            orElse: () =>
-                throw Exception('Card meta not found for type: ${data.type}'),
-          );
-        case StatisticUi.percent:
-          return percent.firstWhere(
-            (item) => item.type == data.type,
-            orElse: () => throw Exception(
-                'Percent meta not found for type: ${data.type}'),
-          );
-        case StatisticUi.comparison:
-          return comparison.firstWhere(
-            (item) => item.type == data.type,
-            orElse: () => throw Exception(
-                'Comparison meta not found for type: ${data.type}'),
-          );
-      }
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+  StatsMeta({required this.type, required this.title, required this.ui});
 
   factory StatsMeta.fromJson(Map<String, dynamic> json) {
-    return StatsMeta(
-      card:
-          (json['CARD'] as List).map((e) => StatCardMeta.fromJson(e)).toList(),
-      percent: (json['PERCENT'] as List)
-          .map((e) => StatPercentMeta.fromJson(e))
-          .toList(),
-      comparison: (json['COMPARISON'] as List)
-          .map((e) => StatCompareMeta.fromJson(e))
-          .toList(),
-    );
+    String ui = json['ui'] as String;
+    switch (ui) {
+      case 'CARD':
+        return StatCardMeta.fromJson(json);
+      case 'PERCENT':
+        return StatPercentMeta.fromJson(json);
+      case 'COMPARISON':
+        return StatCompareMeta.fromJson(json);
+      default:
+        throw Exception('Unknown StatsMeta type: $ui');
+    }
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'CARD': card.map((e) => e.toJson()).toList(),
-      'PERCENT': percent.map((e) => e.toJson()).toList(),
-      'COMPARISON': comparison.map((e) => e.toJson()).toList(),
+      'type': type,
+      'title': title,
+      'ui': ui,
     };
   }
 }
 
-abstract class StatMetaItem {
-  final String type;
-  final String title;
-
-  StatMetaItem({
-    required this.type,
-    required this.title,
-  });
-
-  Map<String, dynamic> toJson();
-}
-
-class StatCardMeta extends StatMetaItem {
+class StatCardMeta extends StatsMeta {
   final String unit;
   final String icon;
 
@@ -82,7 +39,7 @@ class StatCardMeta extends StatMetaItem {
     required super.title,
     required this.unit,
     required this.icon,
-  });
+  }) : super(ui: StatisticUi.card);
 
   factory StatCardMeta.fromJson(Map<String, dynamic> json) {
     return StatCardMeta(
@@ -100,11 +57,12 @@ class StatCardMeta extends StatMetaItem {
       'title': title,
       'unit': unit,
       'icon': icon,
+      'ui': 'CARD',
     };
   }
 }
 
-class StatPercentMeta extends StatMetaItem {
+class StatPercentMeta extends StatsMeta {
   final num min;
   final num max;
   final String? unit;
@@ -117,7 +75,7 @@ class StatPercentMeta extends StatMetaItem {
     required this.icon,
     required this.min,
     required this.max,
-  });
+  }) : super(ui: StatisticUi.percent);
 
   factory StatPercentMeta.fromJson(Map<String, dynamic> json) {
     return StatPercentMeta(
@@ -139,11 +97,12 @@ class StatPercentMeta extends StatMetaItem {
       'icon': icon,
       'min': min,
       'max': max,
+      'ui': 'PERCENT',
     };
   }
 }
 
-class StatCompareMeta extends StatMetaItem {
+class StatCompareMeta extends StatsMeta {
   final String? unit;
   final num min;
   final num max;
@@ -154,7 +113,7 @@ class StatCompareMeta extends StatMetaItem {
     this.unit,
     required this.min,
     required this.max,
-  });
+  }) : super(ui: StatisticUi.comparison);
 
   factory StatCompareMeta.fromJson(Map<String, dynamic> json) {
     return StatCompareMeta(
@@ -174,6 +133,7 @@ class StatCompareMeta extends StatMetaItem {
       'unit': unit,
       'min': min,
       'max': max,
+      'ui': 'COMPARISON',
     };
   }
 }

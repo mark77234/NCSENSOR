@@ -37,70 +37,45 @@ abstract class CustomException implements Exception {
 
 class NetworkException extends CustomException {
   NetworkException(
-    String message, {
-    ErrorLevel level = ErrorLevel.error,
-    dynamic originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message,
-          level: level,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
+    super.message, {
+    super.level,
+    super.originalError,
+    super.stackTrace,
+  });
 }
 
 class DataParsingException extends CustomException {
   DataParsingException(
-    String message, {
-    ErrorLevel level = ErrorLevel.error,
-    dynamic originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message,
-          level: level,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
+    super.message, {
+    super.level,
+    super.originalError,
+    super.stackTrace,
+  });
 }
 
 class AuthenticationException extends CustomException {
   AuthenticationException(
-    String message, {
-    ErrorLevel level = ErrorLevel.critical,
-    dynamic originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message,
-          level: level,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
+    super.message, {
+    super.level = ErrorLevel.critical,
+    super.originalError,
+    super.stackTrace,
+  });
 }
 
 class ValidationException extends CustomException {
   ValidationException(
-    String message, {
-    ErrorLevel level = ErrorLevel.warning,
-    dynamic originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message,
-          level: level,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
+    super.message, {
+    super.level = ErrorLevel.warning,
+    super.originalError,
+    super.stackTrace,
+  });
 }
 
 class BusinessLogicException extends CustomException {
   BusinessLogicException(
-    String message, {
-    ErrorLevel level = ErrorLevel.error,
-    dynamic originalError,
-    StackTrace? stackTrace,
-  }) : super(
-          message,
-          level: level,
-          originalError: originalError,
-          stackTrace: stackTrace,
-        );
+    super.message, {
+    super.level,
+    super.originalError,
+    super.stackTrace,
+  });
 }

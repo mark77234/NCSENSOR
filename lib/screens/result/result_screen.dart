@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/data/result_model.dart';
 import '../../models/meta/article_model.dart';
+import '../../models/meta/ncs_meta.dart';
 import '../../services/api_service.dart';
 import '../../utils/api_hook.dart';
 import '../../widgets/api_state_builder.dart';
@@ -25,6 +26,7 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   late final ApiHook<BodyResultData> resultApiHook;
+  final NcsMetaData metaData = UiStorage.data;
 
   bool metaLoaded = false;
   BodyResultData? bodyResultData;
@@ -34,7 +36,7 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMeta();
+    _loadArticleMeta();
     resultApiHook = ApiHook(
         apiCall: () => ApiService.getResultData(
               widget.articleId,
@@ -45,12 +47,17 @@ class _ResultScreenState extends State<ResultScreen> {
     });
   }
 
-  _loadMeta() async {
-    final uiData = UiStorage.data;
+  _loadArticleMeta() async {
     setState(() {
-      article = uiData.findArticleById(widget.articleId);
+      article = metaData.findArticleById(widget.articleId);
       metaLoaded = !(article == null);
     });
+  }
+
+  @override
+  void dispose() {
+    resultApiHook.dispose();
+    super.dispose();
   }
 
   @override
