@@ -43,7 +43,7 @@ class MeasureTextStyles {
     fontWeight: FontWeight.w900,
   );
   static const TextStyle sub =
-      TextStyle(fontSize: 12, color: ColorStyles.darkgrey);
+      TextStyle(fontSize: 10, color: ColorStyles.darkgrey);
   static const TextStyle button = TextStyle(
     // 클릭 시 드롭박스 제목
     color: Colors.white,
