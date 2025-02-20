@@ -33,7 +33,7 @@ class ActionButton extends StatelessWidget {
 
   onPressedButton() {
     if (status == MeasureStatus.done) {
-      onDialog();
+      onNavigateToResult();
     } else if (status == MeasureStatus.ready) {
       onStartMeasurement();
     } else {

@@ -60,7 +60,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     }
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
-    _showErrorDialog();
+    _navigateToResult();
   }
 
   Future<void> _startListenSensor() async {
@@ -86,7 +86,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
       for (int i = 0; i < sensorDataList.length; i += 1) { // "s1: 977 s2: 45 s3: 976 s4: 977"
         List<String> keyValue = sensorDataList[i].split(" ");
-        String sensorId = keyValue[0]; // "s1:" 같은 형식
+        String sensorId = keyValue[0][1]; // "s1:" 같은 형식
         String sensorValue = keyValue[1]; // "977" 같은 값
 
 
