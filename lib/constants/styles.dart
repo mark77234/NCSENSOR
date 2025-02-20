@@ -37,7 +37,6 @@ class TextStyles {
 
 class MeasureTextStyles {
   static const TextStyle main = TextStyle(
-    // 클릭 시 드롭박스 제목
     color: Colors.black,
     fontSize: 16,
     fontWeight: FontWeight.w900,
