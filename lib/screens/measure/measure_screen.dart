@@ -81,13 +81,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
       String measuredAt = DateTime.now().toIso8601String();
 
 // 센서 데이터를 파싱하여 리스트에 추가
-      List<String> sensorDataList = line.split("   ");  // 공백을 기준으로 spli
+      List<String> sensorDataList = line.split("   "); // 공백을 기준으로 spli
 
-      for (int i = 0; i < sensorDataList.length; i += 1) { // "s1: 977 s2: 45 s3: 976 s4: 977"
+      for (int i = 0; i < sensorDataList.length; i += 1) {
+        // "s1: 977 s2: 45 s3: 976 s4: 977"
         List<String> keyValue = sensorDataList[i].split(" ");
         String sensorId = keyValue[0][1]; // "s1:" 같은 형식
         String sensorValue = keyValue[1]; // "977" 같은 값
-
 
         // 결과를 _testSensors에 추가
         _testSensors.add({
@@ -125,11 +125,40 @@ class _MeasureScreenState extends State<MeasureScreen> {
 
   void _showErrorDialog(String message) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text("센서 상태"),
-              content: Text(message),
-            ));
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Icon(
+                MeasureStatus.ready == measureStatus
+                    ? Icons.usb
+                    : Icons.usb_off,
+                color: MeasureStatus.ready == measureStatus
+                    ? ColorStyles.primary
+                    : Colors.redAccent),
+            SizedBox(width: 8),
+            Text(
+              "센서 상태",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  fontFamily: "Pretendard"),
+            ),
+          ],
+        ),
+        content: Text(
+          message,
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: "Pretendard",
+              fontWeight: FontWeight.normal),
+        ),
+      ),
+    );
   }
 
   @override
