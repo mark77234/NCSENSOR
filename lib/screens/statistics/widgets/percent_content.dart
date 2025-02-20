@@ -35,7 +35,7 @@ class PercentContent extends StatelessWidget {
                 left: 24,
                 bottom: 20,
                 child: Container(
-                  color: Color(0xFF57D655),
+                  color: meta.fillColor,
                   width: 40,
                   height: 145 * data.value / 1,
                 ),
