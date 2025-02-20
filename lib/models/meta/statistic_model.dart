@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import '../../utils/util.dart';
 import '../data/statistic_model.dart';
 
 abstract class StatsMeta {
@@ -67,6 +70,7 @@ class StatPercentMeta extends StatsMeta {
   final num max;
   final String? unit;
   final String icon;
+  final Color fillColor;
 
   StatPercentMeta({
     required super.type,
@@ -75,6 +79,7 @@ class StatPercentMeta extends StatsMeta {
     required this.icon,
     required this.min,
     required this.max,
+    required this.fillColor,
   }) : super(ui: StatisticUi.percent);
 
   factory StatPercentMeta.fromJson(Map<String, dynamic> json) {
@@ -85,6 +90,7 @@ class StatPercentMeta extends StatsMeta {
       icon: json['icon'] as String,
       min: json['min'] as num,
       max: json['max'] as num,
+      fillColor: colorFromHex(json['fillColor'] as String),
     );
   }
 
@@ -98,6 +104,7 @@ class StatPercentMeta extends StatsMeta {
       'min': min,
       'max': max,
       'ui': 'PERCENT',
+      'fillColor': colorToHex(fillColor),
     };
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:NCSensor/screens/result/result_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:usb_serial/transaction.dart';
 import 'package:usb_serial/usb_serial.dart';
@@ -56,9 +56,15 @@ class _MeasureScreenState extends State<MeasureScreen> {
       if (!mounted) return;
       int termMilli = (termSec * 1000).toInt(); // 측정 텀을 밀리세크로 변환
       await Future.delayed(Duration(milliseconds: termMilli));
+      print("Measuring... $i sec");
     }
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
+    print(_testSensors);
+    // debug모드에서만 데이터 확인
+    if (!kReleaseMode) {
+      await _showDataDialog();
+    }
     _navigateToResult();
   }
 
@@ -77,32 +83,28 @@ class _MeasureScreenState extends State<MeasureScreen> {
         _subscription?.cancel();
         return;
       }
-
-      String measuredAt = DateTime.now().toIso8601String();
-
-// 센서 데이터를 파싱하여 리스트에 추가
-      List<String> sensorDataList = line.split("   "); // 공백을 기준으로 spli
-
-      for (int i = 0; i < sensorDataList.length; i += 1) {
-        // "s1: 977 s2: 45 s3: 976 s4: 977"
-        List<String> keyValue = sensorDataList[i].split(" ");
-        String sensorId = keyValue[0][1]; // "s1:" 같은 형식
-        String sensorValue = keyValue[1]; // "977" 같은 값
-
-        // 결과를 _testSensors에 추가
-        _testSensors.add({
-          "sensor_id": sensorId,
-          "value": sensorValue,
-          "measured_at": measuredAt,
-        });
-      }
-
+      convertAndAddSensorData(line);
       setState(() {});
     });
     _subscription?.onDone(() {
       print("Done");
       if (!mounted) return;
     });
+  }
+
+  void convertAndAddSensorData(String line) {
+    String measuredAt = DateTime.now().toIso8601String();
+    List<String> sensorDataList = line.split("   ");
+    for (int i = 0; i < sensorDataList.length; i += 1) {
+      List<String> keyValue = sensorDataList[i].split(" ");
+      String sensorId = keyValue[0];
+      String sensorValue = keyValue[1];
+      _testSensors.add({
+        "sensor_id": sensorId,
+        "value": sensorValue,
+        "measured_at": measuredAt,
+      });
+    }
   }
 
   void _navigateToResult() {
@@ -123,42 +125,13 @@ class _MeasureScreenState extends State<MeasureScreen> {
     setState(() => this.port = port);
   }
 
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            Icon(
-                MeasureStatus.ready == measureStatus
-                    ? Icons.usb
-                    : Icons.usb_off,
-                color: MeasureStatus.ready == measureStatus
-                    ? ColorStyles.primary
-                    : Colors.redAccent),
-            SizedBox(width: 8),
-            Text(
-              "센서 상태",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  fontFamily: "Pretendard"),
-            ),
-          ],
-        ),
-        content: Text(
-          message,
-          style: TextStyle(
-              fontSize: 16,
-              fontFamily: "Pretendard",
-              fontWeight: FontWeight.normal),
-        ),
-      ),
-    );
+  Future<void> _showDataDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("데이터"),
+              content: Text("$_testSensors"),
+            ));
   }
 
   @override
@@ -187,7 +160,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 status: measureStatus,
                 setMeasureStatus: setMeasureStatus,
                 setPort: setPort,
-                showDialog: _showErrorDialog,
               ),
               ActionButton(
                 status: measureStatus,

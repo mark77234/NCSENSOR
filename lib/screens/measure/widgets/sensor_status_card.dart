@@ -9,14 +9,12 @@ class SensorStatusCard extends StatefulWidget {
   final MeasureStatus status;
   final Function(MeasureStatus status) setMeasureStatus;
   final Function(UsbPort port) setPort;
-  final Function(String msg) showDialog;
 
   const SensorStatusCard({
     super.key,
     required this.status,
     required this.setMeasureStatus,
     required this.setPort,
-    required this.showDialog,
   });
 
   @override
@@ -32,27 +30,62 @@ class _SensorStatusCardState extends State<SensorStatusCard> {
     readDevice();
   }
 
-  readDevice() async {
-    devices = await UsbSerial.listDevices();
-    if (devices.isEmpty) {
-      widget.setMeasureStatus(MeasureStatus.disconnected);
-      widget.showDialog("센서가 정상적으로 인식되지 않습니다");
-      return;
-    }
-    UsbPort? port = await devices[0].create();
-    if (port == null) {
-      widget.showDialog("센서가 정상적으로 인식되지 않습니다");
-      return;
-    }
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Icon(
+                MeasureStatus.ready == widget.status
+                    ? Icons.usb
+                    : Icons.usb_off,
+                color: MeasureStatus.ready == widget.status
+                    ? ColorStyles.primary
+                    : Colors.redAccent),
+            SizedBox(width: 8),
+            Text(
+              "센서 상태",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+        ),
+      ),
+    );
+  }
 
-    bool openResult = await port.open();
-    if (!openResult) {
-      widget.showDialog("센서가 정상적으로 인식되지 않습니다");
-      return;
+  readDevice() async {
+    try {
+      devices = await UsbSerial.listDevices();
+      if (devices.isEmpty) {
+        widget.setMeasureStatus(MeasureStatus.disconnected);
+        throw Exception("기기를 찾을 수 없습니다.");
+      }
+      UsbPort? port = await devices[0].create();
+      if (port == null) {
+        throw Exception("센서가 정상적으로 인식되지 않습니다");
+      }
+
+      bool openResult = await port.open();
+      if (!openResult) {
+        throw Exception("센서가 정상적으로 인식되지 않습니다");
+      }
+      widget.setPort(port);
+      widget.setMeasureStatus(MeasureStatus.ready);
+    } catch (e) {
+      _showErrorDialog(e.toString());
     }
-    widget.setPort(port);
-    widget.setMeasureStatus(MeasureStatus.ready);
-    widget.showDialog("센서가 정상적으로 인식되었습니다");
   }
 
   @override
