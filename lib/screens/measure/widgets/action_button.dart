@@ -25,7 +25,7 @@ class ActionButton extends StatelessWidget {
     } else if (status == MeasureStatus.connecting) {
       return "연결 중...";
     } else if (status == MeasureStatus.disconnected) {
-      return "재연결";
+      return "측정 불가";
     } else {
       return "측정 완료";
     }
@@ -34,7 +34,7 @@ class ActionButton extends StatelessWidget {
   onPressedButton() {
     if (status == MeasureStatus.done) {
       onNavigateToResult();
-    } else if (status == MeasureStatus.ready || status == MeasureStatus.disconnected) {
+    } else if (status == MeasureStatus.ready ) {
       onStartMeasurement();
     } else {
       return null;
@@ -46,8 +46,9 @@ class ActionButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressedButton,
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: ColorStyles.primary,
+        elevation: 0,
+        foregroundColor: status == MeasureStatus.disconnected ? ColorStyles.darkgrey : ColorStyles.lightgrey,
+        backgroundColor: status == MeasureStatus.disconnected ? ColorStyles.lightgrey : ColorStyles.primary,
         disabledBackgroundColor: ColorStyles.lightgrey,
         padding: const EdgeInsets.symmetric(vertical: 16),
         textStyle: MeasureTextStyles.main,

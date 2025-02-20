@@ -25,54 +25,50 @@ class _SensorStatusCardState extends State<SensorStatusCard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     readDevice();
   }
 
   readDevice() async {
     devices = await UsbSerial.listDevices();
-    print("Devices: ");
-    print(devices);
-    // devices 에 특정 디바이스가있는지 확인
-    // 있으면 ready, 없으면 disconnected
     if (devices.isEmpty) {
       widget.setMeasureStatus(MeasureStatus.disconnected);
       return;
     }
     UsbPort? port = await devices[0].create();
     if (port == null) {
-      print("Failed to create port");
       return;
     }
 
     bool openResult = await port.open();
     if (!openResult) {
-      print("Failed to open");
       return;
     }
-    print("Port opened");
     widget.setPort(port);
     widget.setMeasureStatus(MeasureStatus.ready);
   }
 
   @override
   Widget build(BuildContext context) {
-    String mention =
-        MeasureStatus.disconnected == widget.status ? "눌러서 재연결" : "센서 상태";
-    return Container(
-      width: SizeStyles.getMediaWidth(context, 0.8),
-      decoration: ContainerStyles.card,
-      padding: EdgeInsets.all(16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(mention,
-              style: MeasureTextStyles.sub.copyWith(
-                fontSize: 18,
-              )),
-          StatusIndicator(status: widget.status),
-        ],
+    String mention = MeasureStatus.disconnected == widget.status ? "눌러서 재연결" : "센서 상태";
+    return GestureDetector(
+      onTap: () {
+        readDevice();
+      },
+      child: Container(
+        width: SizeStyles.getMediaWidth(context, 0.8),
+        decoration: ContainerStyles.card,
+        padding: EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(mention,
+                style: MeasureTextStyles.sub.copyWith(
+                  fontSize: 18,
+                )),
+            StatusIndicator(status: widget.status),
+          ],
+        ),
       ),
     );
   }

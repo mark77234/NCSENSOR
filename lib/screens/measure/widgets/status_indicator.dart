@@ -11,11 +11,11 @@ class StatusIndicator extends StatelessWidget {
   Color get color {
     switch (status) {
       case MeasureStatus.connecting:
-        return Colors.yellow;
+        return Colors.yellow.shade200;
       case MeasureStatus.disconnected:
-        return Colors.red;
+        return Colors.red.shade200;
       default:
-        return Colors.blue;
+        return Colors.blue.shade200;
     }
   }
 

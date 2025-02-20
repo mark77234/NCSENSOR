@@ -56,7 +56,6 @@ class _MeasureScreenState extends State<MeasureScreen> {
       if (!mounted) return;
       int termMilli = (termSec * 1000).toInt(); // 측정 텀을 밀리세크로 변환
       await Future.delayed(Duration(milliseconds: termMilli));
-      print("Measuring... $i sec");
     }
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
