@@ -19,7 +19,7 @@ class ActionButton extends StatelessWidget {
     if (status == MeasureStatus.measuring) {
       return "측정 중...";
     } else if (status == MeasureStatus.ready) {
-      return "측정 하기";
+      return "측정 시작";
     } else if (status == MeasureStatus.connecting) {
       return "연결 중...";
     } else if (status == MeasureStatus.disconnected) {
@@ -45,8 +45,12 @@ class ActionButton extends StatelessWidget {
       onPressed: onPressedButton,
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        foregroundColor: status == MeasureStatus.disconnected ? ColorStyles.darkgrey : ColorStyles.lightgrey,
-        backgroundColor: status == MeasureStatus.disconnected ? ColorStyles.lightgrey : ColorStyles.primary,
+        foregroundColor: status == MeasureStatus.disconnected
+            ? ColorStyles.darkgrey
+            : ColorStyles.lightgrey,
+        backgroundColor: status == MeasureStatus.disconnected
+            ? ColorStyles.lightgrey
+            : ColorStyles.primary,
         disabledBackgroundColor: ColorStyles.lightgrey,
         padding: const EdgeInsets.symmetric(vertical: 16),
         textStyle: MeasureTextStyles.main,
