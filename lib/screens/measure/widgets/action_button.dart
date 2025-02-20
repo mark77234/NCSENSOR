@@ -6,14 +6,14 @@ import '../../../constants/styles.dart';
 class ActionButton extends StatelessWidget {
   final VoidCallback onStartMeasurement;
   final VoidCallback onNavigateToResult;
-  final VoidCallback onDialog;
+  // final VoidCallback onDialog;
   final MeasureStatus status;
 
   const ActionButton({
     super.key,
     required this.onStartMeasurement,
     required this.onNavigateToResult,
-    required this.onDialog,
+    // required this.onDialog,
     required this.status,
   });
 
@@ -25,7 +25,7 @@ class ActionButton extends StatelessWidget {
     } else if (status == MeasureStatus.connecting) {
       return "연결 중...";
     } else if (status == MeasureStatus.disconnected) {
-      return "측정 불가";
+      return "재연결";
     } else {
       return "측정 완료";
     }
@@ -34,7 +34,7 @@ class ActionButton extends StatelessWidget {
   onPressedButton() {
     if (status == MeasureStatus.done) {
       onNavigateToResult();
-    } else if (status == MeasureStatus.ready) {
+    } else if (status == MeasureStatus.ready || status == MeasureStatus.disconnected) {
       onStartMeasurement();
     } else {
       return null;
