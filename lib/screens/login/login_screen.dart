@@ -50,13 +50,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleLogin() async {
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 8, // 두께 조절
+            valueColor: AlwaysStoppedAnimation<Color>(ColorStyles.primary),
+            backgroundColor: ColorStyles.lightgrey,
+          ),
+        );
+      },
+    );
+
     try {
       await context.read<AuthProvider>().login(_idEntered.text.trim(),
           _passwordEntered.text.trim()); // trim -> 앞뒤 공백 제거
+      Navigator.of(context, rootNavigator: true).pop();
       Navigator.pushReplacementNamed(context, AppRoutes.main);
     } catch (e) {
+      Navigator.of(context, rootNavigator: true).pop();
       final errorMessage = getErrorMessage(e);
-      print(e);
       _showErrorDialog(errorMessage);
     }
   }
