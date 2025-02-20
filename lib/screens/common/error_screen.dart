@@ -9,12 +9,22 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final errorMessage = getErrorMessage(error);
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Icon(Icons.error), Text(errorMessage)],
+          children: [
+            Icon(Icons.error,size: 40,),
+            Text(
+              errorMessage,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pretendard"),
+            )
+          ],
         ),
       ),
     );

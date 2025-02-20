@@ -20,7 +20,7 @@ String getErrorMessage(dynamic e) {
         } else if (e.response?.statusCode == 403) {
           return "접근 권한이 없습니다.";
         } else if (e.response?.statusCode == 404) {
-          return "요청한 자원을 찾을 수 없습니���.";
+          return "요청한 자원을 찾을 수 없습니다.";
         } else if (e.response?.statusCode == 500) {
           return "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
         }
@@ -36,6 +36,12 @@ String getErrorMessage(dynamic e) {
   } else if (e is TimeoutException) {
     return "요청 시간이 초과되었습니다. 다시 시도해주세요.";
   } else {
-    return "예기치 않은 오류가 발생했습니다.";
+    return dynamicToString("${e}");
   }
+}
+
+String dynamicToString(dynamic error){
+  error.toString();
+  List<String> msg = error.split(":");
+  return msg[1];
 }
