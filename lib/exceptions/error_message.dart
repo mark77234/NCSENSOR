@@ -20,7 +20,7 @@ String getErrorMessage(dynamic e) {
         } else if (e.response?.statusCode == 403) {
           return "접근 권한이 없습니다.";
         } else if (e.response?.statusCode == 404) {
-          return "요청한 자원을 찾을 수 없습니다.";
+          return "개발 준비중입니다.";
         } else if (e.response?.statusCode == 500) {
           return "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
         }
@@ -29,14 +29,14 @@ String getErrorMessage(dynamic e) {
         return "요청이 취소되었습니다.";
       case DioExceptionType.unknown:
       default:
-        return "알 수 없는 오류가 발생했습니다.";
+        return "인터넷 연결을 확인해주세요";
     }
   } else if (e is SocketException) {
     return "네트워크 연결을 확인해주세요.";
   } else if (e is TimeoutException) {
     return "요청 시간이 초과되었습니다. 다시 시도해주세요.";
   } else {
-    return dynamicToString("${e}");
+    return dynamicToString("$e");
   }
 }
 

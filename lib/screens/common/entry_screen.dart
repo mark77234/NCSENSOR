@@ -6,14 +6,18 @@ import 'package:flutter/material.dart';
 import 'error_screen.dart';
 import 'splash_screen.dart';
 
-class EntryScreen extends StatelessWidget {
+class EntryScreen extends StatefulWidget {
   EntryScreen({super.key});
 
+  @override
+  State<EntryScreen> createState() => _EntryScreenState();
+}
+
+class _EntryScreenState extends State<EntryScreen> {
   bool _isInitialized = false;
 
   Future<void> _initializeApp() async {
     if (_isInitialized) return;
-    print(">>>_initializeApp");
     await PreferencesStorage.init();
     await UiStorage.init();
     _isInitialized = true;
