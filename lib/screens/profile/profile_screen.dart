@@ -28,12 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     profileHook = ApiHook<UserProfile>(
-        apiCall: ApiService.user.getUserProfile,
-        onError: (err) => showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-                  errorMessage: err.toString(),
-                )));
+      apiCall: ApiService.user.getUserProfile,
+      onError: (err) => print(err),
+    );
     profileHook.addListener(() {
       setState(() {});
     });

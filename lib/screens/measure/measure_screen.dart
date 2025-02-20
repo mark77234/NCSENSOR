@@ -61,7 +61,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     if (!mounted) return;
     setState(() => measureStatus = MeasureStatus.done);
     print(_testSensors);
-    await _showErrorDialog();
+    await _showDataDialog();
     _navigateToResult();
   }
 
@@ -122,13 +122,49 @@ class _MeasureScreenState extends State<MeasureScreen> {
     setState(() => this.port = port);
   }
 
-  Future<void> _showErrorDialog() {
+  Future<void> _showDataDialog() {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("데이터"),
-              content: Text("$_testSensors"),
-            ));
+          title: Text("데이터"),
+          content: Text("$_testSensors"),
+        ));
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Icon(
+                MeasureStatus.ready == measureStatus
+                    ? Icons.usb
+                    : Icons.usb_off,
+                color: MeasureStatus.ready == measureStatus
+                    ? ColorStyles.primary
+                    : Colors.redAccent),
+            SizedBox(width: 8),
+            Text(
+              "센서 상태",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,),
+            ),
+          ],
+        ),
+        content: Text(
+          message,
+          style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.normal),
+        ),
+      ),
+    );
   }
 
   @override
@@ -157,6 +193,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
                 status: measureStatus,
                 setMeasureStatus: setMeasureStatus,
                 setPort: setPort,
+                showDialog: _showErrorDialog,
               ),
               ActionButton(
                 status: measureStatus,

@@ -40,7 +40,7 @@
 ## UI/UX
 ### 🏠 측정 탭
 <img src="https://github.com/user-attachments/assets/493d59a6-457a-4c85-8bcf-eb41874a12f6" width=20%>
-<img src="https://github.com/user-attachments/assets/f049f8ac-1944-4189-85fb-5cc49ef075d9" width=20%>
+<img src="https://github.com/user-attachments/assets/4c8371e0-78dd-4a35-ae84-73bc41e1b7d8" width=20%>
 <img src="https://github.com/user-attachments/assets/e73414bc-0c42-4a93-8f68-cec8a66a80a7" width=20%>
 <br>
 

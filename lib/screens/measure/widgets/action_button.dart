@@ -44,8 +44,9 @@ class ActionButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressedButton,
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: ColorStyles.primary,
+        elevation: 0,
+        foregroundColor: status == MeasureStatus.disconnected ? ColorStyles.darkgrey : ColorStyles.lightgrey,
+        backgroundColor: status == MeasureStatus.disconnected ? ColorStyles.lightgrey : ColorStyles.primary,
         disabledBackgroundColor: ColorStyles.lightgrey,
         padding: const EdgeInsets.symmetric(vertical: 16),
         textStyle: MeasureTextStyles.main,

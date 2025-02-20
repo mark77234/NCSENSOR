@@ -18,7 +18,7 @@ class ProgressCircle extends StatefulWidget {
 }
 
 class _ProgressCircleState extends State<ProgressCircle> {
-  double _percent = 0.0;
+  double _percent = 1.0;
   Timer? _timer;
 
   @override
@@ -37,7 +37,7 @@ class _ProgressCircleState extends State<ProgressCircle> {
 
   void _startProgress() {
     _stopProgress(); // 기존 타이머 정리
-    setState(() => _percent = 0.0);
+    setState(() => _percent = 1.0);
 
     final interval = Duration(milliseconds: 50); // 50ms 마다 업데이트
     final step = 1 / (widget.limitSec * 1000 / interval.inMilliseconds);
@@ -45,10 +45,13 @@ class _ProgressCircleState extends State<ProgressCircle> {
     _timer = Timer.periodic(interval, (timer) {
       if (!mounted) return;
       setState(() {
-        if (_percent >= 1.0) {
+        if (_percent <= 0.0) {
           _stopProgress();
         } else {
-          _percent += step;
+          _percent -= step;
+          if (_percent <= 0){
+            _percent = 0;
+          }
         }
       });
     });
@@ -79,7 +82,7 @@ class _ProgressCircleState extends State<ProgressCircle> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${(_percent * 100).toInt()}%',
+            '${(_percent * widget.limitSec).toDouble().toStringAsFixed(1)}초',
             style: TextStyles.progressPercentage.copyWith(
               fontSize: size * 0.4,
               fontWeight: FontWeight.w800,

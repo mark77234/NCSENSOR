@@ -81,7 +81,11 @@ class Dropdown extends StatelessWidget {
                               style: MeasureTextStyles.main,
                             ),
                             const SizedBox(height: 10),
-                            Text(article.content, style: MeasureTextStyles.sub),
+                            Text(article.content,
+                                style: MeasureTextStyles.sub.copyWith(
+                                  fontSize:
+                                      SizeStyles.getMediaWidth(context, 0.03),
+                                )),
                           ],
                         ),
                       ],

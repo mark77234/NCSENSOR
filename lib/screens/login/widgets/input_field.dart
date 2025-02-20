@@ -9,14 +9,13 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback? togglePasswordHide;
 
-  const InputField({
-    super.key,
-    required this.label,
-    this.isPassword = false,
-    this.hideText = true,
-    required this.controller,
-    this.togglePasswordHide
-  });
+  const InputField(
+      {super.key,
+      required this.label,
+      this.isPassword = false,
+      this.hideText = true,
+      required this.controller,
+      this.togglePasswordHide});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,9 @@ class InputField extends StatelessWidget {
           // isPassword가 true면 hideText, false면 false 반환 / '*'표시
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: MeasureTextStyles.sub.copyWith(fontSize: 15),
+            labelStyle: MeasureTextStyles.sub.copyWith(
+              fontSize: SizeStyles.getMediaWidth(context, 0.05),
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
               borderSide:
