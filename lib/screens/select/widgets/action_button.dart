@@ -42,7 +42,7 @@ class ActionButton extends StatelessWidget {
         }
       },
       child: const Text(
-        '항목 선택',
+        '측정 하기',
         style: MeasureTextStyles.button,
       ),
     );
