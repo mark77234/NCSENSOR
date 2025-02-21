@@ -18,6 +18,7 @@ class PercentContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double size = 100;
     return MyCard(
       child: SizedBox(
         width: double.infinity,
@@ -30,20 +31,20 @@ class PercentContent extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Stack(children: [
-              Positioned(
-                left: 24,
-                bottom: 20,
-                child: Container(
-                  color: meta.fillColor,
-                  width: 40,
-                  height: 145 * data.value / 1,
-                ),
+            Stack(alignment: Alignment.bottomCenter, children: [
+              Container(
+                color: meta.fillColor,
+                width: size,
+                height: size * (data.value / meta.max),
               ),
-              IconWidget(icon: meta.icon),
+              IconWidget(
+                icon: meta.icon,
+                width: size,
+                height: size,
+              ),
             ]),
             Text(
-              "${data.value}${meta.unit}",
+              "${data.value} ${meta.unit}",
               style: TextStyles.title,
             ),
             SizedBox(height: 8),
