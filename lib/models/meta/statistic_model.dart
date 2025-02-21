@@ -90,7 +90,7 @@ class StatPercentMeta extends StatsMeta {
       icon: json['icon'] as String,
       min: json['min'] as num,
       max: json['max'] as num,
-      fillColor: colorFromHex(json['fillColor'] as String),
+      fillColor: colorFromHex(json['filler_color'] as String),
     );
   }
 
@@ -104,7 +104,7 @@ class StatPercentMeta extends StatsMeta {
       'min': min,
       'max': max,
       'ui': 'PERCENT',
-      'fillColor': colorToHex(fillColor),
+      'filler_color': colorToHex(fillColor),
     };
   }
 }
