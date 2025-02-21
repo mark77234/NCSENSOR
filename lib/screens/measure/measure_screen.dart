@@ -31,7 +31,7 @@ enum MeasureStatus {
 }
 
 class _MeasureScreenState extends State<MeasureScreen> {
-  MeasureStatus measureStatus = MeasureStatus.ready;
+  MeasureStatus measureStatus = MeasureStatus.disconnected;
   final Color sensorColor = ColorStyles.primary;
   final int limitSec = 3; // 몇 초 동안 측정하는지
   final double termSec = 1; // 몇 초마다 측정하는지
