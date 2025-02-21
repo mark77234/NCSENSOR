@@ -62,9 +62,9 @@ class _MeasureScreenState extends State<MeasureScreen> {
     setState(() => measureStatus = MeasureStatus.done);
     print(_testSensors);
     // debug모드에서만 데이터 확인
-    if (!kReleaseMode) {
-      await _showDataDialog();
-    }
+    // if (!kReleaseMode) {
+    //   await _showDataDialog();
+    // }
     _navigateToResult();
   }
 
@@ -97,7 +97,7 @@ class _MeasureScreenState extends State<MeasureScreen> {
     List<String> sensorDataList = line.split("   ");
     for (int i = 0; i < sensorDataList.length; i += 1) {
       List<String> keyValue = sensorDataList[i].split(" ");
-      String sensorId = keyValue[0];
+      String sensorId = keyValue[0][1];
       String sensorValue = keyValue[1];
       _testSensors.add({
         "sensor_id": sensorId,
