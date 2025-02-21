@@ -84,7 +84,8 @@ class _SensorStatusCardState extends State<SensorStatusCard> {
       widget.setPort(port);
       widget.setMeasureStatus(MeasureStatus.ready);
     } catch (e) {
-      _showErrorDialog(e.toString());
+      List<String> msg = e.toString().split(": ");
+      _showErrorDialog(msg[1]);
     }
   }
 
