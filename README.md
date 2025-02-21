@@ -52,6 +52,7 @@
 ### 📊 통계 탭
 <img src="https://github.com/user-attachments/assets/ab6c6a94-d85e-4964-b60d-543d3aa8c93e" width=20%>
 <img src="https://github.com/user-attachments/assets/76158a05-12a7-4e83-a806-29c23ceef035" width=20%>
+<img src="https://github.com/user-attachments/assets/d3701754-bd4b-47eb-8f08-d1a2315e500e" width=20%/>
 <br>
 
 ### ♦️ 네비게이션 바
